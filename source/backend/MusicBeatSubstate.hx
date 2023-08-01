@@ -2,6 +2,18 @@ package backend;
 
 import flixel.FlxSubState;
 
+#if android
+import android.AndroidControls.AndroidControls;
+import android.FlxVirtualPad;
+
+import flixel.group.FlxGroup;
+import android.FlxHitbox;
+import android.FlxNewHitbox;
+import android.FlxVirtualPad;
+import flixel.ui.FlxButton;
+import android.flixel.FlxButton as FlxNewButton;
+#end
+
 class MusicBeatSubstate extends FlxSubState
 {
 	public function new()
@@ -24,6 +36,47 @@ class MusicBeatSubstate extends FlxSubState
 
 	inline function get_controls():Controls
 		return Controls.instance;
+
+    #if android
+	public static var _virtualpad:FlxVirtualPad;
+	//public static var androidc:AndroidControls;
+	//var trackedinputsUI:Array<FlxActionInput> = [];
+	//var trackedinputsNOTES:Array<FlxActionInput> = [];
+	#end
+	
+	#if android
+	public function addVirtualPad(?DPad:FlxDPadMode, ?Action:FlxActionMode) {
+		_virtualpad = new FlxVirtualPad(DPad, Action, 0.75, ClientPrefs.data.antialiasing);
+		add(_virtualpad);
+		Controls.checkState = false;
+		Controls.CheckPress = true;
+		//controls.setVirtualPadUI(_virtualpad, DPad, Action);
+		//trackedinputsUI = controls.trackedinputsUI;
+		//controls.trackedinputsUI = [];
+	}
+	#end
+
+	#if android
+	public function removeVirtualPad() {
+		//controls.removeFlxInput(trackedinputsUI);
+		remove(_virtualpad);
+	}
+	#end
+	
+	#if android
+	public function noCheckPress() {
+		Controls.CheckPress = false;
+	}
+	#end
+	
+	#if android
+        public function addPadCamera() {
+		var camcontrol = new flixel.FlxCamera();
+		camcontrol.bgColor.alpha = 0;
+		FlxG.cameras.add(camcontrol, false);
+		_virtualpad.cameras = [camcontrol];
+	}
+	#end
 
 	override function update(elapsed:Float)
 	{
