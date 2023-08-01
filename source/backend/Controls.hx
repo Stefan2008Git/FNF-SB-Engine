@@ -5,6 +5,16 @@ import flixel.input.gamepad.FlxGamepadInputID;
 import flixel.input.gamepad.mappings.FlxGamepadMapping;
 import flixel.input.keyboard.FlxKey;
 
+#if android
+import android.AndroidControls.AndroidControls;
+import flixel.group.FlxGroup;
+import android.FlxHitbox;
+import android.FlxNewHitbox;
+import android.FlxVirtualPad;
+import flixel.ui.FlxButton;
+import android.flixel.FlxButton as FlxNewButton;
+#end
+
 class Controls
 {
 	//Keeping same use cases on stuff for it to be easier to understand/use
@@ -82,29 +92,355 @@ class Controls
 	private function get_PAUSE() return justPressed('pause');
 	private function get_RESET() return justPressed('reset');
 
+	public static var checkState:Bool = true;
+	public static var CheckPress:Bool = true;
+
 	//Gamepad & Keyboard stuff
 	public var keyboardBinds:Map<String, Array<FlxKey>>;
 	public var gamepadBinds:Map<String, Array<FlxGamepadInputID>>;
 	public function justPressed(key:String)
 	{
+	 #if desktop
 		var result:Bool = (FlxG.keys.anyJustPressed(keyboardBinds[key]) == true);
 		if(result) controllerMode = false;
+		#else
+		var result:Bool = false;
+		#end
+		#if android
+		if (CheckPress){
+		    if (checkState){
+    		    if (key == 'accept'){
+    		    result = (MusicBeatState._virtualpad.buttonA.justPressed == true);
+    		    if(result) controllerMode = true;
+    		    }
+    		    if (key == 'back'){
+    		    result= (MusicBeatState._virtualpad.buttonB.justPressed == true);
+        		if(result) controllerMode = true;
+        		}
+		
+        		if (key == 'ui_up'){
+        		result = (MusicBeatState._virtualpad.buttonUp.justPressed == true);
+        		if(result) controllerMode = true;
+        		}
+        		if (key == 'ui_down'){
+        		result= (MusicBeatState._virtualpad.buttonDown.justPressed == true);
+           		if(result) controllerMode = true;
+        		}
+        		if (key == 'ui_left'){
+        		result = (MusicBeatState._virtualpad.buttonLeft.justPressed == true);
+        		if(result) controllerMode = true;
+        		}
+        		if (key == 'ui_right'){
+        		result= (MusicBeatState._virtualpad.buttonRight.justPressed == true);
+    		    if(result) controllerMode = true;
+    		        }
+		        }		
+		    else{
+    		    if (key == 'accept'){
+    		    result = (MusicBeatSubstate._virtualpad.buttonA.justPressed == true);
+    		    if(result) controllerMode = true;
+    		    }
+    		    if (key == 'back'){
+    		    result= (MusicBeatSubstate._virtualpad.buttonB.justPressed == true);
+    		    if(result) controllerMode = true;
+    		    }
+		
+    		    if (key == 'ui_up'){
+    		    result = (MusicBeatSubstate._virtualpad.buttonUp.justPressed == true);
+    		    if(result) controllerMode = true;
+    		    }
+    		    if (key == 'ui_down'){
+    		    result= (MusicBeatSubstate._virtualpad.buttonDown.justPressed == true);
+    		    if(result) controllerMode = true;
+    		    }
+    		    if (key == 'ui_left'){
+    		    result = (MusicBeatSubstate._virtualpad.buttonLeft.justPressed == true);
+    		    if(result) controllerMode = true;
+    		    }
+    		    if (key == 'ui_right'){
+    		    result= (MusicBeatSubstate._virtualpad.buttonRight.justPressed == true);
+    		    if(result) controllerMode = true;
+    		    }						
+		    }
+		}
+		if (MusicBeatState.checkHitbox){
+		    if (key == 'note_up'){
+    		result = (MusicBeatState.androidc.newhbox.buttonUp.justPressed == true);
+    		if(result) controllerMode = true;
+    		}
+    		if (key == 'note_down'){
+    		result= (MusicBeatState.androidc.newhbox.buttonDown.justPressed == true);
+    		if(result) controllerMode = true;
+    		}
+    		if (key == 'note_left'){
+    		result = (MusicBeatState.androidc.newhbox.buttonLeft.justPressed == true);
+    		if(result) controllerMode = true;
+    		}
+    		if (key == 'note_right'){
+    		result= (MusicBeatState.androidc.newhbox.buttonRight.justPressed == true);
+    		if(result) controllerMode = true;
+		    }
+		    if (key == 'space' && ClientPrefs.data.hitboxExtend){
+		    result= (MusicBeatState.androidc.newhbox.buttonSpace.justPressed == true);
+    		if(result) controllerMode = true;
+		    }
+		}
+		else{		
+    		if (key == 'note_up'){
+    		result = (MusicBeatState.androidc.vpad.buttonUp.justPressed == true);
+    		if(result) controllerMode = true;
+    		}
+    		if (key == 'note_down'){
+    		result= (MusicBeatState.androidc.vpad.buttonDown.justPressed == true);
+    		if(result) controllerMode = true;
+    		}
+    		if (key == 'note_left'){
+    		result = (MusicBeatState.androidc.vpad.buttonLeft.justPressed == true);
+    		if(result) controllerMode = true;
+    		}
+    		if (key == 'note_right'){
+    		result= (MusicBeatState.androidc.vpad.buttonRight.justPressed == true);
+    		if(result) controllerMode = true;
+		    }
+		}
+		#end
+
+		if (FlxG.keys.anyJustPressed(keyboardBinds[key])){
+		result = true;
+		controllerMode = false;
+		}
 
 		return result || _myGamepadJustPressed(gamepadBinds[key]) == true;
 	}
 
 	public function pressed(key:String)
 	{
+	  #if desktop
 		var result:Bool = (FlxG.keys.anyPressed(keyboardBinds[key]) == true);
 		if(result) controllerMode = false;
+		#else
+		var result:Bool = false;
+		#end
+
+		#if android
+		if (CheckPress){
+		    if (checkState){
+    		    if (key == 'accept'){
+    		    result = (MusicBeatState._virtualpad.buttonA.pressed == true);
+    		    if(result) controllerMode = true;
+    		    }
+    		    if (key == 'back'){
+    		    result= (MusicBeatState._virtualpad.buttonB.pressed == true);
+        		if(result) controllerMode = true;
+        		}
+		
+        		if (key == 'ui_up'){
+        		result = (MusicBeatState._virtualpad.buttonUp.pressed == true);
+        		if(result) controllerMode = true;
+        		}
+        		if (key == 'ui_down'){
+        		result= (MusicBeatState._virtualpad.buttonDown.pressed == true);
+           		if(result) controllerMode = true;
+        		}
+        		if (key == 'ui_left'){
+        		result = (MusicBeatState._virtualpad.buttonLeft.pressed == true);
+        		if(result) controllerMode = true;
+        		}
+        		if (key == 'ui_right'){
+        		result= (MusicBeatState._virtualpad.buttonRight.pressed == true);
+    		    if(result) controllerMode = true;
+    		        }
+		        }		
+		    else{
+    		    if (key == 'accept'){
+    		    result = (MusicBeatSubstate._virtualpad.buttonA.pressed == true);
+    		    if(result) controllerMode = true;
+    		    }
+    		    if (key == 'back'){
+    		    result= (MusicBeatSubstate._virtualpad.buttonB.pressed == true);
+    		    if(result) controllerMode = true;
+    		    }
+		
+    		    if (key == 'ui_up'){
+    		    result = (MusicBeatSubstate._virtualpad.buttonUp.pressed == true);
+    		    if(result) controllerMode = true;
+    		    }
+    		    if (key == 'ui_down'){
+    		    result= (MusicBeatSubstate._virtualpad.buttonDown.pressed == true);
+    		    if(result) controllerMode = true;
+    		    }
+    		    if (key == 'ui_left'){
+    		    result = (MusicBeatSubstate._virtualpad.buttonLeft.pressed == true);
+    		    if(result) controllerMode = true;
+    		    }
+    		    if (key == 'ui_right'){
+    		    result= (MusicBeatSubstate._virtualpad.buttonRight.pressed == true);
+    		    if(result) controllerMode = true;
+    		    }						
+		    }
+		}
+		if (MusicBeatState.checkHitbox){
+		    if (key == 'note_up'){
+    		result = (MusicBeatState.androidc.newhbox.buttonUp.pressed == true);
+    		if(result) controllerMode = true;
+    		}
+    		if (key == 'note_down'){
+    		result= (MusicBeatState.androidc.newhbox.buttonDown.pressed == true);
+    		if(result) controllerMode = true;
+    		}
+    		if (key == 'note_left'){
+    		result = (MusicBeatState.androidc.newhbox.buttonLeft.pressed == true);
+    		if(result) controllerMode = true;
+    		}
+    		if (key == 'note_right'){
+    		result= (MusicBeatState.androidc.newhbox.buttonRight.pressed == true);
+    		if(result) controllerMode = true;
+		    }		    		    
+		    if (key == 'space' && ClientPrefs.data.hitboxExtend){
+		    result= (MusicBeatState.androidc.newhbox.buttonSpace.pressed == true);
+    		if(result) controllerMode = true;
+		    }
+		}
+		else{		
+    		if (key == 'note_up'){
+    		result = (MusicBeatState.androidc.vpad.buttonUp.pressed == true);
+    		if(result) controllerMode = true;
+    		}
+    		if (key == 'note_down'){
+    		result= (MusicBeatState.androidc.vpad.buttonDown.pressed == true);
+    		if(result) controllerMode = true;
+    		}
+    		if (key == 'note_left'){
+    		result = (MusicBeatState.androidc.vpad.buttonLeft.pressed == true);
+    		if(result) controllerMode = true;
+    		}
+    		if (key == 'note_right'){
+    		result= (MusicBeatState.androidc.vpad.buttonRight.pressed == true);
+    		if(result) controllerMode = true;
+		    }
+		}
+		#end
+
+		if (FlxG.keys.anyPressed(keyboardBinds[key])){
+		result = true;
+		controllerMode = false;
+		}
 
 		return result || _myGamepadPressed(gamepadBinds[key]) == true;
 	}
 
 	public function justReleased(key:String)
 	{
+	  #if desktop
 		var result:Bool = (FlxG.keys.anyJustReleased(keyboardBinds[key]) == true);
 		if(result) controllerMode = false;
+		#else
+		var result:Bool = false;
+		#end
+
+		#if android
+		if (CheckPress){
+		    if (checkState){
+    		    if (key == 'accept'){
+    		    result = (MusicBeatState._virtualpad.buttonA.justReleased == true);
+    		    if(result) controllerMode = true;
+    		    }
+    		    if (key == 'back'){
+    		    result= (MusicBeatState._virtualpad.buttonB.justReleased == true);
+        		if(result) controllerMode = true;
+        		}
+		
+        		if (key == 'ui_up'){
+        		result = (MusicBeatState._virtualpad.buttonUp.justReleased == true);
+        		if(result) controllerMode = true;
+        		}
+        		if (key == 'ui_down'){
+        		result= (MusicBeatState._virtualpad.buttonDown.justReleased == true);
+           		if(result) controllerMode = true;
+        		}
+        		if (key == 'ui_left'){
+        		result = (MusicBeatState._virtualpad.buttonLeft.justReleased == true);
+        		if(result) controllerMode = true;
+        		}
+        		if (key == 'ui_right'){
+        		result= (MusicBeatState._virtualpad.buttonRight.justReleased == true);
+    		    if(result) controllerMode = true;
+    		        }
+		        }		
+		    else{
+    		    if (key == 'accept'){
+    		    result = (MusicBeatSubstate._virtualpad.buttonA.justReleased == true);
+    		    if(result) controllerMode = true;
+    		    }
+    		    if (key == 'back'){
+    		    result= (MusicBeatSubstate._virtualpad.buttonB.justReleased == true);
+    		    if(result) controllerMode = true;
+    		    }
+		
+    		    if (key == 'ui_up'){
+    		    result = (MusicBeatSubstate._virtualpad.buttonUp.justReleased == true);
+    		    if(result) controllerMode = true;
+    		    }
+    		    if (key == 'ui_down'){
+    		    result= (MusicBeatSubstate._virtualpad.buttonDown.justReleased == true);
+    		    if(result) controllerMode = true;
+    		    }
+    		    if (key == 'ui_left'){
+    		    result = (MusicBeatSubstate._virtualpad.buttonLeft.justReleased == true);
+    		    if(result) controllerMode = true;
+    		    }
+    		    if (key == 'ui_right'){
+    		    result= (MusicBeatSubstate._virtualpad.buttonRight.justReleased == true);
+    		    if(result) controllerMode = true;
+    		    }						
+		    }
+		}
+		if (MusicBeatState.checkHitbox){
+		    if (key == 'note_up'){
+    		result = (MusicBeatState.androidc.newhbox.buttonUp.justReleased == true);
+    		if(result) controllerMode = true;
+    		}
+    		if (key == 'note_down'){
+    		result= (MusicBeatState.androidc.newhbox.buttonDown.justReleased == true);
+    		if(result) controllerMode = true;
+    		}
+    		if (key == 'note_left'){
+    		result = (MusicBeatState.androidc.newhbox.buttonLeft.justReleased == true);
+    		if(result) controllerMode = true;
+    		}
+    		if (key == 'note_right'){
+    		result= (MusicBeatState.androidc.newhbox.buttonRight.justReleased == true);
+    		if(result) controllerMode = true;
+		    }		    		    
+		    if (key == 'space' && ClientPrefs.data.hitboxExtend){
+		    result= (MusicBeatState.androidc.newhbox.buttonSpace.justReleased == true);
+    		if(result) controllerMode = true;
+		    }
+		}
+		else{		
+    		if (key == 'note_up'){
+    		result = (MusicBeatState.androidc.vpad.buttonUp.justReleased == true);
+    		if(result) controllerMode = true;
+    		}
+    		if (key == 'note_down'){
+    		result= (MusicBeatState.androidc.vpad.buttonDown.justReleased == true);
+    		if(result) controllerMode = true;
+    		}
+    		if (key == 'note_left'){
+    		result = (MusicBeatState.androidc.vpad.buttonLeft.justReleased == true);
+    		if(result) controllerMode = true;
+    		}
+    		if (key == 'note_right'){
+    		result= (MusicBeatState.androidc.vpad.buttonRight.justReleased == true);
+    		if(result) controllerMode = true;
+		    }
+		}
+		#end
+		
+		if (FlxG.keys.anyJustReleased(keyboardBinds[key])){
+		result = true;
+		controllerMode = false;
+		}
 
 		return result || _myGamepadJustReleased(gamepadBinds[key]) == true;
 	}
