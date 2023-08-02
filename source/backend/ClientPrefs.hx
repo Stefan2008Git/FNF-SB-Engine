@@ -74,6 +74,12 @@ class SaveVariables {
 	public var badWindow:Int = 135;
 	public var safeFrames:Float = 10;
 	public var discordRPC:Bool = true;
+	public static var hitboxmode:String = 'New';
+	public static var hitboxExtend = false;
+	public static var hitboxLocation:String = 'Bottom';
+	public static var hitboxalpha:Float = 0.2; //someone request this lol
+	public static var VirtualPadAlpha:Float = 0.75;
+	public static var VirtualPadSPACE:Array<Float> = [FlxG.width - 44 * 3, FlxG.height - 45 * 3];
 
 	public function new()
 	{
