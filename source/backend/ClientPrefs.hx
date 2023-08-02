@@ -38,12 +38,15 @@ class SaveVariables {
 
 	public var ghostTapping:Bool = true;
 	public var timeBarType:String = 'Time Left';
+
+  //Mobile Stuff
 	public var hitboxmode:String = 'New';
-	public var hitboxExtend = false;
+	public var hitboxExtend:Bool = false;
 	public var hitboxLocation:String = 'Bottom';
 	public var hitboxalpha:Float = 0.2; //someone request this lol
 	public var VirtualPadAlpha:Float = 0.75;
 	public var VirtualPadSPACE:Array<Float> = [FlxG.width - 44 * 3, FlxG.height - 45 * 3];
+
 	public var scoreZoom:Bool = true;
 	public var noReset:Bool = false;
 	public var healthBarAlpha:Float = 1;
