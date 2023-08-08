@@ -135,6 +135,10 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 
 		changeSelection();
 		reloadCheckboxes();
+
+    #if mobile
+    addVirtualPad(FULL, A_B_C);
+    #end
 	}
 
 	var nextAccept:Int = 5;
@@ -265,7 +269,7 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 				}
 			}
 
-			if(controls.RESET)
+			if(controls.RESET #if mobile || MusicBeatState._virtualpad.buttonC.justPressed #end)
 			{
 				for (i in 0...optionsArray.length)
 				{
