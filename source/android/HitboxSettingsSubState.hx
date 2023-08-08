@@ -26,7 +26,6 @@ import flixel.util.FlxTimer;
 import flixel.input.keyboard.FlxKey;
 import flixel.graphics.FlxGraphic;
 //import Controls;
-import backend.ClientPrefs;
 import options.BaseOptionsMenu;
 import options.Option;
 import openfl.Lib;
@@ -41,7 +40,7 @@ class HitboxSettingsSubState extends BaseOptionsMenu
 		rpcTitle = 'Hitbox Settings Menu'; //hi, you can ask what is that, i will answer it's all what you needed lol.
 
 		var option:Option = new Option('Space Extend',
-			"Adds A Space Button On Hitbox",
+			"Allow Extend Space Control --Made by NF|Beihu",
 			'hitboxExtend',
 			'bool');
 		  addOption(option);
