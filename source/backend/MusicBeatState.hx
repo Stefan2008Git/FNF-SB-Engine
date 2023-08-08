@@ -4,7 +4,10 @@ import flixel.addons.ui.FlxUIState;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.FlxState;
 
+
+
 #if android
+//import flixel.input.actions.FlxActionInput;
 import android.AndroidControls.AndroidControls;
 import android.FlxVirtualPad;
 
@@ -27,12 +30,15 @@ class MusicBeatState extends FlxUIState
 	private var curDecStep:Float = 0;
 	private var curDecBeat:Float = 0;
 	public var controls(get, never):Controls;
+	
 	public static var checkHitbox:Bool = false;
+	public static var checkDUO:Bool = false;
+	
 	private function get_controls()
 	{
 		return Controls.instance;
 	}
-
+	
 	#if android
 	public static var _virtualpad:FlxVirtualPad;
 	public static var androidc:AndroidControls;
@@ -70,19 +76,32 @@ class MusicBeatState extends FlxUIState
 	#if android
 	public function addAndroidControls() {
 		androidc = new AndroidControls();
-
+		
+        Controls.CheckPress = true;
+        
 		switch (androidc.mode)
 		{
 			case VIRTUALPAD_RIGHT | VIRTUALPAD_LEFT | VIRTUALPAD_CUSTOM:
 				//controls.setVirtualPadNOTES(androidc.vpad, FULL, NONE);
 				checkHitbox = false;
+				checkDUO = false;
+				Controls.CheckKeyboard = false;
 			case DUO:
 				//controls.setVirtualPadNOTES(androidc.vpad, DUO, NONE);
 				checkHitbox = false;
+				checkDUO = true;
+				Controls.CheckKeyboard = false;
 			case HITBOX:
 				//controls.setNewHitBox(androidc.newhbox);
 				checkHitbox = true;
+				checkDUO = false;
+				Controls.CheckKeyboard = false;
+			//case KEYBOARD:	
+			    
 			default:
+			    checkHitbox = false;
+				checkDUO = false;
+			    Controls.CheckKeyboard = true;
 		}
 
 		var camcontrol = new flixel.FlxCamera();
@@ -93,6 +112,7 @@ class MusicBeatState extends FlxUIState
 		androidc.visible = false;
 
 		add(androidc);
+		Controls.CheckControl = true;
 	}
 	#end
 
