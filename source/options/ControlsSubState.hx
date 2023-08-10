@@ -106,7 +106,11 @@ class ControlsSubState extends MusicBeatSubstate
 		add(text);
 
 		createTexts();
-	}
+
+  #if mobile
+  addVirtualPad(FULL, A_B);
+  #end
+}
 
 	var lastID:Int = 0;
 	function createTexts()
@@ -273,7 +277,7 @@ class ControlsSubState extends MusicBeatSubstate
 		{
 			if(FlxG.keys.justPressed.ESCAPE || FlxG.gamepads.anyJustPressed(B))
 			{
-				close();
+				FlxG.resetState();
 				return;
 			}
 			if(FlxG.keys.justPressed.CONTROL || FlxG.gamepads.anyJustPressed(LEFT_SHOULDER) || FlxG.gamepads.anyJustPressed(RIGHT_SHOULDER)) swapMode();
