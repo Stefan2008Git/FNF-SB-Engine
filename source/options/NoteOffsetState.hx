@@ -170,6 +170,10 @@ class NoteOffsetState extends MusicBeatState
 		Conductor.bpm = 128.0;
 		FlxG.sound.playMusic(Paths.music('offsetSong'), 1, true);
 
+    #if mobile
+    addVirtualPad(FULL, A_B_C);
+    #end
+
 		super.create();
 	}
 
@@ -346,7 +350,7 @@ class NoteOffsetState extends MusicBeatState
 				}
 			}
 
-			if(controls.RESET)
+			if(controls.RESET #if mobile || MusicBeatState._virtualpad.buttonC.justPressed #end)
 			{
 				for (i in 0...ClientPrefs.data.comboOffset.length)
 				{
