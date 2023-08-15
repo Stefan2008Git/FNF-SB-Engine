@@ -17,8 +17,6 @@ import lime.system.Clipboard;
 import sys.io.File;
 #end
 
-import backend.SUtil;
-
 import objects.TypedAlphabet;
 
 import cutscenes.DialogueBoxPsych;

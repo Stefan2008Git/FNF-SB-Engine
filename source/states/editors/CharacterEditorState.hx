@@ -19,9 +19,6 @@ import openfl.events.Event;
 import openfl.events.IOErrorEvent;
 import lime.system.Clipboard;
 import tjson.TJSON as Json;
-
-import backend.SUtil;
-
 import objects.Character;
 import objects.HealthIcon;
 import objects.HealthBar;
