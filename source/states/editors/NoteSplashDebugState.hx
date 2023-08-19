@@ -126,11 +126,9 @@ class NoteSplashDebugState extends MusicBeatState
 		super.create();
 		FlxG.mouse.visible = true;
 
-
 		#if android
 		addVirtualPad(CHART_EDITOR, CHART_EDITOR);
 		#end
-=======
 	}
 
 	var curAnim:Int = 1;
