@@ -165,7 +165,11 @@ class Paths
 
 	inline static public function json(key:String, ?library:String)
 	{
+<<<<<<< Updated upstream
 		return getPath('data/$key.json', TEXT, library);
+=======
+		return SUtil.getPath() + getPath('assets/data/$key.json', TEXT, library);
+>>>>>>> Stashed changes
 	}
 
 	inline static public function shaderFragment(key:String, ?library:String)
