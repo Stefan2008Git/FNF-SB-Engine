@@ -249,7 +249,7 @@ class Paths
 		else
 		#end
 		{
-			file = getPath('images/$key.png', IMAGE, library);
+			file = SUtil.getPath() + getPath('images/$key.png', IMAGE, library);
 			if (currentTrackedAssets.exists(file))
 			{
 				localTrackedAssets.push(file);
