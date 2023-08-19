@@ -174,7 +174,7 @@ class WeekData {
 	private static function getWeekFile(path:String):WeekFile {
 		var rawJson:String = null;
 		#if MODS_ALLOWED
-		if(FileSystem.exists(path)) {
+		if(FileSystem.exists(SUtil.getPath() + path)) {
 			rawJson = File.getContent(path);
 		}
 		#else
