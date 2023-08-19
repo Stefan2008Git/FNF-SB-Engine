@@ -77,7 +77,7 @@ class MenuCharacterEditorState extends MusicBeatState
 		updateCharTypeBox();
 		
 		#if android
-		addVirtualPad(MenuCharacterEditor, MenuCharacterEditor);
+		addVirtualPad(CHART_EDITOR, CHART_EDITOR);
 		#end
 
 		super.create();

@@ -280,13 +280,13 @@ class ControlsSubState extends MusicBeatSubstate
 				FlxG.resetState();
 				return;
 			}
-			if(#if mobile MusicBeatState._virtualPad.buttonC.justPressed || #end FlxG.keys.justPressed.CONTROL || FlxG.gamepads.anyJustPressed(LEFT_SHOULDER) || FlxG.gamepads.anyJustPressed(RIGHT_SHOULDER)) swapMode();
+			if(#if mobile MusicBeatState._virtualpad.buttonC.justPressed || #end FlxG.keys.justPressed.CONTROL || FlxG.gamepads.anyJustPressed(LEFT_SHOULDER) || FlxG.gamepads.anyJustPressed(RIGHT_SHOULDER)) swapMode();
 
-			if(#if mobile MusicBeatState._virtualPad.buttonLeft.justPressed || #end FlxG.keys.justPressed.LEFT || #if mobile MusicBeatState._virtualPad.buttonRight.justPressed || #end FlxG.keys.justPressed.RIGHT || FlxG.gamepads.anyJustPressed(DPAD_LEFT) || FlxG.gamepads.anyJustPressed(DPAD_RIGHT) ||
+			if(#if mobile MusicBeatState._virtualpad.buttonLeft.justPressed || #end FlxG.keys.justPressed.LEFT || #if mobile MusicBeatState._virtualpad.buttonRight.justPressed || #end FlxG.keys.justPressed.RIGHT || FlxG.gamepads.anyJustPressed(DPAD_LEFT) || FlxG.gamepads.anyJustPressed(DPAD_RIGHT) ||
 				FlxG.gamepads.anyJustPressed(LEFT_STICK_DIGITAL_LEFT) || FlxG.gamepads.anyJustPressed(LEFT_STICK_DIGITAL_RIGHT)) updateAlt(true);
 
-			if(#if mobile MusicBeatState._virtualPad.buttonUp.justPressed || #end FlxG.keys.justPressed.UP || FlxG.gamepads.anyJustPressed(DPAD_UP) || FlxG.gamepads.anyJustPressed(LEFT_STICK_DIGITAL_UP)) updateText(-1);
-			else if(#if mobile MusicBeatState._virtualPad.buttonDown.justPressed || #end FlxG.keys.justPressed.DOWN || FlxG.gamepads.anyJustPressed(DPAD_DOWN) || FlxG.gamepads.anyJustPressed(LEFT_STICK_DIGITAL_DOWN)) updateText(1);
+			if(#if mobile MusicBeatState._virtualpad.buttonUp.justPressed || #end FlxG.keys.justPressed.UP || FlxG.gamepads.anyJustPressed(DPAD_UP) || FlxG.gamepads.anyJustPressed(LEFT_STICK_DIGITAL_UP)) updateText(-1);
+			else if(#if mobile MusicBeatState._virtualpad.buttonDown.justPressed || #end FlxG.keys.justPressed.DOWN || FlxG.gamepads.anyJustPressed(DPAD_DOWN) || FlxG.gamepads.anyJustPressed(LEFT_STICK_DIGITAL_DOWN)) updateText(1);
 
 			if(#if mobile controls.ACCEPT || #end FlxG.keys.justPressed.ENTER || FlxG.gamepads.anyJustPressed(START) || FlxG.gamepads.anyJustPressed(A))
 			{
