@@ -117,7 +117,7 @@ class Paths
 		#end
 
 		if (library != null)
-			return SUtil.getPath() + getLibraryPath(file, library);
+			return getLibraryPath(file, library);
 
 		if (currentLevel != null)
 		{
@@ -150,7 +150,7 @@ class Paths
 
 	inline public static function getPreloadPath(file:String = '')
 	{
-		return SUtil.getPath() + 'assets/$file';
+		return 'assets/$file';
 	}
 
 	inline static public function txt(key:String, ?library:String)
