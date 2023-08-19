@@ -98,7 +98,7 @@ class Character extends FlxSprite
 
 				if (!FileSystem.exists(path))
 				#else
-				var path:String = Paths.getPreloadPath(characterPath);
+				var path:String = SUtil.getPath() + Paths.getPreloadPath(characterPath);
 				if (!Assets.exists(path))
 				#end
 				{
