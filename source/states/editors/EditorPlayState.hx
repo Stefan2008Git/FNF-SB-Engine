@@ -143,12 +143,24 @@ class EditorPlayState extends MusicBeatSubstate
 		DiscordClient.changePresence('Playtesting on Chart Editor', PlayState.SONG.song, null, true, songLength);
 		#end
 		RecalculateRating();
+		
+		#if android
+		addAndroidControls();
+		#end
+
+		#if android
+		MusicBeatSubstate.androidc.visible = true;
+		#end
 	}
 
 	override function update(elapsed:Float)
 	{
-		if(controls.BACK || FlxG.keys.justPressed.ESCAPE)
-		{
+		if (FlxG.keys.justPressed.ESCAPE #if android || FlxG.android.justReleased.BACK #end)
+		{		
+		    #if android
+			MusicBeatSubstate.androidc.visible = false;
+			#end
+			
 			endSong();
 			super.update(elapsed);
 			return;
@@ -768,7 +780,7 @@ class EditorPlayState extends MusicBeatSubstate
 		var strum:StrumNote = opponentStrums.members[Std.int(Math.abs(note.noteData))];
 		if(strum != null) {
 			strum.playAnim('confirm', true);
-			strum.resetAnim = Conductor.stepCrochet * 1.25 / 1000 / playbackRate;
+			strum.resetAnim = Conductor.stepCrochet * 1.5 / 1000;
 		}
 		note.hitByOpponent = true;
 
