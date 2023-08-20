@@ -20,12 +20,16 @@ to start you off, disabling Videos should be simple, simply Delete the line `"VI
 
 same goes for *Lua Scripts*, comment out or delete the line with `LUA_ALLOWED`, this and other customization options are all available within the `Project.xml` file
 
-## Credits:
+## Credits (+ Android Port Credits):
 * Shadow Mario - Programmer
 * RiverOaken - Artist
 * Yoshubs - Assistant Programmer
+* MaysLastPlay - Android Porter
+* Beihu235 - Second Android Porter
+* FutureDorito - Third Android Porter
 
 ### Special Thanks
+* MA Jigsaw - Workflow and Android Things Creator
 * bbpanzu - Ex-Programmer
 * Yoshubs - New Input System
 * SqirraRNG - Crash Handler and Base code for Chart Editor's Waveform
