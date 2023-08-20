@@ -2,7 +2,6 @@ package cutscenes;
 
 import tjson.TJSON as Json;
 import lime.utils.Assets;
-import backend.SUtil;
 
 #if sys
 import sys.FileSystem;
