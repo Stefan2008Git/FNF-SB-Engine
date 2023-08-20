@@ -170,7 +170,7 @@ class DialogueCharacterEditorState extends MusicBeatState
 		updateCharTypeBox();
 		
 		#if android
-		addVirtualPad(CHART_EDITOR, CHART_EDITOR);
+		addVirtualPad(DialogueCharacterEditor, DialogueCharacterEditor);
 		addPadCamera();
 		#end
 		
