@@ -1,20 +1,13 @@
 package cutscenes;
 
 import tjson.TJSON as Json;
+import lime.utils.Assets;
+import backend.SUtil;
 
 #if sys
 import sys.FileSystem;
 import sys.io.File;
 #end
-import lime.utils.Assets;
-
-typedef DialogueAnimArray = {
-	var anim:String;
-	var loop_name:String;
-	var loop_offsets:Array<Int>;
-	var idle_name:String;
-	var idle_offsets:Array<Int>;
-}
 
 typedef DialogueCharacterFile = {
 	var image:String;
@@ -24,6 +17,14 @@ typedef DialogueCharacterFile = {
 	var animations:Array<DialogueAnimArray>;
 	var position:Array<Float>;
 	var scale:Float;
+}
+
+typedef DialogueAnimArray = {
+	var anim:String;
+	var loop_name:String;
+	var loop_offsets:Array<Int>;
+	var idle_name:String;
+	var idle_offsets:Array<Int>;
 }
 
 class DialogueCharacter extends FlxSprite
@@ -61,13 +62,12 @@ class DialogueCharacter extends FlxSprite
 
 		#if MODS_ALLOWED
 		var path:String = Paths.modFolders(characterPath);
-		if (!FileSystem.exists(path)) {
-			path = Paths.getPreloadPath(characterPath);
-		}
+		if (!FileSystem.exists(path))
+			path = SUtil.getPath() + Paths.getPreloadPath(characterPath);
 
-		if(!FileSystem.exists(path)) {
-			path = Paths.getPreloadPath('images/dialogue/' + DEFAULT_CHARACTER + '.json');
-		}
+		if(!FileSystem.exists(path))
+			path = SUtil.getPath() + Paths.getPreloadPath('images/dialogue/' + DEFAULT_CHARACTER + '.json');
+
 		rawJson = File.getContent(path);
 
 		#else
@@ -124,7 +124,8 @@ class DialogueCharacter extends FlxSprite
 		}
 	}
 
-	public function animationIsLoop():Bool {
+	public function animationIsLoop():Bool
+	{
 		if(animation.curAnim == null) return false;
 		return !animation.curAnim.name.endsWith(IDLE_SUFFIX);
 	}
