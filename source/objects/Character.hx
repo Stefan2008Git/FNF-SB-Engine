@@ -14,6 +14,7 @@ import tjson.TJSON as Json;
 
 import backend.Song;
 import backend.Section;
+import backend.SUtil;
 import states.stages.objects.TankmenBG;
 
 typedef CharacterFile = {
@@ -93,12 +94,12 @@ class Character extends FlxSprite
 				#if MODS_ALLOWED
 				var path:String = Paths.modFolders(characterPath);
 				if (!FileSystem.exists(path)) {
-					path = Paths.getPreloadPath(characterPath);
+					path = SUtil.getPath() + Paths.getPreloadPath(characterPath);
 				}
 
 				if (!FileSystem.exists(path))
 				#else
-				var path:String = SUtil.getPath() + Paths.getPreloadPath(characterPath);
+				var path:String = Paths.getPreloadPath(characterPath);
 				if (!Assets.exists(path))
 				#end
 				{
@@ -119,7 +120,7 @@ class Character extends FlxSprite
 				var animToFind:String = Paths.getPath('images/' + json.image + '/Animation.json', TEXT);
 				if (FileSystem.exists(modAnimToFind) || FileSystem.exists(animToFind) || Assets.exists(animToFind))
 				#else
-				if (Assets.exists(SUtil.getPath + Paths.getPath('images/' + json.image + '/Animation.json', TEXT)))
+				if (Assets.exists(Paths.getPath('images/' + json.image + '/Animation.json', TEXT)))
 				#end
 					useAtlas = true;
 
