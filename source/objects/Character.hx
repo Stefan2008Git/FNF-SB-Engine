@@ -14,7 +14,6 @@ import tjson.TJSON as Json;
 
 import backend.Song;
 import backend.Section;
-import backend.SUtil;
 import states.stages.objects.TankmenBG;
 
 typedef CharacterFile = {
