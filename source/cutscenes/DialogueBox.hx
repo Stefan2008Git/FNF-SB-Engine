@@ -28,6 +28,8 @@ class DialogueBox extends FlxSpriteGroup
 	public function new(talkingRight:Bool = true, ?dialogueList:Array<String>)
 	{
 		super();
+		
+		//Controls.CheckPress = false;
 
 		bgFade = new FlxSprite(-200, -200).makeGraphic(Std.int(FlxG.width * 1.3), Std.int(FlxG.height * 1.3), 0xFFB3DFd8);
 		bgFade.scrollFactor.set();
@@ -153,8 +155,20 @@ class DialogueBox extends FlxSpriteGroup
 			startDialogue();
 			dialogueStarted = true;
 		}
+		
+		#if android
+                var justTouched:Bool = false;
 
-		if(Controls.instance.ACCEPT)
+		for (touch in FlxG.touches.list)
+		{
+			if (touch.justPressed)
+			{
+				justTouched = true;
+			}
+		}
+		#end
+
+		if( FlxG.keys.justPressed.ESCAPE #if android || justTouched #end)
 		{
 			if (dialogueEnded)
 			{

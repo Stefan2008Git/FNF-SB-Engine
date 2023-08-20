@@ -217,7 +217,11 @@ class Mods
 			fileStr += values[0] + '|' + (values[1] ? '1' : '0');
 		}
 
-		File.saveContent(SUtil.getPath() + 'modsList.txt', fileStr);
+    #if desktop
+		File.saveContent('modsList.txt', fileStr);
+		#else
+	  SUtil.saveContent('modsList.txt', fileStr);
+		#end
 		updatedOnState = true;
 		//trace('Saved modsList.txt');
 		#end

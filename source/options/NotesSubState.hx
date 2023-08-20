@@ -165,7 +165,7 @@ class NotesSubState extends MusicBeatSubstate
 		_lastControllerMode = controls.controllerMode;
 
 		#if mobile
-		addVirtualPad(CHART_EDITOR, B_C);
+		addVirtualPad(CHART_EDITOR, A_B_C);
 		#end
 	}
 
@@ -466,7 +466,7 @@ class NotesSubState extends MusicBeatSubstate
 				}
 			} 
 		}
-		else if(#if mobile MusicBeatState._virtualpad.buttonC.justPressed || #end controls.RESET && hexTypeNum < 0)
+		else if(#if mobile MusicBeatState._virtualpad.buttonA.justPressed || #end controls.RESET && hexTypeNum < 0)
 		{
 			if(#if mobile MusicBeatState._virtualpad.buttonC.justPressed || #end FlxG.keys.pressed.SHIFT || FlxG.gamepads.anyJustPressed(LEFT_SHOULDER))
 			{
