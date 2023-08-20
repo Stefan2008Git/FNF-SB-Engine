@@ -28,7 +28,7 @@ same goes for *Lua Scripts*, comment out or delete the line with `LUA_ALLOWED`, 
 * Beihu235 - Second Android Porter
 * FutureDorito - Third Android Porter
 
-### Special Thanks
+### Special Thanks (+ Android Special Thanks)
 * MA Jigsaw - Workflow and Android Things Creator
 * bbpanzu - Ex-Programmer
 * Yoshubs - New Input System
