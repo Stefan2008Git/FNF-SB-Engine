@@ -161,7 +161,8 @@ class FreeplayState extends MusicBeatState
 		var textBG:FlxSprite = new FlxSprite(0, FlxG.height - 26).makeGraphic(FlxG.width, 26, 0xFF000000);
 		textBG.alpha = 0.6;
 		add(textBG);
-    #if PRELOAD_ALL
+
+		#if PRELOAD_ALL
 		#if android
 		var leText:String = "Press X to listen to the Song / Press C to open the Gameplay Changers Menu / Press Y to Reset your Score and Accuracy.";
 		var size:Int = 16;
@@ -179,11 +180,11 @@ class FreeplayState extends MusicBeatState
 		add(text);
 		
 		updateTexts();
-
-    #if mobile
-    addVirtualPad(FULL, A_B_C_X_Y_Z);
-    #end
-
+		
+		#if android
+                addVirtualPad(FULL, A_B_C_X_Y_Z);
+                #end
+                
 		super.create();
 	}
 
@@ -249,7 +250,7 @@ class FreeplayState extends MusicBeatState
 		positionHighscore();
 
 		var shiftMult:Int = 1;
-		if(FlxG.keys.pressed.SHIFT #if android || MusicBeatState._virtualpad.buttonZ.pressed #end) shiftMult = 3;
+		if(FlxG.keys.pressed.SHIFT  #if android || MusicBeatState._virtualpad.buttonZ.pressed #end) shiftMult = 3;
 
 		if(songs.length > 1)
 		{
@@ -316,11 +317,8 @@ class FreeplayState extends MusicBeatState
 
 		if(FlxG.keys.justPressed.CONTROL #if android || MusicBeatState._virtualpad.buttonC.justPressed #end)
 		{
-		    #if mobile
-			  removeVirtualPad();
-			  #end
-				persistentUpdate = false;
-				openSubState(new GameplayChangersSubstate());
+			persistentUpdate = false;
+			openSubState(new GameplayChangersSubstate());
 		}
 		else if(FlxG.keys.justPressed.SPACE #if android || MusicBeatState._virtualpad.buttonX.justPressed #end)
 		{
@@ -378,9 +376,9 @@ class FreeplayState extends MusicBeatState
 			catch(e:Dynamic)
 			{
 				trace('ERROR! $e');
-
-				var errorStr:String = e.toString();
-				if(errorStr.startsWith('[file_contents,assets/data/')) errorStr = 'Missing file: ' + errorStr.substring(27, errorStr.length-1); //Missing chart
+                var errorStr:String = Mods.currentModDirectory + '/data/' + songLowercase + '/' + poop + '.json';
+				//var errorStr:String = e.toString();
+				/*if(errorStr.startsWith('[file_contents,assets/data/')) errorStr = 'Missing file: ' + errorStr.substring(27, errorStr.length-1); //Missing chart*/
 				missingText.text = 'ERROR WHILE LOADING CHART:\n$errorStr';
 				missingText.screenCenter(Y);
 				missingText.visible = true;
@@ -391,25 +389,26 @@ class FreeplayState extends MusicBeatState
 				super.update(elapsed);
 				return;
 			}
-
+			
 			if (FlxG.keys.pressed.SHIFT #if android || MusicBeatState._virtualpad.buttonZ.pressed #end){
 				LoadingState.loadAndSwitchState(new ChartingState());
 			}else{
 				LoadingState.loadAndSwitchState(new PlayState());
 			}
+			//LoadingState.loadAndSwitchState(new PlayState());
 
 			FlxG.sound.music.volume = 0;
 					
 			destroyFreeplayVocals();
-			#if (desktop && MODS_ALLOWED)
+			#if desktop
 			DiscordClient.loadModRPC();
 			#end
 		}
 		else if(controls.RESET #if android || MusicBeatState._virtualpad.buttonY.justPressed #end)
 		{
-		  #if android
-		  removeVirtualPad();
-		  #end
+		    #if android
+			removeVirtualPad();
+			#end
 			persistentUpdate = false;
 			openSubState(new ResetScoreSubState(songs[curSelected].songName, curDifficulty, songs[curSelected].songCharacter));
 			FlxG.sound.play(Paths.sound('scrollMenu'));
