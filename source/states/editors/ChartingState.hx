@@ -347,8 +347,7 @@ class ChartingState extends MusicBeatState
 		
 		#if mobile
 		text =
-		"G - Change chart UI
-		\nUP/Down - Change Conductor's strum time
+		"UP/Down - Change Conductor's strum time
 		\nC + Left/Right - Go to the previous/next section
 		\nLeft/Right - Change Snap
 		\nZ - Reset Song Playback Rate
