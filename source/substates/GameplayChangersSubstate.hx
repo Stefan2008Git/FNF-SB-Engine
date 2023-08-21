@@ -138,6 +138,7 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 
     #if mobile
     addVirtualPad(FULL, A_B_C);
+    addPadCamera(); 
     #end
 	}
 
