@@ -347,14 +347,17 @@ class ChartingState extends MusicBeatState
 		
 		#if mobile
 		text =
-		"UP/Down - Change Conductor's strum time
+		"G - Change chart UI
+		\nUP/Down - Change Conductor's strum time
 		\nC + Left/Right - Go to the previous/next section
 		\nLeft/Right - Change Snap
 		\nZ - Reset Song Playback Rate
 		\nHold C to move 4x faster
-		\nHold Y to move 10x faster
+		\nHold X to move 10x faster
+		\nV/D - Zoom in/out
 		\nB - Test your chart inside Chart Editor
-		\nX - Stop/Resume song";
+		\nUP/Down(Right Side) - Decrease/Increase Note Sustain Length
+		\nY - Stop/Resume song";
 		#end
 
 		var tipTextArray:Array<String> = text.split('\n');
@@ -394,7 +397,7 @@ class ChartingState extends MusicBeatState
 		updateGrid();
 
 		#if mobile
-		addVirtualPad(CHART_EDITOR, A_B_C_X_Y_Z);
+		addVirtualPad(CHART_EDITOR, CHART_EDITOR);
 		#end
 
 		super.create();
@@ -1844,15 +1847,15 @@ class ChartingState extends MusicBeatState
 				return;
 			}
 
-			if(FlxG.keys.justPressed.Z #if mobile || MusicBeatState._virtualpad.buttonZ.pressed #end && curZoom > 0 && !FlxG.keys.pressed.CONTROL) {
+			if(FlxG.keys.justPressed.Z #if mobile || MusicBeatState._virtualpad.buttonV.justPressed #end && curZoom > 0 && !FlxG.keys.pressed.CONTROL) {
 				undo();
 			}
 
-			if((FlxG.keys.justPressed.Z #if mobile || MusicBeatState._virtualpad.buttonZ.pressed #end) && curZoom > 0 && !FlxG.keys.pressed.CONTROL) {
+			if((FlxG.keys.justPressed.Z #if mobile || MusicBeatState._virtualpad.buttonV.justPressed #end) && curZoom > 0 && !FlxG.keys.pressed.CONTROL) {
 				--curZoom;
 				updateZoom();
 			}
-			if(FlxG.keys.justPressed.X #if mobile || MusicBeatState._virtualpad.buttonC.pressed #end && curZoom < zoomList.length-1) {
+			if(FlxG.keys.justPressed.X #if mobile || MusicBeatState._virtualpad.buttonD.justPressed #end && curZoom < zoomList.length-1) {
 				curZoom++;
 				updateZoom();
 			}
@@ -1876,7 +1879,7 @@ class ChartingState extends MusicBeatState
 				}
 			}
 
-			if (FlxG.keys.justPressed.SPACE #if mobile || MusicBeatState._virtualpad.buttonX.pressed #end)
+			if (FlxG.keys.justPressed.SPACE #if mobile || MusicBeatState._virtualpad.buttonY.justPressed #end)
 			{
 				if (FlxG.sound.music.playing)
 				{
@@ -1895,9 +1898,9 @@ class ChartingState extends MusicBeatState
 				}
 			}
 
-			if (!FlxG.keys.pressed.ALT && FlxG.keys.justPressed.R)
+			if (!FlxG.keys.pressed.ALT && FlxG.keys.justPressed.R #if mobile || MusicBeatState._virtualpad.buttonV.justPressed #end)
 			{
-				if (FlxG.keys.pressed.SHIFT #if mobile || MusicBeatState._virtualpad.buttonY.pressed #end)
+				if (FlxG.keys.pressed.SHIFT #if mobile || MusicBeatState._virtualpad.buttonC.pressed #end)
 					resetSection(true);
 				else
 					resetSection();
@@ -1938,7 +1941,7 @@ class ChartingState extends MusicBeatState
 
 				var holdingShift:Float = 1;
 				if (FlxG.keys.pressed.CONTROL) holdingShift = 0.25;
-				else if (FlxG.keys.pressed.SHIFT #if mobile || MusicBeatState._virtualpad.buttonY.pressed #end) holdingShift = 4;
+				else if (FlxG.keys.pressed.SHIFT #if mobile || MusicBeatState._virtualpad.buttonC.pressed #end) holdingShift = 4;
                 else if (MusicBeatState._virtualpad.buttonX.pressed) holdingShift = 10;
 				var daTime:Float = 700 * FlxG.elapsed * holdingShift;
 
