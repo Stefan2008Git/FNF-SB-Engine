@@ -92,11 +92,11 @@ class WeekData {
 		for (mod in Mods.parseList().enabled)
 			directories.push(Paths.mods(mod + '/'));
 		#else
-		var directories:Array<String> = [Paths.getPreloadPath()];
+		var directories:Array<String> = [SUtil.getPath() + Paths.getPreloadPath()];
 		var originalLength:Int = directories.length;
 		#end
 
-		var sexList:Array<String> = CoolUtil.coolTextFile(SUtil.getPath() + Paths.getPreloadPath('weeks/weekList.txt'));
+		var sexList:Array<String> = CoolUtil.coolTextFile(Paths.getPreloadPath('weeks/weekList.txt'));
 		for (i in 0...sexList.length) {
 			for (j in 0...directories.length) {
 				var fileToCheck:String = directories[j] + 'weeks/' + sexList[i] + '.json';
@@ -173,8 +173,8 @@ class WeekData {
 	private static function getWeekFile(path:String):WeekFile {
 		var rawJson:String = null;
 		#if MODS_ALLOWED
-		if(FileSystem.exists(SUtil.getPath() + path)) {
-			rawJson = File.getContent(SUtil.getPath() + path);
+		if(FileSystem.exists(path)) {
+			rawJson = File.getContent(path);
 		}
 		#else
 		if(OpenFlAssets.exists(path)) {
