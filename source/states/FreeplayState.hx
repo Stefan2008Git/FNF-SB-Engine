@@ -316,11 +316,11 @@ class FreeplayState extends MusicBeatState
 
 		if(FlxG.keys.justPressed.CONTROL #if android || MusicBeatState._virtualpad.buttonC.justPressed #end)
 		{
-		  #if android
-		  removeVirtualPad();
-		  #end
-			persistentUpdate = false;
-			openSubState(new GameplayChangersSubstate());
+		    #if mobile
+			  removeVirtualPad();
+			  #end
+				persistentUpdate = false;
+				openSubState(new GameplayChangersSubstate());
 		}
 		else if(FlxG.keys.justPressed.SPACE #if android || MusicBeatState._virtualpad.buttonX.justPressed #end)
 		{
