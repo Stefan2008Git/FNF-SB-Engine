@@ -36,7 +36,7 @@ class Mods
 		'achievements'
 	];
 
-	public static var globalMods:Array<String> = [];
+	private static var globalMods:Array<String> = [];
 
 	inline public static function getGlobalMods()
 		return globalMods;
@@ -83,12 +83,12 @@ class Mods
 		if(paths.contains(defaultPath))
 		{
 			paths.remove(defaultPath);
-			paths.push(defaultPath);
+			paths.insert(0, defaultPath);
 		}
 
 		for (file in paths)
 		{
-			var list:Array<String> = CoolUtil.coolTextFile(file, false);
+			var list:Array<String> = CoolUtil.coolTextFile(file);
 			for (value in list)
 				if((allowDuplicates || !mergedList.contains(value)) && value.length > 0)
 					mergedList.push(value);
