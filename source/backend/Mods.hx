@@ -6,6 +6,7 @@ import sys.io.File;
 #else
 import lime.utils.Assets;
 #end
+
 import tjson.TJSON as Json;
 
 typedef ModsList = {
@@ -35,7 +36,7 @@ class Mods
 		'achievements'
 	];
 
-	private static var globalMods:Array<String> = [];
+	public static var globalMods:Array<String> = [];
 
 	inline public static function getGlobalMods()
 		return globalMods;
@@ -67,7 +68,7 @@ class Mods
 		#end
 		return list;
 	}
-	
+
 	inline public static function mergeAllTextsNamed(path:String, defaultDirectory:String = null, allowDuplicates:Bool = false)
 	{
 		if(defaultDirectory == null) defaultDirectory = Paths.getPreloadPath();
@@ -82,12 +83,12 @@ class Mods
 		if(paths.contains(defaultPath))
 		{
 			paths.remove(defaultPath);
-			paths.insert(0, defaultPath);
+			paths.push(defaultPath);
 		}
 
 		for (file in paths)
 		{
-			var list:Array<String> = CoolUtil.coolTextFile(file);
+			var list:Array<String> = CoolUtil.coolTextFile(file, false);
 			for (value in list)
 				if((allowDuplicates || !mergedList.contains(value)) && value.length > 0)
 					mergedList.push(value);
@@ -151,7 +152,8 @@ class Mods
 	}
 
 	public static var updatedOnState:Bool = false;
-	inline public static function parseList():ModsList {
+	inline public static function parseList():ModsList
+	{
 		if(!updatedOnState) updateModList();
 		var list:ModsList = {enabled: [], disabled: [], all: []};
 
@@ -161,7 +163,6 @@ class Mods
 			{
 				//trace('Mod: $mod');
 				if(mod.trim().length < 1) continue;
-
 				var dat = mod.split("|");
 				list.all.push(dat[0]);
 				if (dat[1] == "1")
@@ -217,11 +218,7 @@ class Mods
 			fileStr += values[0] + '|' + (values[1] ? '1' : '0');
 		}
 
-    #if desktop
-		File.saveContent('modsList.txt', fileStr);
-		#else
-	  SUtil.saveContent('modsList.txt', fileStr);
-		#end
+		File.saveContent(SUtil.getPath() + 'modsList.txt', fileStr);
 		updatedOnState = true;
 		//trace('Saved modsList.txt');
 		#end
