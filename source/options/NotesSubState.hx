@@ -175,7 +175,7 @@ class NotesSubState extends MusicBeatSubstate
 		LengthCheck = AndroidColorGet.text;
 		add(AndroidColorGet);
 		#if android
-		addVirtualPad(CHART_EDITOR, NOTESTATE);
+		addVirtualPad(NONE, NOTESTATE);
 		#end
 	}
 
