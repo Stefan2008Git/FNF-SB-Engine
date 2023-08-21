@@ -1900,7 +1900,7 @@ class ChartingState extends MusicBeatState
 
 			if (!FlxG.keys.pressed.ALT && FlxG.keys.justPressed.R #if mobile || MusicBeatState._virtualpad.buttonV.justPressed #end)
 			{
-				if (FlxG.keys.pressed.SHIFT #if mobile || MusicBeatState._virtualpad.buttonC.pressed #end)
+				if (FlxG.keys.pressed.SHIFT #if mobile || MusicBeatState._virtualpad.buttonC.justPressed #end)
 					resetSection(true);
 				else
 					resetSection();
@@ -1941,8 +1941,8 @@ class ChartingState extends MusicBeatState
 
 				var holdingShift:Float = 1;
 				if (FlxG.keys.pressed.CONTROL) holdingShift = 0.25;
-				else if (FlxG.keys.pressed.SHIFT #if mobile || MusicBeatState._virtualpad.buttonC.pressed #end) holdingShift = 4;
-                else if (MusicBeatState._virtualpad.buttonX.pressed) holdingShift = 10;
+				else if (FlxG.keys.pressed.SHIFT #if mobile || MusicBeatState._virtualpad.buttonC.justPressed #end) holdingShift = 4;
+                else if (MusicBeatState._virtualpad.buttonX.justPressed) holdingShift = 10;
 				var daTime:Float = 700 * FlxG.elapsed * holdingShift;
 
 				if (FlxG.keys.pressed.W #if mobile || MusicBeatState._virtualpad.buttonUp.pressed #end)
@@ -1980,7 +1980,7 @@ class ChartingState extends MusicBeatState
 
 			var style = currentType;
 			
-			if (FlxG.keys.pressed.SHIFT #if mobile || MusicBeatState._virtualpad.buttonC.pressed #end){
+			if (FlxG.keys.pressed.SHIFT #if mobile || MusicBeatState._virtualpad.buttonC.justPressed #end){
 				style = 3;
 			}
 			
@@ -1988,7 +1988,7 @@ class ChartingState extends MusicBeatState
 			
 			//AWW YOU MADE IT SEXY <3333 THX SHADMAR
 			if(!blockInput){
-				if(FlxG.keys.justPressed.RIGHT #if mobile || (MusicBeatState._virtualpad.buttonRight.justPressed && !MusicBeatState._virtualpad.buttonC.pressed) #end){
+				if(FlxG.keys.justPressed.RIGHT #if mobile || (MusicBeatState._virtualpad.buttonRight.justPressed && !MusicBeatState._virtualpad.buttonC.justPressed) #end){
 					curQuant++;
 					if(curQuant>quantizations.length-1)
 						curQuant = 0;
@@ -1996,7 +1996,7 @@ class ChartingState extends MusicBeatState
 					quantization = quantizations[curQuant];
 				}
 
-				if(FlxG.keys.justPressed.LEFT  #if mobile || (MusicBeatState._virtualpad.buttonLeft.justPressed && !MusicBeatState._virtualpad.buttonC.pressed) #end){
+				if(FlxG.keys.justPressed.LEFT  #if mobile || (MusicBeatState._virtualpad.buttonLeft.justPressed && !MusicBeatState._virtualpad.buttonC.justPressed) #end){
 					curQuant--;
 					if(curQuant<0)
 						curQuant = quantizations.length-1;
@@ -2069,11 +2069,11 @@ class ChartingState extends MusicBeatState
 				}
 			}
 			var shiftThing:Int = 1;
-			if (FlxG.keys.pressed.SHIFT #if mobile || MusicBeatState._virtualpad.buttonC.pressed #end)
+			if (FlxG.keys.pressed.SHIFT #if mobile || MusicBeatState._virtualpad.buttonC.justPressed #end)
 				shiftThing = 4;
-			if (FlxG.keys.justPressed.D #if mobile || (MusicBeatState._virtualpad.buttonRight.justPressed && MusicBeatState._virtualpad.buttonC.pressed) #end)
+			if (FlxG.keys.justPressed.D #if mobile || (MusicBeatState._virtualpad.buttonRight.justPressed && MusicBeatState._virtualpad.buttonC.justPressed) #end)
 				changeSection(curSec + shiftThing);
-			if (FlxG.keys.justPressed.A #if mobile || (MusicBeatState._virtualpad.buttonLeft.justPressed && MusicBeatState._virtualpad.buttonC.pressed) #end) {
+			if (FlxG.keys.justPressed.A #if mobile || (MusicBeatState._virtualpad.buttonLeft.justPressed && MusicBeatState._virtualpad.buttonC.justPressed) #end) {
 				if(curSec <= 0) {
 					changeSection(_song.notes.length-1);
 				} else {
@@ -2118,7 +2118,7 @@ class ChartingState extends MusicBeatState
 			playbackSpeed -= 0.01;
 		if (!holdingShift && pressedRB || holdingShift && holdingRB)
 			playbackSpeed += 0.01;
-		if (FlxG.keys.pressed.ALT && (pressedLB || pressedRB || holdingLB || holdingRB) #if mobile || MusicBeatState._virtualpad.buttonZ.pressed #end)
+		if (FlxG.keys.pressed.ALT && (pressedLB || pressedRB || holdingLB || holdingRB) #if mobile || MusicBeatState._virtualpad.buttonZ.justPressed #end)
 			playbackSpeed = 1;
 		//
 
