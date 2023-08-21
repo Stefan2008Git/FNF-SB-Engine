@@ -2,7 +2,6 @@ package options;
 
 import objects.CheckboxThingie;
 import objects.AttachedText;
-import flixel.addons.transition.FlxTransitionableState;
 import options.Option;
 
 class BaseOptionsMenu extends MusicBeatSubstate
@@ -91,10 +90,10 @@ class BaseOptionsMenu extends MusicBeatSubstate
 			//optionText.snapToPosition(); //Don't ignore me when i ask for not making a fucking pull request to uncomment this line ok
 			updateTextFrom(optionsArray[i]);
 		}
-		
+
 		        #if android
-                addVirtualPad(FULL, A_B_C);
-                #end
+            addVirtualPad(FULL, A_B_C);
+            #end
 
 		changeSelection();
 		reloadCheckboxes();
@@ -120,16 +119,12 @@ class BaseOptionsMenu extends MusicBeatSubstate
 		}
 
 		if (controls.BACK) {
-			#if android
-			FlxTransitionableState.skipNextTransOut = true;
-			FlxG.resetState();
-			ClientPrefs.saveSettings();
-			#else
+		  #if desktop
 			close();
+			#else
+			FlxG.resetState();
 			#end
-			ClientPrefs.saveSettings();
-			
-			//FlxG.sound.play(Paths.sound('cancelMenu'));
+			FlxG.sound.play(Paths.sound('cancelMenu'));
 		}
 
 		if(nextAccept <= 0)
@@ -221,22 +216,16 @@ class BaseOptionsMenu extends MusicBeatSubstate
 				}
 			}
 
-			if(controls.RESET #if android || MusicBeatSubstate._virtualpad.buttonC.justPressed #end)
+			if(controls.RESET  #if android || MusicBeatSubstate._virtualpad.buttonC.justPressed #end)
 			{
-				for (i in 0...optionsArray.length)
+				var leOption:Option = optionsArray[curSelected];
+				leOption.setValue(leOption.defaultValue);
+				if(leOption.type != 'bool')
 				{
-					var leOption:Option = optionsArray[i];
-					leOption.setValue(leOption.defaultValue);
-					if(leOption.type != 'bool')
-					{
-						if(leOption.type == 'string')
-						{
-							leOption.curOption = leOption.options.indexOf(leOption.getValue());
-						}
-						updateTextFrom(leOption);
-					}
-					leOption.change();
+					if(leOption.type == 'string') leOption.curOption = leOption.options.indexOf(leOption.getValue());
+					updateTextFrom(leOption);
 				}
+				leOption.change();
 				FlxG.sound.play(Paths.sound('cancelMenu'));
 				reloadCheckboxes();
 			}
