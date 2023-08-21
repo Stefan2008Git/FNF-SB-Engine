@@ -1,4 +1,3 @@
-
 package android.flixel;
 
 import flixel.FlxCamera;
