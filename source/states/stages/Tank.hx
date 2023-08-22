@@ -8,6 +8,11 @@ import cutscenes.CutsceneHandler;
 import substates.GameOverSubstate;
 import states.PlayState;
 import objects.Character;
+import backend.Paths;
+#if sys
+import sys.FileSystem;
+import sys.io.File;
+#end
 
 class Tank extends BaseStage
 {
