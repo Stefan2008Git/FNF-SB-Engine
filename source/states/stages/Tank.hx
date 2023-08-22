@@ -278,7 +278,7 @@ class Tank extends BaseStage
 	}
 	function stressIntro()
 	{
-  PlayState.startVideo('stressCutscene');
+  startVideo('stressCutscene');
 	}
 
 	function zoomBack()
@@ -297,5 +297,57 @@ class Tank extends BaseStage
 				spr.y -= 100;
 			});
 		}
+	}
+	//Video Things
+	public var endingSong:Bool = false;
+	public function startVideo(name:String)
+	{
+		#if VIDEOS_ALLOWED
+		inCutscene = true;
+
+		var filepath:String = Paths.video(name);
+		#if sys
+		if(!FileSystem.exists(filepath))
+		#else
+		if(!OpenFlAssets.exists(filepath))
+		#end
+		{
+			FlxG.log.warn('Couldnt find video file: ' + name);
+			startAndEnd();
+			return;
+		}
+
+		var video:VideoHandler = new VideoHandler();
+			#if (hxCodec >= "3.0.0")
+			// Recent versions
+			video.play(filepath);
+			video.onEndReached.add(function()
+			{
+				video.dispose();
+				startAndEnd();
+				return;
+			}, true);
+			#else
+			// Older versions
+			video.playVideo(filepath);
+			video.finishCallback = function()
+			{
+				startAndEnd();
+				return;
+			}
+			#end
+		#else
+		FlxG.log.warn('Platform not supported!');
+		startAndEnd();
+		return;
+		#end
+	}
+
+	function startAndEnd()
+	{
+		if(endingSong)
+			endSong();
+		else
+			startCountdown();
 	}
 }
