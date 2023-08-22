@@ -128,7 +128,7 @@ class EditorPlayState extends MusicBeatSubstate
 
 		var tipText:FlxText = new FlxText(10, FlxG.height - 24, 0, 'Press ESC to Go Back to Chart Editor', 16);
 		#if android
-        tipText.text = 'Press BACK to Go Back to Chart Editor
+        tipText.text = 'Press BACK to Go Back to Chart Editor';
 		#end
 		tipText.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		tipText.borderSize = 2;
