@@ -3147,21 +3147,26 @@ class PlayState extends MusicBeatState
 	#end
 	
 	#if HSCRIPT_ALLOWED
-	public function startHScriptsNamed(scriptFile:String)
-	{
-		var scriptToLoad:String = Paths.modFolders(scriptFile);
-		if(!FileSystem.exists(scriptToLoad))
-			scriptToLoad = SUtil.getPath() + Paths.getPreloadPath(scriptFile);
-		
-		if(FileSystem.exists(scriptToLoad))
-		{
-			if (SScript.global.exists(scriptToLoad)) return false;
-	
-			initHScript(scriptToLoad);
-			return true;
-		}
-		return false;
-	}
+public function startHScriptsNamed(scriptFile:String)
+{
+    #if MODS_ALLOWED
+    var scriptToLoad:String = Paths.modFolders(scriptFile);
+    if(!FileSystem.exists(scriptToLoad))
+        scriptToLoad = SUtil.getPath() + Paths.getPreloadPath(scriptFile);
+        
+    if(FileSystem.exists(scriptToLoad))
+    #elseif sys
+    var scriptToLoad :String = Paths.getPreloadPath(scriptFile);
+    if(OpenFlAssets.exists(scriptToLoad))
+    #end
+    {
+        if (SScript.global.exists(scriptToLoad)) return false;
+    
+        initHScript(scriptToLoad);
+        return true;
+    }
+    return false;
+}
 
 	public function initHScript(file:String)
 	{
