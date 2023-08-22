@@ -303,12 +303,10 @@ class NoteSplashDebugState extends MusicBeatState
 		var strToSave = config.anim + '\n' + config.minFps + ' ' + config.maxFps;
 		for (offGroup in config.offsets)
 			strToSave += '\n' + offGroup[0] + ' ' + offGroup[1];
-
-		var pathSplit:Array<String> = (Paths.getPath('images/$texturePath.png', IMAGE, true).split('.png')[0] + '.txt').split(':');
-		var path:String = pathSplit[pathSplit.length-1].trim();
+		var pathSplit:Array<String> = (Paths.getPath('images/$texturePath.png', IMAGE, true).split('.png')[0]).split(':');
+		var path:String = pathSplit[pathSplit.length-1].trim() + '.txt';
 		savedText.text = 'Saved to: $path';
-		//sys.io.File.saveContent(path, strToSave);
-		//var path:String = SUtil.getPath() + 'modsList.txt';
+
 		File.saveContent(SUtil.getPath() + path, strToSave);
 		#else
 		savedText.text = 'Can\'t save on this platform, too bad.';  //'
