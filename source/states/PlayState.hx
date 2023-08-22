@@ -3131,7 +3131,7 @@ class PlayState extends MusicBeatState
 			luaToLoad = SUtil.getPath() + Paths.getPreloadPath(luaFile);
 		
 		if(FileSystem.exists(luaToLoad))
-		#elseif sys
+		#elseif (!desktop && !android)
 		var luaToLoad:String = Paths.getPreloadPath(luaFile);
 		if(OpenFlAssets.exists(luaToLoad))
 		#end
