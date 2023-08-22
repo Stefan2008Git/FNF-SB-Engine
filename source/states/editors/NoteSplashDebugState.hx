@@ -274,7 +274,7 @@ class NoteSplashDebugState extends MusicBeatState
 	{
 		texturePath = NoteSplash.defaultNoteSplash + NoteSplash.getSplashSkinPostfix();
 		splashes.forEachAlive(function(spr:FlxSprite) {
-			spr.frames = SUtil.getPath() + Paths.getSparrowAtlas(texturePath);
+			spr.frames = Paths.getSparrowAtlas(texturePath);
 		});
 	
 		// Initialize config
