@@ -6,6 +6,7 @@ import animateatlas.AtlasFrameMaker;
 import states.stages.objects.*;
 import cutscenes.CutsceneHandler;
 import substates.GameOverSubstate;
+import states.PlayState;
 import objects.Character;
 
 class Tank extends BaseStage
@@ -277,7 +278,7 @@ class Tank extends BaseStage
 	}
 	function stressIntro()
 	{
-  states.PlayState.startVideo('stressCutscene');
+  startVideo('stressCutscene');
 	}
 
 	function zoomBack()
