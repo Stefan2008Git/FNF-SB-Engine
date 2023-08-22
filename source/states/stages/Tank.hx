@@ -278,7 +278,7 @@ class Tank extends BaseStage
 	}
 	function stressIntro()
 	{
-  startVideo('stressCutscene');
+  PlayState.startVideo('stressCutscene');
 	}
 
 	function zoomBack()
