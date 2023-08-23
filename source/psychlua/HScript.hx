@@ -333,6 +333,7 @@ class HScript extends SScript
 }
 #end
 
+@:publicFields
 class CustomFlxColor
 {
 	static var instance:CustomFlxColor = new CustomFlxColor();
