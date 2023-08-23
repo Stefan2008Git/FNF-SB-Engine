@@ -89,7 +89,7 @@ class HScript extends SScript
 		set('FlxTimer', flixel.util.FlxTimer);
 		set('FlxTween', flixel.tweens.FlxTween);
 		set('FlxEase', flixel.tweens.FlxEase);
-		set('FlxColor', CustomFlxColor.instance);
+		set('FlxColor', CustomFlxColor);
 		set('PlayState', PlayState);
 		set('Paths', Paths);
 		set('Conductor', Conductor);
