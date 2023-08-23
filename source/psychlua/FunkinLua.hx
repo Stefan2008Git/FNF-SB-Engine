@@ -1612,7 +1612,7 @@ class FunkinLua {
 		var preloadPath:String = SUtil.getPath() + Paths.getPreloadPath(scriptFile);
 		#if MODS_ALLOWED
 		var path:String = Paths.modFolders(scriptFile);
-		if(FileSystem.exists(SUtil.getPath() + scriptFile))
+		if(FileSystem.exists(scriptFile))
 			return scriptFile;
 		else if(FileSystem.exists(path))
 			return path;
