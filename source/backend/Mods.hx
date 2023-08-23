@@ -100,7 +100,7 @@ class Mods
 	{
 		var foldersToCheck:Array<String> = [];
 		#if sys
-		if(FileSystem.exists(SUtil.getPath() + path + fileToFind))
+		if(FileSystem.exists(path + fileToFind))
 		#end
 			foldersToCheck.push(path + fileToFind);
 
