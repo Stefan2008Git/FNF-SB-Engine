@@ -1606,13 +1606,14 @@ class FunkinLua {
 	}
 	#end
 
-	function findScript(scriptFile:String, ext:String = '.lua')
+	function findScript(scriptFile:String, ext:String = '.lua' ext2:String = '.hx')
 	{
 		if(!scriptFile.endsWith(ext)) scriptFile += ext;
+	  if(!scriptFile.endsWith(ext2)) scriptFile += ext2;
 		var preloadPath:String = SUtil.getPath() + Paths.getPreloadPath(scriptFile);
 		#if MODS_ALLOWED
 		var path:String = Paths.modFolders(scriptFile);
-		if(FileSystem.exists(SUtil.getPath() + scriptFile))
+		if(FileSystem.exists(scriptFile))
 			return scriptFile;
 		else if(FileSystem.exists(path))
 			return path;
