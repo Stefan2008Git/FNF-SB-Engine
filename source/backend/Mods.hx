@@ -102,7 +102,7 @@ class Mods
 		#if sys
 		if(FileSystem.exists(SUtil.getPath() + path + fileToFind))
 		#end
-			foldersToCheck.push(SUtil.getPath() + path + fileToFind);
+			foldersToCheck.push(path + fileToFind);
 
 		#if MODS_ALLOWED
 		if(mods)
