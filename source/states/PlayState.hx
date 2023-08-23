@@ -3156,7 +3156,7 @@ public function startHScriptsNamed(scriptFile:String)
         
     if(FileSystem.exists(scriptToLoad))
     #elseif sys
-    var scriptToLoad :String = Paths.getPreloadPath(scriptFile);
+    var scriptToLoad:String = Paths.getPreloadPath(scriptFile);
     if(OpenFlAssets.exists(scriptToLoad))
     #end
     {
