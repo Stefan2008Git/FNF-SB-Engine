@@ -3147,6 +3147,7 @@ class PlayState extends MusicBeatState
 	#end
 	
 	#if HSCRIPT_ALLOWED
+	public function startHScriptsNamed(scriptFile:String)
 {
     #if MODS_ALLOWED
     var scriptToLoad:String = Paths.modFolders(scriptFile);
