@@ -201,10 +201,10 @@ jobs:
           haxelib --quiet install tjson
           haxelib --quiet install hxjsonast
           haxelib --quiet install hscript
-          haxelib --quiet git SScript https://github.com/Fearester2008/SScript
+          haxelib --quiet git SScript https://github.com/Fearester2008/SScript.git
           haxelib --quiet git hxCodec https://github.com/SPLCoding/hxCodec-but-it-works-xd.git
-          haxelib --quiet git linc_luajit https://github.com/superpowers04/linc_luajit
-          haxelib --quiet git extension-androidtools https://github.com/MaysLastPlay77/extension-androidtools
+          haxelib --quiet git linc_luajit https://github.com/superpowers04/linc_luajit.git
+          haxelib --quiet git extension-androidtools https://github.com/MaysLastPlay77/extension-androidtools.git
           haxelib --quiet git AndroidDialogs https://github.com/beihu235/AndroidDialogs
           haxelib --quiet git devicelanguage https://github.com/beihu235/devicelanguage
           haxelib list
