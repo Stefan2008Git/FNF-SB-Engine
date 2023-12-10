@@ -3,7 +3,7 @@ package backend;
 import Sys.sleep;
 import discord_rpc.DiscordRpc;
 import lime.app.Application;
-import states.MainMenuStates;
+import states.MainMenuState;
 
 class DiscordClient
 {
