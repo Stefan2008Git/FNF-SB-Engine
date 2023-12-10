@@ -192,7 +192,7 @@ jobs:
           haxelib setup ~/haxelib
           haxelib --quiet install hxcpp 4.2.1 > /dev/null
           haxelib --quiet install lime 8.0.2
-          haxelib --quiet install openfl 9.3.0
+          haxelib --quiet install openfl 9.2.1
           haxelib --quiet install flixel
           haxelib --quiet run lime setup flixel
           haxelib --quiet install flixel-tools
@@ -219,7 +219,7 @@ jobs:
           haxelib run lime config JAVA_HOME $JAVA_HOME
           haxelib run lime config ANDROID_SETUP true
           haxelib set lime 8.0.2
-          haxelib set openfl 9.3.0
+          haxelib set openfl 9.2.1
           haxelib set hxcpp 4.2.1
           haxelib list
         env:
