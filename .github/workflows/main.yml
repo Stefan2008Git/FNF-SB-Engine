@@ -48,7 +48,7 @@ jobs:
           haxelib install hscript
           haxelib git SScript https://github.com/Fearester2008/SScript
           haxelib install hxcpp-debug-server
-          haxelib git linc_luajit https://github.com/nebulazorua/linc_luajit
+          haxelib git linc_luajit https://github.com/superpowers04/linc_luajit
           haxelib git hscript-ex https://github.com/ianharrigan/hscript-ex
           haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc
           haxelib list
@@ -95,7 +95,7 @@ jobs:
           haxelib install hscript
           haxelib git SScript https://github.com/Fearester2008/SScript
           haxelib install hxcpp-debug-server
-          haxelib git linc_luajit https://github.com/nebulazorua/linc_luajit
+          haxelib git linc_luajit https://github.com/superpowers04/linc_luajit
           haxelib git hscript-ex https://github.com/ianharrigan/hscript-ex
           haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc
           haxelib list
@@ -143,7 +143,7 @@ jobs:
           haxelib install hscript
           haxelib git SScript https://github.com/Fearester2008/SScript
           haxelib install hxcpp-debug-server
-          haxelib git linc_luajit https://github.com/nebulazorua/linc_luajit
+          haxelib git linc_luajit https://github.com/superpowers04/linc_luajit
           haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc
           haxelib list
       - name: Setup Lime
@@ -203,7 +203,7 @@ jobs:
           haxelib --quiet install hscript
           haxelib --quiet git SScript https://github.com/Fearester2008/SScript
           haxelib --quiet git hxCodec https://github.com/SPLCoding/hxCodec-but-it-works-xd.git
-          haxelib --quiet git linc_luajit https://github.com/Sirox228/linc_luajit.git
+          haxelib --quiet git linc_luajit https://github.com/superpowers04/linc_luajit
           haxelib --quiet git extension-androidtools https://github.com/MaysLastPlay77/extension-androidtools
           haxelib --quiet git AndroidDialogs https://github.com/beihu235/AndroidDialogs
           haxelib --quiet git devicelanguage https://github.com/beihu235/devicelanguage
