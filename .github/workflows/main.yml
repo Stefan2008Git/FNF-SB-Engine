@@ -36,7 +36,7 @@ jobs:
           haxelib setup ~/haxelib
           haxelib install hxcpp 4.2.1 > /dev/null
           haxelib install lime
-          haxelib install openfl
+          haxelib install openfl 9.3.0
           haxelib install flixel
           haxelib run lime setup flixel
           haxelib run lime setup
@@ -57,6 +57,7 @@ jobs:
       - name: Setup Lime
         run: |
           haxelib run lime setup -alias -y
+          haxelib set opnefl 9.3.0
           haxelib set hxcpp 4.2.1
           haxelib set hxCodec 2.5.1
       - name: Compile
@@ -82,7 +83,7 @@ jobs:
           haxelib setup C:/haxelib
           haxelib install hxcpp 4.2.1 > /dev/null
           haxelib install lime
-          haxelib install openfl
+          haxelib install openfl 9.3.0
           haxelib install flixel
           haxelib run lime setup flixel
           haxelib run lime setup
@@ -106,6 +107,7 @@ jobs:
         run: |
           haxelib run lime setup -alias -y
           haxelib set hxcpp 4.2.1
+          haxelib set openfl 9.3.0
           haxelib set hxCodec 2.5.1
       - name: Compile
         run: haxelib run lime build windows --app-version="4.0.0-${{ github.run_id}}"
@@ -130,7 +132,7 @@ jobs:
           haxelib setup ~/haxelib
           haxelib install hxcpp 4.2.1 > /dev/null
           haxelib install lime
-          haxelib install openfl
+          haxelib install openfl 9.3.0
           haxelib install flixel
           haxelib run lime setup flixel
           haxelib run lime setup
@@ -150,6 +152,7 @@ jobs:
         run: |
           haxelib run lime setup -alias -y
           haxelib set hxcpp 4.2.1
+          haxelib set openfl 9.3.0
           haxelib set hxCodec 2.5.1
       - name: Create Version Tag
         run: echo "${{github.run_id}}" > VERSION
@@ -192,7 +195,7 @@ jobs:
           haxelib setup ~/haxelib
           haxelib --quiet install hxcpp 4.2.1 > /dev/null
           haxelib --quiet install lime 8.0.2
-          haxelib --quiet install openfl 9.2.1
+          haxelib --quiet install openfl 9.3.0
           haxelib --quiet install flixel
           haxelib --quiet run lime setup flixel
           haxelib --quiet install flixel-tools
@@ -219,7 +222,7 @@ jobs:
           haxelib run lime config JAVA_HOME $JAVA_HOME
           haxelib run lime config ANDROID_SETUP true
           haxelib set lime 8.0.2
-          haxelib set openfl 9.2.1
+          haxelib set openfl 9.3.0
           haxelib set hxcpp 4.2.1
           haxelib list
         env:

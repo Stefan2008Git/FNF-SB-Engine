@@ -38,12 +38,12 @@ class HScript extends SScript
 		}
 		else
 		{
-			hs.doString(code);
+			hs.toString(code);
 			@:privateAccess
-			if(hs.parsingExceptions != null && hs.parsingExceptions.length > 0)
+			if(hs.parsingException != null && hs.parsingException.length > 0)
 			{
 				@:privateAccess
-				for (e in hs.parsingExceptions)
+				for (e in hs.parsingException)
 					if(e != null)
 						PlayState.instance.addTextToDebug('ERROR ON LOADING (${hs.origin}): ${e.message.substr(0, e.message.indexOf('\n'))}', FlxColor.RED);
 			}
@@ -66,7 +66,6 @@ class HScript extends SScript
 		#end
 
 		super(null, false, false);
-		classSupport = usesClasses;
 		doFile(file);
 		parentLua = parent;
 		if (parent != null)
@@ -104,6 +103,9 @@ class HScript extends SScript
 		#end
 		set('ShaderFilter', openfl.filters.ShaderFilter);
 		set('StringTools', StringTools);
+		#if mobile
+		set('SUtil', SUtil);
+		#end
 
 		// Functions & Variables
 		set('setVar', function(name:String, value:Dynamic)
@@ -239,7 +241,7 @@ class HScript extends SScript
 			var retVal:TeaCall = null;
 			#if (SScript >= "3.0.0")
 			initHaxeModule(funk);
-			funk.hscript.doString(codeToRun);
+			funk.hscript.toString(codeToRun);
 			if(varsToBring != null)
 			{
 				for (key in Reflect.fields(varsToBring))
