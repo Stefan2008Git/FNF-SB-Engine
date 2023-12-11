@@ -9,13 +9,14 @@ import objects.AttachedSprite;
 
 class CreditsState extends MusicBeatState
 {
-	var curSelected:Int = -1;
+	var currentlySelected:Int = -1;
 
 	private var grpOptions:FlxTypedGroup<Alphabet>;
 	private var iconArray:Array<AttachedSprite> = [];
 	private var creditsStuff:Array<Array<String>> = [];
 
-	var bg:FlxSprite;
+	var background:FlxSprite;
+	var velocityBackground:FlxBackdrop;
 	var descText:FlxText;
 	var intendedColor:FlxColor;
 	var colorTween:FlxTween;
@@ -31,10 +32,21 @@ class CreditsState extends MusicBeatState
 		#end
 
 		persistentUpdate = true;
-		bg = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
-		bg.antialiasing = ClientPrefs.data.antialiasing;
-		add(bg);
-		bg.screenCenter();
+		Paths.clearStoredMemory();
+
+		background = new FlxSprite(-80).loadGraphic(Paths.image('menuDesat'));
+		background.scrollFactor.set();
+		background.setGraphicSize(Std.int(background.width * 1.175));
+		background.updateHitbox();
+		background.screenCenter();
+		background.visible = false;
+		background.antialiasing = ClientPrefs.data.antialiasing;
+		add(background);
+
+		velocityBackground = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0x33FFFFFF, 0x0));
+		velocityBackground.velocity.set(FlxG.random.bool(50) ? 90 : -90, FlxG.random.bool(50) ? 90 : -90);
+		velocityBackground.visible = ClientPrefs.data.velocityBackground;
+		add(velocityBackground);
 		
 		grpOptions = new FlxTypedGroup<Alphabet>();
 		add(grpOptions);
@@ -44,13 +56,32 @@ class CreditsState extends MusicBeatState
 		#end
 
 		var defaultList:Array<Array<String>> = [ //Name - Icon name - Description - Link - BG Color
-	   	['Android Port'],
-			['MaysLastPlay',		'MaysLastPlay',		'Main Porter',							'https://www.youtube.com/channel/UCx0LxtFR8ROd9sFAq-UxDfw',	'5DE7FF'],
-			 ['Beihu',		'beihu',		'Second Porter',    'https://youtube.com/@beihu235',	'FFC0CB'],
-	    ['FutureDorito',		'dorito',				'Third Porter',			 'https://www.youtube.com/@Futuredorito',	    'CFB46B'],
+			['SB Engine Team'],
+			['Stefan2008', 'stefan', 'Main Programmer of SB Engine', 'https://www.youtube.com/channel/UC9Nwf21GbaEm_h0Ka9gxZjQ', '800080'],
+			['Nury', 'nury', 'Main Artist for SB Engine', 'https://youtube.com/@Nuury06', '8A8AFF'],
+			['MaysLastPlay', 'mays', 'Second Programmer of SB Engine', 'https://www.youtube.com/channel/UCjTi9Hfl1Eb5Bgk5gksmsbA', '5E99DF'],
+			['Fearester2008', 'fearester', 'Third Programmer of SB Engine', 'https://www.youtube.com/@fearester1282', '04435a'],
+			['SunBurntTails', 'sun', 'First Beta test player for SB Engine', 'https://www.youtube.com/channel/UCooFjEgVBZyTSx_hbcnqclw', '3E813A' ],
+			['Ali Alafandy', 'ali', 'Second Beta test player for SB Engine', 'https://youtube.com/channel/UClK5uzYLZDUZmbI6O56J-QA', '00008b'],
+			['Luiz Felipe Play', 'luiz', 'Third Beta test player for SB Engine', 'https://www.youtube.com/channel/UCb0odiyqDCKje8rlBZGvKBg', '59d927'],
+			[''],
+			['Special credits'],
+			['Stefan Ro 123', 'stefan-ro123', 'Fixed Wiggle effect shaders to run possible on PC and Android', 'https://www.youtube.com/channel/UCXVxTNqqrrHLGw_6ulzhfzQ', 'fc0000'],
+			['Elgatosinnombre', 'elgatosinnombre', 'Made a code for new wiggle effect shaders function to look like from\nPsych Engine 0.5.1 with shaders!', 'https://www.youtube.com/channel/UCQ7CD5-XkoFMlXbeX_9qG3w', '964B00'],
+			['Sussy Sam', 'sam', 'Maked new icons and new music for SB Engine, but he is not on team', 'https://www.youtube.com/@sussysam6789', '964B00'],
+			['Lizzy Strawbery', 'lizzy', 'Fixed shaders from Psych Engine 0.5.1', 'https://www.youtube.com/@LizzyStrawberry', 'ff03d9'],
+			['Joalor64', 'joalor', 'For simple main menu and Joalor64 Engine Rewriten', 'https://www.youtube.com/channel/UC4tRMRL_iAHX5n1qQpHibfg', '00FFF6'],
+			['JustXale', 'xale', 'Main Programmer of Grafex Engine', 'https://github.com/JustXale', 'f7a300'],
+			['SquidBowl', 'tinki', 'For gallery stuff', 'https://www.youtube.com/@squidbowl', '964B00'],
+			['Jordan Santiago', 'jordan', 'Main Programmer of JS Engine (Psych Engine: Anti-lag edition).', 'https://www.youtube.com/@JordanSantiago', '5E99DF'],
+			['MarioMaster', 'mario', 'Created hitbox selector and virtual pad opacity', 'https://www.youtube.com/channel/UC65m-_5tbYFJ7oRqZzpFBJw', 'fc0000'],
+			['NF | Beihu', 'beihu', 'Created hitbox space for dodge mechanic system on NF Engine.', 'https://www.youtube.com/@beihu235', '964B00'],
+			['M.A. Jigsaw77', 'jigsaw', 'Main Programmer of Psych Engine\nWith Android Support', 'https://www.youtube.com/channel/UC2Sk7vtPzOvbVzdVTWrribQ', '444444'],
+			['Goldie', 'goldie', 'Old Hitbox and Virtual Pad Artist', 'https://www.youtube.com/channel/UCjTi9Hfl1Eb5Bgk5gksmsbA', '444444'],
+			[''],
 			['Psych Engine Team'],
-			['Shadow Mario',		'shadowmario',		'Main Programmer of Psych Engine',								'https://twitter.com/Shadow_Mario_',	'444444'],
-			['Riveren',				'riveren',			'Main Artist/Animator of Psych Engine',							'https://twitter.com/riverennn',		'B42F71'],
+			['Shadow Mario', 'shadowmario',	'Main Programmer of Psych Engine', 											'https://twitter.com/Shadow_Mario_',	'444444'],
+			['Riveren',	'riveren', 'Main Artist/Animator of Psych Engine', 												'https://twitter.com/riverennn', 		'B42F71'],
 			[''],
 			['Former Engine Members'],
 			['shubs',				'shubs',			'Ex-Programmer of Psych Engine',								'https://twitter.com/yoshubs',			'5E99DF'],
@@ -67,10 +98,10 @@ class CreditsState extends MusicBeatState
 			['Smokey',				'smokey',			'Sprite Atlas Support',											'https://twitter.com/Smokey_5_',		'483D92'],
 			[''],
 			["Funkin' Crew"],
-			['ninjamuffin99',		'ninjamuffin99',	"Programmer of Friday Night Funkin'",							'https://twitter.com/ninja_muffin99',	'CF2D2D'],
-			['PhantomArcade',		'phantomarcade',	"Animator of Friday Night Funkin'",								'https://twitter.com/PhantomArcade3K',	'FADC45'],
-			['evilsk8r',			'evilsk8r',			"Artist of Friday Night Funkin'",								'https://twitter.com/evilsk8r',			'5ABD4B'],
-			['kawaisprite',			'kawaisprite',		"Composer of Friday Night Funkin'",								'https://twitter.com/kawaisprite',		'378FC7']
+			['ninjamuffin99',		'ninjamuffin99',	"Programmer of Friday Night Funkin'", 'https://twitter.com/ninja_muffin99', 'CF2D2D'],
+			['PhantomArcade',		'phantomarcade',	"Animator of Friday Night Funkin'",	'https://twitter.com/PhantomArcade3K', 'FADC45'],
+			['evilsk8r',			'evilsk8r',			"Artist of Friday Night Funkin'", 'https://twitter.com/evilsk8r', '5ABD4B'],
+			['kawaisprite',			'kawaisprite',		"Composer of Friday Night Funkin'",	'https://twitter.com/kawaisprite', '378FC7']
 		];
 		
 		for(i in defaultList) {
@@ -104,7 +135,7 @@ class CreditsState extends MusicBeatState
 				add(icon);
 				Mods.currentModDirectory = '';
 
-				if(curSelected == -1) curSelected = i;
+				if(currentlySelected == -1) currentlySelected = i;
 			}
 			else optionText.alignment = CENTERED;
 		}
@@ -124,13 +155,15 @@ class CreditsState extends MusicBeatState
 		descBox.sprTracker = descText;
 		add(descText);
 
-		bg.color = CoolUtil.colorFromString(creditsStuff[curSelected][4]);
-		intendedColor = bg.color;
+		Paths.clearUnusedMemory();
+
+		background.color = CoolUtil.colorFromString(creditsStuff[currentlySelected][4]);
+		intendedColor = background.color;
 		changeSelection();
 
-    #if mobile
-    addVirtualPad(UP_DOWN, A_B);
-    #end
+    	#if mobile
+   		addVirtualPad(UP_DOWN, A_B);
+    	#end
 
 		super.create();
 	}
@@ -178,8 +211,8 @@ class CreditsState extends MusicBeatState
 				}
 			}
 
-			if(controls.ACCEPT && (creditsStuff[curSelected][3] == null || creditsStuff[curSelected][3].length > 4)) {
-				CoolUtil.browserLoad(creditsStuff[curSelected][3]);
+			if(controls.ACCEPT && (creditsStuff[currentlySelected][3] == null || creditsStuff[currentlySelected][3].length > 4)) {
+				CoolUtil.browserLoad(creditsStuff[currentlySelected][3]);
 			}
 			if (controls.BACK)
 			{
@@ -217,21 +250,21 @@ class CreditsState extends MusicBeatState
 	{
 		FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
 		do {
-			curSelected += change;
-			if (curSelected < 0)
-				curSelected = creditsStuff.length - 1;
-			if (curSelected >= creditsStuff.length)
-				curSelected = 0;
-		} while(unselectableCheck(curSelected));
+			currentlySelected += change;
+			if (currentlySelected < 0)
+				currentlySelected = creditsStuff.length - 1;
+			if (currentlySelected >= creditsStuff.length)
+				currentlySelected = 0;
+		} while(unselectableCheck(currentlySelected));
 
-		var newColor:FlxColor = CoolUtil.colorFromString(creditsStuff[curSelected][4]);
+		var newColor:FlxColor = CoolUtil.colorFromString(creditsStuff[currentlySelected][4]);
 		trace('The BG color is: $newColor');
 		if(newColor != intendedColor) {
 			if(colorTween != null) {
 				colorTween.cancel();
 			}
 			intendedColor = newColor;
-			colorTween = FlxTween.color(bg, 1, bg.color, intendedColor, {
+			colorTween = FlxTween.color(background, 1, background.color, intendedColor, {
 				onComplete: function(twn:FlxTween) {
 					colorTween = null;
 				}
@@ -242,7 +275,7 @@ class CreditsState extends MusicBeatState
 
 		for (item in grpOptions.members)
 		{
-			item.targetY = bullShit - curSelected;
+			item.targetY = bullShit - currentlySelected;
 			bullShit++;
 
 			if(!unselectableCheck(bullShit-1)) {
@@ -253,7 +286,7 @@ class CreditsState extends MusicBeatState
 			}
 		}
 
-		descText.text = creditsStuff[curSelected][2];
+		descText.text = creditsStuff[currentlySelected][2];
 		descText.y = FlxG.height - descText.height + offsetThing - 60;
 
 		if(moveTween != null) moveTween.cancel();

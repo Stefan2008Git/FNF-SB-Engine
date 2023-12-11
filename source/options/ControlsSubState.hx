@@ -13,7 +13,7 @@ import flixel.input.gamepad.FlxGamepadManager;
 
 class ControlsSubState extends MusicBeatSubstate
 {
-	var curSelected:Int = 0;
+	var currentlySelected:Int = 0;
 	var curAlt:Bool = false;
 
 	//Show on gamepad - Display name - Save file key - Rebind display name
@@ -296,14 +296,14 @@ class ControlsSubState extends MusicBeatSubstate
 
 			if(FlxG.keys.justPressed.ENTER || FlxG.gamepads.anyJustPressed(START) || FlxG.gamepads.anyJustPressed(A))
 			{
-				if(options[curOptions[curSelected]][1] != defaultKey)
+				if(options[curOptions[currentlySelected]][1] != defaultKey)
 				{
 					bindingBlack = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, /*FlxColor.BLACK*/ FlxColor.WHITE);
 					bindingBlack.alpha = 0;
 					FlxTween.tween(bindingBlack, {alpha: 0.6}, 0.35, {ease: FlxEase.linear});
 					add(bindingBlack);
 
-					bindingText = new Alphabet(FlxG.width / 2, 160, "Rebinding " + options[curOptions[curSelected]][3], false);
+					bindingText = new Alphabet(FlxG.width / 2, 160, "Rebinding " + options[curOptions[currentlySelected]][3], false);
 					bindingText.alignment = CENTERED;
 					add(bindingText);
 					
@@ -321,9 +321,9 @@ class ControlsSubState extends MusicBeatSubstate
 					// Reset to Default
 					ClientPrefs.resetKeys(!onKeyboardMode);
 					ClientPrefs.reloadVolumeKeys();
-					var lastSel:Int = curSelected;
+					var lastSel:Int = currentlySelected;
 					createTexts();
-					curSelected = lastSel;
+					currentlySelected = lastSel;
 					updateText();
 					FlxG.sound.play(Paths.sound('cancelMenu'));
 				}
@@ -332,7 +332,7 @@ class ControlsSubState extends MusicBeatSubstate
 		else
 		{
 			var altNum:Int = curAlt ? 1 : 0;
-			var curOption:Array<Dynamic> = options[curOptions[curSelected]];
+			var curOption:Array<Dynamic> = options[curOptions[currentlySelected]];
 			if(FlxG.keys.pressed.ESCAPE || FlxG.gamepads.anyPressed(B))
 			{
 				holdingEsc += elapsed;
@@ -349,7 +349,7 @@ class ControlsSubState extends MusicBeatSubstate
 				{
 					ClientPrefs.keyBinds.get(curOption[2])[altNum] = NONE;
 					ClientPrefs.clearInvalidKeys(curOption[2]);
-					updateBind(Math.floor(curSelected * 2) + altNum, onKeyboardMode ? InputFormatter.getKeyName(NONE) : InputFormatter.getGamepadName(NONE));
+					updateBind(Math.floor(currentlySelected * 2) + altNum, onKeyboardMode ? InputFormatter.getKeyName(NONE) : InputFormatter.getGamepadName(NONE));
 					FlxG.sound.play(Paths.sound('cancelMenu'));
 					closeBinding();
 				}
@@ -427,7 +427,7 @@ class ControlsSubState extends MusicBeatSubstate
 							curButtons[1 - altNum] = FlxGamepadInputID.NONE;
 					}
 
-					var option:String = options[curOptions[curSelected]][2];
+					var option:String = options[curOptions[currentlySelected]][2];
 					ClientPrefs.clearInvalidKeys(option);
 					for (n in 0...2)
 					{
@@ -442,7 +442,7 @@ class ControlsSubState extends MusicBeatSubstate
 							var savKey:Array<Null<FlxGamepadInputID>> = ClientPrefs.gamepadBinds.get(option);
 							key = InputFormatter.getGamepadName(savKey[n] != null ? savKey[n] : NONE);
 						}
-						updateBind(Math.floor(curSelected * 2) + n, key);
+						updateBind(Math.floor(currentlySelected * 2) + n, key);
 					}
 					FlxG.sound.play(Paths.sound('confirmMenu'));
 					closeBinding();
@@ -471,13 +471,13 @@ class ControlsSubState extends MusicBeatSubstate
 		if(move != 0)
 		{
 			//var dir:Int = Math.round(move / Math.abs(move));
-			curSelected += move;
+			currentlySelected += move;
 
-			if(curSelected < 0) curSelected = curOptions.length - 1;
-			else if (curSelected >= curOptions.length) curSelected = 0;
+			if(currentlySelected < 0) currentlySelected = curOptions.length - 1;
+			else if (currentlySelected >= curOptions.length) currentlySelected = 0;
 		}
 
-		var num:Int = curOptionsValid[curSelected];
+		var num:Int = curOptionsValid[currentlySelected];
 		var addNum:Int = 0;
 		if(num < 3) addNum = 3 - num;
 		else if(num > lastID - 4) addNum = (lastID - 4) - num;
@@ -509,7 +509,7 @@ class ControlsSubState extends MusicBeatSubstate
 		colorTween = FlxTween.color(bg, 0.5, bg.color, onKeyboardMode ? gamepadColor : keyboardColor, {ease: FlxEase.linear});
 		onKeyboardMode = !onKeyboardMode;
 
-		curSelected = 0;
+		currentlySelected = 0;
 		curAlt = false;
 		controllerSpr.animation.play(onKeyboardMode ? 'keyboard' : 'gamepad');
 		createTexts();
@@ -522,7 +522,7 @@ class ControlsSubState extends MusicBeatSubstate
 			curAlt = !curAlt;
 			FlxG.sound.play(Paths.sound('scrollMenu'));
 		}
-		selectSpr.sprTracker = grpBlacks.members[Math.floor(curSelected * 2) + (curAlt ? 1 : 0)];
+		selectSpr.sprTracker = grpBlacks.members[Math.floor(currentlySelected * 2) + (curAlt ? 1 : 0)];
 		selectSpr.visible = (selectSpr.sprTracker != null);
 	}
 }

@@ -243,7 +243,7 @@ class DialogueCharacterEditorState extends MusicBeatState
 		UI_typebox.addGroup(tab_group);
 	}
 
-	var curSelectedAnim:String;
+	var currentlySelectedAnim:String;
 	var animationArray:Array<String> = [];
 	var animationDropDown:FlxUIDropDownMenu;
 	var animationInputText:FlxUIInputText;
@@ -259,8 +259,8 @@ class DialogueCharacterEditorState extends MusicBeatState
 				ghostLoop.playAnim(anim);
 				ghostIdle.playAnim(anim, true);
 
-				curSelectedAnim = anim;
-				var animShit:DialogueAnimArray = character.dialogueAnimations.get(curSelectedAnim);
+				currentlySelectedAnim = anim;
+				var animShit:DialogueAnimArray = character.dialogueAnimations.get(currentlySelectedAnim);
 				offsetLoopText.text = 'Loop: ' + animShit.loop_offsets;
 				offsetIdleText.text = 'Idle: ' + animShit.idle_offsets;
 
@@ -296,7 +296,7 @@ class DialogueCharacterEditorState extends MusicBeatState
 				character.reloadAnimations();
 				ghostLoop.reloadAnimations();
 				ghostIdle.reloadAnimations();
-				if(curSelectedAnim == theAnim) {
+				if(currentlySelectedAnim == theAnim) {
 					ghostLoop.playAnim(theAnim);
 					ghostIdle.playAnim(theAnim, true);
 				}
@@ -461,8 +461,8 @@ class DialogueCharacterEditorState extends MusicBeatState
 		character.y += character.jsonFile.position[1] + mainGroup.y;
 		character.playAnim(character.jsonFile.animations[0].anim);
 		if(character.jsonFile.animations.length > 0) {
-			curSelectedAnim = character.jsonFile.animations[0].anim;
-			var animShit:DialogueAnimArray = character.dialogueAnimations.get(curSelectedAnim);
+			currentlySelectedAnim = character.jsonFile.animations[0].anim;
+			var animShit:DialogueAnimArray = character.dialogueAnimations.get(currentlySelectedAnim);
 			ghostLoop.playAnim(animShit.anim);
 			ghostIdle.playAnim(animShit.anim, true);
 			offsetLoopText.text = 'Loop: ' + animShit.loop_offsets;
@@ -573,9 +573,9 @@ class DialogueCharacterEditorState extends MusicBeatState
 				}
 			}
 
-			if(UI_mainbox.selected_tab_id == 'Animations' && curSelectedAnim != null && character.dialogueAnimations.exists(curSelectedAnim)) {
+			if(UI_mainbox.selected_tab_id == 'Animations' && currentlySelectedAnim != null && character.dialogueAnimations.exists(currentlySelectedAnim)) {
 				var moved:Bool = false;
-				var animShit:DialogueAnimArray = character.dialogueAnimations.get(curSelectedAnim);
+				var animShit:DialogueAnimArray = character.dialogueAnimations.get(currentlySelectedAnim);
 				var controlArrayLoop:Array<Bool> = [FlxG.keys.justPressed.A #if android || MusicBeatState._virtualpad.buttonLeft.justPressed && !CheckPress #end, FlxG.keys.justPressed.W #if android || MusicBeatState._virtualpad.buttonUp.justPressed && !CheckPress #end, FlxG.keys.justPressed.D #if android || MusicBeatState._virtualpad.buttonRight.justPressed && !CheckPress #end, FlxG.keys.justPressed.S #if android || MusicBeatState._virtualpad.buttonDown.justPressed && !CheckPress #end];
 				var controlArrayIdle:Array<Bool> = [FlxG.keys.justPressed.LEFT #if android || MusicBeatState._virtualpad.buttonLeft.justPressed && CheckPress #end, FlxG.keys.justPressed.UP #if android || MusicBeatState._virtualpad.buttonUp.justPressed && CheckPress #end, FlxG.keys.justPressed.RIGHT #if android || MusicBeatState._virtualpad.buttonRight.justPressed && CheckPress #end, FlxG.keys.justPressed.DOWN #if android || MusicBeatState._virtualpad.buttonDown.justPressed && CheckPress #end];
 				for (i in 0...controlArrayLoop.length) {

@@ -28,7 +28,7 @@ class AndroidControlsMenu extends MusicBeatState
 	var leftArrow:FlxSprite;
 	var rightArrow:FlxSprite;
 	var controlitems:Array<String> = ['Pad-Right','Pad-Left','Pad-Custom','Duo','Hitbox','Keyboard'];
-	var curSelected:Int = 4;
+	var currentlySelected:Int = 4;
 	var buttonistouched:Bool = false;
 	var bindbutton:FlxButton;
 	var config:Config;
@@ -38,7 +38,7 @@ class AndroidControlsMenu extends MusicBeatState
 		super.create();
 		
 		config = new Config();
-		curSelected = config.getcontrolmode();
+		currentlySelected = config.getcontrolmode();
 
 		var bg:FlxSprite = new FlxSprite(0, 0).loadGraphic(Paths.image('menuDesat'));
 		bg.color = 0xFFea71fd;
@@ -64,7 +64,7 @@ class AndroidControlsMenu extends MusicBeatState
 		newhbox.visible = false;
 		add(newhbox);
 
-		inputvari = new PsychAlphabet(0, 50, controlitems[curSelected], false, false, 0.05, 0.8);
+		inputvari = new PsychAlphabet(0, 50, controlitems[currentlySelected], false, false, 0.05, 0.8);
 		inputvari.screenCenter(X);
 		add(inputvari);
 
@@ -146,16 +146,16 @@ class AndroidControlsMenu extends MusicBeatState
 
 	function changeSelection(change:Int = 0)
 	{
-		curSelected += change;
+		currentlySelected += change;
 	
-		if (curSelected < 0)
-			curSelected = controlitems.length - 1;
-		if (curSelected >= controlitems.length)
-			curSelected = 0;
+		if (currentlySelected < 0)
+			currentlySelected = controlitems.length - 1;
+		if (currentlySelected >= controlitems.length)
+			currentlySelected = 0;
 	
-		inputvari.changeText(controlitems[curSelected]);
+		inputvari.changeText(controlitems[currentlySelected]);
 
-		var daChoice:String = controlitems[Math.floor(curSelected)];
+		var daChoice:String = controlitems[Math.floor(currentlySelected)];
 
 		switch (daChoice)
 		{
@@ -212,7 +212,7 @@ class AndroidControlsMenu extends MusicBeatState
 	}
 
 	function trackbutton(touch:flixel.input.touch.FlxTouch){
-		var daChoice:String = controlitems[Math.floor(curSelected)];
+		var daChoice:String = controlitems[Math.floor(currentlySelected)];
 
 		if (daChoice == 'Pad-Custom'){
 			if (buttonistouched){
@@ -262,8 +262,8 @@ class AndroidControlsMenu extends MusicBeatState
 	}
 
 	function save() {
-		config.setcontrolmode(curSelected);
-		var daChoice:String = controlitems[Math.floor(curSelected)];
+		config.setcontrolmode(currentlySelected);
+		var daChoice:String = controlitems[Math.floor(currentlySelected)];
 
 		if (daChoice == 'Pad-Custom'){
 			config.savecustom(vpad);

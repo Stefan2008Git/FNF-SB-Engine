@@ -161,6 +161,14 @@ class VisualsUISubState extends BaseOptionsMenu
 			'bool');
 		addOption(option);
 
+		var option:Option = new Option('Velocity background', 
+		    'If unchecked, this option is disabling velocity background for optimization.', 'velocityBackground', 'bool');
+		addOption(option);
+
+		var option:Option = new Option('Themes:', 
+			'Change theme from different engines. More themes are coming very soon\nThis option is on alpha state, so maybe can be buggy.', 'themes', 'string', ['SB Engine', 'Psych Engine']);
+		addOption(option);
+
 		super();
 		add(notes);
 	}
@@ -175,7 +183,7 @@ class VisualsUISubState extends BaseOptionsMenu
 		{
 			var note:StrumNote = notes.members[i];
 			if(notesTween[i] != null) notesTween[i].cancel();
-			if(curSelected == noteOptionID)
+			if(currentlySelected == noteOptionID)
 				notesTween[i] = FlxTween.tween(note, {y: noteY}, Math.abs(note.y / (200 + noteY)) / 3, {ease: FlxEase.quadInOut});
 			else
 				notesTween[i] = FlxTween.tween(note, {y: -200}, Math.abs(note.y / (200 + noteY)) / 3, {ease: FlxEase.quadInOut});

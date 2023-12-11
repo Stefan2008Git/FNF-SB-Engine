@@ -598,7 +598,7 @@ class WeekEditorFreeplayState extends MusicBeatState
 	private var grpSongs:FlxTypedGroup<Alphabet>;
 	private var iconArray:Array<HealthIcon> = [];
 
-	var curSelected = 0;
+	var currentlySelected = 0;
 
 	override function create() {
 		bg = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
@@ -684,8 +684,8 @@ class WeekEditorFreeplayState extends MusicBeatState
 	
 	override function getEvent(id:String, sender:Dynamic, data:Dynamic, ?params:Array<Dynamic>) {
 		if(id == FlxUIInputText.CHANGE_EVENT && (sender is FlxUIInputText)) {
-			weekFile.songs[curSelected][1] = iconInputText.text;
-			iconArray[curSelected].changeIcon(iconInputText.text);
+			weekFile.songs[currentlySelected][1] = iconInputText.text;
+			iconArray[currentlySelected].changeIcon(iconInputText.text);
 		} else if(id == FlxUINumericStepper.CHANGE_EVENT && (sender is FlxUINumericStepper)) {
 			if(sender == bgColorStepperR || sender == bgColorStepperG || sender == bgColorStepperB) {
 				updateBG();
@@ -753,21 +753,21 @@ class WeekEditorFreeplayState extends MusicBeatState
 	}
 
 	function updateBG() {
-		weekFile.songs[curSelected][2][0] = Math.round(bgColorStepperR.value);
-		weekFile.songs[curSelected][2][1] = Math.round(bgColorStepperG.value);
-		weekFile.songs[curSelected][2][2] = Math.round(bgColorStepperB.value);
-		bg.color = FlxColor.fromRGB(weekFile.songs[curSelected][2][0], weekFile.songs[curSelected][2][1], weekFile.songs[curSelected][2][2]);
+		weekFile.songs[currentlySelected][2][0] = Math.round(bgColorStepperR.value);
+		weekFile.songs[currentlySelected][2][1] = Math.round(bgColorStepperG.value);
+		weekFile.songs[currentlySelected][2][2] = Math.round(bgColorStepperB.value);
+		bg.color = FlxColor.fromRGB(weekFile.songs[currentlySelected][2][0], weekFile.songs[currentlySelected][2][1], weekFile.songs[currentlySelected][2][2]);
 	}
 
 	function changeSelection(change:Int = 0) {
 		FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
 
-		curSelected += change;
+		currentlySelected += change;
 
-		if (curSelected < 0)
-			curSelected = weekFile.songs.length - 1;
-		if (curSelected >= weekFile.songs.length)
-			curSelected = 0;
+		if (currentlySelected < 0)
+			currentlySelected = weekFile.songs.length - 1;
+		if (currentlySelected >= weekFile.songs.length)
+			currentlySelected = 0;
 
 		var bullShit:Int = 0;
 		for (i in 0...iconArray.length)
@@ -775,11 +775,11 @@ class WeekEditorFreeplayState extends MusicBeatState
 			iconArray[i].alpha = 0.6;
 		}
 
-		iconArray[curSelected].alpha = 1;
+		iconArray[currentlySelected].alpha = 1;
 
 		for (item in grpSongs.members)
 		{
-			item.targetY = bullShit - curSelected;
+			item.targetY = bullShit - currentlySelected;
 			bullShit++;
 
 			item.alpha = 0.6;
@@ -791,11 +791,11 @@ class WeekEditorFreeplayState extends MusicBeatState
 				// item.setGraphicSize(Std.int(item.width));
 			}
 		}
-		trace(weekFile.songs[curSelected]);
-		iconInputText.text = weekFile.songs[curSelected][1];
-		bgColorStepperR.value = Math.round(weekFile.songs[curSelected][2][0]);
-		bgColorStepperG.value = Math.round(weekFile.songs[curSelected][2][1]);
-		bgColorStepperB.value = Math.round(weekFile.songs[curSelected][2][2]);
+		trace(weekFile.songs[currentlySelected]);
+		iconInputText.text = weekFile.songs[currentlySelected][1];
+		bgColorStepperR.value = Math.round(weekFile.songs[currentlySelected][2][0]);
+		bgColorStepperG.value = Math.round(weekFile.songs[currentlySelected][2][1]);
+		bgColorStepperB.value = Math.round(weekFile.songs[currentlySelected][2][2]);
 		updateBG();
 	}
 

@@ -212,7 +212,7 @@ class FlxAnimationController implements IFlxDestroyable
 		var i:Int = numFrames;
 		while (i >= 0)
 		{
-			if (framesToAdd[i] >= frames)
+			if (framesToAdd[i] >= numFrames)
 			{
 				// Splicing original Frames array could lead to unexpected results
 				// So we are cloning it (only once) and will use its copy
@@ -271,7 +271,7 @@ class FlxAnimationController implements IFlxDestroyable
 		var i:Int = numFrames;
 		while (i >= 0)
 		{
-			if (Frames[numFrames - i] < frames)
+			if (Frames[numFrames - i] < numFrames)
 			{
 				// add to existing animation, forward to backward
 				anim.frames.push(Frames[numFrames - i]);
@@ -450,7 +450,7 @@ class FlxAnimationController implements IFlxDestroyable
 	 */
 	function findSpriteFrame(Prefix:String, Index:Int, Postfix:String):Int
 	{
-		var numFrames:Int = frames;
+		var numFrames:Int = numFrames;
 		var flxFrames:Array<FlxFrame> = _sprite.frames.frames;
 		for (i in 0...numFrames)
 		{
@@ -661,7 +661,7 @@ class FlxAnimationController implements IFlxDestroyable
 			_curAnim.stop();
 			_curAnim = null;
 		}
-		frameIndex = FlxG.random.int(0, frames - 1);
+		frameIndex = FlxG.random.int(0, numFrames - 1);
 	}
 
 	inline function fireCallback():Void
@@ -746,9 +746,9 @@ class FlxAnimationController implements IFlxDestroyable
 
 	function set_frameIndex(Frame:Int):Int
 	{
-		if (_sprite.frames != null && frames > 0)
+		if (_sprite.frames != null && numFrames > 0)
 		{
-			Frame = Frame % frames;
+			Frame = Frame % numFrames;
 			_sprite.frame = _sprite.frames.frames[Frame];
 			frameIndex = Frame;
 			fireCallback();
