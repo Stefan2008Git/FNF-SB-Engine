@@ -46,7 +46,7 @@ jobs:
           haxelib install hxjsonast
           haxelib install hxCodec 2.5.1
           haxelib install hscript
-          haxelib git SScript https://github.com/MaysLastPlay10/SScript-backup
+          haxelib install SScript 8.1.6
           haxelib install hxcpp-debug-server
           haxelib git linc_luajit https://github.com/superpowers04/linc_luajit
           haxelib git hscript-ex https://github.com/ianharrigan/hscript-ex
@@ -59,6 +59,7 @@ jobs:
           haxelib run lime setup -alias -y
           haxelib set hxcpp 4.2.1
           haxelib set hxCodec 2.5.1
+          haxelib set SScript 8.1.6
       - name: Compile
         run: haxelib run lime build Project.xml linux --app-version="4.0.0-${{ github.run_id}}"
       - name: Publish Artifact
@@ -93,7 +94,7 @@ jobs:
           haxelib install hxjsonast
           haxelib install hxCodec 2.5.1
           haxelib install hscript
-          haxelib git SScript https://github.com/MaysLastPlay10/SScript-backup
+          haxelib install SScript 8.1.6
           haxelib install hxcpp-debug-server
           haxelib git linc_luajit https://github.com/superpowers04/linc_luajit
           haxelib git hscript-ex https://github.com/ianharrigan/hscript-ex
@@ -107,6 +108,7 @@ jobs:
           haxelib run lime setup -alias -y
           haxelib set hxcpp 4.2.1
           haxelib set hxCodec 2.5.1
+          haxelib set SScript 8.1.6
       - name: Compile
         run: haxelib run lime build windows --app-version="4.0.0-${{ github.run_id}}"
       - name: Publish Artifact
@@ -141,7 +143,7 @@ jobs:
           haxelib install hxjsonast
           haxelib install hxCodec 2.5.1
           haxelib install hscript
-          haxelib git SScript https://github.com/MaysLastPlay10/SScript-backup
+          haxelib install SScript 8.1.6
           haxelib install hxcpp-debug-server
           haxelib git linc_luajit https://github.com/superpowers04/linc_luajit
           haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc
@@ -151,6 +153,7 @@ jobs:
           haxelib run lime setup -alias -y
           haxelib set hxcpp 4.2.1
           haxelib set hxCodec 2.5.1
+          haxelib set SScript 8.1.6
       - name: Create Version Tag
         run: echo "${{github.run_id}}" > VERSION
       - name: Compile
@@ -201,7 +204,7 @@ jobs:
           haxelib --quiet install tjson
           haxelib --quiet install hxjsonast
           haxelib --quiet install hscript
-          haxelib --quiet git SScript https://github.com/MaysLastPlay10/SScript-backup.git
+          haxelib --quiet haxelib set SScript
           haxelib --quiet git hxCodec https://github.com/SPLCoding/hxCodec-but-it-works-xd.git
           haxelib --quiet git linc_luajit https://github.com/superpowers04/linc_luajit.git
           haxelib --quiet git extension-androidtools https://github.com/MaysLastPlay77/extension-androidtools.git
