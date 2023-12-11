@@ -16,6 +16,8 @@ import openfl.Lib;
 import openfl.system.System;
 #end
 
+import states.MainMenuState;
+
 /**
 	The FPS class provides an easy-to-use monitor to display
 	the current frame rate of an OpenFL project
@@ -24,12 +26,22 @@ import openfl.system.System;
 @:fileXml('tags="haxe,release"')
 @:noDebug
 #end
+enum GLInfo {
+	RENDERER;
+	SHADING_LANGUAGE_VERSION;
+}
 class FPS extends TextField
 {
 	/**
 		The current frame rate, expressed using frames-per-second
 	**/
-	public var currentFPS(default, null):Int;
+	public var currentlyFPS(default, null):Int;
+	public var totalFPS(default, null):Int;
+
+	public var currentlyMemory:Float;
+	public var maximumMemory:Float;
+	public var realAlpha:Float = 1;
+	public var redText:Bool = false;
 
 	@:noCompletion private var cacheCount:Int;
 	@:noCompletion private var currentTime:Float;
@@ -42,7 +54,8 @@ class FPS extends TextField
 		this.x = x;
 		this.y = y;
 
-		currentFPS = 0;
+		currentlyFPS = 0;
+		totalFPS = 0;
 		selectable = false;
 		mouseEnabled = false;
 		defaultTextFormat = new TextFormat("_sans", 14, color);
@@ -75,24 +88,60 @@ class FPS extends TextField
 			times.shift();
 		}
 
+		var minAlpha:Float = 0.5;
+		var aggressor:Float = 1;
+
+		if (!redText)
+			realAlpha = CoolUtil.boundTo(realAlpha - (deltaTime / 1000) * aggressor, minAlpha, 1);
+		else
+			realAlpha = CoolUtil.boundTo(realAlpha + (deltaTime / 1000), 0.3, 1);
+
 		var currentCount = times.length;
-		currentFPS = Math.round((currentCount + cacheCount) / 2);
-		if (currentFPS > ClientPrefs.data.framerate) currentFPS = ClientPrefs.data.framerate;
+		currentlyFPS = Math.round((currentCount + cacheCount) / 2);
+		if (currentlyFPS > ClientPrefs.data.framerate) currentlyFPS = ClientPrefs.data.framerate;
 
-		if (currentCount != cacheCount /*&& visible*/)
-		{
-			text = "FPS: " + currentFPS;
-			var memoryMegas:Float = 0;
-			
-			#if openfl
-			memoryMegas = Math.abs(FlxMath.roundDecimal(System.totalMemory / 1000000, 1));
-			text += "\nMemory: " + memoryMegas + " MB";
-			#end
+		totalFPS = Math.round(currentlyFPS + currentCount / 8);
+		if (currentlyFPS > ClientPrefs.data.framerate)
+			currentlyFPS = ClientPrefs.data.framerate;
+		if (totalFPS < 10)
+			totalFPS = 0;
 
-			textColor = 0xFFFFFFFF;
-			if (memoryMegas > 3000 || currentFPS <= ClientPrefs.data.framerate / 2)
-			{
-				textColor = 0xFFFF0000;
+		if (currentCount != cacheCount) {
+			text = "FPS: " + currentlyFPS;
+
+			currentlyMemory = obtainMemory();
+			if (currentlyMemory >= maximumMemory)
+				maximumMemory = currentlyMemory;
+
+			if (ClientPrefs.data.showTotalFPS) {
+				text += "\nTotal FPS: " + totalFPS;
+			}
+
+			if (ClientPrefs.data.memory) {
+				text += "\nMemory: " + CoolUtil.formatMemory(Std.int(currentlyMemory));
+			}
+
+			if (ClientPrefs.data.totalMemory) {
+				text += "\nMemory peak: " + CoolUtil.formatMemory(Std.int(maximumMemory));
+			}
+
+			if (ClientPrefs.data.engineVersion) {
+				text += "\nSB Engine v" + MainMenuState.sbEngineVersion + " (Psych Engine v" + MainMenuState.psychEngineVersion + ")";
+			}
+
+			if (ClientPrefs.data.debugInfo) {
+				text += '\nState: ${Type.getClassName(Type.getClass(FlxG.state))}';
+				if (FlxG.state.subState != null)
+					text += '\nSubstate: ${Type.getClassName(Type.getClass(FlxG.state.subState))}';
+				text += "\nSystem: " + '${lime.system.System.platformLabel} ${lime.system.System.platformVersion}';
+				text += "\nGL Render: " + '${getGLInfo(RENDERER)}';
+				text += "\nGL Shading version: " + '${getGLInfo(SHADING_LANGUAGE_VERSION)})';
+			}
+
+			textColor = FlxColor.fromRGBFloat(255, 255, 255, realAlpha);
+			if (currentlyFPS <= ClientPrefs.data.framerate / 2) {
+				textColor = FlxColor.fromRGBFloat(255, 0, 0, realAlpha);
+				redText = true;
 			}
 
 			#if (gl_stats && !disable_cffi && (!html5 || !canvas))
@@ -105,5 +154,22 @@ class FPS extends TextField
 		}
 
 		cacheCount = currentCount;
+	}
+
+	function obtainMemory():Dynamic {
+		return System.totalMemory;
+	}
+
+	private function getGLInfo(info:GLInfo):String {
+		@:privateAccess
+		var gl:Dynamic = Lib.current.stage.context3D.gl;
+
+		switch (info) {
+			case RENDERER:
+				return Std.string(gl.getParameter(gl.RENDERER));
+			case SHADING_LANGUAGE_VERSION:
+				return Std.string(gl.getParameter(gl.SHADING_LANGUAGE_VERSION));
+		}
+		return '';
 	}
 }

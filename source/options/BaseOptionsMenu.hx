@@ -4,6 +4,7 @@ import objects.CheckboxThingie;
 import objects.AttachedText;
 import flixel.addons.transition.FlxTransitionableState;
 import options.Option;
+import states.MainMenuState;
 
 class BaseOptionsMenu extends MusicBeatSubstate
 {
@@ -48,7 +49,7 @@ class BaseOptionsMenu extends MusicBeatSubstate
 		background.updateHitbox();
 		add(background);
 
-		velocityBackground = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0x33FFFFFF, 0x0));
+		velocityBackground = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0x70000000, 0x0));
 		velocityBackground.velocity.set(FlxG.random.bool(50) ? 90 : -90, FlxG.random.bool(50) ? 90 : -90);
 		velocityBackground.visible = ClientPrefs.data.velocityBackground;
 		velocityBackground.antialiasing = ClientPrefs.data.antialiasing;
@@ -142,6 +143,7 @@ class BaseOptionsMenu extends MusicBeatSubstate
 			ClientPrefs.saveSettings();
 			#else
 			close();
+			Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Options Menu";
 			#end
 			ClientPrefs.saveSettings();
 			

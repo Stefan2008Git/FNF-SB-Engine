@@ -12,6 +12,11 @@ class SaveVariables {
 	public var middleScroll:Bool = false;
 	public var opponentStrums:Bool = true;
 	public var showFPS:Bool = true;
+	public var showTotalFPS:Bool = false;
+	public var memory:Bool = true;
+	public var totalMemory:Bool = false;
+	public var engineVersion:Bool = false;
+	public var debugInfo:Bool = false;
 	public var flashing:Bool = true;
 	public var autoPause:Bool = true;
 	public var antialiasing:Bool = true;
@@ -39,7 +44,7 @@ class SaveVariables {
 	public var ghostTapping:Bool = true;
 	public var timeBarType:String = 'Time Left';
 
-  //Mobile Stuff
+  	//  Mobile Stuff
 	public var hitboxmode:String = 'New';
 	public var hitboxExtend:Bool = false;
 	public var hitboxLocation:String = 'Bottom';
@@ -56,6 +61,12 @@ class SaveVariables {
 	public var comboStacking:Bool = true;
 	public var themes:String = 'SB Engine';
 	public var velocityBackground:Bool = true;
+	public var gameStyle:String = 'SB Engine';
+	public var judgementCounter:Bool = true;
+	public var judgementCounterStyle:String = 'Original';
+	public var judgementZoom:Bool = true;
+	public var watermark:Bool = true;
+	public var watermarkStyle:String = 'SB Engine';
 	public var gameplaySettings:Map<String, Dynamic> = [
 		'scrollspeed' => 1.0,
 		'scrolltype' => 'multiplicative', 
@@ -74,12 +85,12 @@ class SaveVariables {
 		'healthloss' => 1.0,
 		'instakill' => false,
 		'practice' => false,
-		'botplay' => false,
-		'opponentplay' => false
+		'botplay' => false
 	];
 
 	public var comboOffset:Array<Int> = [0, 0, 0, 0];
 	public var ratingOffset:Int = 0;
+	public var impressiveWindow:Int = 25;
 	public var sickWindow:Int = 45;
 	public var goodWindow:Int = 90;
 	public var badWindow:Int = 135;

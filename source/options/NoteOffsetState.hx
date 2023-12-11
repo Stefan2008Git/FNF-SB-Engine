@@ -8,6 +8,7 @@ import objects.HealthBar;
 import flixel.addons.display.shapes.FlxShapeCircle;
 
 import states.stages.StageWeek1 as BackgroundStage;
+import states.MainMenuState;
 
 class NoteOffsetState extends MusicBeatState
 {
@@ -39,6 +40,8 @@ class NoteOffsetState extends MusicBeatState
 
 	override public function create()
 	{
+		Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Options Menu (In Note Offset Menu)";
+		if (ClientPrefs.data.cacheOnGPU) Paths.clearStoredMemory();
 		// Cameras
 		camGame = new FlxCamera();
 		camHUD = new FlxCamera();
@@ -106,6 +109,8 @@ class NoteOffsetState extends MusicBeatState
 			comboNums.add(numScore);
 			daLoop++;
 		}
+
+		if (ClientPrefs.data.cacheOnGPU) Paths.clearUnusedMemory();
 
 		dumbTexts = new FlxTypedGroup<FlxText>();
 		dumbTexts.cameras = [camHUD];
@@ -412,6 +417,7 @@ class NoteOffsetState extends MusicBeatState
 			persistentUpdate = false;
 			CustomFadeTransition.nextCamera = camOther;
 			MusicBeatState.switchState(new options.OptionsState());
+			Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Options Menu";
 			if(OptionsState.onPlayState)
 			{
 				if(ClientPrefs.data.pauseMusic != 'None')

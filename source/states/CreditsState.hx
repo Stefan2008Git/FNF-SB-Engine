@@ -39,11 +39,10 @@ class CreditsState extends MusicBeatState
 		background.setGraphicSize(Std.int(background.width * 1.175));
 		background.updateHitbox();
 		background.screenCenter();
-		background.visible = false;
 		background.antialiasing = ClientPrefs.data.antialiasing;
 		add(background);
 
-		velocityBackground = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0x33FFFFFF, 0x0));
+		velocityBackground = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0x70000000, 0x0));
 		velocityBackground.velocity.set(FlxG.random.bool(50) ? 90 : -90, FlxG.random.bool(50) ? 90 : -90);
 		velocityBackground.visible = ClientPrefs.data.velocityBackground;
 		add(velocityBackground);

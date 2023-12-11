@@ -17,7 +17,7 @@ class NotesSubState extends MusicBeatSubstate
 	var onPixel:Bool = false;
 	var dataArray:Array<Array<FlxColor>>;
 
-	var bg:FlxSprite;
+	var background:FlxSprite;
 	var velocityBackground:FlxBackdrop;
 
 	var hexTypeLine:FlxSprite;
@@ -52,11 +52,19 @@ class NotesSubState extends MusicBeatSubstate
 	public function new() {
 		super();
 		
-		bg = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
-		bg.color = 0xFFEA71FD;
-		bg.screenCenter();
-		bg.antialiasing = ClientPrefs.data.antialiasing;
-		add(bg);
+		background = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
+		switch (ClientPrefs.data.themes) {
+			case 'SB Engine':
+				background.color = 0xFF800080;
+			
+			case 'Psych Engine':
+				background.color = 0xFFea71fd;
+		}
+		background.scrollFactor.set();
+		background.screenCenter();
+		background.antialiasing = ClientPrefs.data.antialiasing;
+		background.updateHitbox();
+		add(background);
 
 		velocityBackground = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0x33FFFFFF, 0x0));
 		velocityBackground.velocity.set(40, 40);

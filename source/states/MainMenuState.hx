@@ -45,8 +45,7 @@ class MainMenuState extends MusicBeatState
 
 	override function create()
 	{
-		Paths.clearStoredMemory();
-		Paths.clearUnusedMemory();
+		if (ClientPrefs.data.cacheOnGPU) Paths.clearStoredMemory();
 
 		#if MODS_ALLOWED
 		Mods.pushGlobalMods();
@@ -77,7 +76,7 @@ class MainMenuState extends MusicBeatState
 		menuBackground.antialiasing = ClientPrefs.data.antialiasing;
 		add(menuBackground);
 
-		velocityBackground = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0x33FFFFFF, 0x0));
+		velocityBackground = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0x70000000, 0x0));
 		velocityBackground.velocity.set(FlxG.random.bool(50) ? 90 : -90, FlxG.random.bool(50) ? 90 : -90);
 		velocityBackground.visible = ClientPrefs.data.velocityBackground;
 		add(velocityBackground);
@@ -183,13 +182,14 @@ class MainMenuState extends MusicBeatState
 		add(versionPsych);
 		add(versionFnf);
 
+		if (ClientPrefs.data.cacheOnGPU) Paths.clearUnusedMemory();
+
 		// NG.core.calls.event.logEvent('swag').send();
 
 		changeItem();
 
    	 	#if mobile
     	addVirtualPad(UP_DOWN, A_B_C);
-		virtualPad.y = -48;
    		#end
 
 		super.create();
@@ -275,6 +275,7 @@ class MainMenuState extends MusicBeatState
 								Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Credits Menu";
 							case 'options':
 								MusicBeatState.switchState(new OptionsState());
+								Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Options Menu";
 								OptionsState.onPlayState = false;
 								if (PlayState.SONG != null)
 								{
