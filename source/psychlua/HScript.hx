@@ -1,9 +1,11 @@
 package psychlua;
 
 import flixel.FlxBasic;
+import backend.Achievements;
 import objects.Character;
 import psychlua.FunkinLua;
 import psychlua.CustomSubstate;
+
 
 #if HSCRIPT_ALLOWED
 import tea.SScript;
