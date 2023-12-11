@@ -203,8 +203,7 @@ jobs:
           haxelib --quiet install flixel-addons
           haxelib --quiet install tjson
           haxelib --quiet install hxjsonast
-          haxelib --quiet install hscript
-          haxelib --quiet haxelib install SScript
+          haxelib --quiet install SScript 8.1.6
           haxelib --quiet git hxCodec https://github.com/SPLCoding/hxCodec-but-it-works-xd.git
           haxelib --quiet git linc_luajit https://github.com/superpowers04/linc_luajit.git
           haxelib --quiet git extension-androidtools https://github.com/MaysLastPlay77/extension-androidtools.git
@@ -223,6 +222,7 @@ jobs:
           haxelib run lime config ANDROID_SETUP true
           haxelib set lime 8.0.2
           haxelib set openfl 9.2.1
+          haxelib set SScript 8.1.6
           haxelib set hxcpp 4.2.1
           haxelib list
         env:
