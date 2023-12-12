@@ -68,6 +68,8 @@ class SaveVariables {
 	public var watermark:Bool = true;
 	public var watermarkStyle:String = 'SB Engine';
 	public var randomEngineNames:Bool = false;
+	public var objects:Bool = true;
+	public var timeBar:Bool = true;
 	public var gameplaySettings:Map<String, Dynamic> = [
 		'scrollspeed' => 1.0,
 		'scrolltype' => 'multiplicative', 
@@ -98,9 +100,8 @@ class SaveVariables {
 	public var safeFrames:Float = 10;
 	public var discordRPC:Bool = true;
 
-	public function new()
-	{
-		//Why does haxe needs this again?
+	public function new() {
+		// Really :/?
 	}
 }
 

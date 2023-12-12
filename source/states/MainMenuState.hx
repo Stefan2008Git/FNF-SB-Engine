@@ -99,6 +99,17 @@ class MainMenuState extends MusicBeatState
 		}
 		add(background);
 
+		mainSide = new FlxSprite(0).loadGraphic(Paths.image('mainSide'));
+		mainSide.scrollFactor.x = 0;
+		mainSide.scrollFactor.y = 0;
+		mainSide.setGraphicSize(Std.int(mainSide.width * 0.75));
+		mainSide.updateHitbox();
+		mainSide.screenCenter();
+		mainSide.antialiasing = ClientPrefs.data.antialiasing;
+		mainSide.x = -500;
+		mainSide.y = -90;
+		add(mainSide);
+
 		sbEngineLogo = new FlxSprite(0).loadGraphic(Paths.image('sbEngineLogo'));
 		sbEngineLogo.scrollFactor.x = 0;
 		sbEngineLogo.scrollFactor.y = 0;
@@ -111,17 +122,6 @@ class MainMenuState extends MusicBeatState
 		sbEngineLogo.scale.x = 1;
 		sbEngineLogo.scale.y = 1;
 		add(sbEngineLogo);
-
-		mainSide = new FlxSprite(0).loadGraphic(Paths.image('mainSide'));
-		mainSide.scrollFactor.x = 0;
-		mainSide.scrollFactor.y = 0;
-		mainSide.setGraphicSize(Std.int(mainSide.width * 0.75));
-		mainSide.updateHitbox();
-		mainSide.screenCenter();
-		mainSide.antialiasing = ClientPrefs.data.antialiasing;
-		mainSide.x = -500;
-		mainSide.y = -90;
-		add(mainSide);
 
 		menuItems = new FlxTypedGroup<FlxSprite>();
 		add(menuItems);

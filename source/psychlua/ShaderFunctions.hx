@@ -3,6 +3,9 @@ package psychlua;
 #if (!flash && sys)
 import flixel.addons.display.FlxRuntimeShader;
 #end
+#if !flash
+import shaders.Shaders;
+#end
 
 class ShaderFunctions
 {
