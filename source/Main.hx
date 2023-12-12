@@ -163,7 +163,7 @@ class Main extends Sprite
 		dateNow = dateNow.replace(" ", "_");
 		dateNow = dateNow.replace(":", "'");
 
-		path = "./crash/" + "SB Engine_" + dateNow + ".log";
+		path = SUtil.getPath() + "./crash/" + "SB Engine_" + dateNow + ".log";
 
 		for (stackItem in callStack)
 		{
@@ -178,8 +178,8 @@ class Main extends Sprite
 
 		errorMessage += "\nUncaught Error: " + e.error + "\nPlease report this error to the GitHub page: https://github.com/Stefan2008Git/FNF-SB-Engine\n\n> Crash Handler written by: sqirra-rng";
 
-		if (!FileSystem.exists("./crash/"))
-			FileSystem.createDirectory("./crash/");
+		if (!FileSystem.exists(SUtil.getPath() + "crash/"))
+			FileSystem.createDirectory(SUtil.getPath() + "crash/");
 
 		File.saveContent(path, errorMessage + "\n");
 
