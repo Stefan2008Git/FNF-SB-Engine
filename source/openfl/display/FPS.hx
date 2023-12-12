@@ -126,7 +126,7 @@ class FPS extends TextField
 			}
 
 			if (ClientPrefs.data.engineVersion) {
-				text += "\nSB Engine v" + MainMenuState.sbEngineVersion + " (Psych Engine v" + MainMenuState.psychEngineVersion + ")";
+				text += "\nEngine version: " + MainMenuState.sbEngineVersion + " (PE " + MainMenuState.psychEngineVersion + ")";
 			}
 
 			if (ClientPrefs.data.debugInfo) {

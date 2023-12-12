@@ -67,6 +67,7 @@ class SaveVariables {
 	public var judgementZoom:Bool = true;
 	public var watermark:Bool = true;
 	public var watermarkStyle:String = 'SB Engine';
+	public var randomEngineNames:Bool = false;
 	public var gameplaySettings:Map<String, Dynamic> = [
 		'scrollspeed' => 1.0,
 		'scrolltype' => 'multiplicative', 

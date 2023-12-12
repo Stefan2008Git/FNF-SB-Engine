@@ -45,6 +45,19 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			'bool');
 		addOption(option);
 
+		var option:Option = new Option('Watermark',
+			"If unchecked, hides watermark.", 'watermark', 'bool');
+		addOption(option);
+
+		var option:Option = new Option('Pause Screen Song:',
+			"What style of watermark do you like?", 'watermarkStyle', 'string',
+			['SB Engine', 'Kade Engine']);
+		addOption(option);
+
+		var option:Option = new Option('Random Watermark Engine Names',
+			"If checked, makes to show random username on watermark instead to show SB only.", 'watermark', 'bool');
+		addOption(option);
+
 		var option:Option = new Option('Hitsound Volume',
 			'Funny notes does \"Tick!\" when you hit them."',
 			'hitsoundVolume',

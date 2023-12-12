@@ -36,6 +36,7 @@ import tjson.TJSON as Json;
 import cutscenes.CutsceneHandler;
 import cutscenes.DialogueBoxPsych;
 
+import states.MainMenuState;
 import states.StoryMenuState;
 import states.FreeplayState;
 import states.editors.ChartingState;
@@ -171,7 +172,7 @@ class PlayState extends MusicBeatState
 	public var camZooming:Bool = false;
 	public var camZoomingMult:Float = 1;
 	public var camZoomingDecay:Float = 1;
-	private var curSong:String = "";
+	private var currentlySong:String = "";
 
 	public var gfSpeed:Int = 1;
 	public var health:Float = 1;
@@ -219,6 +220,9 @@ class PlayState extends MusicBeatState
 	public var scoreTxt:FlxText;
 	var timeTxt:FlxText;
 	var scoreTxtTween:FlxTween;
+	
+	public var engineVersionTxt:FlxText;
+	public var songAndDifficultyNameTxt:FlxText;
 
 	public static var campaignScore:Int = 0;
 	public static var campaignMisses:Int = 0;
@@ -567,6 +571,96 @@ class PlayState extends MusicBeatState
 		if(ClientPrefs.data.downScroll) {
 			botplayTxt.y = timeBar.y - 78;
 		}
+
+		// Used from Bambi Purgatory repository :D (Please don't kill me WhatsDown :(. If you want me to remove the code, i will remove it and never use it)
+		var randomName:Int = FlxG.random.int(0, 12);
+		var engineName:String = 'null ';
+		switch (randomName)
+	    {
+			case 0:
+				engineName = 'SB ';
+			case 1:
+				engineName = 'StefanBeta Engine ';
+			case 2:
+				engineName = 'Stefan2008 Engine ';
+			case 3:
+				engineName = 'Nury Engine ';
+			case 4:
+				engineName = 'Hutaro Engine ';
+			case 5:
+				engineName = 'MaysLastPlay Engine ';
+			case 6:
+				engineName = 'Fearester Engine ';
+			case 7:
+				engineName = 'Play Engine ';
+			case 8:
+				engineName = 'SunBurntTails Engine '; 
+			case 9:
+				engineName = 'Ali Alafandy Engine ';
+			case 10:
+				engineName = 'Luiz Engine ';
+			case 11:
+				engineName = 'MemeHoovy Engine '; // Added because he is helpful and best dude who want to help :)
+			case 12:
+				engineName = 'Boris2014 Engine '; // My little brother engine :).
+		}
+		if (ClientPrefs.data.watermarkStyle == 'SB Engine') {
+		    engineVersionTxt = new FlxText(12, FlxG.height - 44, 0, "", 8);
+		        engineVersionTxt.setFormat(Paths.font("vcr.ttf"), 15, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		    engineVersionTxt.scrollFactor.set();
+		    engineVersionTxt.borderSize = 1.25;
+		    engineVersionTxt.visible = ClientPrefs.data.watermark && !ClientPrefs.data.hideHud;
+		    if (ClientPrefs.data.randomEngineNames) {
+				engineVersionTxt.text = engineName + MainMenuState.sbEngineVersion + " (PE " + MainMenuState.psychEngineVersion + ")";
+			} else {
+				engineVersionTxt.text = "SB " + MainMenuState.sbEngineVersion + " (PE " + MainMenuState.psychEngineVersion + ")";
+			}
+		    songAndDifficultyNameTxt = new FlxText(12, FlxG.height - 24, 0, "", 8);
+		    songAndDifficultyNameTxt.setFormat(Paths.font("vcr.ttf"), 15, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		    songAndDifficultyNameTxt.scrollFactor.set();
+		    songAndDifficultyNameTxt.borderSize = 1.25;
+		    songAndDifficultyNameTxt.visible = ClientPrefs.data.watermark && !ClientPrefs.data.hideHud;
+			songAndDifficultyNameTxt.text =  currentlySong + " (" + Difficulty.getString() + ") ";
+		}
+
+		if (ClientPrefs.data.watermarkStyle == 'Kade Engine') {
+			engineVersionTxt = new FlxText(12, FlxG.height - 44, 0, "", 8);
+		    engineVersionTxt.setFormat(Paths.font("vcr.ttf"), 15, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		    engineVersionTxt.scrollFactor.set();
+		    engineVersionTxt.borderSize = 1.25;
+		    engineVersionTxt.visible = false;
+			if (ClientPrefs.data.randomEngineNames) {
+				engineVersionTxt.text = engineName + MainMenuState.sbEngineVersion + " (PE " + MainMenuState.psychEngineVersion + ")";
+			} else {
+				engineVersionTxt.text = "SB " + MainMenuState.sbEngineVersion + " (PE " + MainMenuState.psychEngineVersion + ")";
+			}
+		    songAndDifficultyNameTxt = new FlxText(12, FlxG.height - 24, 0, "", 8);
+		    songAndDifficultyNameTxt.setFormat(Paths.font("vcr.ttf"), 15, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		    songAndDifficultyNameTxt.scrollFactor.set();
+		    songAndDifficultyNameTxt.borderSize = 1.25;
+		    songAndDifficultyNameTxt.visible = ClientPrefs.data.watermark && !ClientPrefs.data.hideHud;
+			if (ClientPrefs.data.randomEngineNames) {
+				songAndDifficultyNameTxt.text =  currentlySong + " (" + Difficulty.getString() + ") " + "| " + engineName + MainMenuState.sbEngineVersion + " (PE " + MainMenuState.psychEngineVersion + ") ";
+			} else {
+				songAndDifficultyNameTxt.text =  currentlySong + " (" + Difficulty.getString() + ") " + "| SB " + MainMenuState.sbEngineVersion + " (PE " + MainMenuState.psychEngineVersion + ") ";
+			}
+		}
+
+		if (ClientPrefs.data.downScroll && ClientPrefs.data.watermarkStyle == 'SB Engine') {
+			engineVersionTxt.y = 140;
+			songAndDifficultyNameTxt.y = 160;
+		}
+
+		if (ClientPrefs.data.downScroll && ClientPrefs.data.watermarkStyle == 'Kade Engine') {
+			engineVersionTxt.y = 0;
+			songAndDifficultyNameTxt.y = 140;
+		}
+
+		engineVersionTxt.cameras = [camHUD];
+		songAndDifficultyNameTxt.cameras = [camHUD];
+		add(engineVersionTxt);
+		add(songAndDifficultyNameTxt);
+
 		strumLineNotes.cameras = [camHUD];
 		grpNoteSplashes.cameras = [camHUD];
 		notes.cameras = [camHUD];
@@ -1322,7 +1416,7 @@ class PlayState extends MusicBeatState
 		var songData = SONG;
 		Conductor.bpm = songData.bpm;
 
-		curSong = songData.song;
+		currentlySong = songData.song;
 
 		vocals = new FlxSound();
 		if (songData.needsVoices) vocals.loadEmbedded(Paths.voices(songData.song));
@@ -3222,7 +3316,7 @@ class PlayState extends MusicBeatState
 		{
 			var newScript:HScript = new HScript(null, file);
 			@:privateAccess
-			if(newScript.parsingExceptions != null && newScript.parsingExceptions.length > 0)
+			if(newScript.parsingException != null && newScript.parsingExceptions.length > 0)
 			{
 				@:privateAccess
 				for (e in newScript.parsingExceptions)
