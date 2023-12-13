@@ -1,5 +1,7 @@
 package options;
 
+import flixel.addons.display.FlxBackdrop;
+import flixel.addons.display.FlxGridOverlay;
 import flixel.addons.display.shapes.FlxShapeCircle;
 import flixel.input.keyboard.FlxKey;
 import flixel.input.gamepad.FlxGamepadInputID;
@@ -8,17 +10,19 @@ import flixel.addons.ui.FlxUIInputText;
 import flixel.addons.transition.FlxTransitionableState;
 import lime.system.Clipboard;
 import flixel.util.FlxGradient;
+import objects.StrumNote;
+import objects.Note;
+
+import shaders.RGBPalette;
+import shaders.RGBPalette.RGBShaderReference;
 
 class NotesSubState extends MusicBeatSubstate
 {
 	var onModeColumn:Bool = true;
-	var currentlySelectedMode:Int = 0;
-	var currentlySelectedNote:Int = 0;
+	var curSelectedMode:Int = 0;
+	var curSelectedNote:Int = 0;
 	var onPixel:Bool = false;
 	var dataArray:Array<Array<FlxColor>>;
-
-	var background:FlxSprite;
-	var velocityBackground:FlxBackdrop;
 
 	var hexTypeLine:FlxSprite;
 	var hexTypeNum:Int = -1;
@@ -46,32 +50,23 @@ class NotesSubState extends MusicBeatSubstate
 	var _lastControllerMode:Bool = false;
 	var tipTxt:FlxText;
 	
-	var androidColorGet:FlxUIInputText;
+	var AndroidColorGet:FlxUIInputText;
     var LengthCheck:String = '';
     var ColorCheck:String = '';
 	public function new() {
 		super();
 		
-		background = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
-		switch (ClientPrefs.data.themes) {
-			case 'SB Engine':
-				background.color = 0xFF800080;
-			
-			case 'Psych Engine':
-				background.color = 0xFFea71fd;
-		}
-		background.scrollFactor.set();
-		background.screenCenter();
-		background.antialiasing = ClientPrefs.data.antialiasing;
-		background.updateHitbox();
-		add(background);
+		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
+		bg.color = 0xFFEA71FD;
+		bg.screenCenter();
+		bg.antialiasing = ClientPrefs.data.antialiasing;
+		add(bg);
 
-		velocityBackground = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0x33FFFFFF, 0x0));
-		velocityBackground.velocity.set(40, 40);
-		velocityBackground.alpha = 0;
-		velocityBackground.visible = ClientPrefs.data.velocityBackground;
-		FlxTween.tween(velocityBackground, {alpha: 1}, 0.5, {ease: FlxEase.quadOut});
-		add(velocityBackground);
+		var grid:FlxBackdrop = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0x33FFFFFF, 0x0));
+		grid.velocity.set(40, 40);
+		grid.alpha = 0;
+		FlxTween.tween(grid, {alpha: 1}, 0.5, {ease: FlxEase.quadOut});
+		add(grid);
 
 		modeBG = new FlxSprite(215, 85).makeGraphic(315, 115, FlxColor.BLACK);
 		modeBG.visible = false;
@@ -173,11 +168,12 @@ class NotesSubState extends MusicBeatSubstate
 		FlxG.mouse.visible = !controls.controllerMode;
 		controllerPointer.visible = controls.controllerMode;
 		_lastControllerMode = controls.controllerMode;
-
-		androidColorGet = new FlxUIInputText(940, 20, 160, '', 30);
-		androidColorGet.focusGained = () -> FlxG.stage.window.textInputEnabled = true;
-		LengthCheck = androidColorGet.text;
-		add(androidColorGet);
+		
+		
+		AndroidColorGet = new FlxUIInputText(940, 20, 160, '', 30);
+		AndroidColorGet.focusGained = () -> FlxG.stage.window.textInputEnabled = true;
+		LengthCheck = AndroidColorGet.text;
+		add(AndroidColorGet);
 		#if android
 		addVirtualPad(NONE, NOTESTATE);
 		#end
@@ -198,7 +194,7 @@ class NotesSubState extends MusicBeatSubstate
 
 	override function update(elapsed:Float) {
 	
-	LengthCheck = androidColorGet.text;
+	LengthCheck = AndroidColorGet.text;
 	
 		if (FlxG.keys.justPressed.ESCAPE  #if android || MusicBeatSubstate._virtualpad.buttonB.justPressed #end ) {
 			FlxG.mouse.visible = false;
@@ -277,7 +273,7 @@ class NotesSubState extends MusicBeatSubstate
 			    ColorCheck = LengthCheck;
 			
 				var curColor:String = alphabetHex.text;
-				var newColor:String = androidColorGet.text /*curColor.substring(0, hexTypeNum) + allowedTypeKeys.get(keyPressed) + curColor.substring(hexTypeNum + 1)*/ ;
+				var newColor:String = AndroidColorGet.text /*curColor.substring(0, hexTypeNum) + allowedTypeKeys.get(keyPressed) + curColor.substring(hexTypeNum + 1)*/ ;
 
 				var colorHex:FlxColor = FlxColor.fromString('#' + newColor);
 				setShaderColor(colorHex);
@@ -305,7 +301,7 @@ class NotesSubState extends MusicBeatSubstate
 			    ColorCheck = LengthCheck;
 			
 				var curColor:String = alphabetHex.text;
-				var newColor:String = androidColorGet.text /*curColor.substring(0, hexTypeNum) + allowedTypeKeys.get(keyPressed) + curColor.substring(hexTypeNum + 1)*/ ;
+				var newColor:String = AndroidColorGet.text /*curColor.substring(0, hexTypeNum) + allowedTypeKeys.get(keyPressed) + curColor.substring(hexTypeNum + 1)*/ ;
 
 				var colorHex:FlxColor = FlxColor.fromString('#' + newColor);
 				setShaderColor(colorHex);
@@ -410,10 +406,10 @@ class NotesSubState extends MusicBeatSubstate
 			if (pointerOverlaps(modeNotes))
 			{
 				modeNotes.forEachAlive(function(note:FlxSprite) {
-					if (currentlySelectedMode != note.ID && pointerOverlaps(note))
+					if (curSelectedMode != note.ID && pointerOverlaps(note))
 					{
 						modeBG.visible = notesBG.visible = false;
-						currentlySelectedMode = note.ID;
+						curSelectedMode = note.ID;
 						onModeColumn = true;
 						updateNotes();
 						FlxG.sound.play(Paths.sound('scrollMenu'), 0.6);
@@ -423,10 +419,10 @@ class NotesSubState extends MusicBeatSubstate
 			else if (pointerOverlaps(myNotes))
 			{
 				myNotes.forEachAlive(function(note:StrumNote) {
-					if (currentlySelectedNote != note.ID && pointerOverlaps(note))
+					if (curSelectedNote != note.ID && pointerOverlaps(note))
 					{
 						modeBG.visible = notesBG.visible = false;
-						currentlySelectedNote = note.ID;
+						curSelectedNote = note.ID;
 						onModeColumn = false;
 						bigNote.rgbShader.parent = Note.globalRgbShaders[note.ID];
 						bigNote.shader = Note.globalRgbShaders[note.ID].shader;
@@ -514,9 +510,9 @@ class NotesSubState extends MusicBeatSubstate
 			{
 				for (i in 0...3)
 				{
-					var strumRGB:RGBShaderReference = myNotes.members[currentlySelectedNote].rgbShader;
-					var color:FlxColor = !onPixel ? ClientPrefs.defaultData.arrowRGB[currentlySelectedNote][i] :
-													ClientPrefs.defaultData.arrowRGBPixel[currentlySelectedNote][i];
+					var strumRGB:RGBShaderReference = myNotes.members[curSelectedNote].rgbShader;
+					var color:FlxColor = !onPixel ? ClientPrefs.defaultData.arrowRGB[curSelectedNote][i] :
+													ClientPrefs.defaultData.arrowRGBPixel[curSelectedNote][i];
 					switch(i)
 					{
 						case 0:
@@ -526,10 +522,10 @@ class NotesSubState extends MusicBeatSubstate
 						case 2:
 							getShader().b = strumRGB.b = color;
 					}
-					dataArray[currentlySelectedNote][i] = color;
+					dataArray[curSelectedNote][i] = color;
 				}
 			}
-			setShaderColor(!onPixel ? ClientPrefs.defaultData.arrowRGB[currentlySelectedNote][currentlySelectedMode] : ClientPrefs.defaultData.arrowRGBPixel[currentlySelectedNote][currentlySelectedMode]);
+			setShaderColor(!onPixel ? ClientPrefs.defaultData.arrowRGB[curSelectedNote][curSelectedMode] : ClientPrefs.defaultData.arrowRGBPixel[curSelectedNote][curSelectedMode]);
 			FlxG.sound.play(Paths.sound('cancelMenu'), 0.6);
 			updateColors();
 		}
@@ -575,11 +571,11 @@ class NotesSubState extends MusicBeatSubstate
 	}
 
 	function changeSelectionMode(change:Int = 0) {
-		currentlySelectedMode += change;
-		if (currentlySelectedMode < 0)
-			currentlySelectedMode = 2;
-		if (currentlySelectedMode >= 3)
-			currentlySelectedMode = 0;
+		curSelectedMode += change;
+		if (curSelectedMode < 0)
+			curSelectedMode = 2;
+		if (curSelectedMode >= 3)
+			curSelectedMode = 0;
 
 		modeBG.visible = true;
 		notesBG.visible = false;
@@ -587,16 +583,16 @@ class NotesSubState extends MusicBeatSubstate
 		FlxG.sound.play(Paths.sound('scrollMenu'));
 	}
 	function changeSelectionNote(change:Int = 0) {
-		currentlySelectedNote += change;
-		if (currentlySelectedNote < 0)
-			currentlySelectedNote = dataArray.length-1;
-		if (currentlySelectedNote >= dataArray.length)
-			currentlySelectedNote = 0;
+		curSelectedNote += change;
+		if (curSelectedNote < 0)
+			curSelectedNote = dataArray.length-1;
+		if (curSelectedNote >= dataArray.length)
+			curSelectedNote = 0;
 		
 		modeBG.visible = false;
 		notesBG.visible = true;
-		bigNote.rgbShader.parent = Note.globalRgbShaders[currentlySelectedNote];
-		bigNote.shader = Note.globalRgbShaders[currentlySelectedNote].shader;
+		bigNote.rgbShader.parent = Note.globalRgbShaders[curSelectedNote];
+		bigNote.shader = Note.globalRgbShaders[curSelectedNote].shader;
 		updateNotes();
 		FlxG.sound.play(Paths.sound('scrollMenu'));
 	}
@@ -681,12 +677,12 @@ class NotesSubState extends MusicBeatSubstate
 			myNotes.add(newNote);
 		}
 
-		bigNote = new Note(0, 0, false, true);
+		bigNote = new Note(0, 0, 0, false, true);
 		bigNote.setPosition(250, 325);
 		bigNote.setGraphicSize(250);
 		bigNote.updateHitbox();
-		bigNote.rgbShader.parent = Note.globalRgbShaders[currentlySelectedNote];
-		bigNote.shader = Note.globalRgbShaders[currentlySelectedNote].shader;
+		bigNote.rgbShader.parent = Note.globalRgbShaders[curSelectedNote];
+		bigNote.shader = Note.globalRgbShaders[curSelectedNote].shader;
 		for (i in 0...Note.colArray.length)
 		{
 			if(!onPixel) bigNote.animation.addByPrefix('note$i', Note.colArray[i] + '0', 24, true);
@@ -700,16 +696,16 @@ class NotesSubState extends MusicBeatSubstate
 	function updateNotes(?instant:Bool = false)
 	{
 		for (note in modeNotes)
-			note.alpha = (currentlySelectedMode == note.ID) ? 1 : 0.6;
+			note.alpha = (curSelectedMode == note.ID) ? 1 : 0.6;
 
 		for (note in myNotes)
 		{
-			var newAnim:String = currentlySelectedNote == note.ID ? 'confirm' : 'pressed';
-			note.alpha = (currentlySelectedNote == note.ID) ? 1 : 0.6;
+			var newAnim:String = curSelectedNote == note.ID ? 'confirm' : 'pressed';
+			note.alpha = (curSelectedNote == note.ID) ? 1 : 0.6;
 			if(note.animation.curAnim == null || note.animation.curAnim.name != newAnim) note.playAnim(newAnim, true);
 			if(instant) note.animation.curAnim.finish();
 		}
-		bigNote.animation.play('note$currentlySelectedNote', true);
+		bigNote.animation.play('note$curSelectedNote', true);
 		updateColors();
 	}
 
@@ -735,8 +731,8 @@ class NotesSubState extends MusicBeatSubstate
 		}
 		colorGradientSelector.y = colorGradient.y + colorGradient.height * (1 - color.brightness);
 
-		var strumRGB:RGBShaderReference = myNotes.members[currentlySelectedNote].rgbShader;
-		switch(currentlySelectedMode)
+		var strumRGB:RGBShaderReference = myNotes.members[curSelectedNote].rgbShader;
+		switch(curSelectedMode)
 		{
 			case 0:
 				getShader().r = strumRGB.r = color;
@@ -747,9 +743,9 @@ class NotesSubState extends MusicBeatSubstate
 		}
 	}
 
-	function setShaderColor(value:FlxColor) dataArray[currentlySelectedNote][currentlySelectedMode] = value;
-	function getShaderColor() return dataArray[currentlySelectedNote][currentlySelectedMode];
-	function getShader() return Note.globalRgbShaders[currentlySelectedNote];
+	function setShaderColor(value:FlxColor) dataArray[curSelectedNote][curSelectedMode] = value;
+	function getShaderColor() return dataArray[curSelectedNote][curSelectedMode];
+	function getShader() return Note.globalRgbShaders[curSelectedNote];
 	
 	
 	
