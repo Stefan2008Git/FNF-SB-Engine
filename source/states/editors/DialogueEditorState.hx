@@ -330,7 +330,7 @@ class DialogueEditorState extends MusicBeatState
 				ClientPrefs.toggleVolumeKeys(false);
 				blockInput = true;
 
-				if(FlxG.keys.justPressed.ENTER #if android || MusicBeatState._virtualpad.buttonY.justPressed #end) {
+				if(FlxG.keys.justPressed.ENTER #if android || MusicBeatState.virtualPad.buttonY.justPressed #end) {
 					if(inputText == lineInputText) {
 						inputText.text += '\\n';
 						inputText.caretIndex += 2;
@@ -344,7 +344,7 @@ class DialogueEditorState extends MusicBeatState
 
 		if(!blockInput) {
 			ClientPrefs.toggleVolumeKeys(true);
-			if(FlxG.keys.justPressed.SPACE #if android || MusicBeatState._virtualpad.buttonX.justPressed #end) {
+			if(FlxG.keys.justPressed.SPACE #if android || MusicBeatState.virtualPad.buttonX.justPressed #end) {
 				reloadText(false);
 			}
 			if(FlxG.keys.justPressed.ESCAPE #if android || FlxG.android.justReleased.BACK #end) {
@@ -353,8 +353,8 @@ class DialogueEditorState extends MusicBeatState
 				transitioning = true;
 			}
 			var negaMult:Array<Int> = [1, -1];
-			var controlAnim:Array<Bool> = [FlxG.keys.justPressed.W #if android || MusicBeatState._virtualpad.buttonUp.justPressed #end, FlxG.keys.justPressed.S #if android || MusicBeatState._virtualpad.buttonDown.justPressed #end];
-			var controlText:Array<Bool> = [FlxG.keys.justPressed.D #if android || MusicBeatState._virtualpad.buttonLeft.justPressed #end, FlxG.keys.justPressed.A #if android || MusicBeatState._virtualpad.buttonRight.justPressed #end];
+			var controlAnim:Array<Bool> = [FlxG.keys.justPressed.W #if android || MusicBeatState.virtualPad.buttonUp.justPressed #end, FlxG.keys.justPressed.S #if android || MusicBeatState.virtualPad.buttonDown.justPressed #end];
+			var controlText:Array<Bool> = [FlxG.keys.justPressed.D #if android || MusicBeatState.virtualPad.buttonLeft.justPressed #end, FlxG.keys.justPressed.A #if android || MusicBeatState.virtualPad.buttonRight.justPressed #end];
 			for (i in 0...controlAnim.length) {
 				if(controlAnim[i] && character.jsonFile.animations.length > 0) {
 					curAnim -= negaMult[i];
@@ -373,7 +373,7 @@ class DialogueEditorState extends MusicBeatState
 				}
 			}
 
-			if(FlxG.keys.justPressed.O #if android || MusicBeatState._virtualpad.buttonA.justPressed #end) {
+			if(FlxG.keys.justPressed.O #if android || MusicBeatState.virtualPad.buttonA.justPressed #end) {
 				dialogueFile.dialogue.remove(dialogueFile.dialogue[currentlySelected]);
 				if(dialogueFile.dialogue.length < 1) //You deleted everything, dumbo!
 				{
@@ -382,7 +382,7 @@ class DialogueEditorState extends MusicBeatState
 					];
 				}
 				changeText();
-			} else if(FlxG.keys.justPressed.P #if android || MusicBeatState._virtualpad.buttonB.justPressed #end) {
+			} else if(FlxG.keys.justPressed.P #if android || MusicBeatState.virtualPad.buttonB.justPressed #end) {
 				dialogueFile.dialogue.insert(currentlySelected + 1, copyDefaultLine());
 				changeText(1);
 			}

@@ -130,12 +130,12 @@ class OptionsState extends MusicBeatState
 	override function update(elapsed:Float) {
 		super.update(elapsed);
 		#if android
-		if (MusicBeatState._virtualpad.buttonX.justPressed) {
+		if (MusicBeatState.virtualPad.buttonX.justPressed) {
 			FlxTransitionableState.skipNextTransIn = true;
 			FlxTransitionableState.skipNextTransOut = true;
 			MusicBeatState.switchState(new android.AndroidControlsMenu());
 		}
-		if (MusicBeatState._virtualpad.buttonY.justPressed) {
+		if (MusicBeatState.virtualPad.buttonY.justPressed) {
 			removeVirtualPad();
 			openSubState(new android.HitboxSettingsSubState());
 		}

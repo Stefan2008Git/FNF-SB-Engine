@@ -19,8 +19,8 @@ import shaders.RGBPalette.RGBShaderReference;
 class NotesSubState extends MusicBeatSubstate
 {
 	var onModeColumn:Bool = true;
-	var curSelectedMode:Int = 0;
-	var curSelectedNote:Int = 0;
+	var currentlySelectedMode:Int = 0;
+	var currentlySelectedNote:Int = 0;
 	var onPixel:Bool = false;
 	var dataArray:Array<Array<FlxColor>>;
 
@@ -196,7 +196,7 @@ class NotesSubState extends MusicBeatSubstate
 	
 	LengthCheck = AndroidColorGet.text;
 	
-		if (FlxG.keys.justPressed.ESCAPE  #if android || MusicBeatSubstate._virtualpad.buttonB.justPressed #end ) {
+		if (FlxG.keys.justPressed.ESCAPE  #if android || MusicBeatSubstate.virtualPad.buttonB.justPressed #end ) {
 			FlxG.mouse.visible = false;
 			//FlxG.sound.play(Paths.sound('cancelMenu'));
 			#if android
@@ -406,10 +406,10 @@ class NotesSubState extends MusicBeatSubstate
 			if (pointerOverlaps(modeNotes))
 			{
 				modeNotes.forEachAlive(function(note:FlxSprite) {
-					if (curSelectedMode != note.ID && pointerOverlaps(note))
+					if (currentlySelectedMode != note.ID && pointerOverlaps(note))
 					{
 						modeBG.visible = notesBG.visible = false;
-						curSelectedMode = note.ID;
+						currentlySelectedMode = note.ID;
 						onModeColumn = true;
 						updateNotes();
 						FlxG.sound.play(Paths.sound('scrollMenu'), 0.6);
@@ -419,10 +419,10 @@ class NotesSubState extends MusicBeatSubstate
 			else if (pointerOverlaps(myNotes))
 			{
 				myNotes.forEachAlive(function(note:StrumNote) {
-					if (curSelectedNote != note.ID && pointerOverlaps(note))
+					if (currentlySelectedNote != note.ID && pointerOverlaps(note))
 					{
 						modeBG.visible = notesBG.visible = false;
-						curSelectedNote = note.ID;
+						currentlySelectedNote = note.ID;
 						onModeColumn = false;
 						bigNote.rgbShader.parent = Note.globalRgbShaders[note.ID];
 						bigNote.shader = Note.globalRgbShaders[note.ID].shader;
@@ -504,15 +504,15 @@ class NotesSubState extends MusicBeatSubstate
 				}
 			} 
 		}
-		else if(controls.RESET #if android || MusicBeatSubstate._virtualpad.buttonC.justPressed || MusicBeatSubstate._virtualpad.buttonE.justPressed #end && hexTypeNum < 0)
+		else if(controls.RESET #if android || MusicBeatSubstate.virtualPad.buttonC.justPressed || MusicBeatSubstate.virtualPad.buttonE.justPressed #end && hexTypeNum < 0)
 		{
-			if(FlxG.keys.pressed.SHIFT || FlxG.gamepads.anyJustPressed(LEFT_SHOULDER) #if android || MusicBeatSubstate._virtualpad.buttonE.justPressed #end)
+			if(FlxG.keys.pressed.SHIFT || FlxG.gamepads.anyJustPressed(LEFT_SHOULDER) #if android || MusicBeatSubstate.virtualPad.buttonE.justPressed #end)
 			{
 				for (i in 0...3)
 				{
-					var strumRGB:RGBShaderReference = myNotes.members[curSelectedNote].rgbShader;
-					var color:FlxColor = !onPixel ? ClientPrefs.defaultData.arrowRGB[curSelectedNote][i] :
-													ClientPrefs.defaultData.arrowRGBPixel[curSelectedNote][i];
+					var strumRGB:RGBShaderReference = myNotes.members[currentlySelectedNote].rgbShader;
+					var color:FlxColor = !onPixel ? ClientPrefs.defaultData.arrowRGB[currentlySelectedNote][i] :
+													ClientPrefs.defaultData.arrowRGBPixel[currentlySelectedNote][i];
 					switch(i)
 					{
 						case 0:
@@ -522,10 +522,10 @@ class NotesSubState extends MusicBeatSubstate
 						case 2:
 							getShader().b = strumRGB.b = color;
 					}
-					dataArray[curSelectedNote][i] = color;
+					dataArray[currentlySelectedNote][i] = color;
 				}
 			}
-			setShaderColor(!onPixel ? ClientPrefs.defaultData.arrowRGB[curSelectedNote][curSelectedMode] : ClientPrefs.defaultData.arrowRGBPixel[curSelectedNote][curSelectedMode]);
+			setShaderColor(!onPixel ? ClientPrefs.defaultData.arrowRGB[currentlySelectedNote][currentlySelectedMode] : ClientPrefs.defaultData.arrowRGBPixel[currentlySelectedNote][currentlySelectedMode]);
 			FlxG.sound.play(Paths.sound('cancelMenu'), 0.6);
 			updateColors();
 		}
@@ -571,11 +571,11 @@ class NotesSubState extends MusicBeatSubstate
 	}
 
 	function changeSelectionMode(change:Int = 0) {
-		curSelectedMode += change;
-		if (curSelectedMode < 0)
-			curSelectedMode = 2;
-		if (curSelectedMode >= 3)
-			curSelectedMode = 0;
+		currentlySelectedMode += change;
+		if (currentlySelectedMode < 0)
+			currentlySelectedMode = 2;
+		if (currentlySelectedMode >= 3)
+			currentlySelectedMode = 0;
 
 		modeBG.visible = true;
 		notesBG.visible = false;
@@ -583,16 +583,16 @@ class NotesSubState extends MusicBeatSubstate
 		FlxG.sound.play(Paths.sound('scrollMenu'));
 	}
 	function changeSelectionNote(change:Int = 0) {
-		curSelectedNote += change;
-		if (curSelectedNote < 0)
-			curSelectedNote = dataArray.length-1;
-		if (curSelectedNote >= dataArray.length)
-			curSelectedNote = 0;
+		currentlySelectedNote += change;
+		if (currentlySelectedNote < 0)
+			currentlySelectedNote = dataArray.length-1;
+		if (currentlySelectedNote >= dataArray.length)
+			currentlySelectedNote = 0;
 		
 		modeBG.visible = false;
 		notesBG.visible = true;
-		bigNote.rgbShader.parent = Note.globalRgbShaders[curSelectedNote];
-		bigNote.shader = Note.globalRgbShaders[curSelectedNote].shader;
+		bigNote.rgbShader.parent = Note.globalRgbShaders[currentlySelectedNote];
+		bigNote.shader = Note.globalRgbShaders[currentlySelectedNote].shader;
 		updateNotes();
 		FlxG.sound.play(Paths.sound('scrollMenu'));
 	}
@@ -677,12 +677,12 @@ class NotesSubState extends MusicBeatSubstate
 			myNotes.add(newNote);
 		}
 
-		bigNote = new Note(0, 0, 0, false, true);
+		bigNote = new Note(0, 0, false, true);
 		bigNote.setPosition(250, 325);
 		bigNote.setGraphicSize(250);
 		bigNote.updateHitbox();
-		bigNote.rgbShader.parent = Note.globalRgbShaders[curSelectedNote];
-		bigNote.shader = Note.globalRgbShaders[curSelectedNote].shader;
+		bigNote.rgbShader.parent = Note.globalRgbShaders[currentlySelectedNote];
+		bigNote.shader = Note.globalRgbShaders[currentlySelectedNote].shader;
 		for (i in 0...Note.colArray.length)
 		{
 			if(!onPixel) bigNote.animation.addByPrefix('note$i', Note.colArray[i] + '0', 24, true);
@@ -696,16 +696,16 @@ class NotesSubState extends MusicBeatSubstate
 	function updateNotes(?instant:Bool = false)
 	{
 		for (note in modeNotes)
-			note.alpha = (curSelectedMode == note.ID) ? 1 : 0.6;
+			note.alpha = (currentlySelectedMode == note.ID) ? 1 : 0.6;
 
 		for (note in myNotes)
 		{
-			var newAnim:String = curSelectedNote == note.ID ? 'confirm' : 'pressed';
-			note.alpha = (curSelectedNote == note.ID) ? 1 : 0.6;
+			var newAnim:String = currentlySelectedNote == note.ID ? 'confirm' : 'pressed';
+			note.alpha = (currentlySelectedNote == note.ID) ? 1 : 0.6;
 			if(note.animation.curAnim == null || note.animation.curAnim.name != newAnim) note.playAnim(newAnim, true);
 			if(instant) note.animation.curAnim.finish();
 		}
-		bigNote.animation.play('note$curSelectedNote', true);
+		bigNote.animation.play('note$currentlySelectedNote', true);
 		updateColors();
 	}
 
@@ -717,8 +717,7 @@ class NotesSubState extends MusicBeatSubstate
 		alphabetG.text = Std.string(color.green);
 		alphabetB.text = Std.string(color.blue);
 		alphabetHex.text = color.toHexString(false, false);
-		
-		
+
 		for (letter in alphabetHex.letters) letter.color = color;
 
 		colorWheel.color = FlxColor.fromHSB(0, 0, color.brightness);
@@ -731,8 +730,8 @@ class NotesSubState extends MusicBeatSubstate
 		}
 		colorGradientSelector.y = colorGradient.y + colorGradient.height * (1 - color.brightness);
 
-		var strumRGB:RGBShaderReference = myNotes.members[curSelectedNote].rgbShader;
-		switch(curSelectedMode)
+		var strumRGB:RGBShaderReference = myNotes.members[currentlySelectedNote].rgbShader;
+		switch(currentlySelectedMode)
 		{
 			case 0:
 				getShader().r = strumRGB.r = color;
@@ -743,11 +742,7 @@ class NotesSubState extends MusicBeatSubstate
 		}
 	}
 
-	function setShaderColor(value:FlxColor) dataArray[curSelectedNote][curSelectedMode] = value;
-	function getShaderColor() return dataArray[curSelectedNote][curSelectedMode];
-	function getShader() return Note.globalRgbShaders[curSelectedNote];
-	
-	
-	
-	
+	function setShaderColor(value:FlxColor) dataArray[currentlySelectedNote][currentlySelectedMode] = value;
+	function getShaderColor() return dataArray[currentlySelectedNote][currentlySelectedMode];
+	function getShader() return Note.globalRgbShaders[currentlySelectedNote];
 }
