@@ -142,8 +142,13 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			"If unchecked, hides watermark.", 'watermark', 'bool');
 		addOption(option);
 
+		var option:Option = new Option('Watermark style: ',
+			"What style of watermark do you like?", 'watermarkStyle', 'string',
+			['SB Engine', 'Kade Engine']);
+		addOption(option);
+
 		var option:Option = new Option('Random Watermark Engine Names',
-			"If checked, makes to show random username on watermark instead to show SB only.", 'watermark', 'bool');
+			"If checked, makes to show random username on watermark instead to show SB only.", 'randomEngineNames', 'bool');
 		addOption(option);
 
 		var option:Option = new Option('Judgement Counter',
@@ -154,10 +159,25 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			"If unchecked, hides time bar.", 'timeBar', 'bool');
 		addOption(option);
 
-		var option:Option = new Option('Pause Screen Song:',
-			"What style of watermark do you like?", 'watermarkStyle', 'string',
-			['SB Engine', 'Kade Engine']);
+		var option:Option = new Option('Icon bounce',
+			"If unchecked, disables custom modified engine icon bounce.", 'iconBounce', 'bool');
 		addOption(option);
+
+		var option:Option = new Option('Camera movement on note hit',
+			"If checked, enables to move camera on note hit.", 'cameraMovement', 'bool');
+		addOption(option);
+
+		var option:Option = new Option('Note glow',
+			"If unchecked, disables note glow when zou are hitting note.", 'arrowGlow', 'bool');
+		addOption(option);
+
+		var option:Option = new Option('Pause Screen Song:',
+			"What song do you prefer for the Pause Screen?",
+			'pauseMusic',
+			'string',
+			['None', 'Breakfast', 'Tea Time']);
+		addOption(option);
+		option.onChange = onChangePauseMusic;
 
 		var option:Option = new Option('Hitsound Volume',
 			'Funny notes does \"Tick!\" when you hit them."',
@@ -260,6 +280,23 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		note.texture = skin; //Load texture and anims
 		note.reloadNote();
 		note.playAnim('static');
+	}
+
+	var changedMusic:Bool = false;
+	function onChangePauseMusic()
+	{
+		if(ClientPrefs.data.pauseMusic == 'None')
+			FlxG.sound.music.volume = 0;
+		else
+			FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath(ClientPrefs.data.pauseMusic)));
+
+		changedMusic = true;
+	}
+
+	override function destroy()
+	{
+		if(changedMusic && !OptionsState.onPlayState) FlxG.sound.playMusic(Paths.music('freakyMenu'), 1, true);
+		super.destroy();
 	}
 
 	function onChangeHitsoundVolume()

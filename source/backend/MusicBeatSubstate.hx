@@ -86,12 +86,12 @@ class MusicBeatSubstate extends FlxSubState
 		switch (androidc.mode)
 		{
 			case VIRTUALPAD_RIGHT | VIRTUALPAD_LEFT | VIRTUALPAD_CUSTOM:
-				//controls.setVirtualPadNOTES(androidc.vpad, FULL, NONE);
+				//controls.setVirtualPadNOTES(androidc.virtualPads, FULL, NONE);
 				checkHitbox = false;
 				checkDUO = false;
 				Controls.CheckKeyboard = false;
 			case DUO:
-				//controls.setVirtualPadNOTES(androidc.vpad, DUO, NONE);
+				//controls.setVirtualPadNOTES(androidc.virtualPads, DUO, NONE);
 				checkHitbox = false;
 				checkDUO = true;
 				Controls.CheckKeyboard = false;

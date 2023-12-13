@@ -17,7 +17,7 @@ using StringTools;
 
 class AndroidControlsMenu extends MusicBeatState
 {
-	var vpad:FlxVirtualPad;
+	var virtualPads:FlxVirtualPad;
 	//var hbox:FlxHitbox;
 	var newhbox:FlxNewHitbox;
 	var upPozition:FlxText;
@@ -52,9 +52,9 @@ class AndroidControlsMenu extends MusicBeatState
 		titleText.alpha = 0.4;
 		add(titleText);
 
-		vpad = new FlxVirtualPad(RIGHT_FULL, NONE, 0.75, ClientPrefs.data.antialiasing);
-		vpad.alpha = 0;
-		add(vpad);
+		virtualPads = new FlxVirtualPad(RIGHT_FULL, NONE, 0.75, ClientPrefs.data.antialiasing);
+		virtualPads.alpha = 0;
+		add(virtualPads);
         /*
 		hbox = new FlxHitbox(0.75, ClientPrefs.data.antialiasing);
 		hbox.visible = false;
@@ -84,22 +84,22 @@ class AndroidControlsMenu extends MusicBeatState
 		rightArrow.animation.play('idle');
 		add(rightArrow);
 
-		upPozition = new FlxText(10, FlxG.height - 104, 0,"Button Up X:" + vpad.buttonUp.x +" Y:" + vpad.buttonUp.y, 16);
+		upPozition = new FlxText(10, FlxG.height - 104, 0,"Button Up X:" + virtualPads.buttonUp.x +" Y:" + virtualPads.buttonUp.y, 16);
 		upPozition.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		upPozition.borderSize = 2.4;
 		add(upPozition);
 
-		downPozition = new FlxText(10, FlxG.height - 84, 0,"Button Down X:" + vpad.buttonDown.x +" Y:" + vpad.buttonDown.y, 16);
+		downPozition = new FlxText(10, FlxG.height - 84, 0,"Button Down X:" + virtualPads.buttonDown.x +" Y:" + virtualPads.buttonDown.y, 16);
 		downPozition.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		downPozition.borderSize = 2.4;
 		add(downPozition);
 
-		leftPozition = new FlxText(10, FlxG.height - 64, 0,"Button Left X:" + vpad.buttonLeft.x +" Y:" + vpad.buttonLeft.y, 16);
+		leftPozition = new FlxText(10, FlxG.height - 64, 0,"Button Left X:" + virtualPads.buttonLeft.x +" Y:" + virtualPads.buttonLeft.y, 16);
 		leftPozition.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		leftPozition.borderSize = 2.4;
 		add(leftPozition);
 
-		rightPozition = new FlxText(10, FlxG.height - 44, 0,"Button RIght x:" + vpad.buttonRight.x +" Y:" + vpad.buttonRight.y, 16);
+		rightPozition = new FlxText(10, FlxG.height - 44, 0,"Button RIght x:" + virtualPads.buttonRight.x +" Y:" + virtualPads.buttonRight.y, 16);
 		rightPozition.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		rightPozition.borderSize = 2.4;
 		add(rightPozition);
@@ -160,27 +160,27 @@ class AndroidControlsMenu extends MusicBeatState
 		switch (daChoice)
 		{
 				case 'Pad-Right':
-					remove(vpad);
-					vpad = new FlxVirtualPad(RIGHT_FULL, NONE, 0.75, ClientPrefs.data.antialiasing);
-					add(vpad);
+					remove(virtualPads);
+					virtualPads = new FlxVirtualPad(RIGHT_FULL, NONE, 0.75, ClientPrefs.data.antialiasing);
+					add(virtualPads);
 				case 'Pad-Left':
-					remove(vpad);
-					vpad = new FlxVirtualPad(FULL, NONE, 0.75, ClientPrefs.data.antialiasing);
-					add(vpad);
+					remove(virtualPads);
+					virtualPads = new FlxVirtualPad(FULL, NONE, 0.75, ClientPrefs.data.antialiasing);
+					add(virtualPads);
 				case 'Pad-Custom':
-					remove(vpad);
-					vpad = new FlxVirtualPad(RIGHT_FULL, NONE, 0.75, ClientPrefs.data.antialiasing);
-					add(vpad);
+					remove(virtualPads);
+					virtualPads = new FlxVirtualPad(RIGHT_FULL, NONE, 0.75, ClientPrefs.data.antialiasing);
+					add(virtualPads);
 					loadcustom();
 				case 'Duo':
-					remove(vpad);
-					vpad = new FlxVirtualPad(DUO, NONE, 0.75, ClientPrefs.data.antialiasing);
-					add(vpad);
+					remove(virtualPads);
+					virtualPads = new FlxVirtualPad(DUO, NONE, 0.75, ClientPrefs.data.antialiasing);
+					add(virtualPads);
 				case 'Hitbox':
-					vpad.alpha = 0;
+					virtualPads.alpha = 0;
 				case 'Keyboard':
-					remove(vpad);
-					vpad.alpha = 0;
+					remove(virtualPads);
+					virtualPads.alpha = 0;
 		}
 
 		if (daChoice != "Hitbox")
@@ -228,37 +228,37 @@ class AndroidControlsMenu extends MusicBeatState
 			}
 			else 
 			{
-				if (vpad.buttonUp.justPressed) {
-					movebutton(touch, vpad.buttonUp);
+				if (virtualPads.buttonUp.justPressed) {
+					movebutton(touch, virtualPads.buttonUp);
 				}
 				
-				if (vpad.buttonDown.justPressed) {
-					movebutton(touch, vpad.buttonDown);
+				if (virtualPads.buttonDown.justPressed) {
+					movebutton(touch, virtualPads.buttonDown);
 				}
 
-				if (vpad.buttonRight.justPressed) {
-					movebutton(touch, vpad.buttonRight);
+				if (virtualPads.buttonRight.justPressed) {
+					movebutton(touch, virtualPads.buttonRight);
 				}
 
-				if (vpad.buttonLeft.justPressed) {
-					movebutton(touch, vpad.buttonLeft);
+				if (virtualPads.buttonLeft.justPressed) {
+					movebutton(touch, virtualPads.buttonLeft);
 				}
 			}
 		}
 	}
 
 	function movebutton(touch:flixel.input.touch.FlxTouch, button:android.flixel.FlxButton) {
-		button.x = touch.x - vpad.buttonUp.width / 2;
-		button.y = touch.y - vpad.buttonUp.height / 2;
+		button.x = touch.x - virtualPads.buttonUp.width / 2;
+		button.y = touch.y - virtualPads.buttonUp.height / 2;
 		bindbutton = button;
 		buttonistouched = true;
 	}
 
 	function setbuttontexts() {
-		upPozition.text = "Button Up X:" + vpad.buttonUp.x +" Y:" + vpad.buttonUp.y;
-		downPozition.text = "Button Down X:" + vpad.buttonDown.x +" Y:" + vpad.buttonDown.y;
-		leftPozition.text = "Button Left X:" + vpad.buttonLeft.x +" Y:" + vpad.buttonLeft.y;
-		rightPozition.text = "Button RIght x:" + vpad.buttonRight.x +" Y:" + vpad.buttonRight.y;
+		upPozition.text = "Button Up X:" + virtualPads.buttonUp.x +" Y:" + virtualPads.buttonUp.y;
+		downPozition.text = "Button Down X:" + virtualPads.buttonDown.x +" Y:" + virtualPads.buttonDown.y;
+		leftPozition.text = "Button Left X:" + virtualPads.buttonLeft.x +" Y:" + virtualPads.buttonLeft.y;
+		rightPozition.text = "Button RIght x:" + virtualPads.buttonRight.x +" Y:" + virtualPads.buttonRight.y;
 	}
 
 	function save() {
@@ -266,11 +266,11 @@ class AndroidControlsMenu extends MusicBeatState
 		var daChoice:String = controlitems[Math.floor(currentlySelected)];
 
 		if (daChoice == 'Pad-Custom'){
-			config.savecustom(vpad);
+			config.savecustom(virtualPads);
 		}
 	}
 
 	function loadcustom():Void{
-		vpad = config.loadcustom(vpad);	
+		virtualPads = config.loadcustom(virtualPads);	
 	}
 }

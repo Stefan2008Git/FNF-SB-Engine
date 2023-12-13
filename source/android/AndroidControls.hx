@@ -64,7 +64,7 @@ class AndroidControls extends FlxSpriteGroup {
 
 	public var hbox:FlxHitbox;
 	public var newhbox:FlxNewHitbox;
-	public var vpad:FlxVirtualPad;
+	public var virtualPads:FlxVirtualPad;
 
 	var config:Config;
 
@@ -94,21 +94,21 @@ class AndroidControls extends FlxSpriteGroup {
 		}
 	}
 
-	function initControler(vpadMode:Int) {
-		switch (vpadMode){
+	function initControler(virtualPadsMode:Int) {
+		switch (virtualPadsMode){
 			case 0:
-				vpad = new FlxVirtualPad(RIGHT_FULL, NONE, 0.75, ClientPrefs.data.antialiasing);	
-				add(vpad);						
+				virtualPads = new FlxVirtualPad(RIGHT_FULL, NONE, 0.75, ClientPrefs.data.antialiasing);	
+				add(virtualPads);						
 			case 1:
-				vpad = new FlxVirtualPad(FULL, NONE, 0.75, ClientPrefs.data.antialiasing);
-				add(vpad);			
+				virtualPads = new FlxVirtualPad(FULL, NONE, 0.75, ClientPrefs.data.antialiasing);
+				add(virtualPads);			
 			case 2:
-				vpad = new FlxVirtualPad(FULL, NONE, 0.75, ClientPrefs.data.antialiasing);
-				vpad = config.loadcustom(vpad);
-				add(vpad);	
+				virtualPads = new FlxVirtualPad(FULL, NONE, 0.75, ClientPrefs.data.antialiasing);
+				virtualPads = config.loadcustom(virtualPads);
+				add(virtualPads);	
 			case 3:
-				vpad = new FlxVirtualPad(DUO, NONE, 0.75, ClientPrefs.data.antialiasing);
-				add(vpad);		
+				virtualPads = new FlxVirtualPad(DUO, NONE, 0.75, ClientPrefs.data.antialiasing);
+				add(virtualPads);		
 			case 4:
 				hbox = new FlxHitbox(0.75, ClientPrefs.data.antialiasing);
 				add(hbox);
@@ -116,8 +116,8 @@ class AndroidControls extends FlxSpriteGroup {
 			  newhbox = new FlxNewHitbox();
 			  add(newhbox);
 			default:
-				vpad = new FlxVirtualPad(RIGHT_FULL, NONE, 0.75, ClientPrefs.data.antialiasing);	
-				add(vpad);					
+				virtualPads = new FlxVirtualPad(RIGHT_FULL, NONE, 0.75, ClientPrefs.data.antialiasing);	
+				add(virtualPads);					
 		}
 	}
 
