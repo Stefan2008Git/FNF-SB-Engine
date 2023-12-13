@@ -78,6 +78,12 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		option.decimals = 1;
 		addOption(option);
 
+		var option:Option = new Option('Hide HUD',
+			'If checked, hides most HUD elements.',
+			'hideHud',
+			'bool');
+		addOption(option);
+
 		var option:Option = new Option('Camera Zooms',
 			"If unchecked, the camera won't zoom in on a beat hit.",
 			'camZooms',
@@ -155,6 +161,11 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			"If unchecked, hides judgementCounter.", 'judgementCounter', 'bool');
 		addOption(option);
 
+		var option:Option = new Option('Judgement style: ',
+			"What style of judgement do you like?", 'judgementCounterStyle', 'string',
+			['Original', 'With Misses', 'Better Judge']);
+		addOption(option);
+
 		var option:Option = new Option('Time bar',
 			"If unchecked, hides time bar.", 'timeBar', 'bool');
 		addOption(option);
@@ -168,7 +179,11 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		addOption(option);
 
 		var option:Option = new Option('Note glow',
-			"If unchecked, disables note glow when zou are hitting note.", 'arrowGlow', 'bool');
+			"If unchecked, disables note glow when you are hitting notes.", 'arrowGlow', 'bool');
+		addOption(option);
+
+		var option:Option = new Option('Score text',
+			"If unchecked, hides score text.", 'scoreText', 'bool');
 		addOption(option);
 
 		var option:Option = new Option('Pause Screen Song:',
@@ -178,6 +193,13 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			['None', 'Breakfast', 'Tea Time']);
 		addOption(option);
 		option.onChange = onChangePauseMusic;
+		
+		var option:Option = new Option('Time Bar:',
+			"What should the Time Bar display?",
+			'timeBarType',
+			'string',
+			['Time Left', 'Time Elapsed', 'Song Name', 'Disabled']);
+		addOption(option);
 
 		var option:Option = new Option('Hitsound Volume',
 			'Funny notes does \"Tick!\" when you hit them."',

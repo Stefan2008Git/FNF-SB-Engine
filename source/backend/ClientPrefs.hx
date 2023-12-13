@@ -73,6 +73,7 @@ class SaveVariables {
 	public var iconBounce:Bool = true;
 	public var cameraMovement:Bool = false;
 	public var arrowGlow:Bool = true;
+	public var scoreText:Bool = true;
 	public var gameplaySettings:Map<String, Dynamic> = [
 		'scrollspeed' => 1.0,
 		'scrolltype' => 'multiplicative', 
