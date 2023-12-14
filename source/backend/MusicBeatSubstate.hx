@@ -54,8 +54,8 @@ class MusicBeatSubstate extends FlxSubState
 	public function addVirtualPad(?DPad:FlxDPadMode, ?Action:FlxActionMode) {
 		virtualPad = new FlxVirtualPad(DPad, Action, 0.75, ClientPrefs.data.antialiasing);
 		add(virtualPad);
-		Controls.checkState = false;
-		Controls.CheckPress = true;
+		Controls.checkTheState = false;
+		Controls.checkThePresseds = true;
 		//controls.setVirtualPadUI(virtualPad, DPad, Action);
 		//trackedinputsUI = controls.trackedinputsUI;
 		//controls.trackedinputsUI = [];
@@ -73,7 +73,7 @@ class MusicBeatSubstate extends FlxSubState
 	
 	#if android
 	public function noCheckPress() {
-		Controls.CheckPress = false;
+		Controls.checkThePresseds = false;
 	}
 	#end
 	
@@ -81,7 +81,7 @@ class MusicBeatSubstate extends FlxSubState
 	public function addAndroidControls() {
 		androidc = new AndroidControls();
 		
-        Controls.CheckPress = true;
+        Controls.checkThePresseds = true;
         
 		switch (androidc.mode)
 		{
@@ -89,22 +89,22 @@ class MusicBeatSubstate extends FlxSubState
 				//controls.setVirtualPadNOTES(androidc.virtualPads, FULL, NONE);
 				checkHitbox = false;
 				checkDUO = false;
-				Controls.CheckKeyboard = false;
+				Controls.checkTheKeyboard = false;
 			case DUO:
 				//controls.setVirtualPadNOTES(androidc.virtualPads, DUO, NONE);
 				checkHitbox = false;
 				checkDUO = true;
-				Controls.CheckKeyboard = false;
+				Controls.checkTheKeyboard = false;
 			case HITBOX:
 				//controls.setNewHitBox(androidc.newhbox);
 				checkHitbox = true;
 				checkDUO = false;
-				Controls.CheckKeyboard = false;
+				Controls.checkTheKeyboard = false;
 			//case KEYBOARD:				    
 			default:
 			    checkHitbox = false;
 			    checkDUO = false;
-			    Controls.CheckKeyboard = true;
+			    Controls.checkTheKeyboard = true;
 		}
 
 		var camcontrol = new flixel.FlxCamera();
@@ -116,7 +116,7 @@ class MusicBeatSubstate extends FlxSubState
 		
 
 		add(androidc);
-		Controls.CheckControl = false;
+		Controls.checkTheControls = false;
 	}
 	#end
 
