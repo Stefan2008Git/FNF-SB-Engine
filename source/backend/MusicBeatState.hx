@@ -48,8 +48,8 @@ class MusicBeatState extends FlxUIState
 	public function addVirtualPad(?DPad:FlxDPadMode, ?Action:FlxActionMode) {
 		virtualPad = new FlxVirtualPad(DPad, Action, 0.75, ClientPrefs.data.antialiasing);
 		add(virtualPad);
-		Controls.checkState = true;
-		Controls.CheckPress = true;
+		Controls.checkTheState = true;
+		Controls.checkThePressedControl = true;
 		//controls.setVirtualPadUI(virtualPad, DPad, Action);
 		//trackedinputsUI = controls.trackedinputsUI;
 		//controls.trackedinputsUI = [];
@@ -67,7 +67,7 @@ class MusicBeatState extends FlxUIState
 	
 	#if android
 	public function noCheckPress() {
-		Controls.CheckPress = false;
+		Controls.checkThePressedControl = false;
 	}
 	#end
 	
@@ -75,7 +75,7 @@ class MusicBeatState extends FlxUIState
 	public function addAndroidControls() {
 		androidControls = new AndroidControls();
 		
-        Controls.CheckPress = true;
+        Controls.checkThePressedControl = true;
         
 		switch (androidControls.mode)
 		{
@@ -83,23 +83,23 @@ class MusicBeatState extends FlxUIState
 				//controls.setVirtualPadNOTES(androidControls.virtualPads, FULL, NONE);
 				checkHitbox = false;
 				checkDUO = false;
-				Controls.CheckKeyboard = false;
+				Controls.checkTheKeyboard = false;
 			case DUO:
 				//controls.setVirtualPadNOTES(androidControls.virtualPads, DUO, NONE);
 				checkHitbox = false;
 				checkDUO = true;
-				Controls.CheckKeyboard = false;
+				Controls.checkTheKeyboard = false;
 			case HITBOX:
 				//controls.setNewHitBox(androidControls.newhbox);
 				checkHitbox = true;
 				checkDUO = false;
-				Controls.CheckKeyboard = false;
+				Controls.checkTheKeyboard = false;
 			//case KEYBOARD:	
 			    
 			default:
 			    checkHitbox = false;
 				checkDUO = false;
-			    Controls.CheckKeyboard = true;
+			    Controls.checkTheKeyboard = true;
 		}
 
 		var camcontrol = new flixel.FlxCamera();
@@ -110,7 +110,7 @@ class MusicBeatState extends FlxUIState
 		androidControls.visible = false;
 
 		add(androidControls);
-		Controls.CheckControl = true;
+		Controls.checkTheControls = true;
 	}
 	#end
 

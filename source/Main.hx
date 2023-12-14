@@ -2,8 +2,6 @@ package;
 
 import flixel.graphics.FlxGraphic;
 
-import flixel.FlxGame;
-import flixel.FlxState;
 import openfl.Assets;
 import openfl.Lib;
 import openfl.display.FPS;
@@ -12,7 +10,10 @@ import openfl.events.Event;
 import openfl.display.StageScaleMode;
 import lime.app.Application;
 import states.TitleState;
+#if android
 import SUtil;
+import android.backend.AndroidDialogsExtend;
+#end
 
 #if linux
 import lime.graphics.Image;
@@ -33,16 +34,17 @@ import states.MainMenuState;
 class Main extends Sprite
 {
 	var game = {
-		width: 1280, // WINDOW width
-		height: 720, // WINDOW height
-		initialState: TitleState, // initial game state
-		zoom: -1.0, // game state bounds
-		framerate: 60, // default framerate
-		skipSplash: true, // if the default flixel splash screen should be skipped
-		startFullscreen: false // if the game should start at fullscreen mode
+		width: 1280,
+		height: 720,
+		initialState: TitleState,
+		zoom: -1.0,
+		framerate: 60,
+		skipSplash: true,
+		startFullscreen: false
 	};
 
 	public static var fpsVar:FPS;
+	public static var toastText:String = '';
 
 	// You can pretty much ignore everything from here on - your code should go in your states.
 
@@ -78,6 +80,13 @@ class Main extends Sprite
 	private function setupGame():Void
 	{
 		Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion;
+		#if android
+		toastText = "Welcome to: FNF': SB Engine v" + MainMenuState.sbEngineVersion;
+		if(!checkingToastMessage) {		
+		    checkingToastMessage = true;
+		    AndroidDialogsExtend.OpenToast(toastText, 1);
+		}
+		#end
 
 		var stageWidth:Int = Lib.current.stage.stageWidth;
 		var stageHeight:Int = Lib.current.stage.stageHeight;
@@ -185,6 +194,12 @@ class Main extends Sprite
 
 		Sys.println(errorMessage);
 		Sys.println("Crash dump saved in " + Path.normalize(path));
+
+		#if android
+		var toastText:String = '';
+		toastText = 'Uncaught Error happends!';
+		AndroidDialogsExtend.OpenToast(toastText, 1);
+		#end
 
 		Application.current.window.alert(errorMessage, "Error! SB Engine v" + MainMenuState.sbEngineVersion);
 		#if desktop

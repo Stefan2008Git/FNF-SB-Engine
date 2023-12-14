@@ -104,8 +104,8 @@ class Controls
 	private function get_PAUSE() return justPressed('pause');
 	private function get_RESET() return justPressed('reset');
 	
-	public static var checkState:Bool = true;
-	public static var CheckPress:Bool = true;
+	public static var checkTheState:Bool = true;
+	public static var checkThePressedControl:Bool = true;
     public static var checkTheControls:Bool = true;
     public static var checkTheKeyboard:Bool = false;
 	//Gamepad & Keyboard stuff
@@ -202,12 +202,11 @@ class Controls
 	}
 	
 	#if android
-	
 	private function checkAndroidControl_justPressed(key:String):Bool
 	{
 	    var result:Bool = false;
-	    if (CheckPress){
-		    if (checkState) {
+	    if (checkThePressedControl){
+		    if (checkTheState) {
     		    if (key == 'accept'){
     		    	result = (MusicBeatState.virtualPad.buttonA.justPressed == true);
     		    	if(result) {
@@ -456,8 +455,8 @@ class Controls
     var result:Bool = false;
     
         //------------------ui
-	    if (CheckPress){
-		    if (checkState){
+	    if (checkThePressedControl){
+		    if (checkTheState){
     		    if (key == 'accept'){
     		    result = (MusicBeatState.virtualPad.buttonA.pressed == true);
     		    if(result) {controllerMode = true; return true;}
@@ -483,7 +482,7 @@ class Controls
         		result = (MusicBeatState.virtualPad.buttonRight.pressed == true);
     		    if(result) {controllerMode = true; return true;}
     		        }
-		        }//checkState
+		        }//checkTheState
 		    else{
     		    if (key == 'accept'){
     		    result = (MusicBeatSubstate.virtualPad.buttonA.pressed == true);
@@ -650,8 +649,8 @@ class Controls
     var result:Bool = false;
     
         //------------------ui
-	    if (CheckPress){
-		    if (checkState){
+	    if (checkThePressedControl){
+		    if (checkTheState){
     		    if (key == 'accept'){
     		    result = (MusicBeatState.virtualPad.buttonA.justReleased == true);
     		    if(result) {controllerMode = true; return true;}
@@ -677,7 +676,7 @@ class Controls
         		result = (MusicBeatState.virtualPad.buttonRight.justReleased == true);
     		    if(result) {controllerMode = true; return true;}
     		        }
-		        }//checkState
+		        }//checkTheState
 		    else{
     		    if (key == 'accept'){
     		    result = (MusicBeatSubstate.virtualPad.buttonA.justReleased == true);
@@ -704,8 +703,8 @@ class Controls
     		    result = (MusicBeatSubstate.virtualPad.buttonRight.justReleased == true);
     		    if(result) {controllerMode = true; return true;}
     		    }						
-		    }//!checkState
-		}//CheckPress
+		    }//!checkTheState
+		}//checkThePressedControl
 		
 		//------------------note
 		if (!checkTheKeyboard){

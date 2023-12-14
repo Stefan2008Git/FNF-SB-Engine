@@ -2,7 +2,7 @@
 <project>
 	<!-- _________________________ Application Settings _________________________ -->
 
-	<app title="Friday Night Funkin': SB Engine" file="SBEngine" packageName="com.stefan2008.sbengine" package="com.stefan2008.sbengine" main="Main" version="3.0.0" company="Stefan2008" />
+	<app title="Friday Night Funkin': SB Engine" file="SB Engine" packageName="com.stefan2008.sbengine" package="com.stefan2008.sbengine" main="Main" version="3.0.0" company="Stefan2008" />
 
 	<!--Switch Export with Unique ApplicationID and Icon-->
 	<set name="APP_ID" value="0x0100f6c013bbc000" />
@@ -113,9 +113,9 @@
 	<haxelib name="linc_luajit" if="LUA_ALLOWED"/>
 	<haxelib name="SScript" if="HSCRIPT_ALLOWED"/>
 	<haxelib name="hxCodec" if="VIDEOS_ALLOWED"/>
-        <haxelib name="extension-androidtools" if="android"/>
-	<haxelib name="androiddialogs" if = "android"/>
-	<haxelib name="devicelanguage" if = "mobile"/>
+    <haxelib name="extension-androidtools" if="android"/>
+	<haxelib name="AndroidDialogs" if = "android"/>
+	<haxelib name="devicelanguage" if = "android"/>
 	<haxelib name="discord_rpc" if="desktop"/>
 	<haxelib name="tjson" />
 	<haxedef name="openflPos" if="desktop"/>

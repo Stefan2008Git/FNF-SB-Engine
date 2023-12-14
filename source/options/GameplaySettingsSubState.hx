@@ -186,6 +186,10 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			"If unchecked, hides score text.", 'scoreText', 'bool');
 		addOption(option);
 
+		var option:Option = new Option('Text Sine Effect',
+			"If unchecked, disables text sine effect.", 'textSineEffect', 'bool');
+		addOption(option);
+
 		var option:Option = new Option('Pause Screen Song:',
 			"What song do you prefer for the Pause Screen?",
 			'pauseMusic',

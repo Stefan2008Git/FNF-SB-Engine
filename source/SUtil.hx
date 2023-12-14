@@ -4,6 +4,7 @@ package;
 import android.Tools;
 import android.Permissions;
 import android.PermissionsList;
+import android.backend.AndroidDialogsExtend;
 #end
 import lime.app.Application;
 import openfl.events.UncaughtErrorEvent;
@@ -87,17 +88,23 @@ class SUtil
 	}
 
 	#if android
-	public static function saveContent(fileName:String = 'file', fileExtension:String = '.json', fileData:String = 'you forgot something to add in your code')
+	public static function saveContent(fileName:String = 'file', fileExtension:String = '.json', fileData:String = 'You forgot something to add in your code')
 	{
 		if (!FileSystem.exists(SUtil.getPath() + 'saves'))
 			FileSystem.createDirectory(SUtil.getPath() + 'saves');
 
 		File.saveContent(SUtil.getPath() + 'saves/' + fileName + fileExtension, fileData);
+		var toastFileSaveText:String = '';
+		toastFileSaveText = 'Done! File Saved Successfully!';
+		AndroidDialogsExtend.OpenToast(toastFileSaveText, 2);
 	}
 
-	public static function saveClipboard(fileData:String = 'you forgot something to add in your code')
+	public static function saveClipboard(fileData:String = 'You forgot something to add in your code')
 	{
 		openfl.system.System.setClipboard(fileData);
+		var toastClipboardSaveText:String = '';
+		toastClipboardSaveText = 'Done! Data Saved to Clipboard Successfully!';
+		AndroidDialogsExtend.OpenToast(toastClipboardSaveText, 2);
 	}
 
 	public static function copyContent(copyPath:String, savePath:String)
