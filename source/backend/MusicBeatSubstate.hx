@@ -55,7 +55,7 @@ class MusicBeatSubstate extends FlxSubState
 		virtualPad = new FlxVirtualPad(DPad, Action, 0.75, ClientPrefs.data.antialiasing);
 		add(virtualPad);
 		Controls.checkTheState = false;
-		Controls.checkThePresseds = true;
+		Controls.checkThePressed = true;
 		//controls.setVirtualPadUI(virtualPad, DPad, Action);
 		//trackedinputsUI = controls.trackedinputsUI;
 		//controls.trackedinputsUI = [];
@@ -73,7 +73,7 @@ class MusicBeatSubstate extends FlxSubState
 	
 	#if android
 	public function noCheckPress() {
-		Controls.checkThePresseds = false;
+		Controls.checkThePressed = false;
 	}
 	#end
 	
@@ -81,7 +81,7 @@ class MusicBeatSubstate extends FlxSubState
 	public function addAndroidControls() {
 		androidc = new AndroidControls();
 		
-        Controls.checkThePresseds = true;
+        Controls.checkThePressed = true;
         
 		switch (androidc.mode)
 		{
