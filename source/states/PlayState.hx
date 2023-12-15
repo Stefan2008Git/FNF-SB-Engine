@@ -510,7 +510,7 @@ class PlayState extends MusicBeatState
 		if(ClientPrefs.data.downScroll) timeTxt.y = FlxG.height - 44;
 		if(ClientPrefs.data.timeBarType == 'Song Name') timeTxt.text = SONG.song;
 
-		timeBar = new HealthBar(0, timeTxt.y + (timeTxt.height / 4), 'timeBar', function() return songPercent, 0, 1);
+		timeBar = new HealthBar(0, timeTxt.y + (timeTxt.height / 4), 'healthBar', function() return songPercent, 0, 1);
 		timeBar.scrollFactor.set();
 		timeBar.screenCenter(X);
 		timeBar.alpha = 0;
@@ -1892,7 +1892,9 @@ class PlayState extends MusicBeatState
 		iconP1.x = healthBar.barCenter + (150 * iconP1.scale.x - 150) / 2 - iconOffset;
 		iconP2.x = healthBar.barCenter - (150 * iconP2.scale.x) / 2 - iconOffset * 2;
 		iconP1.animation.curAnim.curFrame = (healthBar.percent < 20) ? 1 : 0;
+		iconP2.animation.curAnim.curFrame = (healthBar.percent < 20) ? 2 : 0;
 		iconP2.animation.curAnim.curFrame = (healthBar.percent > 80) ? 1 : 0;
+		iconP1.animation.curAnim.curFrame = (healthBar.percent > 80) ? 2 : 0;
 
 		if (controls.justPressed('debug_2') && !endingSong && !inCutscene)
 			openCharacterEditor();
