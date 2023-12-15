@@ -91,6 +91,7 @@ class SaveVariables {
 		'songspeed' => 1.0,
 		'healthgain' => 1.0,
 		'healthloss' => 1.0,
+		'healthDran' => 0,
 		'instakill' => false,
 		'practice' => false,
 		'botplay' => false

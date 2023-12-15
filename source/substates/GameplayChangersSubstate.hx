@@ -64,6 +64,9 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 		option.displayFormat = '%vX';
 		optionsArray.push(option);
 
+		var option:GameplayOption = new GameplayOption('Health Drain Percent', 'healthDrain', 'percent', 0);
+		optionsArray.push(option);
+
 		var option:GameplayOption = new GameplayOption('Instakill on Miss', 'instakill', 'bool', false);
 		optionsArray.push(option);
 
