@@ -1950,13 +1950,35 @@ class PlayState extends MusicBeatState
 		var iconOffset:Int = 26;
 		if (health > 2) health = 2;
 		iconP1.x = healthBar.barCenter + (150 * iconP1.scale.x - 150) / 2 - iconOffset;
-		iconP2.x = healthBar.barCenter - (150 * iconP2.scale.x) / 2 - iconOffset * 2;
-		iconP1.animation.curAnim.curFrame = (healthBar.percent < 20) ? 1 : 0;
-		shakeFromLosing(iconP1);
-		iconP2.animation.curAnim.curFrame = (healthBar.percent < 20) ? 2 : 0;
-		iconP2.animation.curAnim.curFrame = (healthBar.percent > 80) ? 1 : 0;
-		iconP1.animation.curAnim.curFrame = (healthBar.percent > 80) ? 2 : 0;
-		shakeFromLosing(iconP2);
+		iconP2.x = healthBar.barCenter - (150 * iconP2.scale.x) / 2 - iconOffset * 2;	
+
+		if (iconP1.animation.numFrames == 3) {
+			if (healthBar.percent < 20)
+				iconP1.animation.curAnim.curFrame = 1;
+			else if (healthBar.percent >80)
+				iconP1.animation.curAnim.curFrame = 2;
+			else
+				iconP1.animation.curAnim.curFrame = 0;
+		} 
+		else {
+			if (healthBar.percent < 20)
+				iconP1.animation.curAnim.curFrame = 1;
+			else
+				iconP1.animation.curAnim.curFrame = 0;
+		}
+		if (iconP2.animation.numFrames == 3) {
+			if (healthBar.percent > 80)
+				iconP2.animation.curAnim.curFrame = 1;
+			else if (healthBar.percent < 20)
+				iconP2.animation.curAnim.curFrame = 2;
+			else 
+				iconP2.animation.curAnim.curFrame = 0;
+		} else {
+			if (healthBar.percent > 80)
+				iconP2.animation.curAnim.curFrame = 1;
+			else 
+				iconP2.animation.curAnim.curFrame = 0;
+		}
 
 		if (controls.justPressed('debug_2') && !endingSong && !inCutscene)
 			openCharacterEditor();
@@ -3041,7 +3063,7 @@ class PlayState extends MusicBeatState
 			}
 		});
 		
-		healthBarShake(0.85);
+		if (ClientPrefs.data.shakeObjects) healthBarShake(0.85);
 		noteMissCommon(daNote.noteData, daNote);
 		var result:Dynamic = callOnLuas('noteMiss', [notes.members.indexOf(daNote), daNote.noteData, daNote.noteType, daNote.isSustainNote]);
 		if(result != FunkinLua.Function_Stop && result != FunkinLua.Function_StopHScript && result != FunkinLua.Function_StopAll) callOnHScript('noteMiss', [daNote]);
@@ -3052,7 +3074,7 @@ class PlayState extends MusicBeatState
 		if(ClientPrefs.data.ghostTapping) return; //fuck it
 
 		noteMissCommon(direction);
-		healthBarShake(0.65);
+		if (ClientPrefs.data.shakeObjects) healthBarShake(0.65);
 		FlxG.sound.play(Paths.soundRandom('missnote', 1, 3), FlxG.random.float(0.1, 0.2));
 		callOnScripts('noteMissPress', [direction]);
 	}
@@ -3409,8 +3431,10 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		if (healthBar.percent < 20) if(!endingSong) shakeFromLosing(iconP1);
-		if (healthBar.percent > 80) if(!endingSong) shakeFromLosing(iconP2);
+		if (ClientPrefs.data.shakeObjects) {
+			if (healthBar.percent < 20) if(!endingSong) shakeFromLosing(iconP1);
+			if (healthBar.percent > 80) if(!endingSong) shakeFromLosing(iconP2);
+		}
 
 		if (gf != null && curBeat % Math.round(gfSpeed * gf.danceEveryNumBeats) == 0 && gf.animation.curAnim != null && !gf.animation.curAnim.name.startsWith("sing") && !gf.stunned)
 			gf.dance();

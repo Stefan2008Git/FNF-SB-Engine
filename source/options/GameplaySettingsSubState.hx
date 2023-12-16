@@ -190,6 +190,10 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			"If unchecked, disables text sine effect.", 'textSineEffect', 'bool');
 		addOption(option);
 
+		var option:Option = new Option('Shake objects',
+			"If checked, shakes some objects.", 'shakeObjects', 'bool');
+		addOption(option);
+
 		var option:Option = new Option('Pause Screen Song:',
 			"What song do you prefer for the Pause Screen?",
 			'pauseMusic',

@@ -75,6 +75,7 @@ class SaveVariables {
 	public var arrowGlow:Bool = true;
 	public var scoreText:Bool = true;
 	public var textSineEffect:Bool = true;
+	public var shakeObjects:Bool = false;
 	public var gameplaySettings:Map<String, Dynamic> = [
 		'scrollspeed' => 1.0,
 		'scrolltype' => 'multiplicative', 
