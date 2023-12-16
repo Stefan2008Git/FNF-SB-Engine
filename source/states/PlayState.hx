@@ -498,8 +498,6 @@ class PlayState extends MusicBeatState
 		add(noteGroup);
 		uiGroup = new FlxSpriteGroup();
 		add(uiGroup);
-		iconGroup = new FlxTypedGroup<HealthIcon>();
-		add(iconGroup);
 
 		Conductor.songPosition = -5000 / Conductor.songPosition;
 		var showTime:Bool = (ClientPrefs.data.timeBarType != 'Disabled');
@@ -572,13 +570,13 @@ class PlayState extends MusicBeatState
 		iconP1.y = healthBar.y - 75;
 		iconP1.visible = !ClientPrefs.data.hideHud;
 		iconP1.alpha = ClientPrefs.data.healthBarAlpha;
-		iconGroup.add(iconP1);
+		uiGroup.add(iconP1);
 
 		iconP2 = new HealthIcon(dad.healthIcon, false);
 		iconP2.y = healthBar.y - 75;
 		iconP2.visible = !ClientPrefs.data.hideHud;
 		iconP2.alpha = ClientPrefs.data.healthBarAlpha;
-		iconGroup.add(iconP2);
+		uiGroup.add(iconP2);
 
 		scoreTxt = new FlxText(0, healthBar.y + 37, FlxG.width, "", 20);
 		scoreTxt.setFormat(Paths.font("vcr.ttf"), 17, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -590,7 +588,7 @@ class PlayState extends MusicBeatState
 		if (ClientPrefs.data.middleScroll) {
 			botplayTxt = new FlxText(400, timeBar.y + 55, FlxG.width - 800, 32);
 		} else {
-			botplayTxt = new FlxText(400, timeBar.y + 55, FlxG.width - 550, 32);
+			botplayTxt = new FlxText(400, timeBar.y + 55, FlxG.width - 125, 32);
 		}
 		botplayTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		botplayTxt.scrollFactor.set();
@@ -712,7 +710,6 @@ class PlayState extends MusicBeatState
 		uiGroup.cameras = [camHUD];
 		noteGroup.cameras = [camHUD];
 		comboGroup.cameras = [camHUD];
-		iconGroup.cameras = [camHUD];
 
 		startingSong = true;
 		
@@ -1913,8 +1910,8 @@ class PlayState extends MusicBeatState
 
 		if (ClientPrefs.data.textSineEffect) {
 			if(botplayTxt != null && botplayTxt.visible) {
-				botplaySine += 180 * elapsed;
-				botplayTxt.alpha = 1 - Math.sin((Math.PI * botplaySine) / 180);
+				botplaySine += 50 * elapsed;
+				botplayTxt.alpha = 1 - Math.sin((Math.PI * botplaySine) / 30);
 			}
 		}
 
@@ -1935,32 +1932,9 @@ class PlayState extends MusicBeatState
 			{
 				var icon = cast(s, HealthIcon);
 				remove(icon);
-				iconGroup.add(icon);
+				uiGroup.add(icon);
 			}
 		}
-
-		iconGroup.forEach(function(icon:HealthIcon)
-		{
-			if (!icon.visible || !icon.auto)
-				return;
-			var decBeat = curDecBeat;
-			if (decBeat < 0)
-				decBeat = 1 + (decBeat % 1);
-				
-				var iconlerp = FlxMath.lerp(1.15, 1, FlxEase.cubeOut(decBeat % 1));
-				icon.scale.set(iconlerp, iconlerp);
-				icon.scale.set(iconlerp, iconlerp);
-				icon.offset.x = -75;
-				icon.offset.x = -75;
-			
-			if (icon.isPlayer) {
-					icon.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01) - iconOffset) + icon.offset.x + (icon.width * (icon.scale.x - 1) / 4) + (playerOffset * 85 * icon.scale.x);
-				} else {
-					icon.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (icon.width - iconOffset) + icon.offset.x - (icon.width * (icon.scale.x - 1) / 2) - (opponentOffset * 85 * icon.scale.x);
-			}
-			
-			icon.y = healthBar.y + (healthBar.height / 2) - (icon.height / 2);
-		});
 
 		if (controls.justPressed('debug_1') && !endingSong && !inCutscene)
 			openChartEditor();
@@ -2667,7 +2641,6 @@ class PlayState extends MusicBeatState
 			}
 			else
 			{
-				trace('WENT BACK TO FREEPLAY??');
 				Mods.loadTopMod();
 				#if desktop DiscordClient.resetClientID(); #end
 
@@ -2711,8 +2684,6 @@ class PlayState extends MusicBeatState
 	public var uiGroup:FlxSpriteGroup;
 	// Stores Note Objects in a Group
 	public var noteGroup:FlxTypedGroup<FlxBasic>;
-	// Stores Icon Objects in a Group
-	public var iconGroup:FlxTypedGroup<HealthIcon>;
 
 	private function cachePopUpScore()
 	{
