@@ -228,6 +228,7 @@ class PlayState extends MusicBeatState
 	public var scoreTxt:FlxText;
 	var timeTxt:FlxText;
 	var scoreTxtTween:FlxTween;
+	var judgementCounterTween:FlxTween;
 	
 	public var engineVersionTxt:FlxText;
 	public var songAndDifficultyNameTxt:FlxText;
@@ -509,13 +510,14 @@ class PlayState extends MusicBeatState
 		timeTxt.visible = updateTime = showTime;
 		if(ClientPrefs.data.downScroll) timeTxt.y = FlxG.height - 44;
 		if(ClientPrefs.data.timeBarType == 'Song Name') timeTxt.text = SONG.song;
+		if(ClientPrefs.data.timeBarType == 'Song Name + Timer') timeTxt.text = SONG.song;
 
 		timeBar = new HealthBar(0, timeTxt.y + (timeTxt.height / 4), 'healthBar', function() return songPercent, 0, 1);
 		timeBar.scrollFactor.set();
 		timeBar.screenCenter(X);
 		timeBar.alpha = 0;
 		timeBar.visible = showTime && ClientPrefs.data.timeBar;
-		timeBar.leftBar.color = FlxColor.PURPLE;
+		reloadTimeBarColors();
 		uiGroup.add(timeBar);
 		uiGroup.add(timeTxt);
 
@@ -874,6 +876,16 @@ class PlayState extends MusicBeatState
 	public function reloadHealthBarColors() {
 		healthBar.setColors(FlxColor.fromRGB(dad.healthColorArray[0], dad.healthColorArray[1], dad.healthColorArray[2]),
 			FlxColor.fromRGB(boyfriend.healthColorArray[0], boyfriend.healthColorArray[1], boyfriend.healthColorArray[2]));
+	}
+
+	public function reloadTimeBarColors() {
+		if (ClientPrefs.data.opponentHealthColor) {
+			timeBar.leftBar.color = (FlxColor.fromRGB(dad.healthColorArray[0], dad.healthColorArray[1], dad.healthColorArray[2]));
+			timeBar.rightBar.color = 0xFF1A1A1A;
+		} else {
+			timeBar.leftBar.color = FlxColor.PURPLE;
+			timeBar.rightBar.color = 0xFF1A1A1A;
+		}
 	}
 
 	public function healthBarShake(intensity:Float) // Litle rewrite - PurSnake
@@ -1404,7 +1416,7 @@ class PlayState extends MusicBeatState
 				judgementCounterTxt.text = 'Sicks: ${ratingsData[0].hits}\n' + 'Goods: ${ratingsData[1].hits}\n' + 'Bads: ${ratingsData[2].hits}\n' + 'Shits: ${ratingsData[3].hits}\n' + 'Combo Breaks: ${songMisses}';
 			
 			case 'Better Judge':
-				judgementCounterTxt.text = 'Total Notes Hit: ${totalNotesHit}\n' + 'Combo: ${combo}\n'  + 'Max Combo: ${maxCombo}\n' + 'Sicks: ${ratingsData[0].hits}\n' + 'Goods: ${ratingsData[1].hits}\n' + 'Bads: ${ratingsData[2].hits}\n' + 'Shits: ${ratingsData[3].hits}\n' + 'Combo Breaks: ${songMisses}';
+				judgementCounterTxt.text = 'Total Notes Hit: ${totalPlayed}\n' + 'Combo: ${combo}\n'  + 'Max Combo: ${maxCombo}\n' + 'Sicks: ${ratingsData[0].hits}\n' + 'Goods: ${ratingsData[1].hits}\n' + 'Bads: ${ratingsData[2].hits}\n' + 'Shits: ${ratingsData[3].hits}\n' + 'Combo Breaks: ${songMisses}';
 		}
 
 		if(ClientPrefs.data.scoreZoom && !miss && !cpuControlled)
@@ -1417,6 +1429,20 @@ class PlayState extends MusicBeatState
 			scoreTxtTween = FlxTween.tween(scoreTxt.scale, {x: 1, y: 1}, 0.2, {
 				onComplete: function(twn:FlxTween) {
 					scoreTxtTween = null;
+				}
+			});
+		}
+
+		if(ClientPrefs.data.judgementZoom && !miss && !cpuControlled)
+		{
+			if(judgementCounterTween != null) {
+				judgementCounterTween.cancel();
+			}
+			judgementCounterTxt.scale.x = 1.075;
+			judgementCounterTxt.scale.y = 1.075;
+			judgementCounterTween = FlxTween.tween(judgementCounterTxt.scale, {x: 0.5, y: 0.5}, 0.2, {
+				onComplete: function(twn:FlxTween) {
+					judgementCounterTween = null;
 				}
 			});
 		}
@@ -1473,8 +1499,8 @@ class PlayState extends MusicBeatState
 
 		// Song duration in a float, useful for the time left feature
 		songLength = FlxG.sound.music.length;
-		FlxTween.tween(timeBar, {alpha: 1}, 0.5, {ease: FlxEase.circOut});
-		FlxTween.tween(timeTxt, {alpha: 1}, 0.5, {ease: FlxEase.circOut});
+		FlxTween.tween(timeBar, {alpha: 1}, 0.5, {ease: FlxEase.expoInOut});
+		FlxTween.tween(timeTxt, {alpha: 1}, 0.5, {ease: FlxEase.expoInOut});
 
 		#if desktop
 		// Updating Discord Rich Presence (with Time Left)
@@ -1820,7 +1846,11 @@ class PlayState extends MusicBeatState
 	override public function onFocusLost():Void
 	{
 		#if desktop
-		if (health > 0 && !paused) DiscordClient.changePresence(detailsPausedText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter());
+		if (!ClientPrefs.data.autoPause) {
+			if (health > 0 && !paused) DiscordClient.changePresence("Outside from game", SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter());
+		} else {
+			if (health > 0 && !paused) DiscordClient.changePresence(detailsPausedText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter());
+		}
 		#end
 
 		super.onFocusLost();
@@ -1909,9 +1939,9 @@ class PlayState extends MusicBeatState
 		}
 
 		if (ClientPrefs.data.textSineEffect) {
-			if(botplayTxt != null && botplayTxt.visible) {
+			if (botplayTxt != null && botplayTxt.visible) {
 				botplaySine += 50 * elapsed;
-				botplayTxt.alpha = 1 - Math.sin((Math.PI * botplaySine) / 30);
+				botplayTxt.alpha = 1 - Math.sin((Math.PI * botplaySine) / 120);
 			}
 		}
 
@@ -2004,8 +2034,11 @@ class PlayState extends MusicBeatState
 			var secondsTotal:Int = Math.floor(songCalc / 1000);
 			if(secondsTotal < 0) secondsTotal = 0;
 
-			if(ClientPrefs.data.timeBarType != 'Song Name')
-				timeTxt.text = FlxStringUtil.formatTime(secondsTotal, false);
+			if(ClientPrefs.data.timeBarType != 'Song Name') timeTxt.text = FlxStringUtil.formatTime(secondsTotal, false);
+			if(ClientPrefs.data.timeBarType == 'Song Name + Time') timeTxt.text = SONG.song + ' [${FlxStringUtil.formatTime(secondsTotal, false)}]';
+			if(ClientPrefs.data.timeBarType == 'Song Name + Difficulty') timeTxt.text = SONG.song + ' [${Difficulty.getString()}]';
+			if(ClientPrefs.data.timeBarType == 'Modern Time') timeTxt.text = FlxStringUtil.formatTime(secondsTotal, false) + ' / ' + FlxStringUtil.formatTime(songLength / 1000, false);
+			if(cpuControlled && ClientPrefs.data.autoplayTextOnTimeBar) timeTxt.text += " [Autoplay]";
 		}
 
 		if (camZooming)
@@ -2445,6 +2478,7 @@ class PlayState extends MusicBeatState
 						}
 				}
 				reloadHealthBarColors();
+				reloadTimeBarColors();
 
 			case 'Change Scroll Speed':
 				if (songSpeedType != "constant")

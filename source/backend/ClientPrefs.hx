@@ -42,7 +42,7 @@ class SaveVariables {
 		[0xFFFF884E, 0xFFFFFAF5, 0xFF6C0000]];
 
 	public var ghostTapping:Bool = true;
-	public var timeBarType:String = 'Time Left';
+	public var timeBarType:String = 'Time Elapsed';
 
   	//  Mobile Stuff
 	public var hitboxmode:String = 'New';
@@ -71,11 +71,13 @@ class SaveVariables {
 	public var objects:Bool = true;
 	public var timeBar:Bool = true;
 	public var iconBounce:Bool = true;
-	public var cameraMovement:Bool = false;
+	public var cameraMovement:Bool = true;
 	public var arrowGlow:Bool = true;
 	public var scoreText:Bool = true;
 	public var textSineEffect:Bool = true;
-	public var shakeObjects:Bool = false;
+	public var shakeObjects:Bool = true;
+	public var opponentHealthColor:Bool = false;
+	public var autoplayTextOnTimeBar:Bool = true;
 	public var gameplaySettings:Map<String, Dynamic> = [
 		'scrollspeed' => 1.0,
 		'scrolltype' => 'multiplicative', 

@@ -90,23 +90,6 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			'bool');
 		addOption(option);
 
-		var option:Option = new Option('Score Text Zoom on Hit',
-			"If unchecked, disables the Score text zooming\neverytime you hit a note.",
-			'scoreZoom',
-			'bool');
-		addOption(option);
-
-		var option:Option = new Option('Health Bar Opacity',
-			'How much transparent should the health bar and icons be.',
-			'healthBarAlpha',
-			'percent');
-		option.scrollSpeed = 1.6;
-		option.minValue = 0.0;
-		option.maxValue = 1;
-		option.changeValue = 0.1;
-		option.decimals = 1;
-		addOption(option);
-
 		//I'd suggest using "Downscroll" as an example for making your own option since it is the simplest here
 		var option:Option = new Option('Downscroll', //Name
 			'If checked, notes go Down instead of Up, simple enough.', //Description
@@ -157,8 +140,24 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			"If checked, makes to show random username on watermark instead to show SB only.", 'randomEngineNames', 'bool');
 		addOption(option);
 
+		var option:Option = new Option('Score text',
+			"If unchecked, hides score text.", 'scoreText', 'bool');
+		addOption(option);
+
+		var option:Option = new Option('Score Text Zoom on Hit',
+			"If unchecked, disables the Score text zooming\neverytime you hit a note.",
+			'scoreZoom',
+			'bool');
+		addOption(option);
+
 		var option:Option = new Option('Judgement Counter',
 			"If unchecked, hides judgementCounter.", 'judgementCounter', 'bool');
+		addOption(option);
+
+		var option:Option = new Option('Judgement Zoom on Hit',
+			"If unchecked, disables the Judgement Counter text zooming\neverytime you hit a note.",
+			'judgementZoom',
+			'bool');
 		addOption(option);
 
 		var option:Option = new Option('Judgement style: ',
@@ -182,16 +181,20 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			"If unchecked, disables note glow when you are hitting notes.", 'arrowGlow', 'bool');
 		addOption(option);
 
-		var option:Option = new Option('Score text',
-			"If unchecked, hides score text.", 'scoreText', 'bool');
-		addOption(option);
-
 		var option:Option = new Option('Text Sine Effect',
 			"If unchecked, disables text sine effect.", 'textSineEffect', 'bool');
 		addOption(option);
 
 		var option:Option = new Option('Shake objects',
 			"If checked, shakes some objects.", 'shakeObjects', 'bool');
+		addOption(option);
+
+		var option:Option = new Option('Time bar opponent color',
+			"If checked, enables color from opponent health instead of purple.", 'opponentHealthColor', 'bool');
+		addOption(option);
+
+		var option:Option = new Option('Autoplay text on time bar',
+			"If checked, enables autoplay text to show on time bar.", 'autoplayTextOnTimeBar', 'bool');
 		addOption(option);
 
 		var option:Option = new Option('Pause Screen Song:',
@@ -202,11 +205,22 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		addOption(option);
 		option.onChange = onChangePauseMusic;
 		
-		var option:Option = new Option('Time Bar:',
+		var option:Option = new Option('Time Bar: ',
 			"What should the Time Bar display?",
 			'timeBarType',
 			'string',
-			['Time Left', 'Time Elapsed', 'Song Name', 'Disabled']);
+			['Time Left', 'Time Elapsed', 'Song Name', 'Song Name + Time', 'Song Name + Difficulty', 'Modern Time', 'Disabled']);
+		addOption(option);
+
+		var option:Option = new Option('Health Bar Opacity',
+			'How much transparent should the health bar and icons be.',
+			'healthBarAlpha',
+			'percent');
+		option.scrollSpeed = 1.6;
+		option.minValue = 0.0;
+		option.maxValue = 1;
+		option.changeValue = 0.1;
+		option.decimals = 1;
 		addOption(option);
 
 		var option:Option = new Option('Hitsound Volume',
