@@ -1220,9 +1220,9 @@ class PlayState extends MusicBeatState
 
 	public function startCountdown()
 	{
-	  #if android
-	  		MusicBeatState.androidControls.visible = true;
-	  #end
+	  	#if android
+	  	MusicBeatState.androidControls.visible = true;
+	  	#end
 		if(startedCountdown) {
 			callOnScripts('onStartCountdown');
 			return false;
@@ -1440,7 +1440,7 @@ class PlayState extends MusicBeatState
 			}
 			judgementCounterTxt.scale.x = 1.075;
 			judgementCounterTxt.scale.y = 1.075;
-			judgementCounterTween = FlxTween.tween(judgementCounterTxt.scale, {x: 0.5, y: 0.5}, 0.2, {
+			judgementCounterTween = FlxTween.tween(judgementCounterTxt.scale, {x: 1, y: 1}, 0.2, {
 				onComplete: function(twn:FlxTween) {
 					judgementCounterTween = null;
 				}
