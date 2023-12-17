@@ -16,6 +16,13 @@ class VisualsUISubState extends BaseOptionsMenu
 			'flashing',
 			'bool');
 		addOption(option);
+
+		var option:Option = new Option('Watermark on right down corner',
+			"Uncheck this if you dont want to see watermark icon",
+			'watermarkIcon',
+			'bool');
+		addOption(option);
+		option.onChange = onWatermarkIcon;
 		
 		var option:Option = new Option('FPS Counter',
 			'If unchecked, hides FPS Counter.', 'showFPS', 'bool');
@@ -81,6 +88,12 @@ class VisualsUISubState extends BaseOptionsMenu
 	{
 		if(Main.fpsVar != null)
 			Main.fpsVar.visible = ClientPrefs.data.showFPS;
+	}
+
+	function onWatermarkIcon()
+	{
+		if(Main.watermark != null)
+			Main.watermark.visible = ClientPrefs.data.watermarkIcon;
 	}
 	
 }

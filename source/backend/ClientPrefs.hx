@@ -17,6 +17,7 @@ class SaveVariables {
 	public var totalMemory:Bool = false;
 	public var engineVersion:Bool = false;
 	public var debugInfo:Bool = false;
+	public var watermarkIcon:Bool = true;
 	public var flashing:Bool = true;
 	public var autoPause:Bool = true;
 	public var antialiasing:Bool = true;
@@ -225,6 +226,10 @@ class ClientPrefs {
 		
 		if(Main.fpsVar != null) {
 			Main.fpsVar.visible = data.showFPS;
+		}
+
+		if(Main.watermark != null) {
+			Main.watermark.visible = data.watermarkIcon;
 		}
 
 		#if (!html5 && !switch)

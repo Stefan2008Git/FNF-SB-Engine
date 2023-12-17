@@ -146,6 +146,9 @@ class MusicBeatState extends FlxUIState
 		var oldStep:Int = curStep;
 		timePassedOnState += elapsed;
 
+		Main.watermark.x = Lib.application.window.width - 10 - Main.watermark.width;
+		Main.watermark.y = Lib.application.window.height - 10 - Main.watermark.height;
+
 		updateCurStep();
 		updateBeat();
 

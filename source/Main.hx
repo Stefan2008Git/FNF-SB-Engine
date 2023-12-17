@@ -44,6 +44,7 @@ class Main extends Sprite
 	};
 
 	public static var fpsVar:FPS;
+	public static var watermark:Sprite;
 	public static var toastText:String = '';
 	public static var checkingToastMessage:Bool = false;
 
@@ -118,6 +119,18 @@ class Main extends Sprite
 		Lib.current.stage.scaleMode = StageScaleMode.NO_SCALE;
 		if(fpsVar != null) {
 			fpsVar.visible = ClientPrefs.data.showFPS;
+		}
+
+		// Mic'd Up SC code :D
+		var bitmapData = Assets.getBitmapData("assets/images/sbIcon.png");
+		watermark = new Sprite();
+		watermark.addChild(new Bitmap(bitmapData)); // Sets the graphic of the sprite to a Bitmap object, which uses our embedded BitmapData class.
+		watermark.alpha = 0.4;
+		watermark.x = Lib.application.window.width - 10 - watermark.width;
+		watermark.y = Lib.application.window.height - 10 - watermark.height;
+		addChild(watermark);
+		if (watermark != null) {
+			watermark.visible = ClientPrefs.data.watermarkIcon;
 		}
 
 		#if linux
