@@ -1,6 +1,6 @@
 package options;
 
-import sys.FileSytem;
+import sys.FileSystem;
 
 class GameplaySettingsSubState extends BaseOptionsMenu
 {
