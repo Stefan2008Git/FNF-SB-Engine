@@ -58,7 +58,7 @@ Used and coded on: [Psych Engine](https://gamebanana.com/mods/309789).
 | ![](https://raw.githubusercontent.com/Stefan2008Git/FNF-SB-Engine/main/assets/preload/images/credits/sqirra.png) | [SqirraRNG](https://twitter.com/gedehari) | Crash Handler and Base code for Chart Editor's Waveform.
 | ![](https://raw.githubusercontent.com/Stefan2008Git/FNF-SB-Engine/main/assets/preload/images/credits/kade.png) | [Kade Dev](https://twitter.com/kade0912) | Fixed some cool stuff on Chart Editor and other PRs.
 | ![](https://raw.githubusercontent.com/Stefan2008Git/FNF-SB-Engine/main/assets/preload/images/credits/keoiki.png) | [Keoiki](https://twitter.com/Keoiki_) | Note Splash Animations.
-| ![](https://raw.githubusercontent.com/Stefan2008Git/FNF-SB-Engine/main/assets/preload/images/credits/nebula.png) | [Nebula the Zorua](https://twitter.com/Nebula_Zorua) | LUA JIT Fork and some Lua reworks.
+| ![](https://raw.githubusercontent.com/Stefan2008Git/FNF-SB-Engine/main/assets/preload/images/credits/superpowers04.png) | [Superpowers04](https://twitter.com/superpowers04) | LUA JIT Fork.
 | ![](https://raw.githubusercontent.com/Stefan2008Git/FNF-SB-Engine/main/assets/preload/images/credits/smokey.png) | [Smokey](https://twitter.com/Smokey_5_) | Sprite Atlas Support.
 </details>
 

@@ -25,6 +25,15 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 
 		// options
 
+		#if android
+		if (!FileSystem.exists(SUtil.getPath() + 'assets/shared/images/noteSkins') && !FileSystem.exists(SUtil.getPath() + 'assets/shared/images/noteSplashes') && Mods.mergeAllTextsNamed('images/noteSplashes/list.txt', 'shared').length == 0 && Mods.mergeAllTextsNamed('images/noteSkins/list.txt', 'shared').length == 0)//make sure people use 0.71h assets not old shits
+		{				
+		    var lang:String = '';
+		    lang = 'noteskin and noteSplashes folders not detected, these options will not appear in Settings.';
+            AndroidDialogsExtend.OpenToast(lang,2);
+		}
+		#end
+
 		var noteSkins:Array<String> = [];
 		if(Mods.mergeAllTextsNamed('images/noteSkins/list.txt', 'shared').length > 0)
 			noteSkins = Mods.mergeAllTextsNamed('images/noteSkins/list.txt', 'shared');

@@ -10,8 +10,6 @@ import objects.StrumNote;
 
 import flixel.math.FlxRect;
 
-using StringTools;
-
 typedef EventNote = {
 	strumTime:Float,
 	event:String,
@@ -88,7 +86,6 @@ class Note extends FlxSprite
 		b: -1,
 		a: ClientPrefs.data.splashAlpha
 	};
-
 	public var offsetX:Float = 0;
 	public var offsetY:Float = 0;
 	public var offsetAngle:Float = 0;
@@ -268,7 +265,6 @@ class Note extends FlxSprite
 					prevNote.scale.y *= (6 / height); //Auto adjust note size
 				}
 				prevNote.updateHitbox();
-				// prevNote.setGraphicSize();
 			}
 
 			if(PlayState.isPixelStage)
@@ -317,7 +313,10 @@ class Note extends FlxSprite
 			skin = PlayState.SONG != null ? PlayState.SONG.arrowSkin : null;
 			if(skin == null || skin.length < 1)
 				skin = defaultNoteSkin + postfix;
+			if (Paths.fileExists('images/NOTE_assets.png', IMAGE) && ClientPrefs.data.noteSkin == ClientPrefs.defaultData.noteSkin) //fix for load old mods note assets
+		        skin = 'NOTE_assets'; 	
 		}
+		
 
 		var animName:String = null;
 		if(animation.curAnim != null) {
@@ -335,6 +334,7 @@ class Note extends FlxSprite
 			_lastValidChecked = customSkin;
 		}
 		else skinPostfix = '';
+		
 
 		if(PlayState.isPixelStage) {
 			if(isSustainNote) {
@@ -409,8 +409,8 @@ class Note extends FlxSprite
 		if (mustPress)
 		{
 			canBeHit = (strumTime > Conductor.songPosition - (Conductor.safeZoneOffset * lateHitMult) &&
-						strumTime < Conductor.songPosition + (Conductor.safeZoneOffset * earlyHitMult));
-
+						strumTime < Conductor.songPosition + (Conductor.safeZoneOffset * earlyHitMult));		
+		    
 			if (strumTime < Conductor.songPosition - Conductor.safeZoneOffset && !wasGoodHit)
 				tooLate = true;
 		}
@@ -452,10 +452,8 @@ class Note extends FlxSprite
 		var angleDir = strumDirection * Math.PI / 180;
 		if (copyAngle)
 			angle = strumDirection - 90 + strumAngle + offsetAngle;
-
 		if(copyAlpha)
 			alpha = strumAlpha * multAlpha;
-
 		if(copyX)
 			x = strumX + offsetX + Math.cos(angleDir) * distance;
 
@@ -481,8 +479,8 @@ class Note extends FlxSprite
 		{
 			var swagRect:FlxRect = clipRect;
 			if(swagRect == null) swagRect = new FlxRect(0, 0, frameWidth, frameHeight);
-
-			if (myStrum.downScroll)
+ 
+		    if (myStrum.downScroll)
 			{
 				if(y - offset.y * scale.y + height >= center)
 				{
