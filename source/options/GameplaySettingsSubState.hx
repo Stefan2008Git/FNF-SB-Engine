@@ -1,6 +1,7 @@
 package options;
 
 import sys.FileSystem;
+import android.backend.AndroidDialogsExtend;
 
 class GameplaySettingsSubState extends BaseOptionsMenu
 {
