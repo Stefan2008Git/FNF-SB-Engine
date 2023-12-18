@@ -1,5 +1,7 @@
 package options;
 
+import sys.FileSytem;
+
 class GameplaySettingsSubState extends BaseOptionsMenu
 {
 	var noteOptionID:Int = -1;
@@ -26,7 +28,7 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		// options
 
 		#if android
-		if (!FileSystem.exists(SUtil.getPath() + 'assets/shared/images/noteSkins') && !sys.FileSystem.exists(SUtil.getPath() + 'assets/shared/images/noteSplashes') && Mods.mergeAllTextsNamed('images/noteSplashes/list.txt', 'shared').length == 0 && Mods.mergeAllTextsNamed('images/noteSkins/list.txt', 'shared').length == 0) // This makes if you don't had an note skin list and note splash shit added on game to appear toast message LOL 
+		if (!FileSystem.exists(SUtil.getPath() + 'assets/shared/images/noteSkins') && !FileSystem.exists(SUtil.getPath() + 'assets/shared/images/noteSplashes') && Mods.mergeAllTextsNamed('images/noteSplashes/list.txt', 'shared').length == 0 && Mods.mergeAllTextsNamed('images/noteSkins/list.txt', 'shared').length == 0) // This makes if you don't had an note skin list and note splash shit added on game to appear toast message LOL 
 		{				
 			var warningMessage:String = '';
 		   	warningMessage = 'Noteskin and note splashes folder not detected, these options will not appear in Settings.';
