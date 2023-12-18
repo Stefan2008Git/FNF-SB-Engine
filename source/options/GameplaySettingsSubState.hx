@@ -26,11 +26,11 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		// options
 
 		#if android
-		if (!FileSystem.exists(SUtil.getPath() + 'assets/shared/images/noteSkins') && !FileSystem.exists(SUtil.getPath() + 'assets/shared/images/noteSplashes') && Mods.mergeAllTextsNamed('images/noteSplashes/list.txt', 'shared').length == 0 && Mods.mergeAllTextsNamed('images/noteSkins/list.txt', 'shared').length == 0)//make sure people use 0.71h assets not old shits
+		if (!FileSystem.exists(SUtil.getPath() + 'assets/shared/images/noteSkins') && !sys.FileSystem.exists(SUtil.getPath() + 'assets/shared/images/noteSplashes') && Mods.mergeAllTextsNamed('images/noteSplashes/list.txt', 'shared').length == 0 && Mods.mergeAllTextsNamed('images/noteSkins/list.txt', 'shared').length == 0) // This makes if you don't had an note skin list and note splash shit added on game to appear toast message LOL 
 		{				
-		    var lang:String = '';
-		    lang = 'noteskin and noteSplashes folders not detected, these options will not appear in Settings.';
-            AndroidDialogsExtend.OpenToast(lang,2);
+			var warningMessage:String = '';
+		   	warningMessage = 'Noteskin and note splashes folder not detected, these options will not appear in Settings.';
+            	    	AndroidDialogsExtend.OpenToast(warningMessage, 2);
 		}
 		#end
 
