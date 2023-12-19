@@ -117,7 +117,6 @@ class Note extends FlxSprite
 	private function set_multSpeed(value:Float):Float {
 		resizeByRatio(value / multSpeed);
 		multSpeed = value;
-		//trace('fuck cock');
 		return value;
 	}
 
@@ -334,7 +333,6 @@ class Note extends FlxSprite
 			_lastValidChecked = customSkin;
 		}
 		else skinPostfix = '';
-		
 
 		if(PlayState.isPixelStage) {
 			if(isSustainNote) {

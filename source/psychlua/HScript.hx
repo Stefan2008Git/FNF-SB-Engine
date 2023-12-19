@@ -1,11 +1,9 @@
 package psychlua;
 
 import flixel.FlxBasic;
-import backend.Achievements;
 import objects.Character;
 import psychlua.FunkinLua;
 import psychlua.CustomSubstate;
-
 
 #if HSCRIPT_ALLOWED
 import tea.SScript;
@@ -90,7 +88,6 @@ class HScript extends SScript
 		#if android
 		set('SUtil', SUtil);
 		#end
-	
 
 		// Functions & Variables
 		set('setVar', function(name:String, value:Dynamic)
@@ -194,7 +191,7 @@ class HScript extends SScript
 		}
 	}
 
-	public function executeCode(?funcToRun:String = null, ?funcArgs:Array<Dynamic> = null):TeaCall
+	public function executeCode(?funcToRun:String = null, ?funcArgs:Array<Dynamic> = null):#if (SScript <= "7.0.0") SCall #else TeaCall #end
 	{
 		if (funcToRun == null) return null;
 
@@ -220,7 +217,7 @@ class HScript extends SScript
 		return callValue;
 	}
 
-	public function executeFunction(funcToRun:String = null, funcArgs:Array<Dynamic>):TeaCall
+	public function executeFunction(funcToRun:String = null, funcArgs:Array<Dynamic>):#if (SScript <= "7.0.0") SCall #else TeaCall #end
 	{
 		if (funcToRun == null)
 			return null;
@@ -234,7 +231,8 @@ class HScript extends SScript
 		funk.addLocalCallback("runHaxeCode", function(codeToRun:String, ?varsToBring:Any = null, ?funcToRun:String = null, ?funcArgs:Array<Dynamic> = null):Dynamic {
 			#if SScript
 			initHaxeModuleCode(funk, codeToRun, varsToBring);
-			var retVal:TeaCall = funk.hscript.executeCode(funcToRun, funcArgs);
+			try {
+			var retVal:#if (SScript <= "7.0.0") SCall #else TeaCall #end = funk.hscript.executeCode(funcToRun, funcArgs);
 			if (retVal != null)
 			{
 				if(retVal.succeeded)
@@ -249,6 +247,10 @@ class HScript extends SScript
 			else if (funk.hscript.returnValue != null)
 			{
 				return funk.hscript.returnValue;
+			}
+		    }
+			catch (e:Dynamic) {
+				FunkinLua.luaTrace(funk.scriptName + ":" + funk.lastCalledFunction + " - " + e, false, false, FlxColor.RED);
 			}
 			#else
 			FunkinLua.luaTrace("runHaxeCode: HScript isn't supported on this platform!", false, false, FlxColor.RED);
