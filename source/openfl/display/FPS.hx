@@ -1,5 +1,7 @@
 package openfl.display;
 
+import openfl.system.ApplicationDomain;
+import lime.system.Display;
 import haxe.Timer;
 import openfl.events.Event;
 import openfl.text.TextField;
@@ -136,6 +138,9 @@ class FPS extends TextField
 				text += "\nSystem: " + '${lime.system.System.platformLabel} ${lime.system.System.platformVersion}';
 				text += "\nGL Render: " + '${getGLInfo(RENDERER)}';
 				text += "\nGL Shading version: " + '${getGLInfo(SHADING_LANGUAGE_VERSION)})';
+				text += "\nFlixel: " + FlxG.VERSION;
+				text += "\nLime: ?";
+				text += "\nOpenFL: ?";
 			}
 
 			textColor = FlxColor.fromRGBFloat(255, 255, 255, realAlpha);
