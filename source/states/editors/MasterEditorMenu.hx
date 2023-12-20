@@ -22,6 +22,8 @@ class MasterEditorMenu extends MusicBeatState
 		'Dialogue Portrait Editor',
 		'Note Splash Debug'
 	];
+	private var background:FlxSprite;
+	private var velocityBackground:FlxBackdrop;
 	private var grpTexts:FlxTypedGroup<Alphabet>;
 	private var directories:Array<String> = [null];
 
@@ -37,10 +39,24 @@ class MasterEditorMenu extends MusicBeatState
 		DiscordClient.changePresence("Editors Main Menu", null);
 		#end
 
-		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
-		bg.scrollFactor.set();
-		bg.color = 0xFF353535;
-		add(bg);
+		background = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
+		switch (ClientPrefs.data.themes) {
+			case 'SB Engine':
+				background.color = 0xFF800080;
+			
+			case 'Psych Engine':
+				background.color = 0xFF353535;
+		}
+		background.scrollFactor.set();
+		background.screenCenter();
+		background.antialiasing = ClientPrefs.data.antialiasing;
+		background.updateHitbox();
+		add(background);
+
+		velocityBackground = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0x70000000, 0x0));
+		velocityBackground.velocity.set(FlxG.random.bool(50) ? 90 : -90, FlxG.random.bool(50) ? 90 : -90);
+		velocityBackground.visible = ClientPrefs.data.velocityBackground;
+		add(velocityBackground);
 
 		grpTexts = new FlxTypedGroup<Alphabet>();
 		add(grpTexts);

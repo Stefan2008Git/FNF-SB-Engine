@@ -88,6 +88,8 @@ class ChartingState extends MusicBeatState
 		['Play Sound', "Value 1: Sound file name\nValue 2: Volume (Default: 1), ranges from 0 to 1"]
 	];
 
+	var background:FlxSprite;
+	var velocityBackground:FlxBackdrop;
 	var _file:FileReference;
 	
 	var postfix:String = '';
@@ -228,11 +230,24 @@ class ChartingState extends MusicBeatState
 
 		vortex = FlxG.save.data.chart_vortex;
 		ignoreWarnings = FlxG.save.data.ignoreWarnings;
-		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
-		bg.antialiasing = ClientPrefs.data.antialiasing;
-		bg.scrollFactor.set();
-		bg.color = 0xFF222222;
-		add(bg);
+		background = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
+		switch (ClientPrefs.data.themes) {
+			case 'SB Engine':
+				background.color = 0xFF800080;
+			
+			case 'Psych Engine':
+				background.color = 0xFF353535;
+		}
+		background.scrollFactor.set();
+		background.screenCenter();
+		background.antialiasing = ClientPrefs.data.antialiasing;
+		background.updateHitbox();
+		add(background);
+
+		velocityBackground = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0x70000000, 0x0));
+		velocityBackground.velocity.set(FlxG.random.bool(50) ? 90 : -90, FlxG.random.bool(50) ? 90 : -90);
+		velocityBackground.visible = ClientPrefs.data.velocityBackground;
+		add(velocityBackground);
 
 		gridLayer = new FlxTypedGroup<FlxSprite>();
 		add(gridLayer);
@@ -324,7 +339,7 @@ class ChartingState extends MusicBeatState
 
 		UI_box = new FlxUITabMenu(null, tabs, true);
 
-		UI_box.resize(300, 400);
+		UI_box.resize(450, 400);
 		UI_box.x = 640 + GRID_SIZE / 2;
 		UI_box.y = 25;
 		UI_box.scrollFactor.set();
@@ -1622,9 +1637,41 @@ class ChartingState extends MusicBeatState
 
 	var lastConductorPos:Float;
 	var colorSine:Float = 0;
+	var p1Lerp:Float = 1;
+	var p2Lerp:Float = 1;
+	var oldStep:Int = 0;
+
+	function resyncVocals():Void
+	{
+		vocals.pause();
+
+		FlxG.sound.music.play();
+		Conductor.songPosition = FlxG.sound.music.time;
+		vocals.time = Conductor.songPosition;
+		vocals.play();
+	}
+
 	override function update(elapsed:Float)
 	{
+		oldStep = curStep;
 		curStep = recalculateSteps();
+
+		if (curStep % 4 == 0 && oldStep != curStep)
+		{
+			beatHitValue();
+		}
+
+		if (oldStep != curStep)
+		{
+			stepHitValue();
+		}
+
+		p1Lerp = FlxMath.lerp(0.4, leftIcon.scale.x, CoolUtil.boundTo(1 - (elapsed * 9), 0, 1));
+		p2Lerp = FlxMath.lerp(0.4, rightIcon.scale.x, CoolUtil.boundTo(1 - (elapsed * 9), 0, 1));
+		leftIcon.scale.set(p1Lerp, p1Lerp);
+		rightIcon.scale.set(p2Lerp, p2Lerp);
+		rightIcon.updateHitbox();
+		leftIcon.updateHitbox();
 
 		if(FlxG.sound.music.time < 0) {
 			FlxG.sound.music.pause();
@@ -2189,6 +2236,29 @@ class ChartingState extends MusicBeatState
 		}
 		lastConductorPos = Conductor.songPosition;
 		super.update(elapsed);
+	}
+
+	function beatHitValue()
+	{
+		// trace(editingEvents);
+		if (FlxG.sound.music.playing)
+		{
+			leftIcon.scale.x += 0.2;
+			rightIcon.scale.x += 0.2;
+			rightIcon.updateHitbox();
+			leftIcon.updateHitbox();
+		}
+	}
+
+	function stepHitValue()
+	{
+		if (FlxG.sound.music.playing)
+		{
+			if (FlxG.sound.music.time > Conductor.songPosition + 20 || FlxG.sound.music.time < Conductor.songPosition - 20)
+			{
+				resyncVocals();
+			}
+		}
 	}
 
 	function updateZoom() {

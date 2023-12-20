@@ -66,6 +66,7 @@ class HScript extends SScript
 		set('FlxG', flixel.FlxG);
 		set('FlxMath', flixel.math.FlxMath);
 		set('FlxSprite', flixel.FlxSprite);
+		set('FlxText', flixel.text.FlxText);
 		set('FlxCamera', flixel.FlxCamera);
 		set('FlxTimer', flixel.util.FlxTimer);
 		set('FlxTween', flixel.tweens.FlxTween);
@@ -73,6 +74,7 @@ class HScript extends SScript
 		set('FlxColor', CustomFlxColor);
 		set('Countdown', backend.BaseStage.Countdown);
 		set('PlayState', PlayState);
+		set('DiscordClient', DiscordClient);
 		set('Paths', Paths);
 		set('Conductor', Conductor);
 		set('ClientPrefs', ClientPrefs);
