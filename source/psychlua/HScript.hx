@@ -74,7 +74,9 @@ class HScript extends SScript
 		set('FlxColor', CustomFlxColor);
 		set('Countdown', backend.BaseStage.Countdown);
 		set('PlayState', PlayState);
+		#if desktop
 		set('DiscordClient', DiscordClient);
+		#end
 		set('Paths', Paths);
 		set('Conductor', Conductor);
 		set('ClientPrefs', ClientPrefs);
