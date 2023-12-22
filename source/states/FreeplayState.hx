@@ -416,14 +416,14 @@ class FreeplayState extends MusicBeatState
 			}
 			if (FlxG.keys.pressed.SHIFT #if android || MusicBeatState.virtualPad.buttonZ.pressed #end){
 				LoadingState.loadAndSwitchState(new ChartingState());
-			}else{
+			} else {
 				LoadingState.loadAndSwitchState(new PlayState());
 			}
 
 			FlxG.sound.music.volume = 0;
 					
 			destroyFreeplayVocals();
-			#if (MODS_ALLOWED && cpp)
+			#if (MODS_ALLOWED && desktop && cpp)
 			DiscordClient.loadModRPC();
 			#end
 		}
