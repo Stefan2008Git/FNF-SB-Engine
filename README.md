@@ -42,7 +42,7 @@ Used and coded on: [Psych Engine](https://gamebanana.com/mods/309789).
 | Avatar | Username | Involvement |
 | ------ | -------- | ----------- |
 | ![](https://raw.githubusercontent.com/Stefan2008Git/FNF-SB-Engine/main/assets/preload/images/credits/shadowmario.png) | [Shadow Mario](https://twitter.com/Shadow_Mario_) | Main Psych Engine Programmer.
-| ![](https://raw.githubusercontent.com/Stefan2008Git/FNF-SB-Engine/main/assets/preload/images/credits/river.png) | [RiverOaken](https://twitter.com/RiverOaken) | Main Artist of Psych Engine.
+| ![](https://raw.githubusercontent.com/Stefan2008Git/FNF-SB-Engine/main/assets/preload/images/credits/riveren.png) | [RiverOaken](https://twitter.com/RiverOaken) | Main Artist of Psych Engine.
 
 ## Former Engine members:
 | Avatar | Username | Involvement |
