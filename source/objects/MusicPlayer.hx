@@ -199,7 +199,7 @@ class MusicPlayer extends FlxGroup
 		}
 		updatePlaybackTxt();
 	
-		if (instance.controls.RESET)
+		if (instance.controls.RESET #if android || instance.MusicBeatState.virtualPad.buttonY.justPressed #end)
 		{
 			playbackRate = 1;
 			setPlaybackRate();
