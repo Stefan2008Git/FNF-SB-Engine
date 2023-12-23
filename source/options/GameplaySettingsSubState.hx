@@ -211,6 +211,10 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			"If checked, enables autoplay text to show on time bar.", 'autoplayTextOnTimeBar', 'bool');
 		addOption(option);
 
+		var option:Option = new Option('Autoplay text on time bar',
+			"If checked, Hold Notes can't be pressed if you miss,\nand count as a single Hit/Miss.\nUncheck this if you prefer the old Input System.", 'guitarHeroSustains', 'bool');
+		addOption(option);
+
 		var option:Option = new Option('Pause Screen Song:',
 			"What song do you prefer for the Pause Screen?",
 			'pauseMusic',
