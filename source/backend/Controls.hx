@@ -219,6 +219,12 @@ class Controls
 						controllerMode = true; return true;
 					}
         		}
+				 if (key == 'reset'){
+    		    	result = (MusicBeatState.virtualPad.buttonY.justPressed == true);
+        			if(result) {
+						controllerMode = true; return true;
+					}
+        		}
         		if (key == 'ui_up') {
         			result = (MusicBeatState.virtualPad.buttonUp.justPressed == true);
         			if(result) {
@@ -252,6 +258,12 @@ class Controls
     		    }
     		    if (key == 'back') {
     		    	result = (MusicBeatSubstate.virtualPad.buttonB.justPressed == true);
+    		    	if(result) {
+						controllerMode = true; return true;
+					}
+    		    }
+				if (key == 'reset') {
+    		    	result = (MusicBeatSubstate.virtualPad.buttonY.justPressed == true);
     		    	if(result) {
 						controllerMode = true; return true;
 					}
@@ -465,6 +477,10 @@ class Controls
     		    result = (MusicBeatState.virtualPad.buttonB.pressed == true);
         		if(result) {controllerMode = true; return true;}
         		}
+				if (key == 'reset'){
+    		    result = (MusicBeatState.virtualPad.buttonY.pressed == true);
+        		if(result) {controllerMode = true; return true;}
+        		}
 		
         		if (key == 'ui_up'){
         		result = (MusicBeatState.virtualPad.buttonUp.pressed == true);
@@ -490,6 +506,10 @@ class Controls
     		    }
     		    if (key == 'back'){
     		    result = (MusicBeatSubstate.virtualPad.buttonB.pressed == true);
+    		    if(result) {controllerMode = true; return true;}
+    		    }
+				if (key == 'reset'){
+    		    result = (MusicBeatSubstate.virtualPad.buttonY.pressed == true);
     		    if(result) {controllerMode = true; return true;}
     		    }
 		
