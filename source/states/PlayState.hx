@@ -2036,8 +2036,10 @@ class PlayState extends MusicBeatState
 
 			if(ClientPrefs.data.timeBarType != 'Song Name') timeTxt.text = FlxStringUtil.formatTime(secondsTotal, false);
 			if(ClientPrefs.data.timeBarType == 'Song Name + Time') timeTxt.text = SONG.song + ' [${FlxStringUtil.formatTime(secondsTotal, false)}]';
+			if(ClientPrefs.data.timeBarType == 'Song Name + Time Elapsed') timeTxt.text = SONG.song + ' [${FlxStringUtil.formatTime(FlxG.sound.music.time / 1000, false)}]';
 			if(ClientPrefs.data.timeBarType == 'Song Name + Difficulty') timeTxt.text = SONG.song + ' [${Difficulty.getString()}]';
 			if(ClientPrefs.data.timeBarType == 'Modern Time') timeTxt.text = FlxStringUtil.formatTime(secondsTotal, false) + ' / ' + FlxStringUtil.formatTime(songLength / 1000, false);
+			if(ClientPrefs.data.timeBarType == 'Modern Time Elapsed') timeTxt.text = FlxStringUtil.formatTime(FlxG.sound.music.time / 1000, false) + ' / ' + FlxStringUtil.formatTime(FlxG.sound.music.length / 1000, false);
 			if(cpuControlled && ClientPrefs.data.autoplayTextOnTimeBar) timeTxt.text += " [Autoplay]";
 		}
 

@@ -223,7 +223,7 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			"What should the Time Bar display?",
 			'timeBarType',
 			'string',
-			['Time Left', 'Time Elapsed', 'Song Name', 'Song Name + Time', 'Song Name + Difficulty', 'Modern Time', 'Disabled']);
+			['Time Left', 'Time Elapsed', 'Song Name', 'Song Name + Time', 'Song Name + Time Elapsed', 'Song Name + Difficulty', 'Modern Time', 'Modern Time Elapsed', 'Disabled']);
 		addOption(option);
 
 		var option:Option = new Option('Health Bar Opacity',
