@@ -679,6 +679,10 @@ class Controls
     		    result = (MusicBeatState.virtualPad.buttonB.justReleased == true);
         		if(result) {controllerMode = true; return true;}
         		}
+				if (key == 'reset'){
+    		    result = (MusicBeatState.virtualPad.buttonY.justReleased == true);
+        		if(result) {controllerMode = true; return true;}
+        		}
 		
         		if (key == 'ui_up'){
         		result = (MusicBeatState.virtualPad.buttonUp.justReleased == true);
@@ -704,6 +708,10 @@ class Controls
     		    }
     		    if (key == 'back'){
     		    result = (MusicBeatSubstate.virtualPad.buttonB.justReleased == true);
+    		    if(result) {controllerMode = true; return true;}
+    		    }
+				if (key == 'reset'){
+    		    result = (MusicBeatSubstate.virtualPad.buttonY.justReleased == true);
     		    if(result) {controllerMode = true; return true;}
     		    }
 		
@@ -849,13 +857,11 @@ class Controls
             		result = (MusicBeatState.androidControls.virtualPads.buttonRight.justReleased == true);
             		if(result) {controllerMode = true; return true;}
         		    }
-    		    }//!MusicBeatSubstate.checkDUO
-    	    }//!MusicBeatSubstate.checkHitbox
-	    }//!checkTheControls
-	    }//!checkTheKeyboard
+    		    }
+    	    }
+	    }
+	    }
 	    return false;
-	  //  if (result) return true;
-    
     }
     
     #end
