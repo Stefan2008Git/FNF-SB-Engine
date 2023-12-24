@@ -30,15 +30,6 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 
 		// options
 
-		#if android
-		if (!FileSystem.exists(SUtil.getPath() + 'assets/shared/images/noteSkins') && !FileSystem.exists(SUtil.getPath() + 'assets/shared/images/noteSplashes') && Mods.mergeAllTextsNamed('images/noteSplashes/list.txt', 'shared').length == 0 && Mods.mergeAllTextsNamed('images/noteSkins/list.txt', 'shared').length == 0) // This makes if you don't had an note skin list and note splash shit added on game to appear toast message LOL 
-		{				
-			var warningMessage:String = '';
-		   	warningMessage = 'Noteskin and note splashes folder not detected, these options will not appear in Settings.';
-            	    	AndroidDialogsExtend.OpenToast(warningMessage, 2);
-		}
-		#end
-
 		var noteSkins:Array<String> = [];
 		if(Mods.mergeAllTextsNamed('images/noteSkins/list.txt', 'shared').length > 0)
 			noteSkins = Mods.mergeAllTextsNamed('images/noteSkins/list.txt', 'shared');
@@ -211,7 +202,7 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			"If checked, enables autoplay text to show on time bar.", 'autoplayTextOnTimeBar', 'bool');
 		addOption(option);
 
-		var option:Option = new Option('Autoplay text on time bar',
+		var option:Option = new Option('Guitar Hero Sustain style',
 			"If checked, Hold Notes can't be pressed if you miss,\nand count as a single Hit/Miss.\nUncheck this if you prefer the old Input System.", 'guitarHeroSustains', 'bool');
 		addOption(option);
 
