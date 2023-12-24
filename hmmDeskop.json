@@ -1,0 +1,78 @@
+{
+    "dependencies": [
+      {
+        "name": "lime",
+        "type": "haxelib",
+        "version": null
+      },
+      {
+        "name": "openfl",
+        "type": "haxelib",
+        "version": "9.2.1"
+      },
+      {
+        "name": "flixel",
+        "type": "haxelib",
+        "version": null
+      },
+      {
+        "name": "flixel-addons",
+        "type": "haxelib",
+        "version": null
+      },
+      {
+        "name": "flixel-tools",
+        "type": "haxelib",
+        "version": null
+      },
+      {
+        "name": "flixel-ui",
+        "type": "haxelib",
+        "version": null
+      },
+      {
+        "name": "hxcpp",
+        "type": "haxelib",
+        "version": "4.2.1"
+      },
+      {
+        "name": "tjson",
+        "type": "haxelib",
+        "version": null
+      },
+      {
+        "name": "hxjsonast",
+        "type": "haxelib",
+        "version": null
+      },
+      {
+        "name": "hxCodec",
+        "type": "haxelib",
+        "version": "2.5.1"
+      },
+      {
+        "name": "SScript",
+        "type": "haxelib",
+        "version": "8.1.6"
+      },
+      {
+        "name": "hxcpp-debug-server",
+        "type": "haxelib",
+        "version": null
+      },
+      {
+        "name": "discord_rpc",
+        "type": "git",
+        "dir": null,
+        "ref": "master",
+        "url": "https://github.com/Aidan63/linc_discord-rpc"
+      },
+      {
+        "name": "linc_luajit",
+        "type": "git",
+        "dir": null,
+        "ref": "master",
+        "url": "https://github.com/superpowers04/linc_luajit"
+      }
+    ]
+  }
