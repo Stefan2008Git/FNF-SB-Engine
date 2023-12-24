@@ -170,10 +170,7 @@
 	<haxedef name="HXCPP_CHECK_POINTER" if="CRASH_HANDLER" />
 	<haxedef name="HXCPP_STACK_LINE" if="CRASH_HANDLER" />
 
-	<!--Used to ignore no deprecreationed warning shits for TJSON and PlayState-->
-	<haxedef name="no-deprecation-warnings" unless="debug" />
-
-	<!-- _________________________________ Mobile Stuff _______________________________ -->
+	<!-- _________________________________ Android Stuff _______________________________ -->
 	<config:android permission="android.permission.READ_EXTERNAL_STORAGE" if="android"/>
 	<config:android permission="android.permission.WRITE_EXTERNAL_STORAGE" if="android"/>
         <config:android gradle-version="7.5.1" />

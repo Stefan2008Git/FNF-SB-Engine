@@ -223,9 +223,6 @@ class PlayState extends MusicBeatState
 	public var camOther:FlxCamera;
 	public var cameraSpeed:Float = 1;
 
-	var notesHitArray:Array<Date> = [];
-	var currentFrames:Int = 0;
-
 	public var songScore:Int = 0;
 	public var songHits:Int = 0;
 	public var songMisses:Int = 0;
@@ -237,7 +234,6 @@ class PlayState extends MusicBeatState
 	public var engineVersionTxt:FlxText;
 	public var songAndDifficultyNameTxt:FlxText;
 
-	public var nps:Int = 0;
 	public static var campaignScore:Int = 0;
 	public static var campaignMisses:Int = 0;
 	public static var seenCutscene:Bool = false;
@@ -618,7 +614,7 @@ class PlayState extends MusicBeatState
 				judgementCounterTxt.text = 'Sicks: 0' + '\n' + 'Goods: 0' + '\n' + 'Bads: 0' + '\n' + 'Shits: 0' + '\n' + 'Combo Breaks: 0';
 			
 			case 'Better Judge':
-				judgementCounterTxt.text = 'Total Notes Hit: 0' + '\n' + 'NPS: 0' + '\n' + 'Combo: 0' + '\n' + 'Max Combo: 0' + '\n' + 'Sicks: 0' + '\n' + 'Goods: 0' + '\n' + 'Bads: 0' + '\n' + 'Shits: 0' + '\n' + 'Combo Breaks: 0';
+				judgementCounterTxt.text = 'Total Notes Hit: 0' + '\n' + 'Combo: 0' + '\n' + 'Max Combo: 0' + '\n' + 'Sicks: 0' + '\n' + 'Goods: 0' + '\n' + 'Bads: 0' + '\n' + 'Shits: 0' + '\n' + 'Combo Breaks: 0';
 		}
 		judgementCounterTxt.borderSize = 2;
 		judgementCounterTxt.borderQuality = 2;
@@ -1422,9 +1418,36 @@ class PlayState extends MusicBeatState
 				judgementCounterTxt.text = 'Sicks: ${ratingsData[0].hits}\n' + 'Goods: ${ratingsData[1].hits}\n' + 'Bads: ${ratingsData[2].hits}\n' + 'Shits: ${ratingsData[3].hits}\n' + 'Combo Breaks: ${songMisses}';
 			
 			case 'Better Judge':
-				judgementCounterTxt.text = 'Total Notes Hit: ${totalPlayed}\n' + 'NPS: ${nps}\n' + 'Combo: ${combo}\n'  + 'Max Combo: ${maxCombo}\n' + 'Sicks: ${ratingsData[0].hits}\n' + 'Goods: ${ratingsData[1].hits}\n' + 'Bads: ${ratingsData[2].hits}\n' + 'Shits: ${ratingsData[3].hits}\n' + 'Combo Breaks: ${songMisses}';
+				judgementCounterTxt.text = 'Total Notes Hit: ${totalPlayed}\n' + 'Combo: ${combo}\n'  + 'Max Combo: ${maxCombo}\n' + 'Sicks: ${ratingsData[0].hits}\n' + 'Goods: ${ratingsData[1].hits}\n' + 'Bads: ${ratingsData[2].hits}\n' + 'Shits: ${ratingsData[3].hits}\n' + 'Combo Breaks: ${songMisses}';
 		}
 
+		if(ClientPrefs.data.scoreZoom && !miss && !cpuControlled)
+		{
+			if(scoreTxtTween != null) {
+				scoreTxtTween.cancel();
+			}
+			scoreTxt.scale.x = 1.075;
+			scoreTxt.scale.y = 1.075;
+			scoreTxtTween = FlxTween.tween(scoreTxt.scale, {x: 1, y: 1}, 0.2, {
+				onComplete: function(twn:FlxTween) {
+					scoreTxtTween = null;
+				}
+			});
+		}
+
+		if(ClientPrefs.data.judgementZoom && !miss && !cpuControlled)
+		{
+			if(judgementCounterTween != null) {
+				judgementCounterTween.cancel();
+			}
+			judgementCounterTxt.scale.x = 1.075;
+			judgementCounterTxt.scale.y = 1.075;
+			judgementCounterTween = FlxTween.tween(judgementCounterTxt.scale, {x: 1, y: 1}, 0.2, {
+				onComplete: function(twn:FlxTween) {
+					judgementCounterTween = null;
+				}
+			});
+		}
 		callOnScripts('onUpdateScore', [miss]);
 	}
 
@@ -1889,23 +1912,7 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		if (currentFrames == ClientPrefs.data.framerate && !ClientPrefs.data.hideHud)
-		{
-			for (i in 0...notesHitArray.length)
-			{
-				var npsHitValue:Date = notesHitArray[i];
-				if (npsHitValue != null)
-					if (npsHitValue.getTime() + 2000 < Date.now().getTime())
-						notesHitArray.remove(npsHitValue);
-			}
-			nps = Math.floor(notesHitArray.length / 2);
-			currentFrames = 0;
-		}
-		else if (currentFrames != ClientPrefs.data.framerate)
-			currentFrames++;
-
 		super.update(elapsed);
-		updateScore();
 
 		setOnScripts('curDecStep', curDecStep);
 		setOnScripts('curDecBeat', curDecBeat);
@@ -1964,50 +1971,44 @@ class PlayState extends MusicBeatState
 		if (controls.justPressed('debug_1') && !endingSong && !inCutscene)
 			openChartEditor();
 
-		var mult:Float = FlxMath.lerp(1, iconP1.scale.x, CoolUtil.boundTo(1 - (elapsed * 9 * playbackRate), 0, 1));
+		var mult:Float = FlxMath.lerp(1, iconP1.scale.x, FlxMath.bound(1 - (elapsed * 9 * playbackRate), 0, 1));
 		iconP1.scale.set(mult, mult);
 		iconP1.updateHitbox();
- 
-		var mult:Float = FlxMath.lerp(1, iconP2.scale.x, CoolUtil.boundTo(1 - (elapsed * 9 * playbackRate), 0, 1));
+
+		var mult:Float = FlxMath.lerp(1, iconP2.scale.x, FlxMath.bound(1 - (elapsed * 9 * playbackRate), 0, 1));
 		iconP2.scale.set(mult, mult);
 		iconP2.updateHitbox();
 
 		var iconOffset:Int = 26;
-
-		iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) + (150 * iconP1.scale.x - 150) / 2 - iconOffset;
-		iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (150 * iconP2.scale.x) / 2 - iconOffset * 2;
 		if (health > 2) health = 2;
-		switch (iconP1.animation.numFrames){
-			case 3:
-				if (healthBar.percent < 20)
-					iconP1.animation.curAnim.curFrame = 1;
-				else if (healthBar.percent >80)
-					iconP1.animation.curAnim.curFrame = 2;
-				else
-					iconP1.animation.curAnim.curFrame = 0;
-			case 2:
-				if (healthBar.percent < 20)
-					iconP1.animation.curAnim.curFrame = 1;
-				else
-					iconP1.animation.curAnim.curFrame = 0;
-			case 1:
+		iconP1.x = healthBar.barCenter + (150 * iconP1.scale.x - 150) / 2 - iconOffset;
+		iconP2.x = healthBar.barCenter - (150 * iconP2.scale.x) / 2 - iconOffset * 2;	
+
+		if (iconP1.animation.numFrames == 3) {
+			if (healthBar.percent < 20)
+				iconP1.animation.curAnim.curFrame = 1;
+			else if (healthBar.percent >80)
+				iconP1.animation.curAnim.curFrame = 2;
+			else
+				iconP1.animation.curAnim.curFrame = 0;
+		} 
+		else {
+			if (healthBar.percent < 20)
+				iconP1.animation.curAnim.curFrame = 1;
+			else
 				iconP1.animation.curAnim.curFrame = 0;
 		}
-
-		switch(iconP2.animation.numFrames){
-			case 3:
-				if (healthBar.percent > 80)
-					iconP2.animation.curAnim.curFrame = 1;
-				else if (healthBar.percent < 20)
-					iconP2.animation.curAnim.curFrame = 2;
-				else 
-					iconP2.animation.curAnim.curFrame = 0;
-			case 2:
-				if (healthBar.percent > 80)
-					iconP2.animation.curAnim.curFrame = 1;
-				else 
-					iconP2.animation.curAnim.curFrame = 0;
-			case 1:
+		if (iconP2.animation.numFrames == 3) {
+			if (healthBar.percent > 80)
+				iconP2.animation.curAnim.curFrame = 1;
+			else if (healthBar.percent < 20)
+				iconP2.animation.curAnim.curFrame = 2;
+			else 
+				iconP2.animation.curAnim.curFrame = 0;
+		} else {
+			if (healthBar.percent > 80)
+				iconP2.animation.curAnim.curFrame = 1;
+			else 
 				iconP2.animation.curAnim.curFrame = 0;
 		}
 
@@ -2760,7 +2761,7 @@ class PlayState extends MusicBeatState
 			Paths.image(uiPrefix + 'num' + i + uiSuffix);
 	}
 
-	private function popUpScore(note:Note = null, miss:Bool = false):Void
+	private function popUpScore(note:Note = null):Void
 	{
 		var noteDiff:Float = Math.abs(note.strumTime - Conductor.songPosition + ClientPrefs.data.ratingOffset);
 		vocals.volume = 1;
@@ -2773,35 +2774,6 @@ class PlayState extends MusicBeatState
 		}
 
 		var placement:Float =  FlxG.width * 0.35;
-
-		if(ClientPrefs.data.scoreZoom && !miss && !cpuControlled)
-		{
-			if(scoreTxtTween != null) {
-				scoreTxtTween.cancel();
-			}
-			scoreTxt.scale.x = 1.075;
-			scoreTxt.scale.y = 1.075;
-			scoreTxtTween = FlxTween.tween(scoreTxt.scale, {x: 1, y: 1}, 0.2, {
-				onComplete: function(twn:FlxTween) {
-					scoreTxtTween = null;
-				}
-			});
-		}
-
-		if(ClientPrefs.data.judgementZoom && !miss && !cpuControlled)
-		{
-			if(judgementCounterTween != null) {
-				judgementCounterTween.cancel();
-			}
-			judgementCounterTxt.scale.x = 1.075;
-			judgementCounterTxt.scale.y = 1.075;
-			judgementCounterTween = FlxTween.tween(judgementCounterTxt.scale, {x: 1, y: 1}, 0.2, {
-				onComplete: function(twn:FlxTween) {
-					judgementCounterTween = null;
-				}
-			});
-		}
-
 		var rating:FlxSprite = new FlxSprite();
 		var score:Int = 350;
 
@@ -3348,7 +3320,6 @@ class PlayState extends MusicBeatState
 				combo++;
 				if(combo > 9999) combo = 9999;
 				popUpScore(note);
-				notesHitArray.push(Date.now());
 			}
 			
 			var gainHealth:Bool = true; // prevent health gain, *if* sustains are treated as a singular note
@@ -3516,8 +3487,8 @@ class PlayState extends MusicBeatState
 			notes.sort(FlxSort.byY, ClientPrefs.data.downScroll ? FlxSort.ASCENDING : FlxSort.DESCENDING);
 
 		if (!iconBounce) {
-			iconP1.setGraphicSize(Std.int(iconP1.width + 30));
-			iconP2.setGraphicSize(Std.int(iconP2.width + 30));
+			iconP1.scale.set(1.2, 1.2);
+			iconP2.scale.set(1.2, 1.2);
 			
 			iconP1.updateHitbox();
 			iconP2.updateHitbox();
