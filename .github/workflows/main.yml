@@ -32,15 +32,31 @@ jobs:
           sudo apt-get install libvlc-dev
           sudo apt-get install libvlccore-dev
           haxelib setup ~/haxelib
-          haxelib install hxcpp 4.2.1 > /dev/null --quiet
-          haxelib install hmmDesktopTest --quiet
-          haxelib run hmmDesktopTest install
+          haxelib install hxcpp 4.2.1 > /dev/null
+          haxelib install lime 8.0.2
+          haxelib install openfl 9.2.1
+          haxelib install flixel
+          haxelib run lime setup flixel
+          haxelib run lime setup
+          haxelib install flixel-addons
+          haxelib install flixel-ui
+          haxelib install tjson
+          haxelib install hxjsonast
+          haxelib install hxCodec 2.5.1
+          haxelib install hscript
+          haxelib install SScript 8.1.6
+          haxelib install hxcpp-debug-server
+          haxelib git linc_luajit https://github.com/superpowers04/linc_luajit
+          haxelib git hscript-ex https://github.com/ianharrigan/hscript-ex
+          haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc
           haxelib list
       - name: Create Version Tag
         run: echo "${{github.run_id}}" > VERSION
-      - name: Configure Linux
+      - name: Setup Lime
         run: |
+          haxelib run lime setup -alias -y
           haxelib set hxcpp 4.2.1
+          haxelib set lime 8.0.2
           haxelib set openfl 9.2.1
           haxelib set SScript 8.1.6
           haxelib list
@@ -106,16 +122,33 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Install Haxelib
         run: |
-         haxelib setup C:/haxelib
-         haxelib install hxcpp 4.2.1 > /dev/null --quiet
-         haxelib install hmmDesktopTest --quiet
-         haxelib run hmmDesktopTest install
+          haxelib setup C:/haxelib
+          haxelib install hxcpp 4.2.1 > /dev/null
+          haxelib install lime 8.0.2
+          haxelib install openfl 9.2.1
+          haxelib install flixel
+          haxelib run lime setup flixel
+          haxelib run lime setup
+          haxelib install flixel-tools
+          haxelib install flixel-ui
+          haxelib install flixel-addons
+          haxelib install tjson
+          haxelib install hxjsonast
+          haxelib install hxCodec 2.5.1
+          haxelib install hscript
+          haxelib install SScript 8.1.6
+          haxelib install hxcpp-debug-server
+          haxelib git linc_luajit https://github.com/superpowers04/linc_luajit
+          haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc
+
         shell: cmd
       - name: Create Version Tag
         run: echo "${{github.run_id}}" > VERSION
-      - name: Configure Windows
+      - name: Setup Lime
         run: |
+          haxelib run lime setup -alias -y
           haxelib set hxcpp 4.2.1
+          haxelib set lime 8.0.2
           haxelib set openfl 9.2.1
           haxelib set SScript 8.1.6
           haxelib list
@@ -181,17 +214,34 @@ jobs:
       - name: Install Haxelib
         run: |
           haxelib setup ~/haxelib
-          haxelib install hxcpp 4.2.1 > /dev/null --quiet
-          haxelib install hmmDesktopTest --quiet
-          haxelib run hmmDesktopTest install
-      - name: Create Version Tag
-        run: echo "${{github.run_id}}" > VERSION
-      - name: Configure MacOS
+          haxelib install hxcpp 4.2.1 > /dev/null
+          haxelib install lime 8.0.2
+          haxelib install openfl 9.2.1
+          haxelib install flixel
+          haxelib run lime setup flixel
+          haxelib run lime setup
+          haxelib install flixel-tools
+          haxelib install flixel-ui
+          haxelib install flixel-addons
+          haxelib install tjson
+          haxelib install hxjsonast
+          haxelib install hxCodec 2.5.1
+          haxelib install hscript
+          haxelib install SScript 8.1.6
+          haxelib install hxcpp-debug-server
+          haxelib git linc_luajit https://github.com/superpowers04/linc_luajit
+          haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc
+
+      - name: Setup Lime
         run: |
+          haxelib run lime setup -alias -y
           haxelib set hxcpp 4.2.1
+          haxelib set lime 8.0.2
           haxelib set openfl 9.2.1
           haxelib set SScript 8.1.6
           haxelib list
+      - name: Create Version Tag
+        run: echo "${{github.run_id}}" > VERSION
       - name: Building
         run: haxelib run lime build macos -${{ matrix.arch }}
         env:
@@ -244,18 +294,13 @@ jobs:
   Android:
     name: Android
     runs-on: ubuntu-latest
-    permissions:
-        contents: write
-        actions: write
     steps:
       - name: Checkout
         uses: actions/checkout@main
-        with:
-          submodules: true
 
       - name: Setup Android NDK
-        id: setup-ndk
         uses: nttld/setup-ndk@main
+        id: setup-ndk
         with:
           ndk-version: r21e
 
@@ -275,17 +320,34 @@ jobs:
         uses: actions/cache/restore@main
         with:
           path: |
-            .haxelib/
-            export/release/android/haxe/
-            export/release/android/obj/
+            ~/haxelib
+            ~/.gradle
+            export/release/android/haxe
+            export/release/android/obj
           key: cache-android-build
 
-      - name: Installing Libraries
+      - name: Install Haxelib
         run: |
           haxelib setup ~/haxelib
-          haxelib install hxcpp 4.2.1 > /dev/null --quiet
-          haxelib install hmmAndroidTest --quiet
-          haxelib run hmmAndroidTest install
+          haxelib --quiet install hxcpp 4.2.1 > /dev/null
+          haxelib --quiet install lime 8.0.2
+          haxelib --quiet install openfl 9.2.1
+          haxelib --quiet install flixel
+          haxelib --quiet run lime setup flixel
+          haxelib --quiet install flixel-tools
+          haxelib --quiet install flixel-ui
+          haxelib --quiet install flixel-addons
+          haxelib --quiet install tjson
+          haxelib --quiet install hxjsonast
+          haxelib --quiet install SScript 8.1.6
+          haxelib --quiet git hxCodec https://github.com/SPLCoding/hxCodec-but-it-works-xd.git
+          haxelib --quiet git linc_luajit https://github.com/superpowers04/linc_luajit.git
+          haxelib --quiet git extension-androidtools https://github.com/MaysLastPlay77/extension-androidtools.git
+          haxelib --quiet git AndroidDialogs https://github.com/beihu235/AndroidDialogs.git
+          haxelib --quiet git devicelanguage https://github.com/beihu235/devicelanguage.git
+
+      - name: Create Version Tag
+        run: echo "${{github.run_id}}" > VERSION
 
       - name: Configure Android
         run: |
@@ -295,11 +357,18 @@ jobs:
           haxelib run lime config JAVA_HOME $JAVA_HOME
           haxelib run lime config ANDROID_SETUP true
           haxelib set hxcpp 4.2.1
+          haxelib set lime 8.0.2
+          haxelib set openfl 9.2.1
+          haxelib set SScript 8.1.6
+          haxelib list
         env:
           ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
 
       - name: Building
-        run: haxelib run lime build android -final
+        run: haxelib run lime build android -${{ matrix.arch }}
+        env:
+          cert_pass: nullfunni
+          cert_alias_pass: nullfunni
 
       - name: Clear Previous Cache
         uses: actions/github-script@main
@@ -332,9 +401,10 @@ jobs:
         uses: actions/cache/save@main
         with:
           path: |
-            .haxelib/
-            export/release/android/haxe/
-            export/release/android/obj/
+            ~/haxelib
+            ~/.gradle
+            export/release/android/haxe
+            export/release/android/obj
           key: cache-android-build
 
       - name: Upload Artifact
@@ -342,4 +412,3 @@ jobs:
         with:
           name: sbEngineAndroidBuild
           path: export/release/android/bin/app/build/outputs/apk/debug
-          if-no-files-found: warn
