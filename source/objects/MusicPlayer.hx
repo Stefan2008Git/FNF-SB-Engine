@@ -77,10 +77,6 @@ class MusicPlayer extends FlxGroup
 		playbackTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE);
 		add(playbackTxt);
 
-		#if android
-        addVirtualPad(FULL, A_B_C);
-        #end
-
 		switchPlayMusic();
 	}
 
@@ -253,11 +249,10 @@ class MusicPlayer extends FlxGroup
 
 		if (playingMusic)
 		{
-            #if android
-			instance.bottomText.text = "Press X to Pause / Press B to Exit / Press Y to Reset the Song";
-            #else
-            instance.bottomText.text = "Press SPACE to Pause / Press ESCAPE to Exit / Press R to Reset the Song";
-            #end
+                        if (instance.controls.androidControlsMode)
+		        instance.bottomText.text = "Press X to Pause / Press B to Exit / Press Y to Reset the Song";
+                        else
+                        instance.bottomText.text = "Press SPACE to Pause / Press ESCAPE to Exit / Press R to Reset the Song";
 			positionSong();
 			
 			progressBar.setRange(0, FlxG.sound.music.length);
