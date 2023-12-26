@@ -202,7 +202,6 @@ class Controls
 	}
 	
 	#if android
-	public var androidControlsMode(get, never):Bool;
 	private function checkAndroidControl_justPressed(key:String):Bool
 	{
 	    var result:Bool = false;
