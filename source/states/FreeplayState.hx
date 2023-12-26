@@ -194,7 +194,7 @@ class FreeplayState extends MusicBeatState
 		changeSelection();
 		updateTexts();
 
-		#if androidControlsMode
+		#if android
         addVirtualPad(FULL, A_B_C_X_Y_Z);
         #end
 
@@ -205,7 +205,7 @@ class FreeplayState extends MusicBeatState
 		changeSelection(0, false);
 		persistentUpdate = true;
 		super.closeSubState();
-		#if androidControlsMode
+		#if android
         addVirtualPad(FULL, A_B_C_X_Y_Z);
 		removeVirtualPad();
         #end
@@ -256,7 +256,7 @@ class FreeplayState extends MusicBeatState
 		}
 
 		var shiftMult:Int = 1;
-		if(FlxG.keys.pressed.SHIFT #if androidControlsMode || MusicBeatState.virtualPad.buttonZ.pressed #end) shiftMult = 3;
+		if(FlxG.keys.pressed.SHIFT #if android || MusicBeatState.virtualPad.buttonZ.pressed #end) shiftMult = 3;
 
 		if (!player.playingMusic)
 		{
@@ -321,7 +321,7 @@ class FreeplayState extends MusicBeatState
 		{
 			if (player.playingMusic)
 			{
-				#if androidControlsMode
+				#if android
        			addVirtualPad(FULL, A_B_C_X_Y_Z);
 				removeVirtualPad();
         		#end
@@ -348,7 +348,7 @@ class FreeplayState extends MusicBeatState
 			}
 		}
 
-		if(FlxG.keys.justPressed.CONTROL #if androidControlsMode || MusicBeatState.virtualPad.buttonC.justPressed #end && !player.playingMusic)
+		if(FlxG.keys.justPressed.CONTROL #if android || MusicBeatState.virtualPad.buttonC.justPressed #end && !player.playingMusic)
 		{
 			#if android
 			removeVirtualPad();
@@ -356,14 +356,14 @@ class FreeplayState extends MusicBeatState
 			persistentUpdate = false;
 			openSubState(new GameplayChangersSubstate());
 		}
-		else if(FlxG.keys.justPressed.SPACE #if androidControlsMode || MusicBeatState.virtualPad.buttonX.justPressed #end)
+		else if(FlxG.keys.justPressed.SPACE #if android || MusicBeatState.virtualPad.buttonX.justPressed #end)
 		{
 			if(instPlaying != currentlySelected && !player.playingMusic)
 			{
 				destroyFreeplayVocals();
 				FlxG.sound.music.volume = 0;
 
-				#if androidControlsMode
+				#if android
 				removeVirtualPad();
         		#end
 
@@ -441,7 +441,7 @@ class FreeplayState extends MusicBeatState
 				super.update(elapsed);
 				return;
 			}
-			if (FlxG.keys.pressed.SHIFT #if androidControlsMode || MusicBeatState.virtualPad.buttonZ.pressed #end){
+			if (FlxG.keys.pressed.SHIFT #if android || MusicBeatState.virtualPad.buttonZ.pressed #end){
 				LoadingState.loadAndSwitchState(new ChartingState());
 			} else {
 				LoadingState.loadAndSwitchState(new PlayState());
@@ -454,9 +454,9 @@ class FreeplayState extends MusicBeatState
 			DiscordClient.loadModRPC();
 			#end
 		}
-		else if(controls.RESET #if androidControlsMode || MusicBeatState.virtualPad.buttonY.justPressed #end && !player.playingMusic)
+		else if(controls.RESET #if android || MusicBeatState.virtualPad.buttonY.justPressed #end && !player.playingMusic)
 		{
-			#if androidControlsMode
+			#if android
 			removeVirtualPad();
 			#end
 			persistentUpdate = false;
