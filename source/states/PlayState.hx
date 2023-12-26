@@ -181,6 +181,7 @@ class PlayState extends MusicBeatState
 
 	public var gfSpeed:Int = 1;
 	public var health:Float = 1;
+	public var smoothHealth:Float = 1;
 	public var combo:Int = 0;
 	public var maxCombo:Int = 0;
 
@@ -227,6 +228,7 @@ class PlayState extends MusicBeatState
 	var currentFrames:Int = 0;
 
 	public var songScore:Int = 0;
+	public var scoreLerp:Float;
 	public var songHits:Int = 0;
 	public var songMisses:Int = 0;
 	public var scoreTxt:FlxText;
@@ -243,7 +245,7 @@ class PlayState extends MusicBeatState
 	public static var seenCutscene:Bool = false;
 	public static var deathCounter:Int = 0;
 
-	public var defaultCamZoom:Float = 1.05;
+	public static var defaultCamZoom:Float = 1.05;
 
 	// how big to stretch the pixel art assets
 	public static var daPixelZoom:Float = 6;
@@ -565,7 +567,7 @@ class PlayState extends MusicBeatState
 		FlxG.worldBounds.set(0, 0, FlxG.width, FlxG.height);
 		moveCameraSection();
 
-		healthBar = new HealthBar(0, FlxG.height * (!ClientPrefs.data.downScroll ? 0.89 : 0.11), 'healthBar', function() return health, 0, 2);
+		healthBar = new HealthBar(0, FlxG.height * (!ClientPrefs.data.downScroll ? 0.89 : 0.11), 'healthBar', function() return smoothHealth, 0, 2);
 		healthBar.screenCenter(X);
 		healthBar.leftToRight = false;
 		healthBar.scrollFactor.set();
@@ -1413,7 +1415,7 @@ class PlayState extends MusicBeatState
 			str += ' (${percent}%) - ${ratingFC}';
 		}
 
-		scoreTxt.text = 'Score: ' + songScore +' // Combo breaks: ' + songMisses + ' // Accuracy: ' + Math.ceil(ratingPercent * 10000) / 100 + '%' + ' // ' + ratingName + ' [' + ratingFC + ']';
+		scoreTxt.text = 'Score: ' + /*Std.parseInt(scoreLerp)*/songScore + ' // Combo breaks: ' + songMisses + ' // Accuracy: ' + Math.ceil(ratingPercent * 10000) / 100 + '%' + ' // ' + ratingName + ' [' + ratingFC + ']';
 		switch (ClientPrefs.data.judgementCounterStyle) {
 			case 'Original':
 				judgementCounterTxt.text = 'Sicks: ${ratingsData[0].hits}\n' + 'Goods: ${ratingsData[1].hits}\n' + 'Bads: ${ratingsData[2].hits}\n' + 'Shits: ${ratingsData[3].hits}';
@@ -1903,6 +1905,10 @@ class PlayState extends MusicBeatState
 		}
 		else if (currentFrames != ClientPrefs.data.framerate)
 			currentFrames++;
+
+		var mult:Float = FlxMath.lerp(smoothHealth, health, ((health / smoothHealth) * (elapsed * 8)) * playbackRate);
+		smoothHealth = mult;
+		scoreLerp = FlxMath.lerp(scoreLerp, songScore, 0.108);
 
 		super.update(elapsed);
 		updateScore();

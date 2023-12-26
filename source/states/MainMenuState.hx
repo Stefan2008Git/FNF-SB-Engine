@@ -12,6 +12,8 @@ import lime.app.Application;
 import states.editors.MasterEditorMenu;
 import options.OptionsState;
 
+import substates.NoSecretScreen1Substate;
+
 class MainMenuState extends MusicBeatState
 {
 	public static var sbEngineVersion:String = '3.0.0';
@@ -30,6 +32,7 @@ class MainMenuState extends MusicBeatState
 	var versionSb:FlxText;
 	var versionPsych:FlxText;
 	var versionFnf:FlxText;
+	var secretText1:FlxText;
 	
 	var optionSelect:Array<String> = [
 		'story_mode',
@@ -171,15 +174,20 @@ class MainMenuState extends MusicBeatState
 		versionSb = new FlxText(12, FlxG.height - 64, 0, "SB Engine v" + sbEngineVersion + " (Modified Psych Engine)", 16);
 		versionPsych = new FlxText(12, FlxG.height - 44, 0, "Psych Engine v" + psychEngineVersion, 16);
 		versionFnf = new FlxText(12, FlxG.height - 24, 0, "Friday Night Funkin' v" + fnfEngineVersion, 16);
+		secretText1 = new FlxText(12, FlxG.height - 24, 0, "Press S For the secret screen!", 16);
+		#if android secretText1.text = "Press BACK On your navigation bar for the secret screen!"; #end
 		versionSb.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		versionPsych.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		versionFnf.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		secretText1.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		versionSb.scrollFactor.set();
 		versionPsych.scrollFactor.set();
 		versionFnf.scrollFactor.set();
+		secretText1.scrollFactor.set();
 		add(versionSb);
 		add(versionPsych);
 		add(versionFnf);
+		add(secretText1);
 
 		if (ClientPrefs.data.cacheOnGPU) Paths.clearUnusedMemory();
 
@@ -192,6 +200,12 @@ class MainMenuState extends MusicBeatState
    		#end
 
 		super.create();
+	}
+
+	override function closeSubState() {
+		changeItem(0, false);
+		persistentUpdate = true;
+		super.closeSubState();
 	}
 
 	var selectedSomething:Bool = false;
@@ -293,6 +307,17 @@ class MainMenuState extends MusicBeatState
 				MusicBeatState.switchState(new MasterEditorMenu());
 			}
 			#end
+
+			if (FlxG.keys.justPressed.S #if android || FlxG.android.justReleased.BACK #end) 
+			{
+				Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Founded a secret menu";
+				FlxG.sound.play(Paths.sound('cancelMenu'), 1);
+				persistentUpdate = false;
+				#if android
+				removeVirtualPad();
+				#end
+				openSubState(new NoSecretScreen1Substate());
+			}
 		}
 
 		super.update(elapsed);
@@ -303,7 +328,7 @@ class MainMenuState extends MusicBeatState
 		});
 	}
 
-	function changeItem(huh:Int = 0)
+	function changeItem(huh:Int = 0, bool:Bool = true)
 	{
 		currentlySelected += huh;
 
