@@ -77,6 +77,10 @@ class MusicPlayer extends FlxGroup
 		playbackTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE);
 		add(playbackTxt);
 
+		#if android
+        addVirtualPad(FULL, A_B_C);
+        #end
+
 		switchPlayMusic();
 	}
 
@@ -199,7 +203,7 @@ class MusicPlayer extends FlxGroup
 		}
 		updatePlaybackTxt();
 	
-		if (instance.controls.RESET)
+		if (instance.controls.RESET #if android || MusicBeatState.virtualPad.buttonB.justPressed #end)
 		{
 			playbackRate = 1;
 			setPlaybackRate();

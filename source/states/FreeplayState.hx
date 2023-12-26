@@ -205,6 +205,10 @@ class FreeplayState extends MusicBeatState
 		changeSelection(0, false);
 		persistentUpdate = true;
 		super.closeSubState();
+		#if android
+        addVirtualPad(FULL, A_B_C_X_Y_Z);
+		removeVirtualPad();
+        #end
 	}
 
 	public function addSong(songName:String, weekNum:Int, songCharacter:String, color:Int)
@@ -233,6 +237,14 @@ class FreeplayState extends MusicBeatState
 			lerpScore = intendedScore;
 		if (Math.abs(lerpRating - intendedRating) <= 0.01)
 			lerpRating = intendedRating;
+
+		for (i in 0...iconArray.length)
+		{
+			iconArray[i].scale.x = 1 + 0.1;
+			iconArray[i].scale.y = 1 + 0.1;
+			FlxTween.tween(iconArray[i].scale, {x: 1}, 0.6, {ease: FlxEase.cubeOut});
+		    FlxTween.tween(iconArray[i].scale, {y: 1}, 0.6, {ease: FlxEase.cubeOut});
+		}
 
 		var ratingSplit:Array<String> = Std.string(CoolUtil.floorDecimal(lerpRating * 100, 2)).split('.');
 		if(ratingSplit.length < 2) { //No decimals, add an empty space
@@ -309,6 +321,11 @@ class FreeplayState extends MusicBeatState
 		{
 			if (player.playingMusic)
 			{
+				#if android
+       			addVirtualPad(FULL, A_B_C_X_Y_Z);
+				removeVirtualPad();
+        		#end
+
 				FlxG.sound.music.stop();
 				destroyFreeplayVocals();
 				FlxG.sound.music.volume = 0;
@@ -346,6 +363,10 @@ class FreeplayState extends MusicBeatState
 				destroyFreeplayVocals();
 				FlxG.sound.music.volume = 0;
 
+				#if android
+				removeVirtualPad();
+        		#end
+
 				Mods.currentModDirectory = songs[currentlySelected].folder;
 				var poop:String = Highscore.formatSong(songs[currentlySelected].songName.toLowerCase(), curDifficulty);
 				PlayState.SONG = Song.loadFromJson(poop, songs[currentlySelected].songName.toLowerCase());
@@ -363,6 +384,12 @@ class FreeplayState extends MusicBeatState
 					vocals = null;
 				}
 
+				var iconLerp:Float = 1;
+				for (i in 0...iconArray.length)
+				{
+					iconLerp = FlxMath.lerp(0.4, iconArray[i].scale.x, CoolUtil.boundTo(1 - (elapsed * 9), 0, 1));
+					iconArray[i].scale.set(iconLerp, iconLerp);
+				}
 				FlxG.sound.playMusic(Paths.inst(PlayState.SONG.song), 0.8);
 				if(vocals != null) //Sync vocals to Inst
 				{
@@ -591,7 +618,18 @@ class FreeplayState extends MusicBeatState
 		FlxG.autoPause = ClientPrefs.data.autoPause;
 		if (!FlxG.sound.music.playing)
 			FlxG.sound.playMusic(Paths.music('freakyMenu'));
-	}	
+	}
+
+	override function beatHit()
+	{
+		if (FlxG.sound.music.playing)
+		{
+			for (i in 0...iconArray.length) {
+				iconArray[i].scale.x += 0.2;
+				iconArray[i].updateHitbox();
+			}
+		}
+	}
 }
 
 class SongMetadata

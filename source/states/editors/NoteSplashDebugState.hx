@@ -15,7 +15,7 @@ class NoteSplashDebugState extends MusicBeatState
 {
 	var config:NoteSplashConfig;
 	var forceFrame:Int = -1;
-	var currentlySelected:Int = 0;
+	var curSelected:Int = 0;
 	var maxNotes:Int = 4;
 
 	var selection:FlxSprite;
@@ -187,7 +187,7 @@ class NoteSplashDebugState extends MusicBeatState
 				selecArr[0] -= movex;
 				selecArr[1] += movey;
 				updateOffsetText();
-				splashes.members[currentlySelected].offset.set(10 + selecArr[0], 10 + selecArr[1]);
+				splashes.members[curSelected].offset.set(10 + selecArr[0], 10 + selecArr[1]);
 			}
 		}
 
@@ -206,7 +206,7 @@ class NoteSplashDebugState extends MusicBeatState
 				var offs:Array<Float> = selectedArray();
 				offs[0] = copiedArray[0];
 				offs[1] = copiedArray[1];
-				splashes.members[currentlySelected].offset.set(10 + offs[0], 10 + offs[1]);
+				splashes.members[curSelected].offset.set(10 + offs[0], 10 + offs[1]);
 				updateOffsetText();
 			}
 		}
@@ -309,9 +309,9 @@ class NoteSplashDebugState extends MusicBeatState
 		savedText.text = 'Saved to: $path';
 		//sys.io.File.saveContent(path, strToSave);
 		//var path:String = SUtil.getPath() + 'modsList.txt';
-		File.saveContent(SUtil.getPath() + path, strToSave);
+		File.saveContent(path, strToSave);
 		#else
-		savedText.text = 'Can\'t save on this platform, too bad.';  //'
+		savedText.text = "Can\'t save on this platform, too bad.";  
 		#end
 	}
 	
@@ -403,17 +403,17 @@ class NoteSplashDebugState extends MusicBeatState
 	function changeSelection(change:Int = 0)
 	{
 		var max:Int = Note.colArray.length;
-		currentlySelected += change;
-		if(currentlySelected < 0) currentlySelected = max - 1;
-		else if(currentlySelected >= max) currentlySelected = 0;
+		curSelected += change;
+		if(curSelected < 0) curSelected = max - 1;
+		else if(curSelected >= max) curSelected = 0;
 
-		selection.x = currentlySelected * 220 + 220;
+		selection.x = curSelected * 220 + 220;
 		updateOffsetText();
 	}
 
 	function selectedArray(sel:Int = -1)
 	{
-		if(sel < 0) sel = currentlySelected;
+		if(sel < 0) sel = curSelected;
 		var animID:Int = sel + ((curAnim - 1) * Note.colArray.length);
 		if(config.offsets[animID] == null)
 		{

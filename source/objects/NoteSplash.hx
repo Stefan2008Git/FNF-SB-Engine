@@ -3,6 +3,7 @@ package objects;
 import shaders.RGBPalette;
 import flixel.system.FlxAssets.FlxShader;
 import flixel.graphics.frames.FlxFrame;
+import sys.FileSystem;
 
 typedef NoteSplashConfig = {
 	anim:String,
@@ -154,7 +155,8 @@ class NoteSplash extends FlxSprite
 		if(configs.exists(skin)) return configs.get(skin);
 
 		var path:String = Paths.getPath('images/$skin.txt', TEXT, true);
-		var configFile:Array<String> = CoolUtil.coolTextFile(path);
+		if (!FileSystem.exists(path)) path = SUtil.getPath() + 'assets/shared/images/noteSplashes/noteSplashes.txt'; // use default text
+		var configFile:Array<String> = CoolUtil.coolTextFile(path,false);
 		if(configFile.length < 1) return null;
 		
 		var framerates:Array<String> = configFile[1].split(' ');
