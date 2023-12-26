@@ -52,8 +52,7 @@ class FreeplayState extends MusicBeatState
 
 	override function create()
 	{
-		//Paths.clearStoredMemory();
-		//Paths.clearUnusedMemory();
+		Paths.clearStoredMemory();
 		
 		persistentUpdate = true;
 		PlayState.isStoryMode = false;
@@ -190,6 +189,8 @@ class FreeplayState extends MusicBeatState
 		
 		player = new MusicPlayer(this);
 		add(player);
+
+		Paths.clearUnusedMemory();
 		
 		changeSelection();
 		updateTexts();
@@ -322,8 +323,8 @@ class FreeplayState extends MusicBeatState
 			if (player.playingMusic)
 			{
 				#if android
-       			addVirtualPad(FULL, A_B_C_X_Y_Z);
 				removeVirtualPad();
+				addVirtualPad(FULL, A_B_C_X_Y_Z);
         		#end
 
 				FlxG.sound.music.stop();
@@ -361,10 +362,11 @@ class FreeplayState extends MusicBeatState
 			if(instPlaying != currentlySelected && !player.playingMusic)
 			{
 				destroyFreeplayVocals();
-				FlxG.sound.music.volume = 0;
+				FlxTween.tween(FlxG.sound.music, {pitch: 0, volume: 0}, 0.5, {ease: FlxEase.cubeOut});
 
 				#if android
 				removeVirtualPad();
+				addVirtualPad(FULL, A_B_X_Y);
         		#end
 
 				Mods.currentModDirectory = songs[currentlySelected].folder;
@@ -441,7 +443,7 @@ class FreeplayState extends MusicBeatState
 				super.update(elapsed);
 				return;
 			}
-			if (FlxG.keys.pressed.SHIFT #if android || MusicBeatState.virtualPad.buttonZ.pressed #end){
+			if (FlxG.keys.pressed.SHIFT #if android || MusicBeatState.virtualPad.buttonZ.pressed #end) {
 				LoadingState.loadAndSwitchState(new ChartingState());
 			} else {
 				LoadingState.loadAndSwitchState(new PlayState());
