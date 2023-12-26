@@ -199,7 +199,7 @@ class MusicPlayer extends FlxGroup
 		}
 		updatePlaybackTxt();
 	
-		if (instance.controls.RESET #if android || MusicBeatState.virtualPad.buttonB.justPressed #end)
+		if (instance.controls.RESET #if android || instance.virtualPad.buttonB.justPressed #end)
 		{
 			playbackRate = 1;
 			setPlaybackRate();
@@ -249,10 +249,11 @@ class MusicPlayer extends FlxGroup
 
 		if (playingMusic)
 		{
-                        if (instance.controls.androidControlsMode)
+                        #if androidControlsMode
 		        instance.bottomText.text = "Press X to Pause / Press B to Exit / Press Y to Reset the Song";
-                        else
+                        #else
                         instance.bottomText.text = "Press SPACE to Pause / Press ESCAPE to Exit / Press R to Reset the Song";
+			#end
 			positionSong();
 			
 			progressBar.setRange(0, FlxG.sound.music.length);
