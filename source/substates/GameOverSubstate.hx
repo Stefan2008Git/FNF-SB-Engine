@@ -65,7 +65,7 @@ class GameOverSubstate extends MusicBeatSubstate
 
 		Conductor.songPosition = 0;
 
-		bgWoof = FlxGradient.createGradientFlxSprite(FlxG.width, FlxG.height, [FlxColor.BLACK, FlxColor.BLUE], 1, 90, true);
+		bgWoof = FlxGradient.createGradientFlxSprite(FlxG.width, FlxG.height, [FlxColor.BLACK, FlxColor.PURPLE], 1, 90, true);
 		bgWoof.antialiasing = ClientPrefs.data.antialiasing;
 		bgWoof.scale.set(1, 1);
 		bgWoof.alpha = 0.0001;
@@ -73,6 +73,8 @@ class GameOverSubstate extends MusicBeatSubstate
 		add(bgWoof);
 
 		girlfriend = new Character(x, y, characterName2, false);
+		girlfriend.x += girlfriend.positionArray[0];
+		girlfriend.y += girlfriend.positionArray[1];
 		girlfriend.playAnim("scared", true);
 		add(girlfriend);
 
@@ -98,10 +100,10 @@ class GameOverSubstate extends MusicBeatSubstate
 		FlxG.camera.focusOn(new FlxPoint(FlxG.camera.scroll.x + (FlxG.camera.width / 2), FlxG.camera.scroll.y + (FlxG.camera.height / 2)));
 		add(camFollow);
 
-    #if mobile
-    addVirtualPad(NONE, A_B);
-    addPadCamera();
-    #end
+   		#if mobile
+    	addVirtualPad(NONE, A_B);
+    	addPadCamera();
+    	#end
 	}
 
 	public var startedDeath:Bool = false;
