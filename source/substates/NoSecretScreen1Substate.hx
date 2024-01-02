@@ -35,6 +35,7 @@ class NoSecretScreen1Substate extends MusicBeatSubstate
 
         #if android
         addVirtualPad(NONE, B);
+        addPadCamera();
         #end
     }
 
