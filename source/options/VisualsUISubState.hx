@@ -10,12 +10,11 @@ class VisualsUISubState extends BaseOptionsMenu
 	{
 		title = 'Visuals and UI';
 		rpcTitle = 'Visuals & UI Settings Menu'; //for Discord Rich Presence
-
-		var option:Option = new Option('Flashing Lights',
-			"Uncheck this if you're sensitive to flashing lights!",
-			'flashing',
-			'bool');
+		
+		var option:Option = new Option('FPS Counter',
+			'If unchecked, hides FPS Counter.', 'showFPS', 'bool');
 		addOption(option);
+		option.onChange = onChangeFPSCounter;
 
 		var option:Option = new Option('Watermark on right down corner',
 			"Uncheck this if you dont want to see watermark icon",
@@ -23,11 +22,6 @@ class VisualsUISubState extends BaseOptionsMenu
 			'bool');
 		addOption(option);
 		option.onChange = onWatermarkIcon;
-		
-		var option:Option = new Option('FPS Counter',
-			'If unchecked, hides FPS Counter.', 'showFPS', 'bool');
-		addOption(option);
-		option.onChange = onChangeFPSCounter;
 
 		var option:Option = new Option('Total FPS Counter',
 			'If checked, shows Total FPS Counter.', 'showTotalFPS', 'bool');
@@ -47,6 +41,12 @@ class VisualsUISubState extends BaseOptionsMenu
 
 		var option:Option = new Option('Debug Info Counter',
 			'If checked, shows debug info on FPS Counter.', 'debugInfo', 'bool');
+		addOption(option);
+
+		var option:Option = new Option('Flashing Lights',
+			"Uncheck this if you're sensitive to flashing lights!",
+			'flashing',
+			'bool');
 		addOption(option);
 
 		var option:Option = new Option('Objects',
@@ -73,7 +73,11 @@ class VisualsUISubState extends BaseOptionsMenu
 		addOption(option);
 
 		var option:Option = new Option('Themes:', 
-			'Change theme from different engines. More themes are coming very soon\nThis option is on alpha state, so maybe can be buggy.', 'themes', 'string', ['SB Engine', 'Psych Engine']);
+			'Change theme from different engines. More themes are coming very soon', 'themes', 'string', ['SB Engine', 'Psych Engine']);
+		addOption(option);
+
+		var option:Option = new Option('FNF Engine type:', 
+			'Change FNF Game engine type style and font plus', 'gameStyle', 'string', ['SB Engine', 'Psych Engine', 'Dave and Bambi', 'TGT Engine', 'Kade Engine']);
 		addOption(option);
 
 		super();

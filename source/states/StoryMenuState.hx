@@ -51,16 +51,53 @@ class StoryMenuState extends MusicBeatState
 		if(curWeek >= WeekData.weeksList.length) curWeek = 0;
 		persistentUpdate = persistentDraw = true;
 
-		scoreText = new FlxText(10, 10, 0, "SCORE: 49324858", 36);
-		scoreText.setFormat("VCR OSD Mono", 32);
+		scoreText = new FlxText(10, 10, 0, "SCORE: 0", 36);
+		switch (ClientPrefs.data.gameStyle) {
+			case 'Psych Engine' | 'Kade Engine':
+				scoreText.setFormat("VCR OSD Mono", 32);
+			
+			case 'Dave and Bambi':
+				scoreText.setFormat("Comic Sans MS Bold", 32);
+			
+			case 'TGT Engine':
+				scoreText.setFormat("Calibri", 32);
+			
+			default:
+				scoreText.setFormat("Bahnschrift", 32);
+		}
 
 		txtWeekTitle = new FlxText(FlxG.width * 0.7, 10, 0, "", 32);
-		txtWeekTitle.setFormat("VCR OSD Mono", 32, FlxColor.WHITE, RIGHT);
+		switch (ClientPrefs.data.gameStyle) {
+			case 'Psych Engine' | 'Kade Engine':
+				txtWeekTitle.setFormat("VCR OSD Mono", 32, FlxColor.WHITE, RIGHT);
+			
+			case 'Dave and Bambi':
+				txtWeekTitle.setFormat("Comic Sans MS Bold", 32, FlxColor.WHITE, RIGHT);
+			
+			case 'TGT Engine':
+				txtWeekTitle.setFormat("Calibri", 32, FlxColor.WHITE, RIGHT);
+			
+			default:
+				txtWeekTitle.setFormat("Bahnschrift", 32, FlxColor.WHITE, RIGHT);
+			
+		}
 		txtWeekTitle.alpha = 0.7;
 
 		var rankText:FlxText = new FlxText(0, 10);
-		rankText.text = 'RANK: GREAT';
-		rankText.setFormat(Paths.font("vcr.ttf"), 32);
+		rankText.text = 'Nothing';
+		switch (ClientPrefs.data.gameStyle) {
+			case 'Psych Engine' | 'Kade Engine':
+				rankText.setFormat(Paths.font("vcr.ttf"), 32);
+			
+			case 'Dave and Bambi':
+				rankText.setFormat(Paths.font("comic.ttf"), 32);
+			
+			case 'TGT Engine':
+				rankText.setFormat(Paths.font("calibri.ttf"), 32);
+			
+			default:
+				rankText.setFormat(Paths.font("bahnschrift.ttf"), 32);
+		}
 		rankText.size = scoreText.size;
 		rankText.screenCenter(X);
 
@@ -81,7 +118,7 @@ class StoryMenuState extends MusicBeatState
 
 		#if desktop
 		// Updating Discord Rich Presence
-		DiscordClient.changePresence("In the Menus", null);
+		DiscordClient.changePresence("In the Story Mode Menus", null);
 		#end
 
 		var num:Int = 0;

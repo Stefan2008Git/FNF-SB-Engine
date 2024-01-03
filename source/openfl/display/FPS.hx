@@ -44,12 +44,13 @@ class FPS extends TextField
 	public var maximumMemory:Float;
 	public var realAlpha:Float = 1;
 	public var redText:Bool = false;
+	public var color:Int = 0xFF000000;
 
 	@:noCompletion private var cacheCount:Int;
 	@:noCompletion private var currentTime:Float;
 	@:noCompletion private var times:Array<Float>;
 
-	public function new(x:Float = 10, y:Float = 10, color:Int = 0x000000)
+	public function new(x:Float = 10, y:Float = 10)
 	{
 		super();
 
@@ -60,7 +61,11 @@ class FPS extends TextField
 		totalFPS = 0;
 		selectable = false;
 		mouseEnabled = false;
-		defaultTextFormat = new TextFormat("_sans", 12, color);
+		#if android
+		defaultTextFormat = new TextFormat(null, 14, color);
+		#else
+		defaultTextFormat = new TextFormat(null, 12, color);
+		#end
 		autoSize = LEFT;
 		multiline = true;
 		text = "FPS: ";
@@ -141,6 +146,36 @@ class FPS extends TextField
 				text += "\nFlixel: " + FlxG.VERSION;
 				text += "\nLime: ?";
 				text += "\nOpenFL: ?";
+			}
+
+			switch (ClientPrefs.data.gameStyle) {
+				case 'Psych Engine' | 'Kade Engine':
+					#if android
+					Main.fpsVar.defaultTextFormat = new TextFormat('_sans', 14, color);
+					#else
+					Main.fpsVar.defaultTextFormat = new TextFormat('_sans', 12, color);
+					#end
+				
+				case 'Dave and Bambi':
+					#if android
+					Main.fpsVar.defaultTextFormat = new TextFormat('Comic Sans MS Bold', 14, color);
+					#else
+					Main.fpsVar.defaultTextFormat = new TextFormat('Comic Sans MS Bold', 12, color);
+					#end
+				
+				case 'TGT Engine':
+					#if android
+					Main.fpsVar.defaultTextFormat = new TextFormat('Calibri', 14, color);
+					#else
+					Main.fpsVar.defaultTextFormat = new TextFormat('Calibri', 12, color);
+					#end
+				
+				default:
+					#if android
+					Main.fpsVar.defaultTextFormat = new TextFormat('Bahnschrift', 14, color);
+					#else
+					Main.fpsVar.defaultTextFormat = new TextFormat('Bahnschrift', 12, color);
+					#end
 			}
 
 			textColor = FlxColor.fromRGBFloat(255, 255, 255, realAlpha);

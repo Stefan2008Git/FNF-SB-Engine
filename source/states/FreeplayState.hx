@@ -60,7 +60,7 @@ class FreeplayState extends MusicBeatState
 
 		#if desktop
 		// Updating Discord Rich Presence
-		DiscordClient.changePresence("In the Menus", null);
+		DiscordClient.changePresence("In the Freeplay Menus", null);
 		#end
 
 		for (i in 0...WeekData.weeksList.length) {
@@ -134,7 +134,19 @@ class FreeplayState extends MusicBeatState
 		WeekData.setDirectoryFromWeek();
 
 		scoreText = new FlxText(FlxG.width * 0.7, 5, 0, "", 32);
-		scoreText.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, RIGHT);
+		switch (ClientPrefs.data.gameStyle) {
+			case 'Psych Engine' | 'Kade Engine':
+				scoreText.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			
+			case 'Dave and Bambi':
+				scoreText.setFormat(Paths.font("comic.ttf"), 32, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			
+			case 'TGT Engine':
+				scoreText.setFormat(Paths.font("colibri.ttf"), 32, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			
+			default:
+				scoreText.setFormat(Paths.font("bahnschrift.ttf"), 32, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		}
 
 		scoreBG = new FlxSprite(scoreText.x - 6, 0).makeGraphic(1, 66, 0xFF000000);
 		scoreBG.alpha = 0.6;
@@ -152,7 +164,19 @@ class FreeplayState extends MusicBeatState
 		add(missingTextBG);
 		
 		missingText = new FlxText(50, 0, FlxG.width - 100, '', 24);
-		missingText.setFormat(Paths.font("vcr.ttf"), 24, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		switch (ClientPrefs.data.gameStyle) {
+			case 'Psych Engine' | 'Kade Engine':
+				missingText.setFormat(Paths.font("vcr.ttf"), 24, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			
+			case 'Dave and Bambi':
+				missingText.setFormat(Paths.font("comic.ttf"), 24, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			
+			case 'TGT Engine':
+				missingText.setFormat(Paths.font("colibri.ttf"), 24, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			
+			default:
+				missingText.setFormat(Paths.font("bahnschrift.ttf"), 24, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		}
 		missingText.scrollFactor.set();
 		missingText.visible = false;
 		add(missingText);
@@ -183,7 +207,19 @@ class FreeplayState extends MusicBeatState
 		bottomString = leText;
 		var size:Int = 16;
 		bottomText = new FlxText(bottomBG.x, bottomBG.y + 4, FlxG.width, leText, size);
-		bottomText.setFormat(Paths.font("vcr.ttf"), size, FlxColor.WHITE, CENTER);
+		switch (ClientPrefs.data.gameStyle) {
+			case 'Psych Engine' | 'Kade Engine':
+				bottomText.setFormat(Paths.font("vcr.ttf"), size, FlxColor.WHITE, CENTER);
+			
+			case 'Dave and Bambi':
+				bottomText.setFormat(Paths.font("comic.ttf"), size, FlxColor.WHITE, CENTER);
+			
+			case 'TGT Engine':
+				bottomText.setFormat(Paths.font("colibri.ttf"), size, FlxColor.WHITE, CENTER);
+			
+			default:
+				bottomText.setFormat(Paths.font("bahnschrift.ttf"), size, FlxColor.WHITE, CENTER);
+		}
 		bottomText.scrollFactor.set();
 		add(bottomText);
 		
@@ -322,10 +358,11 @@ class FreeplayState extends MusicBeatState
 		{
 			if (player.playingMusic)
 			{
-				#if android
-				removeVirtualPad();
-				addVirtualPad(FULL, A_B_C_X_Y_Z);
-        		#end
+
+				#if desktop
+				// Updating Discord Rich Presence
+				DiscordClient.changePresence("In the Freeplay Menus", null);
+				#end
 
 				FlxG.sound.music.stop();
 				destroyFreeplayVocals();
@@ -364,11 +401,6 @@ class FreeplayState extends MusicBeatState
 				destroyFreeplayVocals();
 				FlxTween.tween(FlxG.sound.music, {pitch: 0, volume: 0}, 0.5, {ease: FlxEase.cubeOut});
 
-				#if android
-				removeVirtualPad();
-				addVirtualPad(FULL, A_B_X_Y);
-        		#end
-
 				Mods.currentModDirectory = songs[currentlySelected].folder;
 				var poop:String = Highscore.formatSong(songs[currentlySelected].songName.toLowerCase(), curDifficulty);
 				PlayState.SONG = Song.loadFromJson(poop, songs[currentlySelected].songName.toLowerCase());
@@ -392,6 +424,11 @@ class FreeplayState extends MusicBeatState
 					iconLerp = FlxMath.lerp(0.4, iconArray[i].scale.x, CoolUtil.boundTo(1 - (elapsed * 9), 0, 1));
 					iconArray[i].scale.set(iconLerp, iconLerp);
 				}
+				#if desktop
+				// Updating Discord Rich Presence
+				DiscordClient.changePresence("Listening on the Freeplay Menus:" + firstLetterUpperCase(PlayState.SONG.song), null);
+				#end
+
 				FlxG.sound.playMusic(Paths.inst(PlayState.SONG.song), 0.8);
 				if(vocals != null) //Sync vocals to Inst
 				{
@@ -576,6 +613,12 @@ class FreeplayState extends MusicBeatState
 	inline private function _updateSongLastDifficulty()
 	{
 		songs[currentlySelected].lastDifficulty = Difficulty.getString(curDifficulty);
+	}
+
+	// Thank you Raltyro
+	public static function firstLetterUpperCase(strData:String):String {
+		var newArray = [for (str in strData.split(' ')) str.charAt(0).toUpperCase() + str.substr(1)];
+		return newArray.join(' ');
 	}
 
 	private function positionHighscore() {
