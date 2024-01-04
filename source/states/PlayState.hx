@@ -525,7 +525,7 @@ class PlayState extends MusicBeatState
 				timeTxt.borderSize = 2;
 			
 			case 'Kade Engine':
-				timeTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+				timeTxt.setFormat(Paths.font("vcr.ttf"), 18, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 				timeTxt.borderSize = 1;
 
 			case 'Dave and Bambi':
@@ -633,6 +633,7 @@ class PlayState extends MusicBeatState
 				scoreTxt.borderSize = 1.25;
 			
 			case 'Kade Engine':
+				scoreTxt = new FlxText(FlxG.width / 2 - 235, healthBar.y + 50, 0, "", 20);
 				scoreTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 				scoreTxt.borderSize = 1;
 			
@@ -767,6 +768,7 @@ class PlayState extends MusicBeatState
 					engineVersionTxt.borderSize = 1.25;
 				
 				case 'Kade Engine':
+					songAndDifficultyNameTxt = new FlxText(4, healthBar.y + 70, 0, 16);
 					engineVersionTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 					engineVersionTxt.borderSize = 1;
 				
@@ -796,6 +798,7 @@ class PlayState extends MusicBeatState
 					songAndDifficultyNameTxt.borderSize = 1.25;
 				
 				case 'Kade Engine':
+					songAndDifficultyNameTxt = new FlxText(11, healthBar.y + 50, 0, 16);
 					songAndDifficultyNameTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 					songAndDifficultyNameTxt.borderSize = 1;
 				
@@ -853,6 +856,7 @@ class PlayState extends MusicBeatState
 					songAndDifficultyNameTxt.borderSize = 1.25;
 				
 				case 'Kade Engine':
+					songAndDifficultyNameTxt = new FlxText(4, healthBar.y + 50, 0, 16);
 					songAndDifficultyNameTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 					songAndDifficultyNameTxt.borderSize = 1;
 				
@@ -1055,8 +1059,13 @@ class PlayState extends MusicBeatState
 	}
 
 	public function reloadHealthBarColors() {
-		healthBar.setColors(FlxColor.fromRGB(dad.healthColorArray[0], dad.healthColorArray[1], dad.healthColorArray[2]),
+		if (!ClientPrefs.data.originalHPBar) {
+			healthBar.setColors(FlxColor.fromRGB(dad.healthColorArray[0], dad.healthColorArray[1], dad.healthColorArray[2]),
 			FlxColor.fromRGB(boyfriend.healthColorArray[0], boyfriend.healthColorArray[1], boyfriend.healthColorArray[2]));
+		} else {
+			healthBar.leftBar.color = FlxColor.RED;
+			healthBar.rightBar.color = FlxColor.LIME;
+		}
 	}
 
 	public function reloadTimeBarColors() {
@@ -2112,7 +2121,6 @@ class PlayState extends MusicBeatState
 
 		var mult:Float = FlxMath.lerp(smoothHealth, health, ((health / smoothHealth) * (elapsed * 8)) * playbackRate);
 		smoothHealth = mult;
-		scoreLerp = FlxMath.lerp(scoreLerp, songScore, 0.108);
 
 		super.update(elapsed);
 		updateScore();

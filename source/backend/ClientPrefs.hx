@@ -80,6 +80,7 @@ class SaveVariables {
 	public var opponentHealthColor:Bool = false;
 	public var autoplayTextOnTimeBar:Bool = true;
 	public var guitarHeroSustains:Bool = true;
+	public var originalHPBar:Bool = false;
 	public var gameplaySettings:Map<String, Dynamic> = [
 		'scrollspeed' => 1.0,
 		'scrolltype' => 'multiplicative', 
