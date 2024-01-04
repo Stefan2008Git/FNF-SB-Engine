@@ -4,11 +4,11 @@ import flixel.graphics.FlxGraphic;
 
 import openfl.Assets;
 import openfl.Lib;
-import openfl.display.FPS;
 import openfl.display.Sprite;
 import openfl.events.Event;
 import openfl.display.StageScaleMode;
 import lime.app.Application;
+import debug.FPS;
 import states.TitleState;
 #if android
 import SUtil;

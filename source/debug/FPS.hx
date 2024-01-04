@@ -1,4 +1,4 @@
-package openfl.display;
+package debug;
 
 import openfl.system.ApplicationDomain;
 import lime.system.Display;
@@ -149,11 +149,18 @@ class FPS extends TextField
 			}
 
 			switch (ClientPrefs.data.gameStyle) {
-				case 'Psych Engine' | 'Kade Engine':
+				case 'Psych Engine':
 					#if android
 					Main.fpsVar.defaultTextFormat = new TextFormat('_sans', 14, color);
 					#else
 					Main.fpsVar.defaultTextFormat = new TextFormat('_sans', 12, color);
+					#end
+				
+				case 'Kade Engine':
+					#if android
+					Main.fpsVar.defaultTextFormat = new TextFormat('VCR OSD Mono', 14, color);
+					#else
+					Main.fpsVar.defaultTextFormat = new TextFormat('VCR OSD Mono', 12, color);
 					#end
 				
 				case 'Dave and Bambi':
