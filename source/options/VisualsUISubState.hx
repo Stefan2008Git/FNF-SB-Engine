@@ -77,7 +77,7 @@ class VisualsUISubState extends BaseOptionsMenu
 		addOption(option);
 
 		var option:Option = new Option('FNF Engine type:', 
-			'Change FNF Game engine type style and font plus', 'gameStyle', 'string', ['SB Engine', 'Psych Engine', 'Dave and Bambi', 'TGT Engine', 'Kade Engine']);
+			'Change FNF Game engine type style and font plus', 'gameStyle', 'string', ['SB Engine', 'Psych Engine', 'Kade Engine', 'TGT Engine', 'Dave and Bambi']);
 		addOption(option);
 
 		super();

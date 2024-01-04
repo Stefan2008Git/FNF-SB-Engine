@@ -58,7 +58,7 @@ class MusicPlayer extends FlxGroup
 				songTxt.setFormat(Paths.font("comic.ttf"), 32, FlxColor.WHITE, RIGHT);
 			
 			case 'TGT Engine':
-				songTxt.setFormat(Paths.font("colibri.ttf"), 32, FlxColor.WHITE, RIGHT);
+				songTxt.setFormat(Paths.font("calibri.ttf"), 32, FlxColor.WHITE, RIGHT);
 			
 			default:
 				songTxt.setFormat(Paths.font("bahnschrift.ttf"), 32, FlxColor.WHITE, RIGHT);
@@ -74,7 +74,7 @@ class MusicPlayer extends FlxGroup
 				timeTxt.setFormat(Paths.font("comic.ttf"), 32, FlxColor.WHITE, RIGHT);
 			
 			case 'TGT Engine':
-				timeTxt.setFormat(Paths.font("colibri.ttf"), 32, FlxColor.WHITE, RIGHT);
+				timeTxt.setFormat(Paths.font("calibri.ttf"), 32, FlxColor.WHITE, RIGHT);
 			
 			default:
 				timeTxt.setFormat(Paths.font("bahnschrift.ttf"), 32, FlxColor.WHITE, RIGHT);
@@ -92,7 +92,7 @@ class MusicPlayer extends FlxGroup
 					text.setFormat(Paths.font("comic.ttf"), 32, FlxColor.WHITE, CENTER);
 				
 				case 'TGT Engine':
-					text.setFormat(Paths.font("colibri.ttf"), 32, FlxColor.WHITE, CENTER);
+					text.setFormat(Paths.font("calibri.ttf"), 32, FlxColor.WHITE, CENTER);
 				
 				default:
 					text.setFormat(Paths.font("bahnschrift.ttf"), 32, FlxColor.WHITE, CENTER);
@@ -118,7 +118,7 @@ class MusicPlayer extends FlxGroup
 				playbackTxt.setFormat(Paths.font("comic.ttf"), 32, FlxColor.WHITE);
 			
 			case 'TGT Engine':
-				playbackTxt.setFormat(Paths.font("colibri.ttf"), 32, FlxColor.WHITE);
+				playbackTxt.setFormat(Paths.font("calibri.ttf"), 32, FlxColor.WHITE);
 			
 			default:
 				playbackTxt.setFormat(Paths.font("bahnschrift.ttf"), 32, FlxColor.WHITE);

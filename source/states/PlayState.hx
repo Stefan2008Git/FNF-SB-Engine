@@ -256,6 +256,9 @@ class PlayState extends MusicBeatState
 	var songLength:Float = 0;
 
 	var sbEngineIconBounce:Bool = true;
+	var psychEngineIconBounce:Bool = true;
+	var kadeEngineIconBounce:Bool = true;
+	var tgtEngineIconBounce:Bool = true;
 	var daveAndBambiIconBounce:Bool = true;
 	var notesCanMoveCamera:Bool = true;
 
@@ -327,6 +330,9 @@ class PlayState extends MusicBeatState
 		guitarHeroSustains = ClientPrefs.data.guitarHeroSustains;
 
 		sbEngineIconBounce = (ClientPrefs.data.iconBounce && ClientPrefs.data.gameStyle == 'SB Engine');
+		psychEngineIconBounce = (ClientPrefs.data.iconBounce && ClientPrefs.data.gameStyle == 'Psych Engine');
+		kadeEngineIconBounce = (ClientPrefs.data.iconBounce && ClientPrefs.data.gameStyle == 'Kade Engine');
+		tgtEngineIconBounce = (ClientPrefs.data.iconBounce && ClientPrefs.data.gameStyle == 'TGT Engine');
 		daveAndBambiIconBounce = (ClientPrefs.data.iconBounce && ClientPrefs.data.gameStyle == 'Dave and Bambi');
 		notesCanMoveCamera = (ClientPrefs.data.cameraMovement);
 
@@ -532,12 +538,23 @@ class PlayState extends MusicBeatState
 		timeTxt.visible = updateTime = showTime;
 		if(ClientPrefs.data.downScroll) timeTxt.y = FlxG.height - 44;
 		if(ClientPrefs.data.timeBarType == 'Song Name') timeTxt.text = SONG.song;
-		if(ClientPrefs.data.timeBarType == 'Song Name + Timer') timeTxt.text = SONG.song;
 
-		timeBar = new HealthBar(0, timeTxt.y + (timeTxt.height / 4), 'healthBar', function() return songPercent, 0, 1);
+		switch (ClientPrefs.data.gameStyle) {
+			case 'Psych Engine' | 'TGT Engine':
+				timeBar = new HealthBar(0, timeTxt.y + (timeTxt.height / 4), 'timeBar', function() return songPercent, 0, 1);
+			
+			case 'SB Engine' | 'Kade Engine' | 'Dave and Bambi':
+				timeBar = new HealthBar(0, timeTxt.y + (timeTxt.height / 4), 'healthBar', function() return songPercent, 0, 1);
+		}
 		timeBar.scrollFactor.set();
 		timeBar.screenCenter(X);
-		timeBar.alpha = 0;
+		switch (ClientPrefs.data.gameStyle) {
+			case 'SB Engine' | 'Psych Engine' | 'TGT Engine':
+				timeBar.alpha = 0;
+			
+			case 'Kade Engine' | 'Dave and Bambi':
+				timeBar.alpha = 1;
+		}
 		timeBar.visible = showTime && ClientPrefs.data.timeBar;
 		reloadTimeBarColors();
 		uiGroup.add(timeBar);
@@ -718,7 +735,19 @@ class PlayState extends MusicBeatState
 		}
 		if (ClientPrefs.data.watermarkStyle == 'SB Engine') {
 		    engineVersionTxt = new FlxText(12, FlxG.height - 44, 0, "", 8);
-		        engineVersionTxt.setFormat(Paths.font("vcr.ttf"), 15, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		    switch (ClientPrefs.data.gameStyle) {
+				case 'Psych Engine' | 'Kade Engine':
+					engineVersionTxt.setFormat(Paths.font("vcr.ttf"), 15, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+				
+				case 'Dave and Bambi':
+					engineVersionTxt.setFormat(Paths.font("comic.ttf"), 15, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+				
+				case 'TGT Engine':
+					engineVersionTxt.setFormat(Paths.font("calibri.ttf"), 15, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+				
+				default:
+					engineVersionTxt.setFormat(Paths.font("bahnschrift.ttf"), 15, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			}
 		    engineVersionTxt.scrollFactor.set();
 		    engineVersionTxt.borderSize = 1.25;
 		    engineVersionTxt.visible = ClientPrefs.data.watermark && !ClientPrefs.data.hideHud;
@@ -728,7 +757,19 @@ class PlayState extends MusicBeatState
 				engineVersionTxt.text = "SB " + MainMenuState.sbEngineVersion + " (PE " + MainMenuState.psychEngineVersion + ")";
 			}
 		    songAndDifficultyNameTxt = new FlxText(12, FlxG.height - 24, 0, "", 8);
-		    songAndDifficultyNameTxt.setFormat(Paths.font("vcr.ttf"), 15, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		    switch (ClientPrefs.data.gameStyle) {
+				case 'Psych Engine' | 'Kade Engine':
+					songAndDifficultyNameTxt.setFormat(Paths.font("vcr.ttf"), 15, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+				
+				case 'Dave and Bambi':
+					songAndDifficultyNameTxt.setFormat(Paths.font("comic.ttf"), 15, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+				
+				case 'TGT Engine':
+					songAndDifficultyNameTxt.setFormat(Paths.font("calibri.ttf"), 15, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+				
+				default:
+					songAndDifficultyNameTxt.setFormat(Paths.font("bahnschrift.ttf"), 15, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			}
 		    songAndDifficultyNameTxt.scrollFactor.set();
 		    songAndDifficultyNameTxt.borderSize = 1.25;
 		    songAndDifficultyNameTxt.visible = ClientPrefs.data.watermark && !ClientPrefs.data.hideHud;
@@ -737,7 +778,19 @@ class PlayState extends MusicBeatState
 
 		if (ClientPrefs.data.watermarkStyle == 'Kade Engine') {
 			engineVersionTxt = new FlxText(12, FlxG.height - 44, 0, "", 8);
-		    engineVersionTxt.setFormat(Paths.font("vcr.ttf"), 15, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		    switch (ClientPrefs.data.gameStyle) {
+				case 'Psych Engine' | 'Kade Engine':
+					engineVersionTxt.setFormat(Paths.font("vcr.ttf"), 15, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+				
+				case 'Dave and Bambi':
+					engineVersionTxt.setFormat(Paths.font("comic.ttf"), 15, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+				
+				case 'TGT Engine':
+					engineVersionTxt.setFormat(Paths.font("calibri.ttf"), 15, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+				
+				default:
+					engineVersionTxt.setFormat(Paths.font("bahnschrift.ttf"), 15, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			}
 		    engineVersionTxt.scrollFactor.set();
 		    engineVersionTxt.borderSize = 1.25;
 		    engineVersionTxt.visible = false;
@@ -747,7 +800,19 @@ class PlayState extends MusicBeatState
 				engineVersionTxt.text = "SB " + MainMenuState.sbEngineVersion + " (PE " + MainMenuState.psychEngineVersion + ")";
 			}
 		    songAndDifficultyNameTxt = new FlxText(12, FlxG.height - 24, 0, "", 8);
-		    songAndDifficultyNameTxt.setFormat(Paths.font("vcr.ttf"), 15, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		    switch (ClientPrefs.data.gameStyle) {
+				case 'Psych Engine' | 'Kade Engine':
+					songAndDifficultyNameTxt.setFormat(Paths.font("vcr.ttf"), 15, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+				
+				case 'Dave and Bambi':
+					songAndDifficultyNameTxt.setFormat(Paths.font("comic.ttf"), 15, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+				
+				case 'TGT Engine':
+					songAndDifficultyNameTxt.setFormat(Paths.font("calibri.ttf"), 15, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+				
+				default:
+					songAndDifficultyNameTxt.setFormat(Paths.font("bahnschrift.ttf"), 15, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			}
 		    songAndDifficultyNameTxt.scrollFactor.set();
 		    songAndDifficultyNameTxt.borderSize = 1.25;
 		    songAndDifficultyNameTxt.visible = ClientPrefs.data.watermark && !ClientPrefs.data.hideHud;
@@ -944,9 +1009,15 @@ class PlayState extends MusicBeatState
 		if (ClientPrefs.data.opponentHealthColor) {
 			timeBar.leftBar.color = (FlxColor.fromRGB(dad.healthColorArray[0], dad.healthColorArray[1], dad.healthColorArray[2]));
 			timeBar.rightBar.color = 0xFF1A1A1A;
-		} else {
+		} else if (ClientPrefs.data.gameStyle == 'SB Engine') {
 			timeBar.leftBar.color = FlxColor.PURPLE;
 			timeBar.rightBar.color = 0xFF1A1A1A;
+		} else if (ClientPrefs.data.gameStyle == 'Psych Engine' || ClientPrefs.data.gameStyle == 'TGT Engine') {
+			timeBar.leftBar.color = FlxColor.WHITE;
+			timeBar.rightBar.color = FlxColor.BLACK;
+		} else if (ClientPrefs.data.gameStyle == 'Kade Engine' || ClientPrefs.data.gameStyle == 'Dave and Bambi') {
+			timeBar.leftBar.color = FlxColor.LIME;
+			timeBar.rightBar.color = FlxColor.GRAY;
 		}
 	}
 
@@ -1469,7 +1540,22 @@ class PlayState extends MusicBeatState
 			str += ' (${percent}%) - ${ratingFC}';
 		}
 
-		scoreTxt.text = 'Score: ' + /*Std.parseInt(scoreLerp)*/songScore + ' // Combo breaks: ' + songMisses + ' // Accuracy: ' + Math.ceil(ratingPercent * 10000) / 100 + '%' + ' // ' + ratingName + ' [' + ratingFC + ']';
+		switch (ClientPrefs.data.gameStyle) {
+			case 'Psych Engine':
+				scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + str;
+
+			case 'Kade Engine':
+				scoreTxt.text = 'Score: ' + songScore + ' | Combo Breaks: ' + songMisses + ' | Accurarcy: ' + CoolUtil.floorDecimal(ratingPercent * 100, 2) + '%' + ' | ' + ratingName + ' [' + ratingFC + ']';
+			
+			case 'TGT Engine':
+				scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + str;
+
+			case 'Dave and Bambi':
+				scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Accurarcy: ' + CoolUtil.floorDecimal(ratingPercent * 100, 2) + '%';
+			
+			default:
+				scoreTxt.text = 'Score: ' + /*Std.parseInt(scoreLerp)*/songScore + ' // Combo breaks: ' + songMisses + ' // Accuracy: ' + Math.ceil(ratingPercent * 10000) / 100 + '%' + ' // ' + ratingName + ' [' + ratingFC + ']';
+		}
 		switch (ClientPrefs.data.judgementCounterStyle) {
 			case 'Original':
 				judgementCounterTxt.text = 'Sicks: ${ratingsData[0].hits}\n' + 'Goods: ${ratingsData[1].hits}\n' + 'Bads: ${ratingsData[2].hits}\n' + 'Shits: ${ratingsData[3].hits}';
@@ -1534,8 +1620,18 @@ class PlayState extends MusicBeatState
 
 		// Song duration in a float, useful for the time left feature
 		songLength = FlxG.sound.music.length;
-		FlxTween.tween(timeBar, {alpha: 1}, 0.5, {ease: FlxEase.expoInOut});
-		FlxTween.tween(timeTxt, {alpha: 1}, 0.5, {ease: FlxEase.expoInOut});
+		switch (ClientPrefs.data.gameStyle) {
+			case 'Psych Engine' | 'TGT Engine':
+				FlxTween.tween(timeBar, {alpha: 1}, 0.5, {ease: FlxEase.expoInOut});
+				FlxTween.tween(timeTxt, {alpha: 1}, 0.5, {ease: FlxEase.expoInOut});
+			
+			case 'Kade Engine' | 'Dave and Bambi':
+				FlxTween.tween(timeTxt, {alpha: 1}, 0.5);
+			
+			default:
+				FlxTween.tween(timeBar, {alpha: 1}, 0.5, {ease: FlxEase.bounceInOut});
+				FlxTween.tween(timeTxt, {alpha: 1}, 0.5, {ease: FlxEase.bounceInOut});
+		}
 
 		#if desktop
 		// Updating Discord Rich Presence (with Time Left)
@@ -1994,11 +2090,23 @@ class PlayState extends MusicBeatState
 		}
 
 		if (ClientPrefs.data.textSineEffect) {
-			if (botplayTxt != null && botplayTxt.visible) {
-				botplaySine += 50 * elapsed;
-				botplayTxt.alpha = 1 - Math.sin((Math.PI * botplaySine) / 120);
+			switch (ClientPrefs.data.gameStyle) {
+				case 'Psych Engine' | 'TGT Engine':
+					if(botplayTxt != null && botplayTxt.visible) {
+						botplaySine += 180 * elapsed;
+						botplayTxt.alpha = 1 - Math.sin((Math.PI * botplaySine) / 180);
+					}
+
+				default:
+					if (botplayTxt != null && botplayTxt.visible) {
+						botplaySine += 50 * elapsed;
+						botplayTxt.alpha = 1 - Math.sin((Math.PI * botplaySine) / 120);
+				}
 			}
 		}
+
+		updateIconsScale(elapsed);
+		updateIconsPosition();
 
 		if (controls.PAUSE #if android || FlxG.android.justReleased.BACK #end && startedCountdown && canPause)
 		{
@@ -2024,60 +2132,7 @@ class PlayState extends MusicBeatState
 		if (controls.justPressed('debug_1') && !endingSong && !inCutscene)
 			openChartEditor();
 
-		var mult:Float = FlxMath.lerp(1, iconP1.scale.x, CoolUtil.boundTo(1 - (elapsed * 9 * playbackRate), 0, 1));
-		iconP1.scale.set(mult, mult);
-		iconP1.updateHitbox();
- 
-		var mult:Float = FlxMath.lerp(1, iconP2.scale.x, CoolUtil.boundTo(1 - (elapsed * 9 * playbackRate), 0, 1));
-		iconP2.scale.set(mult, mult);
-		iconP2.updateHitbox();
-
-		var iconOffset:Int = 26;
-
-		if (sbEngineIconBounce) {
-			iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) + (150 * iconP1.scale.x - 150) / 2 - iconOffset;
-			iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (150 * iconP2.scale.x) / 2 - iconOffset * 2;
-		}
-
-		if (daveAndBambiIconBounce) {
-			iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01) - iconOffset);
-			iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (iconP2.width - iconOffset);
-		}
-
 		if (health > 2) health = 2;
-		switch (iconP1.animation.numFrames){
-			case 3:
-				if (healthBar.percent < 20)
-					iconP1.animation.curAnim.curFrame = 1;
-				else if (healthBar.percent >80)
-					iconP1.animation.curAnim.curFrame = 2;
-				else
-					iconP1.animation.curAnim.curFrame = 0;
-			case 2:
-				if (healthBar.percent < 20)
-					iconP1.animation.curAnim.curFrame = 1;
-				else
-					iconP1.animation.curAnim.curFrame = 0;
-			case 1:
-				iconP1.animation.curAnim.curFrame = 0;
-		}
-
-		switch(iconP2.animation.numFrames){
-			case 3:
-				if (healthBar.percent > 80)
-					iconP2.animation.curAnim.curFrame = 1;
-				else if (healthBar.percent < 20)
-					iconP2.animation.curAnim.curFrame = 2;
-				else 
-					iconP2.animation.curAnim.curFrame = 0;
-			case 2:
-				if (healthBar.percent > 80)
-					iconP2.animation.curAnim.curFrame = 1;
-				else 
-					iconP2.animation.curAnim.curFrame = 0;
-			case 1:
-				iconP2.animation.curAnim.curFrame = 0;
-		}
 
 		if (controls.justPressed('debug_2') && !endingSong && !inCutscene)
 			openCharacterEditor();
@@ -2233,6 +2288,85 @@ class PlayState extends MusicBeatState
 		setOnScripts('cameraY', camFollow.y);
 		setOnScripts('botPlay', cpuControlled);
 		callOnScripts('onUpdatePost', [elapsed]);
+	}
+
+	// Health icon updaters
+	public dynamic function updateIconsScale(elapsed:Float)
+	{
+		if (psychEngineIconBounce || tgtEngineIconBounce || sbEngineIconBounce) {
+			var mult:Float = FlxMath.lerp(1, iconP1.scale.x, FlxMath.bound(1 - (elapsed * 9 * playbackRate), 0, 1));
+			iconP1.scale.set(mult, mult);
+			iconP1.updateHitbox();
+
+			var mult:Float = FlxMath.lerp(1, iconP2.scale.x, FlxMath.bound(1 - (elapsed * 9 * playbackRate), 0, 1));
+			iconP2.scale.set(mult, mult);
+			iconP2.updateHitbox();
+		}
+		if (kadeEngineIconBounce) {
+			var mult:Float = FlxMath.lerp(1, iconP1.scale.x, FlxMath.bound(1 - (elapsed * 20 * playbackRate), 0, 1));
+			iconP1.scale.set(mult, mult);
+			iconP1.updateHitbox();
+
+			var mult:Float = FlxMath.lerp(1, iconP2.scale.x, FlxMath.bound(1 - (elapsed * 20 * playbackRate), 0, 1));
+			iconP2.scale.set(mult, mult);
+			iconP2.updateHitbox();
+		}
+
+		if (daveAndBambiIconBounce) {
+			iconP1.setGraphicSize(Std.int(FlxMath.lerp(150, iconP1.width, 0.8)),Std.int(FlxMath.lerp(150, iconP1.height, 0.8)));
+			iconP2.setGraphicSize(Std.int(FlxMath.lerp(150, iconP2.width, 0.8)),Std.int(FlxMath.lerp(150, iconP2.height, 0.8)));
+
+			iconP1.updateHitbox();
+			iconP2.updateHitbox();
+		}
+	}
+
+	public dynamic function updateIconsPosition()
+	{
+		var iconOffset:Int = 26;
+		if (daveAndBambiIconBounce) {
+			iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01) - iconOffset);
+			iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (iconP2.width - iconOffset);
+		}
+
+		if (psychEngineIconBounce || tgtEngineIconBounce || sbEngineIconBounce || kadeEngineIconBounce) {
+			iconP1.x = healthBar.barCenter + (150 * iconP1.scale.x - 150) / 2 - iconOffset;
+			iconP2.x = healthBar.barCenter - (150 * iconP2.scale.x) / 2 - iconOffset * 2;
+		}
+
+		switch (iconP1.animation.numFrames){
+			case 3:
+				if (healthBar.percent < 20)
+					iconP1.animation.curAnim.curFrame = 1;
+				else if (healthBar.percent >80)
+					iconP1.animation.curAnim.curFrame = 2;
+				else
+					iconP1.animation.curAnim.curFrame = 0;
+			case 2:
+				if (healthBar.percent < 20)
+					iconP1.animation.curAnim.curFrame = 1;
+				else
+					iconP1.animation.curAnim.curFrame = 0;
+			case 1:
+				iconP1.animation.curAnim.curFrame = 0;
+		}
+
+		switch(iconP2.animation.numFrames){
+			case 3:
+				if (healthBar.percent > 80)
+					iconP2.animation.curAnim.curFrame = 1;
+				else if (healthBar.percent < 20)
+					iconP2.animation.curAnim.curFrame = 2;
+				else 
+					iconP2.animation.curAnim.curFrame = 0;
+			case 2:
+				if (healthBar.percent > 80)
+					iconP2.animation.curAnim.curFrame = 1;
+				else 
+					iconP2.animation.curAnim.curFrame = 0;
+			case 1:
+				iconP2.animation.curAnim.curFrame = 0;
+		}
 	}
 
 	function openPauseMenu()
@@ -3610,10 +3744,14 @@ class PlayState extends MusicBeatState
 		}
 
 		if (daveAndBambiIconBounce) {
-			var funny:Float = Math.max(Math.min(healthBar.percent,( health / 0.95)), 0.1);
+			var funny:Float = (healthBar.percent * 0.01) + 0.01;
 
+			//health icon bounce but epic
 			iconP1.setGraphicSize(Std.int(iconP1.width + (50 * funny)),Std.int(iconP2.height - (25 * funny)));
-			iconP2.setGraphicSize(Std.int(iconP1.width + (50 * funny)),Std.int(iconP2.height - (25 * funny)));
+			iconP2.setGraphicSize(Std.int(iconP2.width + (50 * (2 - funny))),Std.int(iconP2.height - (25 * (2 - funny))));
+
+			iconP1.updateHitbox();
+			iconP2.updateHitbox();
 		}
 
 		if (ClientPrefs.data.shakeObjects) {
