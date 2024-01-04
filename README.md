@@ -62,8 +62,8 @@ Used and coded on: [Psych Engine](https://gamebanana.com/mods/309789).
 | ![](https://raw.githubusercontent.com/Stefan2008Git/FNF-SB-Engine/main/assets/preload/images/credits/smokey.png) | [Smokey](https://twitter.com/Smokey_5_) | Sprite Atlas Support.
 </details>
 
-</details>
- <summary><h2>Psych Engine Features</h2></summary>
+<details>
+  <summary><h2>PE Features</h2></summary>
 # Features
 
 ## Attractive animated dialogue boxes:
