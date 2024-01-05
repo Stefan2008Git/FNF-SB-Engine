@@ -121,9 +121,9 @@ class BaseOptionsMenu extends MusicBeatSubstate
 			updateTextFrom(optionsArray[i]);
 		}
 		
-		        #if android
-                addVirtualPad(FULL, A_B_C);
-                #end
+		#if android
+        addVirtualPad(FULL, A_B_C);
+        #end
 
 		changeSelection();
 		reloadCheckboxes();
@@ -155,11 +155,10 @@ class BaseOptionsMenu extends MusicBeatSubstate
 			ClientPrefs.saveSettings();
 			#else
 			close();
-			Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Options Menu";
 			#end
 			ClientPrefs.saveSettings();
-			
-			//FlxG.sound.play(Paths.sound('cancelMenu'));
+			Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Options Menu";
+			FlxG.sound.play(Paths.sound('cancelMenu'));
 		}
 
 		if(nextAccept <= 0)

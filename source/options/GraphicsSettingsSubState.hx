@@ -7,6 +7,8 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 	var antialiasingOption:Int;
 	public function new()
 	{
+		Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Options Menu (In Graphics Settings Menu)";
+
 		title = 'Graphics';
 		rpcTitle = 'Graphics Settings Menu'; //for Discord Rich Presence
 

@@ -43,8 +43,8 @@ class StoryMenuState extends MusicBeatState
 
 	override function create()
 	{
+		Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Story Mode";
 		Paths.clearStoredMemory();
-		Paths.clearUnusedMemory();
 
 		PlayState.isStoryMode = true;
 		WeekData.reloadWeekFiles(true);
@@ -209,6 +209,8 @@ class StoryMenuState extends MusicBeatState
 		add(scoreText);
 		add(txtWeekTitle);
 
+		Paths.clearUnusedMemory();
+
 		changeWeek();
 		changeDifficulty();
 
@@ -369,6 +371,7 @@ class StoryMenuState extends MusicBeatState
 
 			new FlxTimer().start(1, function(tmr:FlxTimer)
 			{
+				Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Story Mode (Loading current song: " + PlayState.SONG.song + " (" + Difficulty.getString() + ") )... ";
 				LoadingState.loadAndSwitchState(new PlayState(), true);
 				FreeplayState.destroyFreeplayVocals();
 			});

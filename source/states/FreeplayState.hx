@@ -52,6 +52,7 @@ class FreeplayState extends MusicBeatState
 
 	override function create()
 	{
+		Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Freeplay Menu";
 		Paths.clearStoredMemory();
 		
 		persistentUpdate = true;
@@ -484,6 +485,7 @@ class FreeplayState extends MusicBeatState
 				LoadingState.loadAndSwitchState(new ChartingState());
 			} else {
 				LoadingState.loadAndSwitchState(new PlayState());
+				Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Freeplay Menu (Loading current song: " + PlayState.SONG.song + " (" + Difficulty.getString() + ") )... ";
 			}
 
 			FlxG.sound.music.volume = 0;

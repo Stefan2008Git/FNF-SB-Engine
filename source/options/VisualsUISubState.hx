@@ -8,6 +8,8 @@ class VisualsUISubState extends BaseOptionsMenu
 {
 	public function new()
 	{
+		Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Options Menu (In Visuals & UI Settings Menu)";
+
 		title = 'Visuals and UI';
 		rpcTitle = 'Visuals & UI Settings Menu'; //for Discord Rich Presence
 		
@@ -15,13 +17,6 @@ class VisualsUISubState extends BaseOptionsMenu
 			'If unchecked, hides FPS Counter.', 'showFPS', 'bool');
 		addOption(option);
 		option.onChange = onChangeFPSCounter;
-
-		var option:Option = new Option('Watermark on right down corner',
-			"Uncheck this if you dont want to see watermark icon",
-			'watermarkIcon',
-			'bool');
-		addOption(option);
-		option.onChange = onWatermarkIcon;
 
 		var option:Option = new Option('Total FPS Counter',
 			'If checked, shows Total FPS Counter.', 'showTotalFPS', 'bool');
@@ -48,6 +43,13 @@ class VisualsUISubState extends BaseOptionsMenu
 			'flashing',
 			'bool');
 		addOption(option);
+
+		var option:Option = new Option('Watermark on right down corner',
+			"Uncheck this if you dont want to see watermark icon",
+			'watermarkIcon',
+			'bool');
+		addOption(option);
+		option.onChange = onWatermarkIcon;
 
 		var option:Option = new Option('Objects',
 			'If unchecked, disable some objects for optimization\nFor example: Girlfriend and logo had an trail added.', 'objects', 'bool');

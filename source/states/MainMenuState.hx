@@ -47,6 +47,7 @@ class MainMenuState extends MusicBeatState
 
 	override function create()
 	{
+		Application.current.window.title = "Friday Night Funkin': SB Engine v" + sbEngineVersion;
 		if (ClientPrefs.data.cacheOnGPU) Paths.clearStoredMemory();
 
 		#if MODS_ALLOWED
@@ -130,9 +131,6 @@ class MainMenuState extends MusicBeatState
 		add(menuItems);
 
 		var scale:Float = 1;
-		/*if(optionSelect.length > 6) {
-			scale = 6 / optionSelect.length;
-		}*/
 
 		for (i in 0...optionSelect.length)
 		{
@@ -295,21 +293,16 @@ class MainMenuState extends MusicBeatState
 						switch (daChoice) {
 							case 'story_mode':
 								MusicBeatState.switchState(new StoryMenuState());
-								Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Story Mode";
 							case 'freeplay':
 								MusicBeatState.switchState(new FreeplayState());
-								Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Freeplay Menu";
 							#if MODS_ALLOWED
 							case 'mods':
 								MusicBeatState.switchState(new ModsMenuState());
-								Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Mods Menu";
 							#end
 							case 'credits':
 								MusicBeatState.switchState(new CreditsState());
-								Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Credits Menu";
 							case 'options':
 								MusicBeatState.switchState(new OptionsState());
-								Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Options Menu";
 								OptionsState.onPlayState = false;
 								if (PlayState.SONG != null)
 								{

@@ -88,18 +88,7 @@ class PlayState extends MusicBeatState
 	public static var cameraMovemtableOffset = 20;
 	public static var cameraMovemtableOffsetBoyfriend = 20;
 
-	public static var ratingStuff:Array<Dynamic> = [
-		['You Suck!', 0.2], //From 0% to 19%
-		['Shit', 0.4], //From 20% to 39%
-		['Bad', 0.5], //From 40% to 49%
-		['Bruh', 0.6], //From 50% to 59%
-		['Meh', 0.69], //From 60% to 68%
-		['Nice', 0.7], //69%
-		['Good', 0.8], //From 70% to 79%
-		['Great', 0.9], //From 80% to 89%
-		['Sick!', 1], //From 90% to 99%
-		['Perfect!!', 1] //The value on this one isn't used actually, since Perfect is always "1"
-	];
+	public static var ratingStuff:Array<Dynamic> = [];
 
 	//event variables
 	private var isCameraOnForcedPos:Bool = false;
@@ -318,6 +307,84 @@ class PlayState extends MusicBeatState
 			'note_right'
 		];
 
+		ratingStuff = switch (ClientPrefs.data.gameStyle) {
+			case 'Psych Engine': [
+				['You Suck!', 0.2], //From 0% to 19%
+				['Shit', 0.4], //From 20% to 39%
+				['Bad', 0.5], //From 40% to 49%
+				['Bruh', 0.6], //From 50% to 59%
+				['Meh', 0.69], //From 60% to 68%
+				['Nice', 0.7], //69%
+				['Good', 0.8], //From 70% to 79%
+				['Great', 0.9], //From 80% to 89%
+				['Sick!', 1], //From 90% to 99%
+				['Perfect!!', 1] //The value on this one isn't used actually, since Perfect is always "1"
+			];
+
+			case 'Kade Engine': [
+				['F', 0.2], //From 0% to 19%
+				['D', 0.4], //From 20% to 39%
+				['C', 0.5], //From 40% to 49%
+				['B', 0.6], //From 50% to 59%
+				['A', 0.69], //From 60% to 68%
+				['AA', 0.7], //69%
+				['AAA', 0.8], //From 70% to 79%
+				['AAAA', 0.9], //From 80% to 89%
+				['AAAAA', 1], //From 90% to 99%
+				['S', 1] //The value on this one isn't used actually, since Perfect is always "1"
+			];
+
+			case 'TGT Engine': [
+				['SS+++', 1], // 4-star
+				["SS++", 0.99], // 3-star
+				["SS+", 0.98], // 2-star
+				["SS", 0.96], // 1-star
+				["S+", 0.94],
+				["S", 0.92],
+				["S-", 0.89],
+				["A+", 0.86],
+				["A", 0.83],
+				["A-", 0.8],
+				["B+", 0.76],
+				["B", 0.72],
+				["B-", 0.68],
+				["C+", 0.64],
+				["C", 0.6],
+				["C-", 0.5],
+				["D+", 0.5],
+				["D", 0.45],
+				["D-", 0.01],
+				["F", -1],
+				["ULTRA F", -200]
+			];
+
+			/*case 'Dave and Bambi': [
+				['?', 0.2], //From 0% to 19%
+				['??', 0.4], //From 20% to 39%
+				['???', 0.5], //From 40% to 49%
+				['????', 0.6], //From 50% to 59%
+				['?????', 0.69], //From 60% to 68%
+				['??????', 0.7], //69%
+				['???????', 0.8], //From 70% to 79%
+				['????????', 0.9], //From 80% to 89%
+				['?????????', 1], //From 90% to 99%
+				['??????????', 1] //The value on this one isn't used actually, since Perfect is always "1"
+			];*/ // Test success. It works without ratingStuff
+
+			default: [
+				['You Are Really Suck!', 0.2], //From 0% to 19%
+				['Oh Shit', 0.4], //From 20% to 39%
+				['Really Bad', 0.5], //From 40% to 49%
+				['Bad', 0.6], //From 50% to 59%
+				['Damn', 0.69], //From 60% to 68%
+				['Nice', 0.7], //69%
+				['Good', 0.8], //From 70% to 79%
+				['Awesome', 0.9], //From 80% to 89%
+				['Sicker!', 1], //From 90% to 99%
+				['Impressive', 1] //The value on this one isn't used actually, since Perfect is always "1"
+			];		
+		}
+
 		if (FlxG.sound.music != null)
 			FlxG.sound.music.stop();
 
@@ -373,6 +440,11 @@ class PlayState extends MusicBeatState
 			detailsText = "Story Mode: " + WeekData.getCurrentWeek().weekName;
 		else
 			detailsText = "Freeplay";
+
+		if (isStoryMode)
+			Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Story Mode (Current song: " + SONG.song + " (" + Difficulty.getString() + ") )";
+		else
+			Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Freeplay Menu (Current song: " + SONG.song + " (" + Difficulty.getString() + ") )";
 
 		// String for when the game is paused
 		detailsPausedText = "Paused - " + detailsText;
@@ -537,7 +609,7 @@ class PlayState extends MusicBeatState
 				timeTxt.borderSize = 2;
 			
 			default:
-				timeTxt.setFormat(Paths.font("bahnschrift.ttf"), 25, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+				timeTxt.setFormat(Paths.font("bahnschrift.ttf"), 29, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 				timeTxt.borderSize = 1.5;
 		}
 		timeTxt.scrollFactor.set();
@@ -605,7 +677,11 @@ class PlayState extends MusicBeatState
 		FlxG.worldBounds.set(0, 0, FlxG.width, FlxG.height);
 		moveCameraSection();
 
-		healthBar = new HealthBar(0, FlxG.height * (!ClientPrefs.data.downScroll ? 0.89 : 0.11), 'healthBar', function() return smoothHealth, 0, 2);
+		if (ClientPrefs.data.smoothHealth) {
+			healthBar = new HealthBar(0, FlxG.height * (!ClientPrefs.data.downScroll ? 0.89 : 0.11), 'healthBar', function() return smoothHealth, 0, 2);
+		} else {
+			healthBar = new HealthBar(0, FlxG.height * (!ClientPrefs.data.downScroll ? 0.89 : 0.11), 'healthBar', function() return health, 0, 2);
+		}
 		healthBar.screenCenter(X);
 		healthBar.leftToRight = false;
 		healthBar.scrollFactor.set();
@@ -642,11 +718,11 @@ class PlayState extends MusicBeatState
 				scoreTxt.borderSize = 1.2;
 			
 			case 'TGT Engine':
-				scoreTxt.setFormat(Paths.font("calibri.ttf"), 17, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+				scoreTxt.setFormat(Paths.font("calibri.ttf"), 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 				scoreTxt.borderSize = 1.25;
 			
 			default:
-				scoreTxt.setFormat(Paths.font("bahnschrift.ttf"), 18, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+				scoreTxt.setFormat(Paths.font("bahnschrift.ttf"), 17, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 				scoreTxt.borderSize = 1.5;
 		}
 		scoreTxt.scrollFactor.set();
@@ -699,7 +775,7 @@ class PlayState extends MusicBeatState
 				judgementCounterTxt.borderQuality = 2;
 			
 			case 'Dave and Bambi':
-				judgementCounterTxt.setFormat(Paths.font("comic.ttf"), 23, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+				judgementCounterTxt.setFormat(Paths.font("comic.ttf"), 21, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 				judgementCounterTxt.borderSize = 2.25;
 				judgementCounterTxt.borderQuality = 2.25;
 			
@@ -709,7 +785,7 @@ class PlayState extends MusicBeatState
 				judgementCounterTxt.borderQuality = 2;
 			
 			default:
-				judgementCounterTxt.setFormat(Paths.font("bahnschrift.ttf"), 25, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+				judgementCounterTxt.setFormat(Paths.font("bahnschrift.ttf"), 20, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 				judgementCounterTxt.borderSize = 2.35;
 				judgementCounterTxt.borderQuality = 2.38;
 		}
@@ -781,7 +857,7 @@ class PlayState extends MusicBeatState
 					engineVersionTxt.borderSize = 1.25;
 				
 				default:
-					engineVersionTxt.setFormat(Paths.font("bahnschrift.ttf"), 18, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+					engineVersionTxt.setFormat(Paths.font("bahnschrift.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 					engineVersionTxt.borderSize = 1.5;
 			}
 		    engineVersionTxt.scrollFactor.set();
@@ -811,7 +887,7 @@ class PlayState extends MusicBeatState
 					songAndDifficultyNameTxt.borderSize = 1.25;
 				
 				default:
-					songAndDifficultyNameTxt.setFormat(Paths.font("bahnschrift.ttf"), 18, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+					songAndDifficultyNameTxt.setFormat(Paths.font("bahnschrift.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 					songAndDifficultyNameTxt.borderSize = 1.5;
 			}
 		    songAndDifficultyNameTxt.scrollFactor.set();
@@ -839,7 +915,7 @@ class PlayState extends MusicBeatState
 					engineVersionTxt.borderSize = 1.25;
 				
 				default:
-					engineVersionTxt.setFormat(Paths.font("bahnschrift.ttf"), 18, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+					engineVersionTxt.setFormat(Paths.font("bahnschrift.ttf"), 17, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 					engineVersionTxt.borderSize = 1.5;
 			}
 		    engineVersionTxt.scrollFactor.set();
@@ -869,7 +945,7 @@ class PlayState extends MusicBeatState
 					songAndDifficultyNameTxt.borderSize = 1.25;
 				
 				default:
-					songAndDifficultyNameTxt.setFormat(Paths.font("bahnschrift.ttf"), 18, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+					songAndDifficultyNameTxt.setFormat(Paths.font("bahnschrift.ttf"), 17, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 					songAndDifficultyNameTxt.borderSize = 1.5;
 			}
 		    songAndDifficultyNameTxt.scrollFactor.set();
@@ -2973,6 +3049,7 @@ class PlayState extends MusicBeatState
 				if(FlxTransitionableState.skipNextTransIn) {
 					CustomFadeTransition.nextCamera = null;
 				}
+				Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Freeplay Menu (Closing the state)";
 				MusicBeatState.switchState(new FreeplayState());
 				FlxG.sound.playMusic(Paths.music('freakyMenu'));
 				changedDifficulty = false;
@@ -4143,12 +4220,48 @@ class PlayState extends MusicBeatState
 		ratingFC = 'Clear';
 		if(songMisses < 1)
 		{
-			if (bads > 0 || shits > 0) ratingFC = 'Full Combo';
-			else if (goods > 0) ratingFC = 'Good Full Combo';
-			else if (sicks > 0) ratingFC = 'Sick Full Combo';
+			if (bads > 0 || shits > 0) ratingFC = 'FC';
+			else if (goods > 0) ratingFC = 'GFC';
+			else if (sicks > 0) ratingFC = 'SFC';
 		}
 		else if (songMisses < 10)
-			ratingFC = 'Simble Digital Combo Break';
+			ratingFC = 'SDCB';
+
+		switch (ClientPrefs.data.gameStyle) {
+			case 'Psych Engine' | 'TGT Engine':
+				ratingFC = 'Clear';
+					if(songMisses < 1)
+					{
+					if (bads > 0 || shits > 0) ratingFC = 'FC';
+					else if (goods > 0) ratingFC = 'GFC';
+					else if (sicks > 0) ratingFC = 'SFC';
+					}
+					else if (songMisses < 10)
+						ratingFC = 'SDCB';
+			
+			case 'Kade Engine':
+				ratingFC = '(Clear)';
+					if(songMisses < 1)
+					{
+					if (bads > 0 || shits > 0) ratingFC = '(FC)';
+					else if (goods > 0) ratingFC = '(GFC)';
+					else if (sicks > 0) ratingFC = '(MFC)';
+					}
+					else if (songMisses < 10)
+						ratingFC = '(SDCB)';
+			
+			default:
+				ratingFC = 'Cleared';
+					if(songMisses < 1)
+					{
+					if (bads > 0 || shits > 0) ratingFC = 'Full Combo';
+					else if (goods > 0) ratingFC = 'Awesome Full Combo';
+					else if (sicks > 0) ratingFC = 'Impressive Full Combo';
+					}
+					else if (songMisses < 10)
+						ratingFC = 'Simple Digital Combo Break';
+				
+		}
 	}
 
 	#if (!flash && sys)

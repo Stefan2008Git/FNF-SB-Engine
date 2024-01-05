@@ -65,6 +65,8 @@ class ControlsSubState extends MusicBeatSubstate
 	{
 		super();
 
+		Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Options Menu (In Controls menu)";
+
 		options.push([true]);
 		options.push([true]);
 		options.push([true, defaultKey]);
@@ -284,6 +286,7 @@ class ControlsSubState extends MusicBeatSubstate
 				#else
 				close();
 				#end
+				Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Options Menu";
 				return;
 			}
 			if(FlxG.keys.justPressed.CONTROL || FlxG.gamepads.anyJustPressed(LEFT_SHOULDER) || FlxG.gamepads.anyJustPressed(RIGHT_SHOULDER)) swapMode();

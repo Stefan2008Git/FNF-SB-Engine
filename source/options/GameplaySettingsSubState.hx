@@ -14,6 +14,8 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 
 	public function new()
 	{
+		Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Options Menu (In Gameplay Settings Menu)";
+
 		title = 'Gameplay Settings';
 		rpcTitle = 'Gameplay Settings Menu'; //for Discord Rich Presence
 
@@ -206,8 +208,12 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			"If checked, Hold Notes can't be pressed if you miss,\nand count as a single Hit/Miss.\nUncheck this if you prefer the old Input System.", 'guitarHeroSustains', 'bool');
 		addOption(option);
 	
-		var option:Option = new Option('Guitar Hero Sustain style',
+		var option:Option = new Option('Original FNF HP Bar',
 			"If checked, it should show the original game HP bar color: red and lime.\nUncheck this if you prefer the old current custom RGB color.", 'originalHPBar', 'bool');
+		addOption(option);
+
+		var option:Option = new Option('Smooth health',
+			"If unchecked, disables smoothHealth.", 'smoothHealth', 'bool');
 		addOption(option);
 
 		var option:Option = new Option('Pause Screen Song:',

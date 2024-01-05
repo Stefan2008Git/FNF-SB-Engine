@@ -17,27 +17,22 @@ class OptionsState extends MusicBeatState
 		switch(label) {
 			case 'Note Colors':
 				openSubState(new options.NotesSubState());
-				Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Options Menu - (In Note Color Menu)";
 			  	#if android
 				removeVirtualPad();
 				#end
 			case 'Controls':
-				Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Options Menu (In Controls Menu)";
 				openSubState(new options.ControlsSubState());
 			case 'Graphics':
-				Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Options Menu (In Graphics Option Menu)";
 				openSubState(new options.GraphicsSettingsSubState());
 			  	#if android
 				removeVirtualPad();
 				#end
 			case 'Visuals and UI':
-				Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Options Menu (In Visuals UI Options Menu)";
 				openSubState(new options.VisualsUISubState());
 		    	#if android
 				removeVirtualPad();
 				#end
 			case 'Gameplay':
-				Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Options Menu (In Gameplay Menu Option)";
 				#if android
 				removeVirtualPad();
 				#end
@@ -62,6 +57,8 @@ class OptionsState extends MusicBeatState
 		#if desktop
 		DiscordClient.changePresence("In the Options Menu", null);
 		#end
+
+		Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Options Menu";
 
 		if (ClientPrefs.data.cacheOnGPU) Paths.clearStoredMemory();
 

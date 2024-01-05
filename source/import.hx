@@ -98,6 +98,7 @@ import objects.Note.EventNote;
 import objects.NoteSplash;
 import objects.StrumNote;
 import objects.TypedAlphabet;
+import states.MainMenuState;
 import states.LoadingState;
 import states.PlayState;
 
