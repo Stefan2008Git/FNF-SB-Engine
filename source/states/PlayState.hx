@@ -2431,7 +2431,7 @@ class PlayState extends MusicBeatState
 	// Health icon updaters
 	public dynamic function updateIconsScale(elapsed:Float)
 	{
-		if (psychEngineIconBounce || tgtEngineIconBounce || sbEngineIconBounce) {
+		if (psychEngineIconBounce || tgtEngineIconBounce || sbEngineIconBounce || !ClientPrefs.data.iconBounce) {
 			var mult:Float = FlxMath.lerp(1, iconP1.scale.x, FlxMath.bound(1 - (elapsed * 9 * playbackRate), 0, 1));
 			iconP1.scale.set(mult, mult);
 			iconP1.updateHitbox();
@@ -2464,7 +2464,7 @@ class PlayState extends MusicBeatState
 	{
 		var iconOffset:Int = 26;
 
-		if (sbEngineIconBounce || psychEngineIconBounce || kadeEngineIconBounce || tgtEngineIconBounce) {
+		if (sbEngineIconBounce || psychEngineIconBounce || kadeEngineIconBounce || tgtEngineIconBounce || !ClientPrefs.data.iconBounce) {
 			iconP1.x = healthBar.barCenter + (150 * iconP1.scale.x - 150) / 2 - iconOffset;
 			iconP2.x = healthBar.barCenter - (150 * iconP2.scale.x) / 2 - iconOffset * 2;
 		}
@@ -3858,7 +3858,7 @@ class PlayState extends MusicBeatState
 		if (generatedMusic)
 			notes.sort(FlxSort.byY, ClientPrefs.data.downScroll ? FlxSort.ASCENDING : FlxSort.DESCENDING);
 
-		if (!sbEngineIconBounce && !daveAndBambiIconBounce) {
+		if (!sbEngineIconBounce || !daveAndBambiIconBounce || !psychEngineIconBounce || !kadeEngineIconBounce || !tgtEngineIconBounce ||!ClientPrefs.data.iconBounce) {
 			iconP1.setGraphicSize(Std.int(iconP1.width + 30));
 			iconP2.setGraphicSize(Std.int(iconP2.width + 30));
 			
