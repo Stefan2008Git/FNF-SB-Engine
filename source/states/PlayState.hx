@@ -806,7 +806,7 @@ class PlayState extends MusicBeatState
 
 		// Used from Bambi Purgatory repository :D (Please don't kill me WhatsDown :(. If you want me to remove the code, i will remove it and never use it)
 		var randomName:Int = FlxG.random.int(0, 12);
-		var engineName:String = 'null ';
+		var engineName:String = '???? ';
 		switch (randomName)
 	    {
 			case 0:
@@ -907,8 +907,8 @@ class PlayState extends MusicBeatState
 					engineVersionTxt.borderSize = 1;
 				
 				case 'Dave and Bambi':
-					engineVersionTxt.setFormat(Paths.font("comic.ttf"), 15, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-					engineVersionTxt.borderSize = 1.25;
+					engineVersionTxt.setFormat(Paths.font("comic.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+					engineVersionTxt.borderSize = 1;
 				
 				case 'TGT Engine':
 					engineVersionTxt.setFormat(Paths.font("calibri.ttf"), 15, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -916,7 +916,7 @@ class PlayState extends MusicBeatState
 				
 				default:
 					engineVersionTxt.setFormat(Paths.font("bahnschrift.ttf"), 17, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-					engineVersionTxt.borderSize = 1.5;
+					engineVersionTxt.borderSize = 1.35;
 			}
 		    engineVersionTxt.scrollFactor.set();
 		    engineVersionTxt.visible = false;
@@ -957,14 +957,39 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		if (ClientPrefs.data.downScroll && ClientPrefs.data.watermarkStyle == 'SB Engine') {
-			engineVersionTxt.y = 140;
-			songAndDifficultyNameTxt.y = 160;
-		}
-
-		if (ClientPrefs.data.downScroll && ClientPrefs.data.watermarkStyle == 'Kade Engine') {
-			engineVersionTxt.y = 0;
-			songAndDifficultyNameTxt.y = 140;
+		switch (ClientPrefs.data.gameStyle) {
+			case 'Kade Engine' | 'Dave and Bambi':
+				if (ClientPrefs.data.downScroll && ClientPrefs.data.watermarkStyle == 'SB Engine') {
+					engineVersionTxt.y = 150;
+					songAndDifficultyNameTxt.y = 170;
+				}
+		
+				if (ClientPrefs.data.downScroll && ClientPrefs.data.watermarkStyle == 'Kade Engine') {
+					engineVersionTxt.y = 0;
+					songAndDifficultyNameTxt.y = 150;
+				}
+			
+			case 'Psych Engine' | 'TGT Engine':
+				if (ClientPrefs.data.downScroll && ClientPrefs.data.watermarkStyle == 'SB Engine') {
+					engineVersionTxt.y = 140;
+					songAndDifficultyNameTxt.y = 160;
+				}
+		
+				if (ClientPrefs.data.downScroll && ClientPrefs.data.watermarkStyle == 'Kade Engine') {
+					engineVersionTxt.y = 0;
+					songAndDifficultyNameTxt.y = 140;
+				}
+			
+			default:
+				if (ClientPrefs.data.downScroll && ClientPrefs.data.watermarkStyle == 'SB Engine') {
+					engineVersionTxt.y = 145;
+					songAndDifficultyNameTxt.y = 165;
+				}
+		
+				if (ClientPrefs.data.downScroll && ClientPrefs.data.watermarkStyle == 'Kade Engine') {
+					engineVersionTxt.y = 0;
+					songAndDifficultyNameTxt.y = 145;
+			}
 		}
 
 		uiGroup.add(engineVersionTxt);

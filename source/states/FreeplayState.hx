@@ -243,10 +243,6 @@ class FreeplayState extends MusicBeatState
 		changeSelection(0, false);
 		persistentUpdate = true;
 		super.closeSubState();
-		#if android
-        addVirtualPad(FULL, A_B_C_X_Y_Z);
-		removeVirtualPad();
-        #end
 	}
 
 	public function addSong(songName:String, weekNum:Int, songCharacter:String, color:Int)
@@ -275,14 +271,6 @@ class FreeplayState extends MusicBeatState
 			lerpScore = intendedScore;
 		if (Math.abs(lerpRating - intendedRating) <= 0.01)
 			lerpRating = intendedRating;
-
-		for (i in 0...iconArray.length)
-		{
-			iconArray[i].scale.x = 1 + 0.1;
-			iconArray[i].scale.y = 1 + 0.1;
-			FlxTween.tween(iconArray[i].scale, {x: 1}, 0.6, {ease: FlxEase.cubeOut});
-		    FlxTween.tween(iconArray[i].scale, {y: 1}, 0.6, {ease: FlxEase.cubeOut});
-		}
 
 		var ratingSplit:Array<String> = Std.string(CoolUtil.floorDecimal(lerpRating * 100, 2)).split('.');
 		if(ratingSplit.length < 2) { //No decimals, add an empty space
