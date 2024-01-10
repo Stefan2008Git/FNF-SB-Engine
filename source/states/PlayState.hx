@@ -169,7 +169,7 @@ class PlayState extends MusicBeatState
 	private var currentlySong:String = "";
 
 	public var gfSpeed:Int = 1;
-	public var health:Float = 1;
+	public var health(default, set):Float = 1;
 	public var smoothHealth:Float = 1;
 	public var combo:Int = 0;
 	public var maxCombo:Int = 0;
@@ -220,6 +220,8 @@ class PlayState extends MusicBeatState
 	public var scoreLerp:Float;
 	public var songHits:Int = 0;
 	public var songMisses:Int = 0;
+	public var nps:Int = 0;
+	public var maxNPS:Int = 0;
 	public var scoreTxt:FlxText;
 	var timeTxt:FlxText;
 	var scoreTxtTween:FlxTween;
@@ -228,7 +230,6 @@ class PlayState extends MusicBeatState
 	public var engineVersionTxt:FlxText;
 	public var songAndDifficultyNameTxt:FlxText;
 
-	public var nps:Int = 0;
 	public static var campaignScore:Int = 0;
 	public static var campaignMisses:Int = 0;
 	public static var seenCutscene:Bool = false;
@@ -1171,8 +1172,17 @@ class PlayState extends MusicBeatState
 
 	public function reloadTimeBarColors() {
 		if (ClientPrefs.data.opponentHealthColor) {
-			timeBar.leftBar.color = (FlxColor.fromRGB(dad.healthColorArray[0], dad.healthColorArray[1], dad.healthColorArray[2]));
-			timeBar.rightBar.color = 0xFF1A1A1A;
+			if (ClientPrefs.data.gameStyle == 'SB Engine') {
+				timeBar.leftBar.color = (FlxColor.fromRGB(dad.healthColorArray[0], dad.healthColorArray[1], dad.healthColorArray[2]));
+				timeBar.rightBar.color = 0xFF1A1A1A;
+			} else if (ClientPrefs.data.gameStyle == 'Psych Engine' || ClientPrefs.data.gameStyle == 'TGT Engine') {
+				timeBar.leftBar.color = (FlxColor.fromRGB(dad.healthColorArray[0], dad.healthColorArray[1], dad.healthColorArray[2]));
+				timeBar.rightBar.color = FlxColor.BLACK;
+			} else if (ClientPrefs.data.gameStyle == 'Kade Engine' || ClientPrefs.data.gameStyle == 'Dave and Bambi') {
+				timeBar.leftBar.color = (FlxColor.fromRGB(dad.healthColorArray[0], dad.healthColorArray[1], dad.healthColorArray[2]));
+				timeBar.rightBar.color = FlxColor.GRAY;
+		}
+
 		} else if (ClientPrefs.data.gameStyle == 'SB Engine') {
 			timeBar.leftBar.color = FlxColor.PURPLE;
 			timeBar.rightBar.color = 0xFF1A1A1A;
@@ -1709,7 +1719,7 @@ class PlayState extends MusicBeatState
 				scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + str;
 
 			case 'Kade Engine':
-				scoreTxt.text = 'Score: ' + songScore + ' | Combo Breaks: ' + songMisses + ' | Accurarcy: ' + CoolUtil.floorDecimal(ratingPercent * 100, 2) + '%' + ' | ' + ratingName + ' [' + ratingFC + ']';
+				scoreTxt.text = 'NPS: ' + nps + ' (Max: ' + maxNPS + ')' + ' | Score: ' + songScore + ' | Combo Breaks: ' + songMisses + ' | Accurarcy: ' + CoolUtil.floorDecimal(ratingPercent * 100, 2) + '%' + ' | ' + ratingName + ' [' + ratingFC + ']';
 			
 			case 'TGT Engine':
 				scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + str;
@@ -2215,6 +2225,8 @@ class PlayState extends MusicBeatState
 						notesHitArray.remove(npsHitValue);
 			}
 			nps = Math.floor(notesHitArray.length / 2);
+			if (maxNPS > nps)
+				nps = maxNPS;
 			currentFrames = 0;
 		}
 		else if (currentFrames != ClientPrefs.data.framerate)
@@ -2267,6 +2279,9 @@ class PlayState extends MusicBeatState
 				}
 			}
 		}
+
+		if (healthBar.bounds.max != null && health > healthBar.bounds.max)
+			health = healthBar.bounds.max;
 
 		updateIconsScale(elapsed);
 		updateIconsPosition();
@@ -2498,6 +2513,21 @@ class PlayState extends MusicBeatState
 			iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01) - iconOffset);
 			iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (iconP2.width - iconOffset);
 		}
+	}
+
+	var iconsAnimations:Bool = true;
+	function set_health(value:Float):Float // You can alter how icon animations work here
+	{
+		if(!iconsAnimations || healthBar == null || !healthBar.enabled || healthBar.valueFunction == null)
+		{
+			health = value;
+			return health;
+		}
+
+		// update health bar
+		health = value;
+		var newPercent:Null<Float> = FlxMath.remapToRange(FlxMath.bound(healthBar.valueFunction(), healthBar.bounds.min, healthBar.bounds.max), healthBar.bounds.min, healthBar.bounds.max, 0, 100);
+		healthBar.percent = (newPercent != null ? newPercent : 0);
 
 		switch (iconP1.animation.numFrames){
 			case 3:
@@ -2532,6 +2562,7 @@ class PlayState extends MusicBeatState
 			case 1:
 				iconP2.animation.curAnim.curFrame = 0;
 		}
+		return health;
 	}
 
 	function openPauseMenu()
@@ -2970,9 +3001,9 @@ class PlayState extends MusicBeatState
 	public var transitioning = false;
 	public function endSong()
 	{
-	    #if android
-	 		MusicBeatState.androidControls.visible = false;
-	 		#end
+		#if android
+	 	MusicBeatState.androidControls.visible = false;
+	 	#end
 		//Should kill you if you tried to cheat
 		if(!startingSong) {
 			notes.forEach(function(daNote:Note) {
@@ -3567,6 +3598,7 @@ class PlayState extends MusicBeatState
 		var lastCombo:Int = combo;
 		combo = 0;
 
+		health -= subtract * healthLoss;
 		if(!practiceMode) songScore -= 10;
 		if(!endingSong) songMisses++;
 		totalPlayed++;

@@ -45,10 +45,15 @@ class HealthBar extends FlxSpriteGroup
 		regenerateClips();
 	}
 
+	public var enabled:Bool = true;
 	override function update(elapsed:Float) {
 		var value:Null<Float> = FlxMath.remapToRange(FlxMath.bound(valueFunction(), bounds.min, bounds.max), bounds.min, bounds.max, 0, 100);
 		percent = (value != null ? value : 0);
-		super.update(elapsed);
+		if(!enabled)
+		{
+			super.update(elapsed);
+			return;
+		}
 	}
 	
 	public function setBounds(min:Float, max:Float)
