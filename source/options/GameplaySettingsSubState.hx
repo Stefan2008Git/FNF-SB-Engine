@@ -216,6 +216,10 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			"If unchecked, disables smoothHealth.", 'smoothHealth', 'bool');
 		addOption(option);
 
+		var option:Option = new Option('Tweenable timer text',
+			"If unchecked, disables tween text for timer text.", 'tweenableTimeTxt', 'bool');
+		addOption(option);
+
 		var option:Option = new Option('Pause Screen Song:',
 			"What song do you prefer for the Pause Screen?",
 			'pauseMusic',

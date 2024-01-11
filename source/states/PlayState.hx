@@ -204,8 +204,6 @@ class PlayState extends MusicBeatState
 	public var botplaySine:Float = 0;
 	public var botplayTxt:FlxText;
 
-	public var judgementCounterTxt:FlxText;
-
 	public var iconP1:HealthIcon;
 	public var iconP2:HealthIcon;
 	public var camHUD:FlxCamera;
@@ -223,10 +221,11 @@ class PlayState extends MusicBeatState
 	public var nps:Int = 0;
 	public var maxNPS:Int = 0;
 	public var scoreTxt:FlxText;
-	var timeTxt:FlxText;
 	var scoreTxtTween:FlxTween;
+	var timeTxt:FlxText;
+	var timeTxtTween:FlxTween;
+	var judgementCounterTxt:FlxText;
 	var judgementCounterTween:FlxTween;
-	
 	public var engineVersionTxt:FlxText;
 	public var songAndDifficultyNameTxt:FlxText;
 
@@ -1730,15 +1729,17 @@ class PlayState extends MusicBeatState
 			default:
 				scoreTxt.text = 'Score: ' + /*Std.parseInt(scoreLerp)*/songScore + ' // Combo breaks: ' + songMisses + ' // Accuracy: ' + Math.ceil(ratingPercent * 10000) / 100 + '%' + ' // ' + ratingName + ' [' + ratingFC + ']';
 		}
-		switch (ClientPrefs.data.judgementCounterStyle) {
-			case 'Original':
-				judgementCounterTxt.text = 'Sicks: ${ratingsData[0].hits}\n' + 'Goods: ${ratingsData[1].hits}\n' + 'Bads: ${ratingsData[2].hits}\n' + 'Shits: ${ratingsData[3].hits}';
+		if (!cpuControlled) {
+			switch (ClientPrefs.data.judgementCounterStyle) {
+				case 'Original':
+					judgementCounterTxt.text = 'Sicks: ${ratingsData[0].hits}\n' + 'Goods: ${ratingsData[1].hits}\n' + 'Bads: ${ratingsData[2].hits}\n' + 'Shits: ${ratingsData[3].hits}';
 			
-			case 'With Misses':
-				judgementCounterTxt.text = 'Sicks: ${ratingsData[0].hits}\n' + 'Goods: ${ratingsData[1].hits}\n' + 'Bads: ${ratingsData[2].hits}\n' + 'Shits: ${ratingsData[3].hits}\n' + 'Combo Breaks: ${songMisses}';
+				case 'With Misses':
+					judgementCounterTxt.text = 'Sicks: ${ratingsData[0].hits}\n' + 'Goods: ${ratingsData[1].hits}\n' + 'Bads: ${ratingsData[2].hits}\n' + 'Shits: ${ratingsData[3].hits}\n' + 'Combo Breaks: ${songMisses}';
 			
-			case 'Better Judge':
-				judgementCounterTxt.text = 'Total Notes Hit: ${totalPlayed}\n' + 'NPS: ${nps}\n' + 'Combo: ${combo}\n'  + 'Max Combo: ${maxCombo}\n' + 'Sicks: ${ratingsData[0].hits}\n' + 'Goods: ${ratingsData[1].hits}\n' + 'Bads: ${ratingsData[2].hits}\n' + 'Shits: ${ratingsData[3].hits}\n' + 'Combo Breaks: ${songMisses}';
+				case 'Better Judge':
+					judgementCounterTxt.text = 'Total Notes Hit: ${totalPlayed}\n' + 'NPS: ${nps}\n' + 'Combo: ${combo}\n'  + 'Max Combo: ${maxCombo}\n' + 'Sicks: ${ratingsData[0].hits}\n' + 'Goods: ${ratingsData[1].hits}\n' + 'Bads: ${ratingsData[2].hits}\n' + 'Shits: ${ratingsData[3].hits}\n' + 'Combo Breaks: ${songMisses}';
+			}
 		}
 
 		callOnScripts('onUpdateScore', [miss]);
@@ -2215,22 +2216,24 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		if (currentFrames == ClientPrefs.data.framerate && !ClientPrefs.data.hideHud)
-		{
-			for (i in 0...notesHitArray.length)
+		if (!cpuControlled) {
+			if (currentFrames == ClientPrefs.data.framerate && !ClientPrefs.data.hideHud)
 			{
-				var npsHitValue:Date = notesHitArray[i];
-				if (npsHitValue != null)
-					if (npsHitValue.getTime() + 2000 < Date.now().getTime())
-						notesHitArray.remove(npsHitValue);
+				for (i in 0...notesHitArray.length)
+				{
+					var npsHitValue:Date = notesHitArray[i];
+					if (npsHitValue != null)
+						if (npsHitValue.getTime() + 2000 < Date.now().getTime())
+							notesHitArray.remove(npsHitValue);
+				}
+				nps = Math.floor(notesHitArray.length / 2);
+				if (nps > maxNPS)
+					maxNPS = nps;
+				currentFrames = 0;
 			}
-			nps = Math.floor(notesHitArray.length / 2);
-			if (maxNPS > nps)
-				nps = maxNPS;
-			currentFrames = 0;
+			else if (currentFrames != ClientPrefs.data.framerate)
+				currentFrames++;
 		}
-		else if (currentFrames != ClientPrefs.data.framerate)
-			currentFrames++;
 
 		var mult:Float = FlxMath.lerp(smoothHealth, health, ((health / smoothHealth) * (elapsed * 8)) * playbackRate);
 		smoothHealth = mult;
@@ -3915,7 +3918,7 @@ class PlayState extends MusicBeatState
 		if (generatedMusic)
 			notes.sort(FlxSort.byY, ClientPrefs.data.downScroll ? FlxSort.ASCENDING : FlxSort.DESCENDING);
 
-		if (!sbEngineIconBounce || !daveAndBambiIconBounce || !psychEngineIconBounce || !kadeEngineIconBounce || !tgtEngineIconBounce ||!ClientPrefs.data.iconBounce) {
+		if (!sbEngineIconBounce || !daveAndBambiIconBounce || !psychEngineIconBounce || !kadeEngineIconBounce || !tgtEngineIconBounce || !ClientPrefs.data.iconBounce) {
 			iconP1.setGraphicSize(Std.int(iconP1.width + 30));
 			iconP2.setGraphicSize(Std.int(iconP2.width + 30));
 			
@@ -3955,6 +3958,10 @@ class PlayState extends MusicBeatState
 		if (ClientPrefs.data.shakeObjects) {
 			if (healthBar.percent < 20) if(!endingSong) shakeFromLosing(iconP1);
 			if (healthBar.percent > 80) if(!endingSong) shakeFromLosing(iconP2);
+		}
+
+		if (ClientPrefs.data.tweenableTimeTxt) {
+			if(curBeat % gfSpeed == 0) timeTextTween();
 		}
 
 		if (gf != null && curBeat % Math.round(gfSpeed * gf.danceEveryNumBeats) == 0 && gf.animation.curAnim != null && !gf.animation.curAnim.name.startsWith("sing") && !gf.stunned)
@@ -4001,6 +4008,19 @@ class PlayState extends MusicBeatState
 		callOnScripts('onSectionHit');
 	}
 
+	public function timeTextTween() {
+		if(timeTxtTween != null) {
+			timeTxtTween.cancel();
+		}
+		timeTxt.scale.x = 1.075;
+		timeTxt.scale.y = 1.075;
+		timeTxtTween = FlxTween.tween(timeTxt.scale, {x: 1, y: 1}, Conductor.crochet / 1250 / 1.5 / playbackRate * gfSpeed, {
+			onComplete: function(twn:FlxTween) {
+				timeTxtTween = null;
+			}
+		});
+	}
+
 	#if LUA_ALLOWED
 	public function startLuasNamed(luaFile:String)
 	{
@@ -4027,25 +4047,25 @@ class PlayState extends MusicBeatState
 	
 	#if HSCRIPT_ALLOWED
 	public function startHScriptsNamed(scriptFile:String)
-{
-    #if MODS_ALLOWED
-    var scriptToLoad:String = Paths.modFolders(scriptFile);
-    if(!FileSystem.exists(scriptToLoad))
-        scriptToLoad = Paths.getPreloadPath(SUtil.getPath() + scriptFile);
+	{
+    	#if MODS_ALLOWED
+    	var scriptToLoad:String = Paths.modFolders(scriptFile);
+    	if(!FileSystem.exists(scriptToLoad))
+        	scriptToLoad = Paths.getPreloadPath(SUtil.getPath() + scriptFile);
 
-    if(FileSystem.exists(scriptToLoad))
-    #elseif sys
-    var scriptToLoad:String = Paths.getPreloadPath(SUtil.getPath() + scriptFile);
-    if(OpenFlAssets.exists(scriptToLoad))
-    #end
-    {
-        if (SScript.global.exists(scriptToLoad)) return false;
+    	if(FileSystem.exists(scriptToLoad))
+    	#elseif sys
+    	var scriptToLoad:String = Paths.getPreloadPath(SUtil.getPath() + scriptFile);
+    	if(OpenFlAssets.exists(scriptToLoad))
+   		#end
+    	{
+        	if (SScript.global.exists(scriptToLoad)) return false;
 
-        initHScript(scriptToLoad);
-        return true;
-    }
-    return false;
-}
+        	initHScript(scriptToLoad);
+        	return true;
+    	}
+    	return false;
+	}
 
 	public function initHScript(file:String)
 	{

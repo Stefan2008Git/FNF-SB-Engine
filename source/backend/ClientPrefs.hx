@@ -82,6 +82,7 @@ class SaveVariables {
 	public var guitarHeroSustains:Bool = true;
 	public var originalHPBar:Bool = false;
 	public var smoothHealth:Bool = true;
+	public var tweenableTimeTxt:Bool = true;
 	public var gameplaySettings:Map<String, Dynamic> = [
 		'scrollspeed' => 1.0,
 		'scrolltype' => 'multiplicative', 
