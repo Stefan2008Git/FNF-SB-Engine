@@ -407,5 +407,4 @@ class ShaderFunctions
 		}
 		PlayState.instance.modchartShader.set(tag, shader);
 	}
-	#end
 }
