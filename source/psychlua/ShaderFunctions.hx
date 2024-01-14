@@ -361,7 +361,7 @@ class ShaderFunctions
         	});
 
 			funk.set("clearEffects", function(object:String) {
-            	PlayState.instance.clearObjectShaders(object);
+            	PlayState.instance.clearShaderFromCamera(camera);
         	});
 		}
 	}
