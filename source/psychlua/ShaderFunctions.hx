@@ -398,13 +398,13 @@ class ShaderFunctions
 
 	public static function resetShader(shader:Dynamic, tag:String){
 		tag = formatShaderTag(tag);
-		if(PlayState.instance.modchartShader.exists(tag)){
-			PlayState.instance.removeShaderFromCamera('', PlayState.instance.modchartShader.get(tag));
-			PlayState.instance.removeShaderFromCamera('game', PlayState.instance.modchartShader.get(tag));
-			PlayState.instance.removeShaderFromCamera('hud', PlayState.instance.modchartShader.get(tag));
-			PlayState.instance.removeShaderFromCamera('other', PlayState.instance.modchartShader.get(tag));
-			PlayState.instance.modchartShader.remove(tag);
+		if (PlayState.instance.modchartSaves.exists(tag)){
+			PlayState.instance.removeShaderFromCamera('', PlayState.instance.modchartSaves.get(tag));
+			PlayState.instance.removeShaderFromCamera('game', PlayState.instance.modchartSaves.get(tag));
+			PlayState.instance.removeShaderFromCamera('hud', PlayState.instance.modchartSaves.get(tag));
+			PlayState.instance.removeShaderFromCamera('other', PlayState.instance.modchartSaves.get(tag));
+			PlayState.instance.modchartSaves.remove(tag);
 		}
-		PlayState.instance.modchartShader.set(tag, shader);
+		PlayState.instance.modchartSaves.set(tag, shader);
 	}
 }
