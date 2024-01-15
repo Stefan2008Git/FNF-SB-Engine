@@ -51,6 +51,7 @@ import openfl.filters.ShaderFilter;
 import openfl.filters.BitmapFilter;
 import openfl.display.Shader;
 import shaders.Shaders;
+import shaders.Shaders.ShaderEffect;
 #end
 
 #if sys
@@ -188,7 +189,6 @@ class PlayState extends MusicBeatState
 	public static var changedDifficulty:Bool = false;
 	public static var chartingMode:Bool = false;
 
-	public var modchartShader:Map<String, Dynamic> = new Map<String, Effect>();
 	public var shaderUpdates:Array<Float->Void> = [];
 	public var camGameShaders:Array<ShaderEffect> = [];
 	public var camHUDShaders:Array<ShaderEffect> = [];
