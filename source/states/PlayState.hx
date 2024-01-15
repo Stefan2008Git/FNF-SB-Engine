@@ -372,7 +372,7 @@ class PlayState extends MusicBeatState
 				["ULTRA F", -200]
 			];
 
-			/*case 'Dave and Bambi': [
+			default: [
 				['?', 0.2], //From 0% to 19%
 				['??', 0.4], //From 20% to 39%
 				['???', 0.5], //From 40% to 49%
@@ -383,7 +383,7 @@ class PlayState extends MusicBeatState
 				['????????', 0.9], //From 80% to 89%
 				['?????????', 1], //From 90% to 99%
 				['??????????', 1] //The value on this one isn't used actually, since Perfect is always "1"
-			];*/ // Test success. It works without ratingStuff		
+			];	
 		}
 
 		if (FlxG.sound.music != null)
