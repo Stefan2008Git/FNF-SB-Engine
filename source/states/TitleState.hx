@@ -137,6 +137,7 @@ class TitleState extends MusicBeatState {
 	var gfDanceTrail:FlxTrail;
 	var danceLeft:Bool = false;
 	var titleText:FlxSprite;
+	var psychSpr:FlxSprite;
 	var swagShader:ColorSwap = null;
 
 	function startIntro()
@@ -246,6 +247,15 @@ class TitleState extends MusicBeatState {
 		titleText.updateHitbox();
 		// titleText.screenCenter(X);
 		add(titleText);
+
+		psychSpr = new FlxSprite(0, FlxG.height * 0.52).loadGraphic(Paths.image('peLogo'));
+		add(psychSpr);
+		psychSpr.visible = false;
+		psychSpr.scale.x = 1;
+		psychSpr.scale.y = 1;
+		psychSpr.updateHitbox();
+		psychSpr.screenCenter(X);
+		psychSpr.antialiasing = ClientPrefs.data.antialiasing;
 
 		Paths.clearUnusedMemory();
 
@@ -471,6 +481,7 @@ class TitleState extends MusicBeatState {
 					createCoolText(['SB Engine by'], 15);
 				case 4:
 					addMoreText('Stefan2008', 15);
+					addMoreText('Hutaro', 15);
 					addMoreText('MaysLastPlay', 15);
 					addMoreText('Fearester', 15);
 				case 5:
@@ -479,12 +490,22 @@ class TitleState extends MusicBeatState {
 					createCoolText(['Forked', 'From'], -40);
 				case 8:
 					addMoreText('Psych Engine v' + MainMenuState.psychEngineVersion, -40);
+					psychSpr.visible = true;
 				case 9:
 					deleteCoolText();
+					psychSpr.visible = false;
 				case 10:
+					#if !android
 					createCoolText([curWacky[0]]);
+					#else
+					deleteCoolText();
+					#end
 				case 12:
+					#if !android
 					addMoreText(curWacky[1]);
+					#else
+					deleteCoolText();
+					#end
 				case 13:
 					deleteCoolText();
 				case 14:

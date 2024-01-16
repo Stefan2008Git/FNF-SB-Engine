@@ -15,8 +15,7 @@ Used and coded on: [Psych Engine](https://gamebanana.com/mods/309789).
 | Avatar | Username | Involvement |
 | ------ | -------- | ----------- |
 | ![](https://raw.githubusercontent.com/Stefan2008Git/FNF-SB-Engine/main/assets/preload/images/credits/stefan.png) | [Stefan2008](https://www.youtube.com/channel/UC9Nwf21GbaEm_h0Ka9gxZjQ) | Main Programmer of SB Engine.
-| ![](https://raw.githubusercontent.com/Stefan2008Git/FNF-SB-Engine/main/assets/preload/images/credits/nury.png) | [Nury2019](https://youtube.com/@Nuury06) | Main Artist of SB Engine.
-| ![](https://raw.githubusercontent.com/Stefan2008Git/FNF-SB-Engine/main/assets/preload/images/credits/hutaroz.png) | [Hutaro](https://youtube.com/@hutaroz?si=1-qCf4MucDxMpL12) | Second Main Artist of SB Engine
+| ![](https://raw.githubusercontent.com/Stefan2008Git/FNF-SB-Engine/main/assets/preload/images/credits/hutaroz.png) | [Hutaro](https://youtube.com/@hutaroz?si=1-qCf4MucDxMpL12) | Main Artist of SB Engine
 | ![](https://raw.githubusercontent.com/Stefan2008Git/FNF-SB-Engine/main/assets/preload/images/credits/mays.png) | [MaysLastPlay](https://www.youtube.com/@MaysLastPlay) | Second Programmer of SB Engine.
 | ![](https://raw.githubusercontent.com/Stefan2008Git/FNF-SB-Engine/main/assets/preload/images/credits/fearester.png) | [Fearester2008](https://www.youtube.com/@fearester1282) | Third Programmer of SB Engine.
 | ![](https://raw.githubusercontent.com/Stefan2008Git/FNF-SB-Engine/main/assets/preload/images/credits/sun.png) | [SunBurn'tTails](https://www.youtube.com/channel/UCooFjEgVBZyTSx_hbcnqclw) | First SB Engine Beta tester.
