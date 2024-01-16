@@ -347,10 +347,6 @@ class ShaderFunctions
 				var shader = new BloomEffect(blurSize/512.0,intensity);
             	PlayState.instance.addLuaShaderToCamera(object, shader.shader);
         	});
-
-			funk.set(lua, "clearEffects", function(camera:String) {
-				PlayState.instance.clearShaderFromCamera(camera);
-			});
 		}
 	}
 	

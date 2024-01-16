@@ -869,6 +869,51 @@ class BloomShader extends FlxShader
 	}
 }
 
+class GlitchEffect extends Effect
+{
+	public var shader:ShaderFilter = new ShaderFilter(new GlitchShader());
+
+	public var waveSpeed(default, set):Float = 0;
+	public var waveFrequency(default, set):Float = 0;
+	public var waveAmplitude(default, set):Float = 0;
+
+	public function new(WaveSpeed:Float, WaveFrequency:Float, WaveAmplitude:Float){
+		super();
+		daShader = shader;
+		shader.shader.data.uTime.value = [0];
+		waveSpeed = WaveSpeed;
+		waveFrequency = WaveFrequency;
+		waveAmplitude = WaveAmplitude;
+		PlayState.instance.shaderUpdates.push(update);
+	}
+
+	public function update(elapsed:Float):Void
+	{
+		shader.shader.data.uTime.value[0] += elapsed;
+	}
+
+	function set_waveSpeed(v:Float):Float
+	{
+		waveSpeed = v;
+		shader.shader.data.uSpeed.value = [waveSpeed];
+		return v;
+	}
+
+	function set_waveFrequency(v:Float):Float
+	{
+		waveFrequency = v;
+		shader.shader.data.uFrequency.value = [waveFrequency];
+		return v;
+	}
+
+	function set_waveAmplitude(v:Float):Float
+	{
+		waveAmplitude = v;
+		shader.shader.data.uWaveAmplitude.value = [waveAmplitude];
+		return v;
+	}
+}
+
 class WiggleEffectDreamy extends Effect
 {
 	// DEAD VARS
@@ -882,6 +927,7 @@ class WiggleEffectDreamy extends Effect
 
 	public function new(waveSpeed:Float,waveFrequency:Float,waveAmplitude:Float):Void
 	{
+		super();
 		shader.uTime.value = [0];
 		//wiggleEffectTypeFromString(effectTypeInsane);
 		this.waveSpeed = waveSpeed;
@@ -942,6 +988,7 @@ class WiggleEffectWavy extends Effect
 
 	public function new(waveSpeed:Float,waveFrequency:Float,waveAmplitude:Float):Void
 	{
+		super();
 		shader.uTime.value = [0];
 		//this.effectType = effectType;
 		//wiggleEffectTypeFromString(effectTypeInsane);
@@ -1002,6 +1049,7 @@ class WiggleEffectHorizontal extends Effect
 
 	public function new(waveSpeed:Float,waveFrequency:Float,waveAmplitude:Float):Void
 	{
+		super();
 		shader.uTime.value = [0];
 		//this.effectType = effectType;
 		//wiggleEffectTypeFromString(effectTypeInsane);
@@ -1062,6 +1110,7 @@ class WiggleEffectVertical extends Effect
 
 	public function new(waveSpeed:Float,waveFrequency:Float,waveAmplitude:Float):Void
 	{
+		super();
 		shader.uTime.value = [0];
 		//this.effectType = effectType;
 		//wiggleEffectTypeFromString(effectTypeInsane);
@@ -1122,6 +1171,7 @@ class WiggleEffectFlag extends Effect
 
 	public function new(waveSpeed:Float,waveFrequency:Float,waveAmplitude:Float):Void
 	{
+		super();
 		shader.uTime.value = [0];
 		//this.effectType = effectType;
 		//wiggleEffectTypeFromString(effectTypeInsane);
@@ -1169,51 +1219,6 @@ class WiggleEffectFlag extends Effect
 		return v;
 	}
 }
-class GlitchEffect extends Effect
-{
-	public var shader:ShaderFilter = new ShaderFilter(new GlitchShader());
-
-	public var waveSpeed(default, set):Float = 0;
-	public var waveFrequency(default, set):Float = 0;
-	public var waveAmplitude(default, set):Float = 0;
-
-	public function new(WaveSpeed:Float, WaveFrequency:Float, WaveAmplitude:Float){
-		super();
-		daShader = shader;
-		shader.shader.data.uTime.value = [0];
-		waveSpeed = WaveSpeed;
-		waveFrequency = WaveFrequency;
-		waveAmplitude = WaveAmplitude;
-		PlayState.instance.shaderUpdates.push(update);
-	}
-
-	public function update(elapsed:Float):Void
-	{
-		shader.shader.data.uTime.value[0] += elapsed;
-	}
-
-	function set_waveSpeed(v:Float):Float
-	{
-		waveSpeed = v;
-		shader.shader.data.uSpeed.value = [waveSpeed];
-		return v;
-	}
-
-	function set_waveFrequency(v:Float):Float
-	{
-		waveFrequency = v;
-		shader.shader.data.uFrequency.value = [waveFrequency];
-		return v;
-	}
-
-	function set_waveAmplitude(v:Float):Float
-	{
-		waveAmplitude = v;
-		shader.shader.data.uWaveAmplitude.value = [waveAmplitude];
-		return v;
-	}
-}
-
 class DistortBGEffect extends Effect
 {
 	public var shader:ShaderFilter = new ShaderFilter(new DistortBGShader());
