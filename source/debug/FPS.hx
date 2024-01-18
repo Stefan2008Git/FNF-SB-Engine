@@ -135,6 +135,7 @@ class FPS extends TextField
 				text += "\nEngine version: " + MainMenuState.sbEngineVersion + " (PE " + MainMenuState.psychEngineVersion + ")";
 			}
 
+			#if debug
 			if (ClientPrefs.data.debugInfo) {
 				text += '\nState: ${Type.getClassName(Type.getClass(FlxG.state))}';
 				if (FlxG.state.subState != null)
@@ -147,6 +148,7 @@ class FPS extends TextField
 				text += "\nLime: ?";
 				text += "\nOpenFL: ?";
 			}
+			#end
 
 			switch (ClientPrefs.data.gameStyle) {
 				case 'Psych Engine':
