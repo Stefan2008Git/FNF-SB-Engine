@@ -122,7 +122,7 @@
 	<haxedef name="hscriptPos" />
 
 	<!-- Enables a terminal log prompt on debug builds -->
-	<haxelib name="hxcpp-debug-server" if="desktop || debug"  />
+	<haxelib name="hxcpp-debug-server" if="desktop debug"  />
 	<haxedef name="HXC_LIBVLC_LOGGING" if="VIDEOS_ALLOWED debug" />
 
 	<!-- <haxelib name="markdown" /> -->
