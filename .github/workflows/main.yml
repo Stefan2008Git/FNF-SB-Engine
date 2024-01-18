@@ -721,8 +721,8 @@ jobs:
           path: |
             ~/haxelib
             ~/.gradle
-            export/release/android/haxe
-            export/release/android/obj
+            export/debug/android/haxe
+            export/debug/android/obj
           key: cache-android-build
 
       - name: Install Haxelib
@@ -740,7 +740,6 @@ jobs:
           haxelib --quiet install tjson
           haxelib --quiet install hxjsonast
           haxelib --quiet install SScript 8.1.6
-          haxelib --quiet install hxcpp-debug-server
           haxelib --quiet git hxCodec https://github.com/SPLCoding/hxCodec-but-it-works-xd.git
           haxelib --quiet git linc_luajit https://github.com/superpowers04/linc_luajit.git
           haxelib --quiet git extension-androidtools https://github.com/MaysLastPlay77/extension-androidtools.git
