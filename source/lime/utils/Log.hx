@@ -1,11 +1,11 @@
 package lime.utils;
 
 import openfl.Lib;
-/*
+
 #if android
-import android.widget.Toast;
+import android.backend.AndroidDialogsExtend;
 #end
-*/
+
 import haxe.PosInfos;
 import lime.app.Application;
 import lime.system.System;
