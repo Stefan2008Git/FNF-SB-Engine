@@ -6,6 +6,7 @@ class HealthIcon extends FlxSprite
 	private var isOldIcon:Bool = false;
 	private var isPlayer:Bool = false;
 	private var char:String = '';
+	public var defaultWidth:Float = 1;
 
 	public function new(char:String = 'bf', isPlayer:Bool = false, ?allowGPU:Bool = true)
 	{
@@ -58,6 +59,9 @@ class HealthIcon extends FlxSprite
 				antialiasing = false;
 			else
 				antialiasing = ClientPrefs.data.antialiasing;
+		}
+		if (ClientPrefs.data.gameStyle == 'Checky Engine') {
+			defaultWidth = 1.5;
 		}
 	}
 

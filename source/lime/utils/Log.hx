@@ -77,7 +77,8 @@ class Log
 				catch (e:Dynamic)
 				{
 					#if (android && debug)
-					AndroidDialogsExtend.OpenToast("Error!\nClouldn't save the crash log because:\n" + e);
+					var shaderErrorMessage:String = "Error!\nClouldn't save the crash log because:\n";
+					AndroidDialogsExtend.OpenToast(shaderErrorMessage + e, 1);
 					#else
 					println("Error!\nClouldn't save the crash log because:\n" + e);
 					#end
@@ -85,7 +86,7 @@ class Log
 				#end
 
 			//	println(message);
-				Application.current.window.alert(message + '\n\nFind Problem!!! Press OK to continue', 'Error!');
+				Application.current.window.alert(message + '\n\nFinded the problem!!! Press OK to close the game', 'Error!');
 				//System.exit(1);
 				/*
 			}

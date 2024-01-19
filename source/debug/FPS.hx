@@ -151,7 +151,14 @@ class FPS extends TextField
 			#end
 
 			switch (ClientPrefs.data.gameStyle) {
-				case 'Psych Engine':
+				case 'SB Engine':
+					#if android
+					Main.fpsVar.defaultTextFormat = new TextFormat('Bahnschrift', 14, color);
+					#else
+					Main.fpsVar.defaultTextFormat = new TextFormat('Bahnschrift', 12, color);
+					#end
+
+				case 'Psych Engine' | 'Checky Engine':
 					#if android
 					Main.fpsVar.defaultTextFormat = new TextFormat('_sans', 14, color);
 					#else
@@ -177,13 +184,6 @@ class FPS extends TextField
 					Main.fpsVar.defaultTextFormat = new TextFormat('Calibri', 14, color);
 					#else
 					Main.fpsVar.defaultTextFormat = new TextFormat('Calibri', 12, color);
-					#end
-				
-				default:
-					#if android
-					Main.fpsVar.defaultTextFormat = new TextFormat('Bahnschrift', 14, color);
-					#else
-					Main.fpsVar.defaultTextFormat = new TextFormat('Bahnschrift', 12, color);
 					#end
 			}
 
