@@ -90,7 +90,7 @@ class MusicBeatState extends FlxUIState
 				checkDUO = true;
 				Controls.checkTheKeyboard = false;
 			case HITBOX:
-				//controls.setNewHitBox(androidControls.newhbox);
+				//controls.setNewHitBox(androidControls.newHitbox);
 				checkHitbox = true;
 				checkDUO = false;
 				Controls.checkTheKeyboard = false;

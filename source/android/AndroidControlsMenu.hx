@@ -19,7 +19,7 @@ class AndroidControlsMenu extends MusicBeatState
 {
 	var virtualPads:FlxVirtualPad;
 	//var hbox:FlxHitbox;
-	var newhbox:FlxNewHitbox;
+	var newHitbox:FlxNewHitbox;
 	var upPozition:FlxText;
 	var downPozition:FlxText;
 	var leftPozition:FlxText;
@@ -60,9 +60,9 @@ class AndroidControlsMenu extends MusicBeatState
 		hbox.visible = false;
 		add(hbox);
 		*/
-		newhbox = new FlxNewHitbox();
-		newhbox.visible = false;
-		add(newhbox);
+		newHitbox = new FlxNewHitbox();
+		newHitbox.visible = false;
+		add(newHitbox);
 
 		inputvari = new PsychAlphabet(0, 50, controlitems[currentlySelected], false, false, 0.05, 0.8);
 		inputvari.screenCenter(X);
@@ -186,12 +186,12 @@ class AndroidControlsMenu extends MusicBeatState
 		if (daChoice != "Hitbox")
 		{
 			//hbox.visible = false;
-			newhbox.visible = false;
+			newHitbox.visible = false;
 		}
 		else
 		{
 		    //hbox.visible = true;
-		    newhbox.visible = true;
+		    newHitbox.visible = true;
 		     
 		}
 

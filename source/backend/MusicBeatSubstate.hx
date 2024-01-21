@@ -96,7 +96,7 @@ class MusicBeatSubstate extends FlxSubState
 				checkDUO = true;
 				Controls.checkTheKeyboard = false;
 			case HITBOX:
-				//controls.setNewHitBox(androidc.newhbox);
+				//controls.setNewHitBox(androidc.newHitbox);
 				checkHitbox = true;
 				checkDUO = false;
 				Controls.checkTheKeyboard = false;

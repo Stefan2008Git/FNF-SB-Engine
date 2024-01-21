@@ -2112,9 +2112,7 @@ class PlayState extends MusicBeatState
 					babyArrow.y -= 115;
 					FlxTween.tween(babyArrow, {y: babyArrow.y + 115}, 1, {ease: FlxEase.backInOut});
 				}
-				/* else if (ClientPrefs.data.gameStyle == 'SB Engine') {
-					spinnyNotes(babyArrow);
-				}*/ else
+				else
 				//babyArrow.y -= 10;
 				babyArrow.alpha = 0;
 				FlxTween.tween(babyArrow, {/*y: babyArrow.y + 10,*/ alpha: targetAlpha}, 1, {ease: FlxEase.circOut, startDelay: 0.5 + (0.2 * i)});
@@ -2133,66 +2131,46 @@ class PlayState extends MusicBeatState
 					}
 				}
 				opponentStrums.add(babyArrow);
-				babyArrow.postAddedToGroup();
-				// if (ClientPrefs.data.gameStyle == 'SB Engine') spinnyNotes(babyArrow);
 			}
+
+			strumLineNotes.add(babyArrow);
+			babyArrow.postAddedToGroup();
+			if (ClientPrefs.data.gameStyle == 'SB Engine') spinnyNotes(babyArrow);
 		}
 	}
 
-	// This shitty code doesn't even want to make my custom note tween intro animation for SB Engine HUD, so it's an scrapped code. If someone wants to help me, i will give the example what note tween i want -- Stefan2008
-	/* public function spinnyNotes(spriteName) {
+	public function spinnyNotes(spriteName) {
 
 		FlxTween.angle(spriteName, 0, 360, 1.3, {type: FlxTween.ONESHOT, ease: FlxEase.sineInOut, startDelay: 0, loopDelay: 0});
 
-		if (!ClientPrefs.data.middleScroll)
+		if(!ClientPrefs.data.middleScroll)
 		{
-			for (i in 0...opponentStrums.length)
-			{
-				opponentStrums.members[i].x =- 1200;		
-				if (i < 4)
-					FlxTween.tween(spriteName, {x: 40 + (120 * i)}, 1.3, {ease: FlxEase.sineInOut, startDelay: 0.5 + (0.2 * i)});
-				else
-				FlxTween.tween(spriteName, {x: 300 + (120 * i)}, 1.3, {ease: FlxEase.sineInOut, startDelay: 0.5 + (0.2 * i)});
-			}
-
-			for (i in 0...playerStrums.length)
-				{
-					playerStrums.members[i].x = 1200;		
-					if (i < 4)
-						FlxTween.tween(spriteName, {x: 40 + (120 * i)}, 1.3, {ease: FlxEase.sineInOut, startDelay: 0.5 + (0.2 * i)});
-					else
-					FlxTween.tween(spriteName, {x: 300 + (120 * i)}, 1.3, {ease: FlxEase.sineInOut, startDelay: 0.5 + (0.2 * i)});
-				}
+		for(i in 0...strumLineNotes.length)
+		{
+		strumLineNotes.members[i].x = - 1200;		
+		if (i < 4)
+		FlxTween.tween(spriteName, {x: 40 + (120 * i)}, 1.3, {ease: FlxEase.sineInOut, startDelay: 0.5 + (0.2 * i)});
+		else
+		FlxTween.tween(spriteName, {x: 300 + (120 * i)}, 1.3, {ease: FlxEase.sineInOut, startDelay: 0.5 + (0.2 * i)});
+		}
 		}
 		else
 		{
-			for (i in 0...opponentStrums.length)
+			for(i in 0...strumLineNotes.length)
 			{
-				opponentStrums.members[i].x = 1200;
-					if(i == 0 || i == 1)
-					FlxTween.tween(spriteName, {x: -40 + (120 * i)}, 1.3, {ease: FlxEase.sineInOut, startDelay: 0.5 + (0.2 * i)});
+			strumLineNotes.members[i].x = -1200;
+				if(i == 0 || i == 1)
+				FlxTween.tween(spriteName, {x: 40 + (120 * i)}, 1.3, {ease: FlxEase.sineInOut, startDelay: 0.5 + (0.2 * i)});
 
-					if(i == 2 || i == 3)
-					FlxTween.tween(spriteName, {x: -750 + (120 * i)}, 1.3, {ease: FlxEase.sineInOut, startDelay: 0.5 + (0.2 * i)});
+				if(i == 2 || i == 3)
+				FlxTween.tween(spriteName, {x: 750 + (120 * i)}, 1.3, {ease: FlxEase.sineInOut, startDelay: 0.5 + (0.2 * i)});
 
-					if(i > 3)
-					FlxTween.tween(spriteName, {x: -70 + (120 * i)}, 1.3, {ease: FlxEase.sineInOut, startDelay: 0.5 + (0.2 * i)});
+				if(i > 3)
+				FlxTween.tween(spriteName, {x: -70 + (120 * i)}, 1.3, {ease: FlxEase.sineInOut, startDelay: 0.5 + (0.2 * i)});
+
 			}
-
-			for (i in 0...playerStrums.length)
-				{
-					playerStrums.members[i].x = -200;
-						if(i == 0 || i == 1)
-						FlxTween.tween(spriteName, {x: 40 + (120 * i)}, 1.3, {ease: FlxEase.sineInOut, startDelay: 0.5 + (0.2 * i)});
-	
-						if(i == 2 || i == 3)
-						FlxTween.tween(spriteName, {x: 750 + (120 * i)}, 1.3, {ease: FlxEase.sineInOut, startDelay: 0.5 + (0.2 * i)});
-	
-						if(i > 3)
-						FlxTween.tween(spriteName, {x: -70 + (120 * i)}, 1.3, {ease: FlxEase.sineInOut, startDelay: 0.5 + (0.2 * i)});
-				}
 		}
-	}*/
+		}
 
 	override function openSubState(SubState:FlxSubState)
 	{
