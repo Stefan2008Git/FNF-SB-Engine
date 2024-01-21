@@ -85,6 +85,8 @@ class SaveVariables {
 	public var smoothHealth:Bool = true;
 	public var tweenableTimeTxt:Bool = false;
 	public var tweenableScoreTxt:Bool = false;
+	public var millisecondTxt:Bool = false;
+	public var ratingPopup:Bool = true;
 	public var gameplaySettings:Map<String, Dynamic> = [
 		'scrollspeed' => 1.0,
 		'scrolltype' => 'multiplicative', 

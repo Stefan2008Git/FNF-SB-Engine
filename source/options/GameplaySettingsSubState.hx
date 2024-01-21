@@ -168,7 +168,7 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		addOption(option);
 
 		var option:Option = new Option('Judgement style: ',
-			"What style of judgement do you like?", 'judgementCounterStyle', 'string',
+			"What style of judgement counter do you like?", 'judgementCounterStyle', 'string',
 			['Original', 'With Misses', 'Better Judge']);
 		addOption(option);
 
@@ -177,7 +177,7 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		addOption(option);
 
 		var option:Option = new Option('Icon bounce',
-			"If unchecked, disables custom modified engine icon bounce.", 'iconBounce', 'bool');
+			"If unchecked, disables 5 HUD icon bounce instead for Psych Engine HUD.", 'iconBounce', 'bool');
 		addOption(option);
 
 		var option:Option = new Option('Camera movement on note hit',
@@ -185,7 +185,7 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		addOption(option);
 
 		var option:Option = new Option('Note glow',
-			"If unchecked, disables note glow when you are hitting notes.", 'arrowGlow', 'bool');
+			"If unchecked, disables note glow for opponent.", 'arrowGlow', 'bool');
 		addOption(option);
 
 		var option:Option = new Option('Text Sine Effect',
@@ -213,11 +213,23 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		addOption(option);
 
 		var option:Option = new Option('Smooth health',
-			"If unchecked, disables smoothHealth.", 'smoothHealth', 'bool');
+			"If unchecked, disables smooth health.", 'smoothHealth', 'bool');
 		addOption(option);
 
 		var option:Option = new Option('Tweenable timer text',
-			"If unchecked, disables tween text for timer text.", 'tweenableTimeTxt', 'bool');
+			"If checked, enables tween text for timer text.", 'tweenableTimeTxt', 'bool');
+		addOption(option);
+
+		var option:Option = new Option('Tweenable score text',
+			"If checked, enables tween text for score text.", 'tweenableScoreTxt', 'bool');
+		addOption(option);
+
+		var option:Option = new Option('Millisecond popup',
+			"If checked, enables MS text popup.", 'millisecondTxt', 'bool');
+		addOption(option);
+
+		var option:Option = new Option('Rating popup',
+			"If unchecked, hides rating popup.", 'ratingPopup', 'bool');
 		addOption(option);
 
 		var option:Option = new Option('Pause Screen Song:',

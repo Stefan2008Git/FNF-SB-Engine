@@ -336,7 +336,7 @@ class PlayState extends MusicBeatState
 				['Perfect!!', 1] //The value on this one isn't used actually, since Perfect is always "1"
 			];
 
-			case 'Kade Engine': [
+			case 'Kade Engine' | 'Checky Engine': [
 				['F', 0.2], //From 0% to 19%
 				['D', 0.4], //From 20% to 39%
 				['C', 0.5], //From 40% to 49%
@@ -593,10 +593,6 @@ class PlayState extends MusicBeatState
 
 		Conductor.songPosition = -5000 / Conductor.songPosition;
 		var showTime:Bool = (ClientPrefs.data.timeBarType != 'Disabled');
-		/*if (ClientPrefs.data.gameStyle == 'Checky Engine') {
-			timeTxt = new FlxText(STRUM_X - 100, FlxG.width, "", 20);
-			timeTxt.x -= 20;
-		} else {*/
 		timeTxt = new FlxText(STRUM_X + (FlxG.width / 2) - 248, 19, 400, "", 32);
 		switch (ClientPrefs.data.gameStyle) {
 			case 'SB Engine':
@@ -619,12 +615,16 @@ class PlayState extends MusicBeatState
 				timeTxt.setFormat(Paths.font("calibri.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 				timeTxt.borderSize = 2;
 			
-			case 'Cheeky Engine':
+			case 'Checky Engine':
 				timeTxt.setFormat(Paths.font("vcr.ttf"), 42, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 				timeTxt.borderSize = 1.25;
 		}
 		timeTxt.scrollFactor.set();
-		timeTxt.alpha = 0;
+		if (!ClientPrefs.data.timeBar && ClientPrefs.data.gameStyle == 'Checky Engine') {
+			timeTxt.alpha = 1;
+		} else if (ClientPrefs.data.gameStyle == 'SB Engine' || ClientPrefs.data.gameStyle == 'Psych Engine' || ClientPrefs.data.gameStyle == 'TGT Engine' || ClientPrefs.data.gameStyle == 'Kade Engine' || ClientPrefs.data.gameStyle == 'Dave and Bambi') {
+			timeTxt.alpha = 0;
+		}
 		timeTxt.visible = updateTime = showTime;
 		if (ClientPrefs.data.timeBarType == 'Song Name + Time' && ClientPrefs.data.gameStyle == 'Checky Engine') timeTxt.text = SONG.song + " [0:00]";
 		if (ClientPrefs.data.timeBarType == 'Song Name + Time Elapsed' && ClientPrefs.data.gameStyle == 'Checky Engine') timeTxt.text = SONG.song + " [0:00]";
@@ -706,13 +706,21 @@ class PlayState extends MusicBeatState
 		uiGroup.add(healthBar);
 
 		iconP1 = new HealthIcon(boyfriend.healthIcon, true);
-		iconP1.y = healthBar.y - 75;
+		if (checkyEngineIconBounce) {
+			iconP1.y = healthBar.y - (iconP1.height / 2);
+		} else {
+			iconP1.y = healthBar.y - 75;
+		}
 		iconP1.visible = !ClientPrefs.data.hideHud;
 		iconP1.alpha = ClientPrefs.data.healthBarAlpha;
 		uiGroup.add(iconP1);
 
 		iconP2 = new HealthIcon(dad.healthIcon, false);
-		iconP2.y = healthBar.y - 75;
+		if (checkyEngineIconBounce) {
+			iconP2.y = healthBar.y - (iconP2.height / 2);
+		} else {
+			iconP2.y = healthBar.y - 75;
+		}
 		iconP2.visible = !ClientPrefs.data.hideHud;
 		iconP2.alpha = ClientPrefs.data.healthBarAlpha;
 		uiGroup.add(iconP2);
@@ -992,6 +1000,17 @@ class PlayState extends MusicBeatState
 		}
 
 		switch (ClientPrefs.data.gameStyle) {
+			case 'SB Engine':
+				if (ClientPrefs.data.downScroll && ClientPrefs.data.watermarkStyle == 'SB Engine') {
+					engineVersionTxt.y = 145;
+					songAndDifficultyNameTxt.y = 165;
+				}
+		
+				if (ClientPrefs.data.downScroll && ClientPrefs.data.watermarkStyle == 'Kade Engine') {
+					engineVersionTxt.y = 0;
+					songAndDifficultyNameTxt.y = 145;
+			}
+
 			case 'Kade Engine' | 'Dave and Bambi':
 				if (ClientPrefs.data.downScroll && ClientPrefs.data.watermarkStyle == 'SB Engine') {
 					engineVersionTxt.y = 150;
@@ -1013,17 +1032,6 @@ class PlayState extends MusicBeatState
 					engineVersionTxt.y = 0;
 					songAndDifficultyNameTxt.y = 140;
 				}
-			
-			case 'SB Engine':
-				if (ClientPrefs.data.downScroll && ClientPrefs.data.watermarkStyle == 'SB Engine') {
-					engineVersionTxt.y = 145;
-					songAndDifficultyNameTxt.y = 165;
-				}
-		
-				if (ClientPrefs.data.downScroll && ClientPrefs.data.watermarkStyle == 'Kade Engine') {
-					engineVersionTxt.y = 0;
-					songAndDifficultyNameTxt.y = 145;
-			}
 		}
 
 		uiGroup.add(engineVersionTxt);
@@ -1570,9 +1578,9 @@ class PlayState extends MusicBeatState
 
 		if (ClientPrefs.data.gameStyle == 'Checky Engine') {
 			FlxTween.tween(timeBar, {alpha: 1}, 1, {ease: FlxEase.cubeInOut});
-			FlxTween.tween(timeBar, {y: timeBar.y + 50}, 1, {ease: FlxEase.backInOut});
+			FlxTween.tween(timeBar, {y: timeBar.y + -10}, 1.5, {ease: FlxEase.backInOut});
 			FlxTween.tween(timeTxt, {alpha: 1}, 1, {ease: FlxEase.cubeInOut});
-			FlxTween.tween(timeTxt, {y: timeTxt.y + 50}, 1, {ease: FlxEase.backInOut});
+			FlxTween.tween(timeTxt, {y: timeTxt.y + -10}, 1.5, {ease: FlxEase.backInOut});
 		}
 
 		seenCutscene = true;
@@ -1840,16 +1848,16 @@ class PlayState extends MusicBeatState
 		// Song duration in a float, useful for the time left feature
 		songLength = FlxG.sound.music.length;
 		switch (ClientPrefs.data.gameStyle) {
+			case 'SB Engine':
+				FlxTween.tween(timeBar, {alpha: 1}, 0.8, {ease: FlxEase.sineInOut});
+				FlxTween.tween(timeTxt, {alpha: 1}, 0.8, {ease: FlxEase.sineInOut});
+
 			case 'Psych Engine' | 'TGT Engine':
 				FlxTween.tween(timeBar, {alpha: 1}, 0.5, {ease: FlxEase.expoInOut});
 				FlxTween.tween(timeTxt, {alpha: 1}, 0.5, {ease: FlxEase.expoInOut});
 			
 			case 'Kade Engine' | 'Dave and Bambi':
 				FlxTween.tween(timeTxt, {alpha: 1}, 0.5);
-			
-			case 'SB Engine':
-				FlxTween.tween(timeBar, {alpha: 1}, 0.8, {ease: FlxEase.sineInOut});
-				FlxTween.tween(timeTxt, {alpha: 1}, 0.8, {ease: FlxEase.sineInOut});
 		}
 
 		#if desktop
@@ -2105,9 +2113,8 @@ class PlayState extends MusicBeatState
 					FlxTween.tween(babyArrow, {y: babyArrow.y + 115}, 1, {ease: FlxEase.backInOut});
 				}
 				/* else if (ClientPrefs.data.gameStyle == 'SB Engine') {
-					babyArrow.x -= 50;
 					spinnyNotes(babyArrow);
-				} */ else
+				}*/ else
 				//babyArrow.y -= 10;
 				babyArrow.alpha = 0;
 				FlxTween.tween(babyArrow, {/*y: babyArrow.y + 10,*/ alpha: targetAlpha}, 1, {ease: FlxEase.circOut, startDelay: 0.5 + (0.2 * i)});
@@ -2126,17 +2133,66 @@ class PlayState extends MusicBeatState
 					}
 				}
 				opponentStrums.add(babyArrow);
+				babyArrow.postAddedToGroup();
+				// if (ClientPrefs.data.gameStyle == 'SB Engine') spinnyNotes(babyArrow);
 			}
-
-			strumLineNotes.add(babyArrow);
-			babyArrow.postAddedToGroup();
 		}
 	}
 
+	// This shitty code doesn't even want to make my custom note tween intro animation for SB Engine HUD, so it's an scrapped code. If someone wants to help me, i will give the example what note tween i want -- Stefan2008
 	/* public function spinnyNotes(spriteName) {
-		FlxTween.angle(spriteName, 0, 360, 1.5, {type: FlxTween.ONESHOT, ease: FlxEase.sineInOut, startDelay: 0, loopDelay: 0});
-		FlxTween.tween(spriteName, {x: 360}, 1.5, {ease: FlxEase.sineInOut});
-	} */
+
+		FlxTween.angle(spriteName, 0, 360, 1.3, {type: FlxTween.ONESHOT, ease: FlxEase.sineInOut, startDelay: 0, loopDelay: 0});
+
+		if (!ClientPrefs.data.middleScroll)
+		{
+			for (i in 0...opponentStrums.length)
+			{
+				opponentStrums.members[i].x =- 1200;		
+				if (i < 4)
+					FlxTween.tween(spriteName, {x: 40 + (120 * i)}, 1.3, {ease: FlxEase.sineInOut, startDelay: 0.5 + (0.2 * i)});
+				else
+				FlxTween.tween(spriteName, {x: 300 + (120 * i)}, 1.3, {ease: FlxEase.sineInOut, startDelay: 0.5 + (0.2 * i)});
+			}
+
+			for (i in 0...playerStrums.length)
+				{
+					playerStrums.members[i].x = 1200;		
+					if (i < 4)
+						FlxTween.tween(spriteName, {x: 40 + (120 * i)}, 1.3, {ease: FlxEase.sineInOut, startDelay: 0.5 + (0.2 * i)});
+					else
+					FlxTween.tween(spriteName, {x: 300 + (120 * i)}, 1.3, {ease: FlxEase.sineInOut, startDelay: 0.5 + (0.2 * i)});
+				}
+		}
+		else
+		{
+			for (i in 0...opponentStrums.length)
+			{
+				opponentStrums.members[i].x = 1200;
+					if(i == 0 || i == 1)
+					FlxTween.tween(spriteName, {x: -40 + (120 * i)}, 1.3, {ease: FlxEase.sineInOut, startDelay: 0.5 + (0.2 * i)});
+
+					if(i == 2 || i == 3)
+					FlxTween.tween(spriteName, {x: -750 + (120 * i)}, 1.3, {ease: FlxEase.sineInOut, startDelay: 0.5 + (0.2 * i)});
+
+					if(i > 3)
+					FlxTween.tween(spriteName, {x: -70 + (120 * i)}, 1.3, {ease: FlxEase.sineInOut, startDelay: 0.5 + (0.2 * i)});
+			}
+
+			for (i in 0...playerStrums.length)
+				{
+					playerStrums.members[i].x = -200;
+						if(i == 0 || i == 1)
+						FlxTween.tween(spriteName, {x: 40 + (120 * i)}, 1.3, {ease: FlxEase.sineInOut, startDelay: 0.5 + (0.2 * i)});
+	
+						if(i == 2 || i == 3)
+						FlxTween.tween(spriteName, {x: 750 + (120 * i)}, 1.3, {ease: FlxEase.sineInOut, startDelay: 0.5 + (0.2 * i)});
+	
+						if(i > 3)
+						FlxTween.tween(spriteName, {x: -70 + (120 * i)}, 1.3, {ease: FlxEase.sineInOut, startDelay: 0.5 + (0.2 * i)});
+				}
+		}
+	}*/
 
 	override function openSubState(SubState:FlxSubState)
 	{
@@ -2537,7 +2593,7 @@ class PlayState extends MusicBeatState
 	// Health icon updaters
 	public dynamic function updateIconsScale(elapsed:Float)
 	{
-		if (psychEngineIconBounce || tgtEngineIconBounce || sbEngineIconBounce || !ClientPrefs.data.iconBounce) {
+		if (psychEngineIconBounce || tgtEngineIconBounce || sbEngineIconBounce || checkyEngineIconBounce || !ClientPrefs.data.iconBounce) {
 			var mult:Float = FlxMath.lerp(1, iconP1.scale.x, FlxMath.bound(1 - (elapsed * 9 * playbackRate), 0, 1));
 			iconP1.scale.set(mult, mult);
 			iconP1.updateHitbox();
@@ -3225,6 +3281,10 @@ class PlayState extends MusicBeatState
 			Paths.image(uiPrefix + 'num' + i + uiSuffix);
 	}
 
+	var hits:Array<Float> = [];
+	var offsetTest:Float = 0;
+	var timeShown = 0;
+	var msTxt:FlxText = null;
 	private function popUpScore(note:Note = null, miss:Bool = false):Void
 	{
 		var noteDiff:Float = Math.abs(note.strumTime - Conductor.songPosition + ClientPrefs.data.ratingOffset);
@@ -3304,12 +3364,66 @@ class PlayState extends MusicBeatState
 		}
 
 		// let's not make this disabled by default
-		if ((!ClientPrefs.data.lowQuality || ClientPrefs.data.comboStacking) && !cpuControlled) {
+		if ((!ClientPrefs.data.ratingPopup || ClientPrefs.data.comboStacking) && !cpuControlled) {
 		rating.loadGraphic(Paths.image(uiPrefix + daRating.image + uiSuffix));
 		rating.screenCenter();
 		rating.x = placement - 40;
 		rating.y -= 60;
 		rating.acceleration.y = 550 * playbackRate * playbackRate;
+
+		var msTiming = truncateFloat(noteDiff, 3);
+		if (cpuControlled) msTiming = 0;							   
+		if (msTxt != null) remove(msTxt);
+		msTxt = new FlxText(0, 0, 0, "0ms");
+		timeShown = 0;
+		switch(daRating.name)
+		{
+			case 'shit': msTxt.color = FlxColor.RED;
+			case 'bad': msTxt.color = FlxColor.ORANGE;
+			case 'good': msTxt.color = FlxColor.GREEN;
+			case 'sick': msTxt.color = FlxColor.CYAN;
+			default: msTxt.color = FlxColor.WHITE;
+		}
+		msTxt.borderStyle = OUTLINE;
+		msTxt.borderSize = 1;
+		msTxt.borderColor = FlxColor.BLACK;
+		msTxt.text = msTiming + "ms";
+		msTxt.size = 20;
+		msTxt.visible = ClientPrefs.data.millisecondTxt;
+		switch (ClientPrefs.data.gameStyle) {
+			case 'SB Engine':
+				msTxt.setFormat(Paths.font('bahnschrift.ttf'));
+			
+			case 'Psych Engine' | 'Kade Engine' | 'Checky Engine':
+				msTxt.setFormat(Paths.font('vcr.ttf'));
+			
+			case 'TGT Engine':
+				msTxt.setFormat(Paths.font('calibri.ttf'));
+			
+			case 'Dave and Bambi':
+				msTxt.setFormat(Paths.font('comic.ttf'));
+		}
+
+		if (msTiming >= 0.03)
+		{
+			// Remove Outliers
+			hits.shift();
+			hits.shift();
+			hits.shift();
+			hits.pop();
+			hits.pop();
+			hits.pop();
+			hits.push(msTiming);
+
+			var total = 0.0;
+
+			for(i in hits)
+				total += i;
+
+			offsetTest = truncateFloat(total / hits.length, 2);
+		}
+		if (msTxt.alpha != 1) msTxt.alpha = 1;
+
 		rating.velocity.y -= FlxG.random.int(140, 175) * playbackRate;
 		rating.velocity.x -= FlxG.random.int(0, 10) * playbackRate;
 		rating.visible = (!ClientPrefs.data.hideHud && showRating);
@@ -3322,13 +3436,23 @@ class PlayState extends MusicBeatState
 		comboSpr.x = placement;
 		comboSpr.acceleration.y = FlxG.random.int(200, 300) * playbackRate * playbackRate;
 		comboSpr.velocity.y -= FlxG.random.int(140, 160) * playbackRate;
+
+		msTxt.screenCenter();
+		msTxt.x = comboSpr.x + 100;
+		msTxt.y = rating.y + 100;
+		msTxt.acceleration.y = 600;
+		msTxt.velocity.y -= 150;
+	
 		comboSpr.visible = (!ClientPrefs.data.hideHud && showCombo);
 		comboSpr.x += ClientPrefs.data.comboOffset[0];
 		comboSpr.y -= ClientPrefs.data.comboOffset[1];
 		comboSpr.antialiasing = antialias;
 		comboSpr.y += 60;
 		comboSpr.velocity.x += FlxG.random.int(1, 10) * playbackRate;
+		msTxt.velocity.x += comboSpr.velocity.x;
+
 		comboGroup.add(rating);
+		if(!cpuControlled) comboGroup.add(msTxt);
 
 		if (!PlayState.isPixelStage)
 		{
@@ -3343,6 +3467,7 @@ class PlayState extends MusicBeatState
 
 		comboSpr.updateHitbox();
 		rating.updateHitbox();
+		msTxt.updateHitbox();
 
 		var seperatedScore:Array<Int> = [];
 
@@ -3389,21 +3514,28 @@ class PlayState extends MusicBeatState
 
 			daLoop++;
 			if(numScore.x > xThing) xThing = numScore.x;
-		}
-		comboSpr.x = xThing + 50;
-		FlxTween.tween(rating, {alpha: 0}, 0.2 / playbackRate, {
-			startDelay: Conductor.crochet * 0.001 / playbackRate
-		});
+			}
+			comboSpr.x = xThing + 50;
+			FlxTween.tween(rating, {alpha: 0}, 0.2 / playbackRate, {
+				startDelay: Conductor.crochet * 0.001 / playbackRate
+			});
 
-		FlxTween.tween(comboSpr, {alpha: 0}, 0.2 / playbackRate, {
-			onComplete: function(tween:FlxTween)
-			{
-				comboSpr.destroy();
-				rating.destroy();
-			},
-			startDelay: Conductor.crochet * 0.002 / playbackRate
-		});
+			FlxTween.tween(comboSpr, {alpha: 0}, 0.2 / playbackRate, {
+				onComplete: function(tween:FlxTween)
+				{
+					comboSpr.destroy();
+					rating.destroy();
+				},
+				startDelay: Conductor.crochet * 0.002 / playbackRate
+			});
 		}
+	}
+
+	public static function truncateFloat( number: Float, precision: Int): Float {
+		var num = number;
+		num = num * Math.pow(10, precision);
+		num = Math.round( num ) / Math.pow(10, precision);
+		return num;
 	}
 
 	public var strumsBlocked:Array<Bool> = [];
@@ -3981,7 +4113,7 @@ class PlayState extends MusicBeatState
 		if (generatedMusic)
 			notes.sort(FlxSort.byY, ClientPrefs.data.downScroll ? FlxSort.ASCENDING : FlxSort.DESCENDING);
 
-		if (!sbEngineIconBounce || !daveAndBambiIconBounce || !psychEngineIconBounce || !kadeEngineIconBounce || !tgtEngineIconBounce || !ClientPrefs.data.iconBounce) {
+		if (!sbEngineIconBounce || !daveAndBambiIconBounce || !psychEngineIconBounce || !kadeEngineIconBounce || !tgtEngineIconBounce || !checkyEngineIconBounce || !ClientPrefs.data.iconBounce) {
 			iconP1.setGraphicSize(Std.int(iconP1.width + 30));
 			iconP2.setGraphicSize(Std.int(iconP2.width + 30));
 			
@@ -4356,7 +4488,16 @@ class PlayState extends MusicBeatState
 		var ret:Dynamic = callOnScripts('onRecalculateRating', null, true);
 		if(ret != FunkinLua.Function_Stop)
 		{
-			ratingName = '?';
+			switch (ClientPrefs.data.gameStyle) {
+				case 'SB Engine':
+					ratingName = 'Unknown';
+				
+				case 'Psych Engine' | 'TGT Engine' | 'Dave and Bambi':
+					ratingName = '?';
+				
+				case 'Kade Engine' | 'Checky Engine':
+					ratingName = 'N/A';
+			}
 			if(totalPlayed != 0) //Prevent divide by 0
 			{
 				// Rating Percent
@@ -4399,6 +4540,17 @@ class PlayState extends MusicBeatState
 			ratingFC = 'SDCB';
 
 		switch (ClientPrefs.data.gameStyle) {
+			case 'SB Engine':
+				ratingFC = 'Cleared';
+					if(songMisses < 1)
+					{
+					if (bads > 0 || shits > 0) ratingFC = 'Full Combo';
+					else if (goods > 0) ratingFC = 'Awesome Full Combo';
+					else if (sicks > 0) ratingFC = 'Impressive Full Combo';
+					}
+					else if (songMisses < 10)
+						ratingFC = 'Simple Digital Combo Break';
+
 			case 'Psych Engine' | 'TGT Engine':
 				ratingFC = 'Clear';
 					if(songMisses < 1)
@@ -4410,7 +4562,7 @@ class PlayState extends MusicBeatState
 					else if (songMisses < 10)
 						ratingFC = 'SDCB';
 			
-			case 'Kade Engine':
+			case 'Kade Engine' | 'Checky Engine':
 				ratingFC = '(Clear)';
 					if(songMisses < 1)
 					{
@@ -4419,19 +4571,7 @@ class PlayState extends MusicBeatState
 					else if (sicks > 0) ratingFC = '(MFC)';
 					}
 					else if (songMisses < 10)
-						ratingFC = '(SDCB)';
-			
-			default:
-				ratingFC = 'Cleared';
-					if(songMisses < 1)
-					{
-					if (bads > 0 || shits > 0) ratingFC = 'Full Combo';
-					else if (goods > 0) ratingFC = 'Awesome Full Combo';
-					else if (sicks > 0) ratingFC = 'Impressive Full Combo';
-					}
-					else if (songMisses < 10)
-						ratingFC = 'Simple Digital Combo Break';
-				
+						ratingFC = '(SDCB)';		
 		}
 	}
 
