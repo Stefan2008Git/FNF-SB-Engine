@@ -87,6 +87,7 @@ class SaveVariables {
 	public var tweenableScoreTxt:Bool = false;
 	public var millisecondTxt:Bool = false;
 	public var ratingPopup:Bool = true;
+	public var mainMenuMusic:String = 'SB Engine';
 	public var gameplaySettings:Map<String, Dynamic> = [
 		'scrollspeed' => 1.0,
 		'scrolltype' => 'multiplicative', 

@@ -88,6 +88,14 @@ class VisualsUISubState extends BaseOptionsMenu
 			'Change FNF Game engine type style and font plus', 'gameStyle', 'string', ['SB Engine', 'Psych Engine', 'Kade Engine', 'TGT Engine', 'Dave and Bambi', 'Checky Engine']);
 		addOption(option);
 
+		var option:Option = new Option('Main Menu Song:',
+			"What song do you prefer for the main menu?",
+			'mainMenuMusic',
+			'string',
+			['None', 'SB Engine', 'FNF', 'Kade Engine', 'Checky']);
+		addOption(option);
+		option.onChange = onChangeMainMenuMusic;
+
 		super();
 	}
 
@@ -107,5 +115,12 @@ class VisualsUISubState extends BaseOptionsMenu
 		if(Main.watermark != null)
 			Main.watermark.visible = ClientPrefs.data.watermarkIcon;
 	}
-	
+
+	var changedMainMusic:Bool = false;
+	function onChangeMainMenuMusic()
+	{
+		if (ClientPrefs.data.mainMenuMusic != 'FNF') FlxG.sound.playMusic(Paths.music('freakyMenu-' + ClientPrefs.data.mainMenuMusic));
+		if (ClientPrefs.data.mainMenuMusic == 'FNF') FlxG.sound.playMusic(Paths.music('freakyMenu'));
+		changedMainMusic = true;
+	}
 }

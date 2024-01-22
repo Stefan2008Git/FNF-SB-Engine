@@ -349,7 +349,7 @@ class DialogueEditorState extends MusicBeatState
 			}
 			if(FlxG.keys.justPressed.ESCAPE #if android || FlxG.android.justReleased.BACK #end) {
 				MusicBeatState.switchState(new states.editors.MasterEditorMenu());
-				FlxG.sound.playMusic(Paths.music('freakyMenu'), 1);
+				FlxG.sound.playMusic(Paths.music('freakyMenu-' + ClientPrefs.data.mainMenuMusic), 1);
 				transitioning = true;
 			}
 			var negaMult:Array<Int> = [1, -1];
