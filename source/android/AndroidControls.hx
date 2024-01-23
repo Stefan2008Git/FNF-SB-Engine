@@ -16,29 +16,29 @@ class Config {
 		save.bind("saved-controls");
 	}
 
-	public function getcontrolmode():Int {
-		if (save.data.buttonsmode != null) 
-			return save.data.buttonsmode[0];
+	public function getControlMode():Int {
+		if (save.data.buttonsMode != null) 
+			return save.data.buttonsMode[0];
 		return 0;
 	}
 
 	public function setcontrolmode(mode:Int = 0):Int {
-		if (save.data.buttonsmode == null) save.data.buttonsmode = new Array();
-		save.data.buttonsmode[0] = mode;
+		if (save.data.buttonsMode == null) save.data.buttonsMode = new Array();
+		save.data.buttonsMode[0] = mode;
 		save.flush();
-		return save.data.buttonsmode[0];
+		return save.data.buttonsMode[0];
 	}
 
-	public function savecustom(_pad:FlxVirtualPad) {
+	public function savecustom(virtualPadSaver:FlxVirtualPad) {
 		if (save.data.buttons == null)
 		{
 			save.data.buttons = new Array();
-			for (buttons in _pad){
+			for (buttons in virtualPadSaver){
 				save.data.buttons.push(FlxPoint.get(buttons.x, buttons.y));
 			}
 		}else{
 			var tempCount:Int = 0;
-			for (buttons in _pad){
+			for (buttons in virtualPadSaver){
 				save.data.buttons[tempCount] = FlxPoint.get(buttons.x, buttons.y);
 				tempCount++;
 			}
@@ -46,25 +46,25 @@ class Config {
 		save.flush();
 	}
 
-	public function loadcustom(_pad:FlxVirtualPad):FlxVirtualPad {
+	public function loadcustom(virtualPadSaver:FlxVirtualPad):FlxVirtualPad {
 		if (save.data.buttons == null) 
-			return _pad;
+			return virtualPadSaver;
 		var tempCount:Int = 0;
-		for(buttons in _pad){
+		for(buttons in virtualPadSaver){
 			buttons.x = save.data.buttons[tempCount].x;
 			buttons.y = save.data.buttons[tempCount].y;
 			tempCount++;
 		}	
-		return _pad;
+		return virtualPadSaver;
 	}
 }
 
 class AndroidControls extends FlxSpriteGroup {
 	public var mode:ControlsGroup = HITBOX;
 
-	public var hbox:FlxHitbox;
+	public var hitbox:FlxHitbox;
 	public var newHitbox:FlxNewHitbox;
-	public var virtualPads:FlxVirtualPad;
+	public var virtualPad:FlxVirtualPad;
 
 	var config:Config;
 
@@ -73,7 +73,7 @@ class AndroidControls extends FlxSpriteGroup {
 
 		config = new Config();
 
-		mode = getModeFromNumber(config.getcontrolmode());
+		mode = getModeFromNumber(config.getControlMode());
 
 		switch (mode){
 			case VIRTUALPAD_RIGHT:
@@ -94,30 +94,30 @@ class AndroidControls extends FlxSpriteGroup {
 		}
 	}
 
-	function initControler(virtualPadsMode:Int) {
-		switch (virtualPadsMode){
+	function initControler(virtualPadMode:Int) {
+		switch (virtualPadMode){
 			case 0:
-				virtualPads = new FlxVirtualPad(RIGHT_FULL, NONE, 0.75, ClientPrefs.data.antialiasing);	
-				add(virtualPads);						
+				virtualPad = new FlxVirtualPad(RIGHT_FULL, NONE, 0.75, ClientPrefs.data.antialiasing);	
+				add(virtualPad);						
 			case 1:
-				virtualPads = new FlxVirtualPad(FULL, NONE, 0.75, ClientPrefs.data.antialiasing);
-				add(virtualPads);			
+				virtualPad = new FlxVirtualPad(FULL, NONE, 0.75, ClientPrefs.data.antialiasing);
+				add(virtualPad);			
 			case 2:
-				virtualPads = new FlxVirtualPad(FULL, NONE, 0.75, ClientPrefs.data.antialiasing);
-				virtualPads = config.loadcustom(virtualPads);
-				add(virtualPads);	
+				virtualPad = new FlxVirtualPad(FULL, NONE, 0.75, ClientPrefs.data.antialiasing);
+				virtualPad = config.loadcustom(virtualPad);
+				add(virtualPad);	
 			case 3:
-				virtualPads = new FlxVirtualPad(DUO, NONE, 0.75, ClientPrefs.data.antialiasing);
-				add(virtualPads);		
+				virtualPad = new FlxVirtualPad(DUO, NONE, 0.75, ClientPrefs.data.antialiasing);
+				add(virtualPad);		
 			case 4:
-				hbox = new FlxHitbox(0.75, ClientPrefs.data.antialiasing);
-				add(hbox);
+				hitbox = new FlxHitbox(0.75, ClientPrefs.data.antialiasing);
+				add(hitbox);
 			case 5:
 			  newHitbox = new FlxNewHitbox();
 			  add(newHitbox);
 			default:
-				virtualPads = new FlxVirtualPad(RIGHT_FULL, NONE, 0.75, ClientPrefs.data.antialiasing);	
-				add(virtualPads);					
+				virtualPad = new FlxVirtualPad(RIGHT_FULL, NONE, 0.75, ClientPrefs.data.antialiasing);	
+				add(virtualPad);					
 		}
 	}
 

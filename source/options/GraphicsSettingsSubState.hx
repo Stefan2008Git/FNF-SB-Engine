@@ -45,7 +45,6 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 			'framerate',
 			'int');
 		addOption(option);
-
 		final refreshRate:Int = FlxG.stage.application.window.displayMode.refreshRate;
 		option.minValue = 60;
 		option.maxValue = 360; // The maximum frame rate to 360 i guess?

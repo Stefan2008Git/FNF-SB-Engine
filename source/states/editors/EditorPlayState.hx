@@ -151,9 +151,9 @@ class EditorPlayState extends MusicBeatSubstate
 		addAndroidControls();
 		#end
 
-		#if android
+		/* #if android
 		MusicBeatState.androidControls.visible = true;
-		#end
+		#end */ // What if disable this shit because of Null Object Refrence???
 	}
 
 	override function update(elapsed:Float)

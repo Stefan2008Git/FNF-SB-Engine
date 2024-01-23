@@ -43,9 +43,9 @@ class MusicBeatSubstate extends FlxSubState
 	inline function get_controls():Controls
 		return Controls.instance;
 		
-    	#if android
+    #if android
 	public static var virtualPad:FlxVirtualPad;
-	public static var androidc:AndroidControls;
+	public static var androidControls:AndroidControls;
 	//var trackedinputsUI:Array<FlxActionInput> = [];
 	//var trackedinputsNOTES:Array<FlxActionInput> = [];
 	#end
@@ -79,24 +79,24 @@ class MusicBeatSubstate extends FlxSubState
 	
 	#if android
 	public function addAndroidControls() {
-		androidc = new AndroidControls();
+		androidControls = new AndroidControls();
 		
         Controls.checkThePressedControl = true;
         
-		switch (androidc.mode)
+		switch (androidControls.mode)
 		{
 			case VIRTUALPAD_RIGHT | VIRTUALPAD_LEFT | VIRTUALPAD_CUSTOM:
-				//controls.setVirtualPadNOTES(androidc.virtualPads, FULL, NONE);
+				//controls.setVirtualPadNOTES(androidControls.virtualPads, FULL, NONE);
 				checkHitbox = false;
 				checkDUO = false;
 				Controls.checkTheKeyboard = false;
 			case DUO:
-				//controls.setVirtualPadNOTES(androidc.virtualPads, DUO, NONE);
+				//controls.setVirtualPadNOTES(androidControls.virtualPads, DUO, NONE);
 				checkHitbox = false;
 				checkDUO = true;
 				Controls.checkTheKeyboard = false;
 			case HITBOX:
-				//controls.setNewHitBox(androidc.newHitbox);
+				//controls.setNewHitBox(androidControls.newHitbox);
 				checkHitbox = true;
 				checkDUO = false;
 				Controls.checkTheKeyboard = false;
@@ -110,12 +110,12 @@ class MusicBeatSubstate extends FlxSubState
 		var camcontrol = new flixel.FlxCamera();
 		FlxG.cameras.add(camcontrol, false);
 		camcontrol.bgColor.alpha = 0;
-		androidc.cameras = [camcontrol];
+		androidControls.cameras = [camcontrol];
 
-		androidc.visible = false;
+		androidControls.visible = false;
 		
 
-		add(androidc);
+		add(androidControls);
 		Controls.checkTheControls = false;
 	}
 	#end

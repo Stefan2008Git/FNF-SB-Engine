@@ -38,7 +38,7 @@ class AndroidControlsMenu extends MusicBeatState
 		super.create();
 		
 		config = new Config();
-		currentlySelected = config.getcontrolmode();
+		currentlySelected = config.getControlMode();
 
 		var bg:FlxSprite = new FlxSprite(0, 0).loadGraphic(Paths.image('menuDesat'));
 		bg.color = 0xFFea71fd;
@@ -55,11 +55,7 @@ class AndroidControlsMenu extends MusicBeatState
 		virtualPads = new FlxVirtualPad(RIGHT_FULL, NONE, 0.75, ClientPrefs.data.antialiasing);
 		virtualPads.alpha = 0;
 		add(virtualPads);
-        /*
-		hbox = new FlxHitbox(0.75, ClientPrefs.data.antialiasing);
-		hbox.visible = false;
-		add(hbox);
-		*/
+        
 		newHitbox = new FlxNewHitbox();
 		newHitbox.visible = false;
 		add(newHitbox);
@@ -185,14 +181,11 @@ class AndroidControlsMenu extends MusicBeatState
 
 		if (daChoice != "Hitbox")
 		{
-			//hbox.visible = false;
 			newHitbox.visible = false;
 		}
 		else
 		{
-		    //hbox.visible = true;
 		    newHitbox.visible = true;
-		     
 		}
 
 		if (daChoice != "Pad-Custom")
