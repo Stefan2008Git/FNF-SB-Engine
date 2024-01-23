@@ -34,8 +34,8 @@ jobs:
           haxelib setup ~/haxelib
           haxelib --global update haxelib
           haxelib install hxcpp 4.2.1 > /dev/null
-          haxelib install hmmDeskotp --quiet
-          haxelib run hmmDesktop install
+          haxelib install hmm --quiet
+          haxelib run hmm install
       - name: Create Version Tag
         run: echo "${{github.run_id}}" > VERSION
       - name: Configure Linux
@@ -114,8 +114,8 @@ jobs:
           haxelib setup ~/haxelib
           haxelib --global update haxelib
           haxelib install hxcpp 4.2.1 > /dev/null
-          haxelib install hmmDesktop --quiet
-          haxelib run hmmDesktop install
+          haxelib install hmm --quiet
+          haxelib run hmm install
       - name: Create Version Tag
         run: echo "${{github.run_id}}" > VERSION
       - name: Configure Debugged Linux
@@ -189,8 +189,8 @@ jobs:
           haxelib setup C:/haxelib
           haxelib --global update haxelib
           haxelib install hxcpp 4.2.1 > /dev/null
-          haxelib install hmmDesktop --quiet
-          haxelib run hmmDesktop install
+          haxelib install hmm --quiet
+          haxelib run hmm install
         shell: cmd
       - name: Create Version Tag
         run: echo "${{github.run_id}}" > VERSION
@@ -266,8 +266,8 @@ jobs:
           haxelib setup C:/haxelib
           haxelib --global update haxelib
           haxelib install hxcpp 4.2.1 > /dev/null
-          haxelib install hmmDesktop --quiet
-          haxelib run hmmDesktop install
+          haxelib install hmm --quiet
+          haxelib run hmm install
         shell: cmd
       - name: Create Version Tag
         run: echo "${{github.run_id}}" > VERSION
@@ -343,8 +343,8 @@ jobs:
           haxelib setup ~/haxelib
           haxelib --global update haxelib
           haxelib install hxcpp 4.2.1 > /dev/null
-          haxelib install hmmDesktop --quiet
-          haxelib run hmmDesktop install
+          haxelib install hmm --quiet
+          haxelib run hmm install
       - name: Configure Mac
         run: |
           haxelib run lime setup -alias -y
@@ -360,6 +360,8 @@ jobs:
         env:
           cert_pass: nullfunni
           cert_alias_pass: nullfunni
+
+
       - name: Clear Previous Cache
         uses: actions/github-script@main
         with:
@@ -418,8 +420,8 @@ jobs:
           haxelib setup ~/haxelib
           haxelib --global update haxelib
           haxelib install hxcpp 4.2.1 > /dev/null
-          haxelib install hmmDesktop --quiet
-          haxelib run hmmDesktop install
+          haxelib install hmm --quiet
+          haxelib run hmm install
       - name: Configure Debugged Mac
         run: |
           haxelib run lime setup -alias -y
@@ -477,7 +479,7 @@ jobs:
       - name: Publish Artifact
         uses: actions/upload-artifact@v2.2.4
         with:
-          name: sbEngineDebuggedMacOSBuild
+          name: sbEngineDebugedMacOSBuild
           path: export/debug/macos/bin
   Android:
     name: Android
@@ -518,8 +520,23 @@ jobs:
         run: |
           haxelib setup ~/haxelib
           haxelib --global update haxelib
-          haxelib --quiet install hmmAndroid
-          haxelin run hmmAndroid install
+          haxelib --quiet install hxcpp 4.2.1 > /dev/null
+          haxelib --quiet install lime 8.0.2
+          haxelib --quiet install openfl 9.2.1
+          haxelib --quiet install flixel
+          haxelib --quiet run lime setup flixel
+          haxelib --quiet install flixel-tools
+          haxelib --quiet install flixel-ui
+          haxelib --quiet install flixel-addons
+          haxelib --quiet install tjson
+          haxelib --quiet install hxjsonast
+          haxelib --quiet install SScript 8.1.6
+          haxelib --quiet git hxCodec https://github.com/SPLCoding/hxCodec-but-it-works-xd.git
+          haxelib --quiet git linc_luajit https://github.com/superpowers04/linc_luajit.git
+          haxelib --quiet git extension-androidtools https://github.com/MaysLastPlay77/extension-androidtools.git
+          haxelib --quiet git AndroidDialogs https://github.com/beihu235/AndroidDialogs.git
+          haxelib --quiet git devicelanguage https://github.com/beihu235/devicelanguage.git
+
       - name: Create Version Tag
         run: echo "${{github.run_id}}" > VERSION
 
@@ -625,8 +642,23 @@ jobs:
         run: |
           haxelib setup ~/haxelib
           haxelib --global update haxelib
-          haxelib --quiet install hmmAndroid
-          haxelin run hmmAndroid install
+          haxelib --quiet install hxcpp 4.2.1 > /dev/null
+          haxelib --quiet install lime 8.0.2
+          haxelib --quiet install openfl 9.2.1
+          haxelib --quiet install flixel
+          haxelib --quiet run lime setup flixel
+          haxelib --quiet install flixel-tools
+          haxelib --quiet install flixel-ui
+          haxelib --quiet install flixel-addons
+          haxelib --quiet install tjson
+          haxelib --quiet install hxjsonast
+          haxelib --quiet install SScript 8.1.6
+          haxelib --quiet git hxCodec https://github.com/SPLCoding/hxCodec-but-it-works-xd.git
+          haxelib --quiet git linc_luajit https://github.com/superpowers04/linc_luajit.git
+          haxelib --quiet git extension-androidtools https://github.com/MaysLastPlay77/extension-androidtools.git
+          haxelib --quiet git AndroidDialogs https://github.com/beihu235/AndroidDialogs.git
+          haxelib --quiet git devicelanguage https://github.com/beihu235/devicelanguage.git
+
       - name: Create Version Tag
         run: echo "${{github.run_id}}" > VERSION
 
