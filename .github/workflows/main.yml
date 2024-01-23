@@ -34,7 +34,7 @@ jobs:
           haxelib setup ~/haxelib
           haxelib --global update haxelib
           haxelib install hxcpp 4.2.1 > /dev/null
-          haxelib install hmm --quiet
+          haxelib install hmmDeskotp --quiet
           haxelib run hmmDesktop install
       - name: Create Version Tag
         run: echo "${{github.run_id}}" > VERSION
@@ -114,7 +114,7 @@ jobs:
           haxelib setup ~/haxelib
           haxelib --global update haxelib
           haxelib install hxcpp 4.2.1 > /dev/null
-          haxelib install hmm --quiet
+          haxelib install hmmDesktop --quiet
           haxelib run hmmDesktop install
       - name: Create Version Tag
         run: echo "${{github.run_id}}" > VERSION
@@ -189,7 +189,7 @@ jobs:
           haxelib setup C:/haxelib
           haxelib --global update haxelib
           haxelib install hxcpp 4.2.1 > /dev/null
-          haxelib install hmm --quiet
+          haxelib install hmmDesktop --quiet
           haxelib run hmmDesktop install
         shell: cmd
       - name: Create Version Tag
@@ -266,7 +266,7 @@ jobs:
           haxelib setup C:/haxelib
           haxelib --global update haxelib
           haxelib install hxcpp 4.2.1 > /dev/null
-          haxelib install hmm --quiet
+          haxelib install hmmDesktop --quiet
           haxelib run hmmDesktop install
         shell: cmd
       - name: Create Version Tag
@@ -343,7 +343,7 @@ jobs:
           haxelib setup ~/haxelib
           haxelib --global update haxelib
           haxelib install hxcpp 4.2.1 > /dev/null
-          haxelib install hmm --quiet
+          haxelib install hmmDesktop --quiet
           haxelib run hmmDesktop install
       - name: Configure Mac
         run: |
@@ -418,7 +418,7 @@ jobs:
           haxelib setup ~/haxelib
           haxelib --global update haxelib
           haxelib install hxcpp 4.2.1 > /dev/null
-          haxelib install hmm --quiet
+          haxelib install hmmDesktop --quiet
           haxelib run hmmDesktop install
       - name: Configure Debugged Mac
         run: |
@@ -518,7 +518,7 @@ jobs:
         run: |
           haxelib setup ~/haxelib
           haxelib --global update haxelib
-          haxelib --quiet install hmm
+          haxelib --quiet install hmmAndroid
           haxelin run hmmAndroid install
       - name: Create Version Tag
         run: echo "${{github.run_id}}" > VERSION
@@ -625,7 +625,7 @@ jobs:
         run: |
           haxelib setup ~/haxelib
           haxelib --global update haxelib
-          haxelib --quiet install hmm
+          haxelib --quiet install hmmAndroid
           haxelin run hmmAndroid install
       - name: Create Version Tag
         run: echo "${{github.run_id}}" > VERSION
