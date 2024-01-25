@@ -44,6 +44,7 @@ import states.editors.CharacterEditorState;
 
 import substates.PauseSubState;
 import substates.GameOverSubstate;
+import substates.ResultsScreenSubstate;
 
 #if !flash 
 import flixel.addons.display.FlxRuntimeShader;
@@ -174,6 +175,25 @@ class PlayState extends MusicBeatState
 	public var smoothHealth:Float = 1;
 	public var combo:Int = 0;
 	public var maxCombo:Int = 0;
+
+	public static var rsNoteMs:Array<Float> = [];
+    public static var rsNoteTime:Array<Float> = [];
+    public static var rsSongLength:Float = 0;
+    
+    public static var resultsScreenSicks:Int = 0;
+	public static var resultsScreenGoods:Int = 0;
+	public static var resultsScreenBads:Int = 0;
+	public static var resultsScreenShits:Int = 0;
+	public static var resultsScreenMisses:Int = 0;
+	
+	public static var resultsScreenAcurracy:Float = 0;
+    public static var resultsScreenScore:Int = 0;
+	public static var resultsScreenHits:Int = 0;
+	public static var resultsScreenMaxCombo:Int = 0;
+	
+	public static var resultsScreenFullCombo:String = '';
+    public static var resultsScreenRatingName:String = '';
+    var resulsScreenCheck:Bool = false;
 
 	public var healthBar:HealthBar;
 	public var timeBar:HealthBar;
@@ -481,6 +501,9 @@ class PlayState extends MusicBeatState
 		GF_Y = stageData.girlfriend[1];
 		DAD_X = stageData.opponent[0];
 		DAD_Y = stageData.opponent[1];
+
+		rsNoteMs = [];
+		rsNoteTime = [];	
 
 		if(stageData.camera_speed != null)
 			cameraSpeed = stageData.camera_speed;
@@ -2734,7 +2757,7 @@ class PlayState extends MusicBeatState
 
 	public var isDead:Bool = false; //Don't mess with this on Lua!!!
 	function doDeathCheck(?skipHealthCheck:Bool = false) {
-		if (((skipHealthCheck && instakillOnMiss) || health <= 0) && !practiceMode && !isDead)
+		if (((skipHealthCheck && instakillOnMiss) || health <= 0) && !practiceMode && !isDead && !resulsScreenCheck)
 		{
 			var ret:Dynamic = callOnScripts('onGameOver', null, true);
 			if(ret != FunkinLua.Function_Stop) {
@@ -3209,10 +3232,34 @@ class PlayState extends MusicBeatState
 				if(FlxTransitionableState.skipNextTransIn) {
 					CustomFadeTransition.nextCamera = null;
 				}
+				if (ClientPrefs.data.resultsScreen) {
+					if (!cpuControlled) {
+						resultsScreenSicks = ratingsData[0].hits;
+	             		resultsScreenGoods = ratingsData[1].hits;
+	                	resultsScreenBads = ratingsData[2].hits;
+	                	resultsScreenShits = ratingsData[3].hits;
+						resultsScreenMaxCombo = maxCombo;
+	                
+	                	resultsScreenAcurracy = ratingPercent;
+	                	resultsScreenScore = songScore;
+	                	resultsScreenHits = songHits;
+	                	resultsScreenMisses = songMisses;
+	                
+	                	resultsScreenFullCombo = ratingFC;
+                    	resultsScreenRatingName = ratingName;
+                    	resulsScreenCheck = true;
+					}
+                    
+                    FlxG.sound.playMusic(Paths.music('breakfast'), 0.7);
+                    
+				    openSubState(new ResultsScreenSubstate(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
+				
+				} else {
 				Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Freeplay Menu (Closing the state)";
 				MusicBeatState.switchState(new FreeplayState());
 				FlxG.sound.playMusic(Paths.music('freakyMenu-' + ClientPrefs.data.mainMenuMusic));
 				changedDifficulty = false;
+				}
 			}
 			transitioning = true;
 		}
@@ -3769,6 +3816,10 @@ class PlayState extends MusicBeatState
 			}
 		}
 
+		if (!note.isSustainNote){
+		    rsNoteMs.push(167);
+		    rsNoteTime.push(note.strumTime);
+		}
 
 		if(instakillOnMiss)
 		{
@@ -3929,6 +3980,10 @@ class PlayState extends MusicBeatState
 				if(combo > 9999) combo = 9999;
 				popUpScore(note);
 				notesHitArray.push(Date.now());
+
+				var noteDiff:Float = (Conductor.songPosition - note.strumTime + ClientPrefs.data.ratingOffset) / playbackRate;
+				rsNoteMs.push((noteDiff));
+				rsNoteTime.push(note.strumTime);
 			}
 			
 			var gainHealth:Bool = true; // prevent health gain, *if* sustains are treated as a singular note

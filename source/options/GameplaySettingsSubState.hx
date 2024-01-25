@@ -232,6 +232,10 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			"If unchecked, hides rating popup.", 'ratingPopup', 'bool');
 		addOption(option);
 
+		var option:Option = new Option('Results screen',
+			"If checked, shows results screen.", 'resultsScreen', 'bool');
+		addOption(option);
+
 		var option:Option = new Option('Pause Screen Song:',
 			"What song do you prefer for the Pause Screen?",
 			'pauseMusic',

@@ -69,8 +69,8 @@ class MainMenuState extends MusicBeatState
 		FlxG.cameras.reset(camGame);
 		FlxG.cameras.setDefaultDrawTarget(camGame, true);
 
-		transIn = FlxTransitionableState.defaultTransIn;
-		transOut = FlxTransitionableState.defaultTransOut;
+		/* transIn = FlxTransitionableState.defaultTransIn;
+		transOut = FlxTransitionableState.defaultTransOut; */
 
 		persistentUpdate = persistentDraw = true;
 
@@ -93,7 +93,6 @@ class MainMenuState extends MusicBeatState
 		add(camFollow);
 
 		background = new FlxSprite(-80).loadGraphic(Paths.image('menuDesat'));
-		background.scrollFactor.set(0, yScroll);
 		background.setGraphicSize(Std.int(background.width * 1.175));
 		background.updateHitbox();
 		background.screenCenter();
@@ -148,11 +147,11 @@ class MainMenuState extends MusicBeatState
 			menuItem.ID = i;
 			menuItem.scale.x = 0.7;
 			menuItem.scale.y = 0.7;
+			menuItem.scrollFactor.set(0, yScroll);
 			FlxTween.tween(menuItem, {x: menuItem.width / 4 + (i * 60) - 75}, 1.3, {ease: FlxEase.sineInOut});
 			menuItems.add(menuItem);
 			var scr:Float = (optionSelect.length - 4) * 0.135;
 			if(optionSelect.length < 6) scr = 0;
-			menuItem.scrollFactor.set(0, yScroll);
 			menuItem.antialiasing = ClientPrefs.data.antialiasing;
 			menuItem.updateHitbox();
             if (firstStart)
@@ -171,8 +170,6 @@ class MainMenuState extends MusicBeatState
 
 		FlxG.camera.follow(camFollow, null, 0);
 
-		FlxTween.tween(camGame, {zoom: 1}, 1.1, {ease: FlxEase.expoInOut});
-		FlxTween.tween(background, {angle: 0}, 1, {ease: FlxEase.quartInOut});
 		FlxTween.tween(mainSide, {x: -80}, 0.9, {ease: FlxEase.quartInOut});
 		FlxTween.tween(sbEngineLogo, {x: 725}, 0.9, {ease: FlxEase.quartInOut});
 		FlxTween.angle(sbEngineLogo, sbEngineLogo.angle, -10, 2, {ease: FlxEase.quartInOut});
@@ -183,13 +180,13 @@ class MainMenuState extends MusicBeatState
 				FlxTween.angle(sbEngineLogo, sbEngineLogo.angle, -10, 2, {ease: FlxEase.quartInOut});
 		}, 0);
 
-		versionSb = new FlxText(12, FlxG.height - 64, 0, "SB Engine v" + sbEngineVersion + " (Modified Psych Engine)" #if debug + " Debug build" #end, 16);
-		versionPsych = new FlxText(12, FlxG.height - 44, 0, "Psych Engine v" + psychEngineVersion, 16);
-		versionFnf = new FlxText(12, FlxG.height - 24, 0, "Friday Night Funkin' v" + fnfEngineVersion, 16);
+		versionSb = new FlxText(12, FlxG.height - 64, 0, "SB Engine v" + sbEngineVersion + " (Modified Psych Engine)" #if debug + " (Running currently on Debug build) " #end, 16);
+		versionPsych = new FlxText(12, FlxG.height - 44, 0, "Psych Engine v" + psychEngineVersion #if debug + " (Running currently on Debug build) " #end, 16);
+		versionFnf = new FlxText(12, FlxG.height - 24, 0, "Friday Night Funkin' v" + fnfEngineVersion #if debug + " (Running currently on Debug build) " #end, 16);
 		secretText1 = new FlxText(515, FlxG.height - 24, 0, "Press S For the secret screen!", 16);
 		#if android secretText1.text = "Press BACK On your navigation bar for the secret screen!"; #end
 		switch (ClientPrefs.data.gameStyle) {
-			case 'Psych Engine' | 'Kade Engine':
+			case 'Psych Engine' | 'Kade Engine' | 'Cheeky':
 				versionSb.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 				versionPsych.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 				versionFnf.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -223,8 +220,6 @@ class MainMenuState extends MusicBeatState
 		add(secretText1);
 
 		if (ClientPrefs.data.cacheOnGPU) Paths.clearUnusedMemory();
-
-		// NG.core.calls.event.logEvent('swag').send();
 
 		changeItem();
 
@@ -314,6 +309,42 @@ class MainMenuState extends MusicBeatState
 		});
 	}
 
+	var zoomTween:FlxTween;
+	var lastBeatHit:Int = -1;
+	override public function beatHit()
+	{
+		super.beatHit();
+
+		if(lastBeatHit == curBeat)
+		{
+			return;
+		}
+
+		if(curBeat % 4 == 2)
+		{
+			FlxG.camera.zoom = 1.15;
+
+			if(zoomTween != null) zoomTween.cancel();
+			switch (ClientPrefs.data.gameStyle) {
+				case 'SB Engine' | 'Psych Engine' | 'TGT Engine' | 'Kade Engine':
+					zoomTween = FlxTween.tween(FlxG.camera, {zoom: 1}, 1, {ease: FlxEase.sineInOut, onComplete: function(twn:FlxTween)
+					{
+						zoomTween = null;
+					}
+				});
+			
+				case 'Cheeky':
+					zoomTween = FlxTween.tween(FlxG.camera, {zoom: 1.05}, 0.3, {ease: FlxEase.quadOut, type: BACKWARD, onComplete: function(twn:FlxTween)
+						{
+							zoomTween = null;
+						}
+				});
+			}
+		}
+
+		lastBeatHit = curBeat;
+	}
+
 	function changeItem(huh:Int = 0, bool:Bool = true)
 	{
 		if (finishedFunnyMove) {
@@ -351,35 +382,24 @@ class MainMenuState extends MusicBeatState
 				FlxFlicker.flicker(background, 1.1, 0.15, false);
 
 			menuItems.forEach(function(spr:FlxSprite)
+			{
+				if (currentlySelected == spr.ID)
 				{
-					if (currentlySelected == spr.ID)
-						{
-							FlxTween.tween(spr, {x : 700}, 1.5, {ease: FlxEase.quadOut,});	
-							FlxTween.tween(mainSide, {x:  -700}, 0.45, {ease: FlxEase.cubeInOut, type: ONESHOT, startDelay: 0});
-							FlxTween.tween(sbEngineLogo, {x:  1500}, 0.45, {ease: FlxEase.cubeInOut, type: ONESHOT, startDelay: 0});				
-						}
-					if (currentlySelected != spr.ID)
-						{
-							FlxTween.tween(spr, {alpha: 0}, 0.4, {
-								ease: FlxEase.quadOut,
-								
-							});
-							FlxTween.tween(sbEngineLogo, {alpha: 0}, 0.4, {
-								ease: FlxEase.quadOut,
-							});
-							FlxTween.tween(mainSide, {alpha: 0}, 0.4, {
-								ease: FlxEase.quadOut,
-							});
-							FlxTween.tween(spr, {x : -500}, 0.55, {
-								ease: FlxEase.quadOut,
-								onComplete: function(twn:FlxTween)
-								{
-									spr.kill();
-								}
-							});					
-						}
-					else
+					FlxTween.tween(spr, {y : 700}, 1.5, {ease: FlxEase.sineInOut,});	
+					FlxTween.tween(mainSide, {x:  -700}, 0.45, {ease: FlxEase.sineInOut, type: ONESHOT, startDelay: 0});
+					FlxTween.tween(sbEngineLogo, {x:  1500}, 0.45, {ease: FlxEase.sineInOut, type: ONESHOT, startDelay: 0});				
+				}
+				if (currentlySelected != spr.ID)
+				{
+					FlxTween.tween(spr, {alpha: 0}, 0.4, {ease: FlxEase.sineInOut,});
+					FlxTween.tween(sbEngineLogo, {alpha: 0}, 0.4, {ease: FlxEase.sineInOut,});
+					FlxTween.tween(mainSide, {alpha: 0}, 0.4, {ease: FlxEase.sineInOut,});
+					FlxTween.tween(spr, {x : -500}, 0.55, {ease: FlxEase.sineInOut, onComplete: function(twn:FlxTween)
 					{
+						spr.kill();
+					}
+				});					
+			} else {
 				FlxFlicker.flicker(spr, 1, 0.06, false, false, function(flick:FlxFlicker)
 				{
 					var daChoice:String = optionSelect[currentlySelected];
@@ -411,7 +431,7 @@ class MainMenuState extends MusicBeatState
 	
 	function backgroundColorClickChanger()
 	{
-		if(clickCount > 1)
+		if(clickCount > 5)
 			clickCount = 0;
 			
 		switch(clickCount)
@@ -420,9 +440,17 @@ class MainMenuState extends MusicBeatState
 				colorTag = FlxColor.PURPLE;
 			case 1:
 				colorTag = FlxColor.ORANGE;
+			case 2:
+				colorTag = FlxColor.GREEN;
+			case 3:
+				colorTag = FlxColor.BLUE;
+			case 4:
+				colorTag = FlxColor.BROWN;
+			case 5:
+				colorTag = FlxColor.CYAN;
 		}
 
-		FlxTween.color(menuBackground, 1, colorTag, 0xfffde871, {ease: FlxEase.sineInOut});
+		FlxTween.color(menuBackground, 1.3, colorTag, 0xfffde871, {ease: FlxEase.sineInOut});
 		clickCount++;	
 	}
 }

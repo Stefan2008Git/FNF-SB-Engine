@@ -32,16 +32,21 @@ class NoSecretScreen1Substate extends MusicBeatSubstate
         warningText1.alpha = 0;
         FlxTween.tween(warningText1, {alpha: 0.6}, 0.4, {ease: FlxEase.quartInOut});
         add(warningText1);
-
-        #if android
-        addVirtualPad(NONE, B);
-        addPadCamera();
-        #end
     }
 
     override function update(elapsed:Float)
     {
-        if (FlxG.keys.justPressed.ESCAPE #if android || MusicBeatState.virtualPad.buttonB.justPressed #end) {
+        #if android
+		var pressedTheTouchScreen:Bool = false;
+
+		for (touch in FlxG.touches.list) {
+			if (touch.justPressed) {
+				pressedTheTouchScreen = true;
+			}
+		}
+		#end
+
+        if (FlxG.keys.justPressed.ESCAPE #if android || pressedTheTouchScreen #end) {
             Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion;
             FlxG.sound.play(Paths.sound('cancelMenu'), 1);
             close();

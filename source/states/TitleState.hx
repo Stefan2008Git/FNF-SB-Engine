@@ -250,8 +250,8 @@ class TitleState extends MusicBeatState {
 		psychSpr = new FlxSprite(0, FlxG.height * 0.52).loadGraphic(Paths.image('peLogo'));
 		add(psychSpr);
 		psychSpr.visible = false;
-		psychSpr.scale.x = 1;
-		psychSpr.scale.y = 1;
+		psychSpr.scale.x = 0.5;
+		psychSpr.scale.y = 0.5;
 		psychSpr.updateHitbox();
 		psychSpr.screenCenter(X);
 		psychSpr.antialiasing = ClientPrefs.data.antialiasing;
@@ -532,6 +532,7 @@ class TitleState extends MusicBeatState {
 	function skipIntro():Void {
 		if (!skippedIntro) {
 			{
+				remove(psychSpr);
 				remove(credGroup);
 				FlxG.camera.flash(FlxColor.WHITE, 4);
 				if (ClientPrefs.data.objects) {
