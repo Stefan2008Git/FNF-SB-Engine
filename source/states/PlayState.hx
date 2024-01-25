@@ -336,7 +336,7 @@ class PlayState extends MusicBeatState
 				['Perfect!!', 1] //The value on this one isn't used actually, since Perfect is always "1"
 			];
 
-			case 'Kade Engine' | 'Checky Engine': [
+			case 'Kade Engine' | 'Cheeky': [
 				['F', 0.2], //From 0% to 19%
 				['D', 0.4], //From 20% to 39%
 				['C', 0.5], //From 40% to 49%
@@ -403,7 +403,7 @@ class PlayState extends MusicBeatState
 		kadeEngineIconBounce = (ClientPrefs.data.iconBounce && ClientPrefs.data.gameStyle == 'Kade Engine');
 		tgtEngineIconBounce = (ClientPrefs.data.iconBounce && ClientPrefs.data.gameStyle == 'TGT Engine');
 		daveAndBambiIconBounce = (ClientPrefs.data.iconBounce && ClientPrefs.data.gameStyle == 'Dave and Bambi');
-		checkyEngineIconBounce = (ClientPrefs.data.iconBounce && ClientPrefs.data.gameStyle == 'Checky Engine');
+		checkyEngineIconBounce = (ClientPrefs.data.iconBounce && ClientPrefs.data.gameStyle == 'Cheeky');
 		notesCanMoveCamera = (ClientPrefs.data.cameraMovement);
 
 		// var gameCam:FlxCamera = FlxG.camera;
@@ -615,21 +615,21 @@ class PlayState extends MusicBeatState
 				timeTxt.setFormat(Paths.font("calibri.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 				timeTxt.borderSize = 2;
 			
-			case 'Checky Engine':
+			case 'Cheeky':
 				timeTxt.setFormat(Paths.font("vcr.ttf"), 42, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 				timeTxt.borderSize = 1.25;
 		}
 		timeTxt.scrollFactor.set();
-		if (!ClientPrefs.data.timeBar && ClientPrefs.data.gameStyle == 'Checky Engine') {
+		if (!ClientPrefs.data.timeBar && ClientPrefs.data.gameStyle == 'Cheeky') {
 			timeTxt.alpha = 1;
 		} else if (ClientPrefs.data.gameStyle == 'SB Engine' || ClientPrefs.data.gameStyle == 'Psych Engine' || ClientPrefs.data.gameStyle == 'TGT Engine' || ClientPrefs.data.gameStyle == 'Kade Engine' || ClientPrefs.data.gameStyle == 'Dave and Bambi') {
 			timeTxt.alpha = 0;
 		}
 		timeTxt.visible = updateTime = showTime;
-		if (ClientPrefs.data.timeBarType == 'Song Name + Time' && ClientPrefs.data.gameStyle == 'Checky Engine') timeTxt.text = SONG.song + " [0:00]";
-		if (ClientPrefs.data.timeBarType == 'Song Name + Time Elapsed' && ClientPrefs.data.gameStyle == 'Checky Engine') timeTxt.text = SONG.song + " [0:00]";
-		if (ClientPrefs.data.timeBarType == 'Modern Time' && ClientPrefs.data.gameStyle == 'Checky Engine') timeTxt.text = "0:00 / 0:00";
-		if (ClientPrefs.data.timeBarType == 'Modern Time Elapsed' && ClientPrefs.data.gameStyle == 'Checky Engine') timeTxt.text = "0:00 / 0:00";
+		if (ClientPrefs.data.timeBarType == 'Song Name + Time' && ClientPrefs.data.gameStyle == 'Cheeky') timeTxt.text = SONG.song + " [0:00]";
+		if (ClientPrefs.data.timeBarType == 'Song Name + Time Elapsed' && ClientPrefs.data.gameStyle == 'Cheeky') timeTxt.text = SONG.song + " [0:00]";
+		if (ClientPrefs.data.timeBarType == 'Modern Time' && ClientPrefs.data.gameStyle == 'Cheeky') timeTxt.text = "0:00 / 0:00";
+		if (ClientPrefs.data.timeBarType == 'Modern Time Elapsed' && ClientPrefs.data.gameStyle == 'Cheeky') timeTxt.text = "0:00 / 0:00";
 		if(ClientPrefs.data.downScroll) timeTxt.y = FlxG.height - 44;
 		if(ClientPrefs.data.timeBarType == 'Song Name') timeTxt.text = SONG.song;
 
@@ -637,13 +637,13 @@ class PlayState extends MusicBeatState
 			case 'Psych Engine' | 'TGT Engine':
 				timeBar = new HealthBar(0, timeTxt.y + (timeTxt.height / 4), 'timeBar', function() return songPercent, 0, 1);
 			
-			case 'SB Engine' | 'Kade Engine' | 'Checky Engine' | 'Dave and Bambi':
+			case 'SB Engine' | 'Kade Engine' | 'Cheeky' | 'Dave and Bambi':
 				timeBar = new HealthBar(0, timeTxt.y + (timeTxt.height / 4), 'healthBar', function() return songPercent, 0, 1);
 		}
 		timeBar.scrollFactor.set();
 		timeBar.screenCenter(X);
 		switch (ClientPrefs.data.gameStyle) {
-			case 'SB Engine' | 'Psych Engine' | 'TGT Engine' | 'Checky Engine':
+			case 'SB Engine' | 'Psych Engine' | 'TGT Engine' | 'Cheeky':
 				timeBar.alpha = 0;
 			
 			case 'Kade Engine' | 'Dave and Bambi':
@@ -748,7 +748,7 @@ class PlayState extends MusicBeatState
 				scoreTxt.setFormat(Paths.font("calibri.ttf"), 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 				scoreTxt.borderSize = 1.25;
 			
-			case 'Checky Engine':
+			case 'Cheeky':
 				scoreTxt.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 				scoreTxt.borderSize = 1.25;
 		}
@@ -785,7 +785,7 @@ class PlayState extends MusicBeatState
 				botplayTxt.borderSize = 1.25;
 				botplayTxt.text = "[BUTTPLUG]";
 			
-			case 'Checky Engine':
+			case 'Cheeky':
 				botplayTxt.setFormat(Paths.font("vcr.ttf"), 42, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		}
 		botplayTxt.text = "BOTPLAY";
@@ -803,7 +803,7 @@ class PlayState extends MusicBeatState
 				judgementCounterTxt.borderSize = 2.35;
 				judgementCounterTxt.borderQuality = 2.38;
 
-			case 'Psych Engine' | 'Kade Engine' | 'Checky Engine':
+			case 'Psych Engine' | 'Kade Engine' | 'Cheeky':
 				judgementCounterTxt.setFormat(Paths.font("vcr.ttf"), 23, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 				judgementCounterTxt.borderSize = 2;
 				judgementCounterTxt.borderQuality = 2;
@@ -889,7 +889,7 @@ class PlayState extends MusicBeatState
 					engineVersionTxt.setFormat(Paths.font("calibri.ttf"), 15, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 					engineVersionTxt.borderSize = 1.25;
 				
-				case 'Checky Engine':
+				case 'Cheeky':
 					engineVersionTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 			}
 		    engineVersionTxt.scrollFactor.set();
@@ -922,7 +922,7 @@ class PlayState extends MusicBeatState
 					songAndDifficultyNameTxt.setFormat(Paths.font("calibri.ttf"), 15, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 					songAndDifficultyNameTxt.borderSize = 1.25;
 				
-				case 'Checky Engine':
+				case 'Cheeky':
 					engineVersionTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 			}
 		    songAndDifficultyNameTxt.scrollFactor.set();
@@ -954,7 +954,7 @@ class PlayState extends MusicBeatState
 					engineVersionTxt.setFormat(Paths.font("calibri.ttf"), 15, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 					engineVersionTxt.borderSize = 1.25;
 				
-				case 'Checky Engine':
+				case 'Cheeky':
 					engineVersionTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 			}
 		    engineVersionTxt.scrollFactor.set();
@@ -987,7 +987,7 @@ class PlayState extends MusicBeatState
 					songAndDifficultyNameTxt.setFormat(Paths.font("calibri.ttf"), 15, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 					songAndDifficultyNameTxt.borderSize = 1.25;
 				
-				case 'Checky Engine':
+				case 'Cheeky':
 					engineVersionTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 			}
 		    songAndDifficultyNameTxt.scrollFactor.set();
@@ -1022,7 +1022,7 @@ class PlayState extends MusicBeatState
 					songAndDifficultyNameTxt.y = 150;
 				}
 			
-			case 'Psych Engine' | 'TGT Engine' | 'Checky Engine':
+			case 'Psych Engine' | 'TGT Engine' | 'Cheeky':
 				if (ClientPrefs.data.downScroll && ClientPrefs.data.watermarkStyle == 'SB Engine') {
 					engineVersionTxt.y = 140;
 					songAndDifficultyNameTxt.y = 160;
@@ -1219,7 +1219,7 @@ class PlayState extends MusicBeatState
 			} else if (ClientPrefs.data.gameStyle == 'Psych Engine' || ClientPrefs.data.gameStyle == 'TGT Engine') {
 				timeBar.leftBar.color = (FlxColor.fromRGB(dad.healthColorArray[0], dad.healthColorArray[1], dad.healthColorArray[2]));
 				timeBar.rightBar.color = FlxColor.BLACK;
-			} else if (ClientPrefs.data.gameStyle == 'Kade Engine' || ClientPrefs.data.gameStyle == 'Dave and Bambi' || ClientPrefs.data.gameStyle == 'Checky Engine') {
+			} else if (ClientPrefs.data.gameStyle == 'Kade Engine' || ClientPrefs.data.gameStyle == 'Dave and Bambi' || ClientPrefs.data.gameStyle == 'Cheeky') {
 				timeBar.leftBar.color = (FlxColor.fromRGB(dad.healthColorArray[0], dad.healthColorArray[1], dad.healthColorArray[2]));
 				timeBar.rightBar.color = FlxColor.GRAY;
 		}
@@ -1230,7 +1230,7 @@ class PlayState extends MusicBeatState
 		} else if (ClientPrefs.data.gameStyle == 'Psych Engine' || ClientPrefs.data.gameStyle == 'TGT Engine') {
 			timeBar.leftBar.color = FlxColor.WHITE;
 			timeBar.rightBar.color = FlxColor.BLACK;
-		} else if (ClientPrefs.data.gameStyle == 'Kade Engine' || ClientPrefs.data.gameStyle == 'Dave and Bambi' || ClientPrefs.data.gameStyle == 'Checky Engine') {
+		} else if (ClientPrefs.data.gameStyle == 'Kade Engine' || ClientPrefs.data.gameStyle == 'Dave and Bambi' || ClientPrefs.data.gameStyle == 'Cheeky') {
 			timeBar.leftBar.color = FlxColor.LIME;
 			timeBar.rightBar.color = FlxColor.GRAY;
 		}
@@ -1576,7 +1576,7 @@ class PlayState extends MusicBeatState
 			return false;
 		}
 
-		if (ClientPrefs.data.gameStyle == 'Checky Engine') {
+		if (ClientPrefs.data.gameStyle == 'Cheeky') {
 			FlxTween.tween(timeBar, {alpha: 1}, 1, {ease: FlxEase.cubeInOut});
 			FlxTween.tween(timeBar, {y: timeBar.y + -10}, 1.5, {ease: FlxEase.backInOut});
 			FlxTween.tween(timeTxt, {alpha: 1}, 1, {ease: FlxEase.cubeInOut});
@@ -1778,7 +1778,7 @@ class PlayState extends MusicBeatState
 			case 'Dave and Bambi':
 				scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Accurarcy: ' + CoolUtil.floorDecimal(ratingPercent * 100, 2) + '%';
 			
-			case 'Checky Engine':
+			case 'Cheeky':
 				scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Accurarcy: ' + CoolUtil.floorDecimal(ratingPercent * 100, 2) + '%' + ' | ' + ratingName + ' [' + ratingFC + ']';
 		}
 		if (!cpuControlled) {
@@ -2108,15 +2108,16 @@ class PlayState extends MusicBeatState
 			babyArrow.downScroll = ClientPrefs.data.downScroll;
 			if (!isStoryMode && !skipArrowStartTween)
 			{
-				if (ClientPrefs.data.gameStyle == 'Checky Engine') {
+				if (ClientPrefs.data.gameStyle == 'Cheeky') {
 					babyArrow.y -= 115;
 					FlxTween.tween(babyArrow, {y: babyArrow.y + 115}, 1, {ease: FlxEase.backInOut});
 				}
-				else
-				//babyArrow.y -= 10;
-				babyArrow.alpha = 0;
-				FlxTween.tween(babyArrow, {/*y: babyArrow.y + 10,*/ alpha: targetAlpha}, 1, {ease: FlxEase.circOut, startDelay: 0.5 + (0.2 * i)});
-				babyArrow.alpha = targetAlpha;
+				else if (ClientPrefs.data.gameStyle == 'Psych Engine' || ClientPrefs.data.gameStyle == 'TGT Engine' || ClientPrefs.data.gameStyle == 'Kade Engine' || ClientPrefs.data.gameStyle == 'Dave and Bambi') {
+					//babyArrow.y -= 10;
+					babyArrow.alpha = 0;
+					FlxTween.tween(babyArrow, {/*y: babyArrow.y + 10,*/ alpha: targetAlpha}, 1, {ease: FlxEase.circOut, startDelay: 0.5 + (0.2 * i)});
+					babyArrow.alpha = targetAlpha;
+				}
 			}
 
 			if (player == 1)
@@ -2135,13 +2136,13 @@ class PlayState extends MusicBeatState
 
 			strumLineNotes.add(babyArrow);
 			babyArrow.postAddedToGroup();
-			if (ClientPrefs.data.gameStyle == 'SB Engine') spinnyNotes(babyArrow);
+			if (ClientPrefs.data.gameStyle == 'SB Engine') stefansArrowStartsTween(babyArrow);
 		}
 	}
 
-	public function spinnyNotes(spriteName) {
+	public function stefansArrowStartsTween(spriteName) {
 
-		FlxTween.angle(spriteName, 0, 360, 1.3, {type: FlxTween.ONESHOT, ease: FlxEase.sineInOut, startDelay: 0, loopDelay: 0});
+		// FlxTween.angle(spriteName, 0, 360, 1.3, {type: FlxTween.ONESHOT, ease: FlxEase.sineInOut, startDelay: 0, loopDelay: 0});
 
 		if(!ClientPrefs.data.middleScroll)
 		{
@@ -2167,10 +2168,13 @@ class PlayState extends MusicBeatState
 
 				if(i > 3)
 				FlxTween.tween(spriteName, {x: -70 + (120 * i)}, 1.3, {ease: FlxEase.sineInOut, startDelay: 0.5 + (0.2 * i)});
-
 			}
 		}
-		}
+	}
+
+	/* public static function startArrowTweenStart(object){
+		
+	}*/ //Nothing :/.
 
 	override function openSubState(SubState:FlxSubState)
 	{
@@ -2440,7 +2444,7 @@ class PlayState extends MusicBeatState
 					case 'SB Engine':
 						timeTxt.text += " [Autoplay]";
 					
-					case 'Psych Engine' | 'TGT Engine' | 'Kade Engine' | 'Dave and Bambi' | 'Checky Engine':
+					case 'Psych Engine' | 'TGT Engine' | 'Kade Engine' | 'Dave and Bambi' | 'Cheeky':
 						timeTxt.text += " BOTPLAY";
 				}
 		}
@@ -3372,7 +3376,7 @@ class PlayState extends MusicBeatState
 			case 'SB Engine':
 				msTxt.setFormat(Paths.font('bahnschrift.ttf'));
 			
-			case 'Psych Engine' | 'Kade Engine' | 'Checky Engine':
+			case 'Psych Engine' | 'Kade Engine' | 'Cheeky':
 				msTxt.setFormat(Paths.font('vcr.ttf'));
 			
 			case 'TGT Engine':
@@ -4211,7 +4215,7 @@ class PlayState extends MusicBeatState
 		if (scoreTxtTween != null) {
 			scoreTxtTween.cancel();
 		}
-		if (ClientPrefs.data.gameStyle == 'Checky Engine') {
+		if (ClientPrefs.data.gameStyle == 'Cheeky') {
 			scoreTxtTween = FlxTween.tween(scoreTxt.scale, {x: 1.15, y: 1.15}, 0.3, {ease: FlxEase.quadOut, type: BACKWARD});
 		} else {
 			scoreTxt.scale.x = 1.075;
@@ -4473,7 +4477,7 @@ class PlayState extends MusicBeatState
 				case 'Psych Engine' | 'TGT Engine' | 'Dave and Bambi':
 					ratingName = '?';
 				
-				case 'Kade Engine' | 'Checky Engine':
+				case 'Kade Engine' | 'Cheeky':
 					ratingName = 'N/A';
 			}
 			if(totalPlayed != 0) //Prevent divide by 0
@@ -4540,7 +4544,7 @@ class PlayState extends MusicBeatState
 					else if (songMisses < 10)
 						ratingFC = 'SDCB';
 			
-			case 'Kade Engine' | 'Checky Engine':
+			case 'Kade Engine' | 'Cheeky':
 				ratingFC = '(Clear)';
 					if(songMisses < 1)
 					{

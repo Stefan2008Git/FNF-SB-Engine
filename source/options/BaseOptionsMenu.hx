@@ -76,7 +76,7 @@ class BaseOptionsMenu extends MusicBeatSubstate
 
 		descText = new FlxText(50, 600, 1180, "", 32);
 		switch (ClientPrefs.data.gameStyle) {
-			case 'Psych Engine' | 'Kade Engine' | 'Checky Engine':
+			case 'Psych Engine' | 'Kade Engine' | 'Cheeky':
 				descText.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 			
 			case 'Dave and Bambi':

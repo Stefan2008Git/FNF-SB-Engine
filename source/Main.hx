@@ -106,6 +106,7 @@ class Main extends Sprite
 		#if LUA_ALLOWED Lua.set_callbacks_function(cpp.Callable.fromStaticFunction(psychlua.CallbackHandler.call)); #end
 		Controls.instance = new Controls();
 		ClientPrefs.loadDefaultKeys();
+		// Highscore.load(); Failed because of Null Object Refrence :(...
 	
 		#if mobile
 		addChild(new FlxGame(1280, 720, TitleState, 60, 60, true, false));

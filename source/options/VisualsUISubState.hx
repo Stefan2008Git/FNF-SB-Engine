@@ -80,12 +80,16 @@ class VisualsUISubState extends BaseOptionsMenu
 		    'If unchecked, this option is disabling velocity background for optimization.', 'velocityBackground', 'bool');
 		addOption(option);
 
+		/*var option:Option = new Option('Skip the Custom fade transition', 
+		    'If checked, skips the custom fade transition.', 'skipFadeTransition', 'bool');
+		addOption(option);*/
+
 		var option:Option = new Option('Themes:', 
 			'Change theme from different engines. More themes are coming very soon', 'themes', 'string', ['SB Engine', 'Psych Engine']);
 		addOption(option);
 
 		var option:Option = new Option('FNF Engine type:', 
-			'Change FNF Game engine type style and font plus', 'gameStyle', 'string', ['SB Engine', 'Psych Engine', 'Kade Engine', 'TGT Engine', 'Dave and Bambi', 'Checky Engine']);
+			'Change FNF Game engine type style and font plus', 'gameStyle', 'string', ['SB Engine', 'Psych Engine', 'Kade Engine', 'TGT Engine', 'Dave and Bambi', 'Cheeky']);
 		addOption(option);
 
 		var option:Option = new Option('Main Menu Song:',

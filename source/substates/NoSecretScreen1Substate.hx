@@ -41,7 +41,7 @@ class NoSecretScreen1Substate extends MusicBeatSubstate
 
     override function update(elapsed:Float)
     {
-        if (controls.BACK) {
+        if (FlxG.keys.justPressed.ESCAPE #if android || MusicBeatState.virtualPad.buttonB.justPressed #end) {
             Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion;
             FlxG.sound.play(Paths.sound('cancelMenu'), 1);
             close();

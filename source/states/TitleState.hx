@@ -85,6 +85,7 @@ class TitleState extends MusicBeatState {
 		FlxG.save.bind('funkin', CoolUtil.getSavePath());
 
 		ClientPrefs.loadPrefs();
+		Highscore.load();
 
 		// IGNORE THIS!!!
 		titleJSON = Json.parse(Paths.getTextFromFile('images/gfDanceTitle.json'));
@@ -316,6 +317,8 @@ class TitleState extends MusicBeatState {
 			}
 		}
 		#end
+
+		if (controls.FULL_SCREEN) FlxG.fullscreen = !FlxG.fullscreen;
 
 		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
 

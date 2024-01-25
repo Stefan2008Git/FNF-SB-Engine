@@ -43,6 +43,7 @@ class Controls
 	public var NOTE_LEFT_P(get, never):Bool;
 	public var NOTE_RIGHT_P(get, never):Bool;
 	public var SPACE_P(get, never):Bool;
+	public var FULL_SCREEN_P(get, never):Bool;
 	private function get_UI_UP_P() return justPressed('ui_up');
 	private function get_UI_DOWN_P() return justPressed('ui_down');
 	private function get_UI_LEFT_P() return justPressed('ui_left');
@@ -52,6 +53,7 @@ class Controls
 	private function get_NOTE_LEFT_P() return justPressed('note_left');
 	private function get_NOTE_RIGHT_P() return justPressed('note_right');
     private function get_SPACE_P() return justPressed('space');
+	private function get_FULL_SCREEN_P() return justPressed('full_screen');
     
 	// Held buttons (directions)
 	public var UI_UP(get, never):Bool;
@@ -63,6 +65,7 @@ class Controls
 	public var NOTE_LEFT(get, never):Bool;
 	public var NOTE_RIGHT(get, never):Bool;
 	public var SPACE(get, never):Bool;
+	public var FULL_SCREEN(get, never):Bool;
 	private function get_UI_UP() return pressed('ui_up');
 	private function get_UI_DOWN() return pressed('ui_down');
 	private function get_UI_LEFT() return pressed('ui_left');
@@ -72,6 +75,7 @@ class Controls
 	private function get_NOTE_LEFT() return pressed('note_left');
 	private function get_NOTE_RIGHT() return pressed('note_right');
     private function get_SPACE() return pressed('space');
+	private function get_FULL_SCREEN() return pressed('full_screen');
     
 	// Released buttons (directions)
 	public var UI_UP_R(get, never):Bool;
@@ -83,6 +87,7 @@ class Controls
 	public var NOTE_LEFT_R(get, never):Bool;
 	public var NOTE_RIGHT_R(get, never):Bool;
 	public var SPACE_R(get, never):Bool;
+	public var FULL_SCREEN_R(get, never):Bool;
 	private function get_UI_UP_R() return justReleased('ui_up');
 	private function get_UI_DOWN_R() return justReleased('ui_down');
 	private function get_UI_LEFT_R() return justReleased('ui_left');
@@ -92,7 +97,7 @@ class Controls
 	private function get_NOTE_LEFT_R() return justReleased('note_left');
 	private function get_NOTE_RIGHT_R() return justReleased('note_right');
 	private function get_SPACE_R() return justReleased('space');
-
+	private function get_FULL_SCREEN_R() return justReleased('full_screen');
 
 	// Pressed buttons (others)
 	public var ACCEPT(get, never):Bool;

@@ -60,7 +60,7 @@ class HealthIcon extends FlxSprite
 			else
 				antialiasing = ClientPrefs.data.antialiasing;
 		}
-		if (ClientPrefs.data.gameStyle == 'Checky Engine') {
+		if (ClientPrefs.data.gameStyle == 'Cheeky') {
 			defaultWidth = 1.5;
 		}
 	}
