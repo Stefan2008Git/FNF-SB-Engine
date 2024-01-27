@@ -77,6 +77,8 @@ class EditorPlayState extends MusicBeatSubstate
 	{
 		super();
 		
+		Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Mod Editors menu (Chart Editor - Playtesting the chart: " + PlayState.SONG.song + " - " + Difficulty.getString() + ")";
+
 		/* setting up some important data */
 		this.playbackRate = playbackRate;
 		this.startPos = Conductor.songPosition;
