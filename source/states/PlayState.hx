@@ -649,7 +649,7 @@ class PlayState extends MusicBeatState
 			timeTxt.alpha = 0;
 		}
 		timeTxt.visible = updateTime = showTime;
-		if (ClientPrefs.data.timeBarType == 'Song Name + Time' && ClientPrefs.data.gameStyle == 'Cheeky') timeTxt.text = SONG.song + " [0:00]";
+		if (ClientPrefs.data.timeBarType == 'Song Name + Time Left' && ClientPrefs.data.gameStyle == 'Cheeky') timeTxt.text = SONG.song + " [0:00]";
 		if (ClientPrefs.data.timeBarType == 'Song Name + Time Elapsed' && ClientPrefs.data.gameStyle == 'Cheeky') timeTxt.text = SONG.song + " [0:00]";
 		if (ClientPrefs.data.timeBarType == 'Modern Time' && ClientPrefs.data.gameStyle == 'Cheeky') timeTxt.text = "0:00 / 0:00";
 		if (ClientPrefs.data.timeBarType == 'Modern Time Elapsed' && ClientPrefs.data.gameStyle == 'Cheeky') timeTxt.text = "0:00 / 0:00";

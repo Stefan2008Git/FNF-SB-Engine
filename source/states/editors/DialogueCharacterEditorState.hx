@@ -92,6 +92,8 @@ class DialogueCharacterEditorState extends MusicBeatState
     	\nUP,Down,Left,Right(UP side) + press A once (twice to close)- Move Idle/Finished animation offset (Blue)
     	\nHold B to move offsets 10x faster';
     	#end
+
+		Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Mod Editors menu (Dialogue portrait)";
 		
 		mainGroup = new FlxSpriteGroup();
 		mainGroup.cameras = [camGame];

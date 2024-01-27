@@ -263,6 +263,7 @@ class MainMenuState extends MusicBeatState
 
 			if (controls.BACK)
 			{
+				FlxG.mouse.visible = false;
 				selectedSomething = true;
 				FlxG.sound.play(Paths.sound('cancelMenu'));
 				MusicBeatState.switchState(new TitleState());
@@ -276,6 +277,7 @@ class MainMenuState extends MusicBeatState
 			#if (desktop || android)
 			else if (controls.justPressed('debug_1') #if android || MusicBeatState.virtualPad.buttonC.justPressed #end)
 			{
+				FlxG.mouse.visible = false;
 				selectedSomething = true;
 				MusicBeatState.switchState(new MasterEditorMenu());
 			}
@@ -283,6 +285,7 @@ class MainMenuState extends MusicBeatState
 
 			if (FlxG.keys.justPressed.S #if android || FlxG.android.justReleased.BACK #end) 
 			{
+				FlxG.mouse.visible = false;
 				Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Founded a secret menu";
 				FlxG.sound.play(Paths.sound('cancelMenu'), 1);
 				persistentUpdate = false;
@@ -298,14 +301,13 @@ class MainMenuState extends MusicBeatState
 			} else {
 				FlxG.mouse.visible = false;
 			}
-
 		}
 
 		super.update(elapsed);
 
 		menuItems.forEach(function(spr:FlxSprite)
 		{
-			// menuItems.screenCenter(X);
+			//spr.screenCenter(X);
 		});
 	}
 
@@ -325,23 +327,25 @@ class MainMenuState extends MusicBeatState
 			FlxG.camera.zoom = 1.15;
 
 			if(zoomTween != null) zoomTween.cancel();
-			switch (ClientPrefs.data.gameStyle) {
-				case 'SB Engine' | 'Psych Engine' | 'TGT Engine' | 'Kade Engine':
-					zoomTween = FlxTween.tween(FlxG.camera, {zoom: 1}, 1, {ease: FlxEase.sineInOut, onComplete: function(twn:FlxTween)
-					{
-						zoomTween = null;
-					}
-				});
-			
-				case 'Cheeky':
-					zoomTween = FlxTween.tween(FlxG.camera, {zoom: 1.05}, 0.3, {ease: FlxEase.quadOut, type: BACKWARD, onComplete: function(twn:FlxTween)
+			if (ClientPrefs.data.camZooms) {
+				switch (ClientPrefs.data.gameStyle) {
+					case 'SB Engine' | 'Psych Engine' | 'TGT Engine' | 'Kade Engine':
+						zoomTween = FlxTween.tween(camGame, {zoom: 1}, 1, {ease: FlxEase.sineInOut, onComplete: function(twn:FlxTween)
 						{
 							zoomTween = null;
 						}
-				});
+					});
+				
+					case 'Cheeky':
+						zoomTween = FlxTween.tween(camGame, {zoom: 1.05}, 0.3, {ease: FlxEase.quadOut, type: BACKWARD, onComplete: function(twn:FlxTween)
+							{
+								zoomTween = null;
+							}
+					});
+				}
 			}
-		}
 
+		}
 		lastBeatHit = curBeat;
 	}
 
@@ -406,16 +410,21 @@ class MainMenuState extends MusicBeatState
 
 				switch (daChoice) {
 					case 'story_mode':
+						FlxG.mouse.visible = false;
 						MusicBeatState.switchState(new StoryMenuState());
 					case 'freeplay':
+						FlxG.mouse.visible = false;
 						MusicBeatState.switchState(new FreeplayState());
 					#if MODS_ALLOWED
 					case 'mods':
+						FlxG.mouse.visible = false;
 						MusicBeatState.switchState(new ModsMenuState());
 					#end
 					case 'credits':
+						FlxG.mouse.visible = false;
 						MusicBeatState.switchState(new CreditsState());
 					case 'options':
+						FlxG.mouse.visible = false;
 						MusicBeatState.switchState(new OptionsState());
 						OptionsState.onPlayState = false;
 						if (PlayState.SONG != null)

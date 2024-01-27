@@ -6,18 +6,17 @@ package substates;
     YouTube: https://youtube.com/@beihu235?si=NHnWxcUWPS46EqUt
     Discord: beihu235
     
-    You can use it, but you must give need to give me a credit(dont forget my icon)
+    You can use it for your mods or modified PE forks, but you must need to give me a credit and plus icon (Don't forget!)
     Logically is very easy to use it, so I think everyone can understand it
     
-    Who cares about Rudys hscript so I can continue to choose it to use my lua logic
-    Her hscript weren't worth, so I didn't stole it
+    Who cares about Rudy's HScript so I can continue to choose it to use my lua logic,
+    but her HScript is not weren't worth, so I didn't stole it.
     
-    by the way dont move this to hscript, I dont allow it
+    By the way dont move this to the HScript, I dont allow it! --NF | Beihu
 */
 
 import flixel.addons.transition.FlxTransitionableState;
 
-import states.PlayState;
 import states.FreeplayState;
 
 import backend.Conductor;
@@ -34,13 +33,11 @@ import tjson.TJSON as Json;
 
 typedef NoteTypeColorData =
 {
-
 	sick:FlxColor,
 	good:FlxColor,
     bad:FlxColor,
     shit:FlxColor,
     miss:FlxColor
-    
 }
 
 class ResultsScreenSubstate extends MusicBeatSubstate
@@ -71,19 +68,10 @@ class ResultsScreenSubstate extends MusicBeatSubstate
     
     public var noteTypeColor:NoteTypeColorData;
     
-    public var colorArray:Array<FlxColor> = [];
     public var color:FlxColor;
 	public function new(x:Float, y:Float)
 	{
 		super();
-		
-		colorArray = [
-		    0xFF00FFFF,
-	        0xFF00FF00,
-	        0xFFFF7F00,
-	        0xFFFF5858,
-	        0xFFFF0000
-		];
 		
 		background = new FlxSprite(0, 0).makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		background.scrollFactor.set();
@@ -105,17 +93,16 @@ class ResultsScreenSubstate extends MusicBeatSubstate
 	    var noteSize = 2.3;
 	    var moveSize = 0.6;
 		for (i in 0...PlayState.rsNoteTime.length){
-		    if (Math.abs(PlayState.rsNoteMs[i]) <= 200) color = colorArray[4];
-		    if (Math.abs(PlayState.rsNoteMs[i]) <= Conductor.safeZoneOffset) color = colorArray[3];
-		    if (Math.abs(PlayState.rsNoteMs[i]) <= ClientPrefs.data.badWindow) color = colorArray[2];
-		    if (Math.abs(PlayState.rsNoteMs[i]) <= ClientPrefs.data.goodWindow) color = colorArray[1];
-		    if (Math.abs(PlayState.rsNoteMs[i]) <= ClientPrefs.data.sickWindow) color = colorArray[0];
+		    if (Math.abs(PlayState.rsNoteMs[i]) <= 200) color = FlxColor.CYAN;
+		    if (Math.abs(PlayState.rsNoteMs[i]) <= Conductor.safeZoneOffset) color = FlxColor.LIME;
+		    if (Math.abs(PlayState.rsNoteMs[i]) <= ClientPrefs.data.badWindow) color = FlxColor.YELLOW;
+		    if (Math.abs(PlayState.rsNoteMs[i]) <= ClientPrefs.data.goodWindow) color = FlxColor.ORANGE;
+		    if (Math.abs(PlayState.rsNoteMs[i]) <= ClientPrefs.data.sickWindow) color = FlxColor.RED;
 		    FlxSpriteUtil.beginDraw(color);
-		    if (Math.abs(PlayState.rsNoteMs[i]) <= 166){
-    		noteSpr.drawCircle(graphWidth * (PlayState.rsNoteTime[i] / PlayState.rsSongLength) - noteSize / 2 , graphHeight * 0.5 + graphHeight * 0.5 * moveSize * (PlayState.rsNoteMs[i] / Conductor.safeZoneOffset) /*- noteSize / 2*/, noteSize);
-    		}
-    		else{
-    		noteSpr.drawCircle(graphWidth * (PlayState.rsNoteTime[i] / PlayState.rsSongLength) - noteSize / 2 , graphHeight * 0.5 + graphHeight * 0.5 * 0.8 /*- noteSize / 2*/, noteSize);		
+		    if (Math.abs(PlayState.rsNoteMs[i]) <= 166) {
+    			noteSpr.drawCircle(graphWidth * (PlayState.rsNoteTime[i] / PlayState.rsSongLength) - noteSize / 2 , graphHeight * 0.5 + graphHeight * 0.5 * moveSize * (PlayState.rsNoteMs[i] / Conductor.safeZoneOffset), noteSize);
+    		} else {
+    			noteSpr.drawCircle(graphWidth * (PlayState.rsNoteTime[i] / PlayState.rsSongLength) - noteSize / 2 , graphHeight * 0.5 + graphHeight * 0.5 * 0.8, noteSize);		
     		}
     		
 		    graphBG.pixels.draw(FlxSpriteUtil.flashGfxSprite);
@@ -127,47 +114,47 @@ class ResultsScreenSubstate extends MusicBeatSubstate
 		graphJudgeCenter.alpha = 0;		
 		add(graphJudgeCenter);
 		
-		graphSickUp = new FlxSprite(graphBG.x, graphBG.y + graphHeight * 0.5 - graphHeight * 0.5 * moveSize * (ClientPrefs.data.sickWindow / Conductor.safeZoneOffset) - judgeHeight * 0.5).makeGraphic(graphWidth, judgeHeight, colorArray[0]);
+		graphSickUp = new FlxSprite(graphBG.x, graphBG.y + graphHeight * 0.5 - graphHeight * 0.5 * moveSize * (ClientPrefs.data.sickWindow / Conductor.safeZoneOffset) - judgeHeight * 0.5).makeGraphic(graphWidth, judgeHeight, FlxColor.GREEN);
 		graphSickUp.scrollFactor.set();
 		graphSickUp.alpha = 0;		
 		add(graphSickUp);
 		
-		graphSickDown = new FlxSprite(graphBG.x, graphBG.y + graphHeight * 0.5 + graphHeight * 0.5 * moveSize * (ClientPrefs.data.sickWindow / Conductor.safeZoneOffset) - judgeHeight * 0.5).makeGraphic(graphWidth, judgeHeight, colorArray[0]);
+		graphSickDown = new FlxSprite(graphBG.x, graphBG.y + graphHeight * 0.5 + graphHeight * 0.5 * moveSize * (ClientPrefs.data.sickWindow / Conductor.safeZoneOffset) - judgeHeight * 0.5).makeGraphic(graphWidth, judgeHeight, FlxColor.GREEN);
 		graphSickDown.scrollFactor.set();
 		graphSickDown.alpha = 0;		
 		add(graphSickDown);
 		
-		graphGoodUp = new FlxSprite(graphBG.x, graphBG.y + graphHeight * 0.5 - graphHeight * 0.5 * moveSize * (ClientPrefs.data.goodWindow / Conductor.safeZoneOffset) - judgeHeight * 0.5).makeGraphic(graphWidth, judgeHeight, colorArray[1]);
+		graphGoodUp = new FlxSprite(graphBG.x, graphBG.y + graphHeight * 0.5 - graphHeight * 0.5 * moveSize * (ClientPrefs.data.goodWindow / Conductor.safeZoneOffset) - judgeHeight * 0.5).makeGraphic(graphWidth, judgeHeight, FlxColor.YELLOW);
 		graphGoodUp.scrollFactor.set();
 		graphGoodUp.alpha = 0;		
 		add(graphGoodUp);
 		
-		graphGoodDown = new FlxSprite(graphBG.x, graphBG.y + graphHeight * 0.5 + graphHeight * 0.5 * moveSize * (ClientPrefs.data.goodWindow / Conductor.safeZoneOffset) - judgeHeight * 0.5).makeGraphic(graphWidth, judgeHeight, colorArray[1]);
+		graphGoodDown = new FlxSprite(graphBG.x, graphBG.y + graphHeight * 0.5 + graphHeight * 0.5 * moveSize * (ClientPrefs.data.goodWindow / Conductor.safeZoneOffset) - judgeHeight * 0.5).makeGraphic(graphWidth, judgeHeight, FlxColor.YELLOW);
 		graphGoodDown.scrollFactor.set();
 		graphGoodDown.alpha = 0;		
 		add(graphGoodDown);
 		
-		graphBadUp = new FlxSprite(graphBG.x, graphBG.y + graphHeight * 0.5 - graphHeight * 0.5 * moveSize * (ClientPrefs.data.badWindow / Conductor.safeZoneOffset) - judgeHeight * 0.5).makeGraphic(graphWidth, judgeHeight, colorArray[2]);
+		graphBadUp = new FlxSprite(graphBG.x, graphBG.y + graphHeight * 0.5 - graphHeight * 0.5 * moveSize * (ClientPrefs.data.badWindow / Conductor.safeZoneOffset) - judgeHeight * 0.5).makeGraphic(graphWidth, judgeHeight, FlxColor.ORANGE);
 		graphBadUp.scrollFactor.set();
 		graphBadUp.alpha = 0;		
 		add(graphBadUp);
 		
-		graphBadDown = new FlxSprite(graphBG.x, graphBG.y + graphHeight * 0.5 + graphHeight * 0.5 * moveSize * (ClientPrefs.data.badWindow / Conductor.safeZoneOffset) - judgeHeight * 0.5).makeGraphic(graphWidth, judgeHeight, colorArray[2]);
+		graphBadDown = new FlxSprite(graphBG.x, graphBG.y + graphHeight * 0.5 + graphHeight * 0.5 * moveSize * (ClientPrefs.data.badWindow / Conductor.safeZoneOffset) - judgeHeight * 0.5).makeGraphic(graphWidth, judgeHeight, FlxColor.ORANGE);
 		graphBadDown.scrollFactor.set();
 		graphBadDown.alpha = 0;		
 		add(graphBadDown);
 		
-		graphShitUp = new FlxSprite(graphBG.x, graphBG.y + graphHeight * 0.5 - graphHeight * 0.5 * moveSize * (Conductor.safeZoneOffset / Conductor.safeZoneOffset) - judgeHeight * 0.5).makeGraphic(graphWidth, judgeHeight, colorArray[3]);
+		graphShitUp = new FlxSprite(graphBG.x, graphBG.y + graphHeight * 0.5 - graphHeight * 0.5 * moveSize * (Conductor.safeZoneOffset / Conductor.safeZoneOffset) - judgeHeight * 0.5).makeGraphic(graphWidth, judgeHeight, FlxColor.RED);
 		graphShitUp.scrollFactor.set();
 		graphShitUp.alpha = 0;		
 		add(graphShitUp);
 		
-		graphShitDown = new FlxSprite(graphBG.x, graphBG.y + graphHeight * 0.5 + graphHeight * 0.5 * moveSize * (Conductor.safeZoneOffset / Conductor.safeZoneOffset) - judgeHeight * 0.5).makeGraphic(graphWidth, judgeHeight, colorArray[3]);
+		graphShitDown = new FlxSprite(graphBG.x, graphBG.y + graphHeight * 0.5 + graphHeight * 0.5 * moveSize * (Conductor.safeZoneOffset / Conductor.safeZoneOffset) - judgeHeight * 0.5).makeGraphic(graphWidth, judgeHeight, FlxColor.RED);
 		graphShitDown.scrollFactor.set();
 		graphShitDown.alpha = 0;		
 		add(graphShitDown);
 		
-		graphMiss = new FlxSprite(graphBG.x, graphBG.y + graphHeight * 0.5 + graphHeight * 0.5 * 0.8 - judgeHeight * 0.5).makeGraphic(graphWidth, judgeHeight, colorArray[4]);
+		graphMiss = new FlxSprite(graphBG.x, graphBG.y + graphHeight * 0.5 + graphHeight * 0.5 * 0.8 - judgeHeight * 0.5).makeGraphic(graphWidth, judgeHeight, FlxColor.GRAY);
 		graphMiss.scrollFactor.set();
 		graphMiss.alpha = 0;		
 		add(graphMiss);
@@ -208,9 +195,21 @@ class ResultsScreenSubstate extends MusicBeatSubstate
 		add(graphSizeRight);		
 		
 		//-----------------------BG
-		clearText = new FlxText(20, -155, 0, 'Song Cleared!\n' + PlayState.SONG.song + ' - ' + Difficulty.getString() + '\n');
+		clearText = new FlxText(20, -155, 0, 'Song Cleared!\n' + PlayState.SONG.song + ' - ' + '(' + Difficulty.getString() + ')' + '\n');
 		clearText.size = 34;
-		clearText.font = Paths.font('vcr.ttf');
+		switch (ClientPrefs.data.gameStyle) {
+			case 'SB Engine':
+				clearText.font = Paths.font('bahnschrift.ttf');
+			
+			case 'Psych Engine' | 'Kade Engine' | 'Cheeky':
+				clearText.font = Paths.font('vcr.ttf');
+			
+			case 'Dave and Bambi':
+				clearText.font = Paths.font('comic.ttf');
+			
+			case 'TGT Engine':
+				clearText.font = Paths.font('calibri.ttf');
+		}
 		clearText.setBorderStyle(FlxTextBorderStyle.OUTLINE, FlxColor.BLACK, 1, 1);
 		clearText.scrollFactor.set();
 		clearText.antialiasing = ClientPrefs.data.antialiasing;
@@ -223,40 +222,63 @@ class ResultsScreenSubstate extends MusicBeatSubstate
 		+ '\nBads: ' + PlayState.resultsScreenBads 
 		+ '\nShits: ' + PlayState.resultsScreenShits 
 		+ '\n\nCombe Breaks: ' + PlayState.resultsScreenMisses 
-		+ '\nHighest Combo: ' + PlayState.resultsScreenMaxCombo 
+		+ '\nMax Combo: ' + PlayState.resultsScreenMaxCombo 
 		+ '\nScore: ' + PlayState.resultsScreenScore 
 		+ '\nAccuracy: ' + accurarcyCeil + '%'
 		+ '\nRank: ' + PlayState.resultsScreenRatingName + '(' + PlayState.resultsScreenFullCombo + ')\n'
 		);
 		judgeText.size = 25;
-		judgeText.font = Paths.font('vcr.ttf');
+		switch (ClientPrefs.data.gameStyle) {
+			case 'SB Engine':
+				judgeText.font = Paths.font('bahnschrift.ttf');
+			
+			case 'Psych Engine' | 'Kade Engine' | 'Cheeky':
+				judgeText.font = Paths.font('vcr.ttf');
+			
+			case 'Dave and Bambi':
+				judgeText.font = Paths.font('comic.ttf');
+			
+			case 'TGT Engine':
+				judgeText.font = Paths.font('calibri.ttf');
+		}
 		judgeText.setBorderStyle(FlxTextBorderStyle.OUTLINE, FlxColor.BLACK, 1, 1);
 		judgeText.scrollFactor.set();
 		judgeText.antialiasing = ClientPrefs.data.antialiasing;
 		add(judgeText);
 		
-		var botplay:String = 'Close';
-		if (ClientPrefs.getGameplaySetting('botplay')) botplay = 'Open';
-		var practice:String = 'Close';
-
-		if (ClientPrefs.getGameplaySetting('practice')) practice = 'Open';
+		var botplay:String = 'False';
+		if (ClientPrefs.getGameplaySetting('botplay')) botplay = 'True';
+		var practice:String = 'False';
+		if (ClientPrefs.getGameplaySetting('practice')) practice = 'True';
 
 		setGameText = new FlxText(FlxG.width + 400, 420, 0, 
-		'healthGain: X' + ClientPrefs.getGameplaySetting('healthgain')
-		+ '  healthLoss: X' + ClientPrefs.getGameplaySetting('healthloss')
+		'Gained health: X' + ClientPrefs.getGameplaySetting('healthgain')
+		+ ' / Lossed health: X' + ClientPrefs.getGameplaySetting('healthloss')
 		+ '\n'
-		+ 'SongSpeed: X' + ClientPrefs.getGameplaySetting('scrollspeed')
-		+ '  PlaybackRate: X' + ClientPrefs.getGameplaySetting('songspeed')
+		+ 'Used the song speed: X' + ClientPrefs.getGameplaySetting('scrollspeed')
+		+ ' / Playback used: X' + ClientPrefs.getGameplaySetting('songspeed')
 		+ '\n'
-		+ 'BotPlay: ' + botplay
-		+ '  PracticeMode: ' + practice
+		+ 'Used the botplay: ' + botplay
+		+ ' / Used the practice mode: ' + practice
 		+ '\n'
-		+ 'Finished time: ' + Date.now().toString()
+		+ 'Your current time: ' + Date.now().toString()
 		+ '\n'
 		);
 		setGameText.size = 25;
 		setGameText.alignment = RIGHT;
-		setGameText.font = Paths.font('vcr.ttf');
+		switch (ClientPrefs.data.gameStyle) {
+			case 'SB Engine':
+				setGameText.font = Paths.font('bahnschrift.ttf');
+			
+			case 'Psych Engine' | 'Kade Engine' | 'Cheeky':
+				setGameText.font = Paths.font('vcr.ttf');
+			
+			case 'Dave and Bambi':
+				setGameText.font = Paths.font('comic.ttf');
+			
+			case 'TGT Engine':
+				setGameText.font = Paths.font('calibri.ttf');
+		}
 		setGameText.setBorderStyle(FlxTextBorderStyle.OUTLINE, FlxColor.BLACK, 1, 1);
 		setGameText.scrollFactor.set();
 		setGameText.antialiasing = ClientPrefs.data.antialiasing;
@@ -268,19 +290,21 @@ class ResultsScreenSubstate extends MusicBeatSubstate
 		}
 		main = Math.ceil(main / PlayState.rsNoteTime.length * 100) / 100;
         var safeZoneOffset:Float = Math.ceil(Conductor.safeZoneOffset * 10) / 10;
-		setMsText = new FlxText(20, FlxG.height + 150, 0, 
-		'Main: ' + main + 'ms'
-		+ '\n'
-		+ '('
-		+ 'SICK:' + ClientPrefs.data.sickWindow + 'ms,'
-		+ 'GOOD:' + ClientPrefs.data.goodWindow + 'ms,'
-		+ 'BAD:' + ClientPrefs.data.badWindow + 'ms,'
-		+ 'SHIT:' + safeZoneOffset + 'ms'
-		+ ')'		
-		+ '\n'
-		);
+		setMsText = new FlxText(20, FlxG.height + 150, 0, 'Main: ' + main + 'ms' + '\n' + '(' + 'SICK:' + ClientPrefs.data.sickWindow + 'ms,' + 'GOOD:' + ClientPrefs.data.goodWindow + 'ms,' + 'BAD:' + ClientPrefs.data.badWindow + 'ms,' + 'SHIT:' + safeZoneOffset + 'ms' + ')'	+ '\n');
 		setMsText.size = 16;
-		setMsText.font = Paths.font('vcr.ttf');
+		switch (ClientPrefs.data.gameStyle) {
+			case 'SB Engine':
+				setMsText.font = Paths.font('bahnschrift.ttf');
+			
+			case 'Psych Engine' | 'Kade Engine' | 'Cheeky':
+				setMsText.font = Paths.font('vcr.ttf');
+			
+			case 'Dave and Bambi':
+				setMsText.font = Paths.font('comic.ttf');
+			
+			case 'TGT Engine':
+				setMsText.font = Paths.font('calibri.ttf');
+		}
 		setMsText.setBorderStyle(FlxTextBorderStyle.OUTLINE, FlxColor.BLACK, 1, 1);
 		setMsText.scrollFactor.set();
 		setMsText.antialiasing = ClientPrefs.data.antialiasing;
@@ -290,7 +314,19 @@ class ResultsScreenSubstate extends MusicBeatSubstate
 		#if android backTextShow = 'Touch the screen to continue'; #end
 		backText = new FlxText(0, FlxG.height - 45, 0, backTextShow);
 		backText.size = 28;
-		backText.font = Paths.font('vcr.ttf');
+		switch (ClientPrefs.data.gameStyle) {
+			case 'SB Engine':
+				backText.font = Paths.font('bahnschrift.ttf');
+			
+			case 'Psych Engine' | 'Kade Engine' | 'Cheeky':
+				backText.font = Paths.font('vcr.ttf');
+			
+			case 'Dave and Bambi':
+				backText.font = Paths.font('comic.ttf');
+			
+			case 'TGT Engine':
+				backText.font = Paths.font('calibri.ttf');
+		}
 		backText.setBorderStyle(FlxTextBorderStyle.OUTLINE, FlxColor.BLACK, 1, 1);
 		backText.scrollFactor.set();
 		backText.antialiasing = ClientPrefs.data.antialiasing;
@@ -303,14 +339,10 @@ class ResultsScreenSubstate extends MusicBeatSubstate
 		
 		//time = 0
 		FlxTween.tween(background, {alpha: 0.5}, 0.5);		
-		
-		new FlxTimer().start(0.5, function(tmr:FlxTimer){
-			FlxTween.tween(clearText, {y: ClientPrefs.data.showFPS ? 60 : 5}, 0.5, {ease: FlxEase.backInOut});
-		});
+		new FlxTimer().start(0.5, function(tmr:FlxTimer) { FlxTween.tween(clearText, {y: ClientPrefs.data.showFPS ? 60 : 5}, 0.5, {ease: FlxEase.backInOut}); });
 		
 		
-		new FlxTimer().start(1, function(tmr:FlxTimer){
-			FlxTween.tween(setMsText, {y: FlxG.height - 25 * 2}, 0.5, {ease: FlxEase.backInOut});			
+		new FlxTimer().start(1, function(tmr:FlxTimer) { FlxTween.tween(setMsText, {y: FlxG.height - 25 * 2}, 0.5, {ease: FlxEase.backInOut});			
 		});
 		
 		new FlxTimer().start(1.5, function(tmr:FlxTimer){
@@ -320,7 +352,6 @@ class ResultsScreenSubstate extends MusicBeatSubstate
 		
 		new FlxTimer().start(2, function(tmr:FlxTimer){
 			FlxTween.tween(graphBG, {alpha: 0.75}, 0.5);
-			
 			FlxTween.tween(graphJudgeCenter, {alpha: 0.3}, 0.5);	
 			FlxTween.tween(graphSickUp, {alpha: 0.3}, 0.5);	
 			FlxTween.tween(graphSickDown, {alpha: 0.3}, 0.5);	
@@ -331,7 +362,6 @@ class ResultsScreenSubstate extends MusicBeatSubstate
 			FlxTween.tween(graphShitUp, {alpha: 0.3}, 0.5);
 			FlxTween.tween(graphShitDown, {alpha: 0.3}, 0.5);	
 			FlxTween.tween(graphMiss, {alpha: 0.3}, 0.5);	
-				
 		    FlxTween.tween(graphSizeUp, {alpha: 0.75}, 0.5);
 		    FlxTween.tween(graphSizeDown, {alpha: 0.75}, 0.5);
 		    FlxTween.tween(graphSizeLeft, {alpha: 0.75}, 0.5);
@@ -363,16 +393,16 @@ class ResultsScreenSubstate extends MusicBeatSubstate
 		var practice:String = 'False';
 		if (ClientPrefs.getGameplaySetting('practice')) practice = 'True';
 
-		setGameText.text = 'health gain used: X' + ClientPrefs.getGameplaySetting('healthgain')
-		+ 'Health loss used: X' + ClientPrefs.getGameplaySetting('healthloss')
+		setGameText.text = 'Gained health: X' + ClientPrefs.getGameplaySetting('healthgain')
+		+ ' / Lossed health: X' + ClientPrefs.getGameplaySetting('healthloss')
 		+ '\n'
-		+ 'Song speed used: X' + ClientPrefs.getGameplaySetting('scrollspeed')
-		+ '  Playbakc used: X' + ClientPrefs.getGameplaySetting('songspeed')
+		+ 'Used the song speed: X' + ClientPrefs.getGameplaySetting('scrollspeed')
+		+ ' / Playback used: X' + ClientPrefs.getGameplaySetting('songspeed')
 		+ '\n'
-		+ 'Botplay used: ' + botplay
-		+ '  Practice mode used: ' + practice
+		+ 'Used the botplay: ' + botplay
+		+ ' / Used the practice mode: ' + practice
 		+ '\n'
-		+ 'You finished the song on: ' + Date.now().toString()
+		+ 'Your current time: ' + Date.now().toString()
 		+ '\n';
 
 		if(FlxG.keys.justPressed.ENTER #if android || pressedTheTouchScreen #end)

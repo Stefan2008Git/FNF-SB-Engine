@@ -32,9 +32,24 @@ class NoteSplashDebugState extends MusicBeatState
 	var savedText:FlxText;
 	var selecArr:Array<Float> = null;
 
+	var velocityBackground:FlxBackdrop;
+
 	override function create()
 	{
-		FlxG.camera.bgColor = FlxColor.fromHSL(0, 0, 0.5);
+		Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Mod Editors menu (Note splash debug)";
+		switch (ClientPrefs.data.themes) {
+			case 'SB Engine':
+				FlxG.camera.bgColor = FlxColor.PURPLE;
+			
+			case 'Psych Engine':
+				FlxG.camera.bgColor = FlxColor.fromHSL(0, 0, 0.5);
+		}
+
+		velocityBackground = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0x70000000, 0x0));
+		velocityBackground.velocity.set(FlxG.random.bool(50) ? 90 : -90, FlxG.random.bool(50) ? 90 : -90);
+		velocityBackground.visible = ClientPrefs.data.velocityBackground;
+		add(velocityBackground);
+
 		selection = new FlxSprite(0, 270).makeGraphic(150, 150, FlxColor.BLACK);
 		selection.alpha = 0.4;
 		add(selection);
@@ -222,7 +237,7 @@ class NoteSplashDebugState extends MusicBeatState
 
 		if(FlxG.keys.justPressed.ENTER #if android || MusicBeatState.virtualPad.buttonA.justPressed #end)
 		{
-			savedText.text = 'Press ENTER again to save.';
+			#if android savedText.text = 'Press A again to save.'; #else savedText.text = 'Press ENTER again to save.'; #end
 			if(pressEnterToSave > 0) //save
 			{
 				saveFile();

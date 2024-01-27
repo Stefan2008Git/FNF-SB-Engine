@@ -158,7 +158,7 @@ class FPS extends TextField
 					Main.fpsVar.defaultTextFormat = new TextFormat('Bahnschrift', 12, color);
 					#end
 
-				case 'Psych Engine' | 'Checky Engine':
+				case 'Psych Engine' | 'Cheeky':
 					#if android
 					Main.fpsVar.defaultTextFormat = new TextFormat('_sans', 14, color);
 					#else
@@ -187,10 +187,12 @@ class FPS extends TextField
 					#end
 			}
 
-			textColor = FlxColor.fromRGBFloat(255, 255, 255, realAlpha);
-			if (currentlyFPS <= ClientPrefs.data.framerate / 2) {
-				textColor = FlxColor.fromRGBFloat(255, 0, 0, realAlpha);
-				redText = true;
+			if (ClientPrefs.data.redText) {
+				textColor = FlxColor.fromRGBFloat(255, 255, 255, realAlpha);
+				if (currentlyFPS <= ClientPrefs.data.framerate / 2) {
+					textColor = FlxColor.fromRGBFloat(255, 0, 0, realAlpha);
+					redText = true;
+				}
 			}
 
 			text += "\n";

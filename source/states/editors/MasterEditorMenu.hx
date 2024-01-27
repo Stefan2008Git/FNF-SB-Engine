@@ -38,6 +38,7 @@ class MasterEditorMenu extends MusicBeatState
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence("Editors Main Menu", null);
 		#end
+		Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Mod Editors menu";
 
 		background = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
 		switch (ClientPrefs.data.themes) {

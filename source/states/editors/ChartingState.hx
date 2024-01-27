@@ -197,6 +197,9 @@ class ChartingState extends MusicBeatState
 	var text:String = "";
 	public static var vortex:Bool = false;
 	public var mouseQuant:Bool = false;
+	var songLength:Float = 0;
+	var songPercent:Float = 0;
+
 	override function create()
 	{
 		if (PlayState.SONG != null)
@@ -227,6 +230,7 @@ class ChartingState extends MusicBeatState
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence("Chart Editor", StringTools.replace(_song.song, '-', ' '));
 		#end
+		Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Mod Editors menu (Chart Editor)";
 
 		vortex = FlxG.save.data.chart_vortex;
 		ignoreWarnings = FlxG.save.data.ignoreWarnings;
@@ -343,7 +347,20 @@ class ChartingState extends MusicBeatState
 		UI_box.x = 640 + GRID_SIZE / 2;
 		UI_box.y = 25;
 		UI_box.scrollFactor.set();
-
+		
+		#if mobile
+		text =
+		"UP/Down - Change Conductor's strum time
+		\nC + Left/Right - Go to the previous/next section
+		\nLeft/Right - Change Snap
+		\nZ - Reset Song Playback Rate
+		\nHold C to move 4x faster
+		\nHold X to move 10x faster
+		\nV/D - Zoom in/out
+		\nB - Test your chart inside Chart Editor
+		\nUP/Down(Right Side) - Decrease/Increase Note Sustain Length
+		\nY - Stop/Resume song";
+		#else
 		text =
 		"W/S or Mouse Wheel - Change Conductor's strum time
 		\nA/D - Go to the previous/next section
@@ -359,19 +376,6 @@ class ChartingState extends MusicBeatState
 		\nEnter - Play your chart
 		\nQ/E - Decrease/Increase Note Sustain Length
 		\nSpace - Stop/Resume song";
-		
-		#if mobile
-		text =
-		"UP/Down - Change Conductor's strum time
-		\nC + Left/Right - Go to the previous/next section
-		\nLeft/Right - Change Snap
-		\nZ - Reset Song Playback Rate
-		\nHold C to move 4x faster
-		\nHold X to move 10x faster
-		\nV/D - Zoom in/out
-		\nB - Test your chart inside Chart Editor
-		\nUP/Down(Right Side) - Decrease/Increase Note Sustain Length
-		\nY - Stop/Resume song";
 		#end
 
 		var tipTextArray:Array<String> = text.split('\n');
@@ -1459,6 +1463,7 @@ class ChartingState extends MusicBeatState
 			// Updating Discord Rich Presence
 			DiscordClient.changePresence("Chart Editor", StringTools.replace(_song.song, '-', ' '));
 			#end
+			Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Mod Editors menu (Chart Editor)";
 		}
 		super.closeSubState();
 	}
@@ -1859,6 +1864,7 @@ class ChartingState extends MusicBeatState
 				playtesting = true;
 				playtestingTime = Conductor.songPosition;
 				playtestingOnComplete = FlxG.sound.music.onComplete;
+				Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Mod Editors menu (Chart Editor - Playtesting the chart: " + PlayState.SONG.song + " - " + Difficulty.getString() + ")";
 				openSubState(new states.editors.EditorPlayState(playbackSpeed));
 			}
 			if (FlxG.keys.justPressed.ENTER #if mobile || MusicBeatState.virtualPad.buttonA.justPressed #end)
@@ -1871,6 +1877,11 @@ class ChartingState extends MusicBeatState
 
 				//if(_song.stage == null) _song.stage = stageDropDown.selectedLabel;
 				StageData.loadDirectory(_song);
+				if (PlayState.isStoryMode) {
+					Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Story Mode (Loading current song: " + PlayState.SONG.song + " (" + Difficulty.getString() + ") )... ";
+				} else {
+					Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Freeplay Menu (Loading current song: " + PlayState.SONG.song + " (" + Difficulty.getString() + ") )... ";
+				}
 				LoadingState.loadAndSwitchState(new PlayState());
 			}
 
@@ -2176,12 +2187,31 @@ class ChartingState extends MusicBeatState
 		FlxG.sound.music.pitch = playbackSpeed;
 		vocals.pitch = playbackSpeed;
 
-		bpmTxt.text = 
-		Std.string(FlxMath.roundDecimal(Conductor.songPosition / 1000, 2)) + " / " + Std.string(FlxMath.roundDecimal(FlxG.sound.music.length / 1000, 2)) +
-		"\nSection: " + curSec +
-		"\n\nBeat: " + Std.string(curDecBeat).substring(0,4) +
-		"\n\nStep: " + curStep +
-		"\n\nBeat Snap: " + quantization + "th";
+		var curTime:Float = Math.max(0, Conductor.songPosition - ClientPrefs.data.noteOffset);
+		songPercent = (curTime / songLength);
+
+		var songCalc:Float = (songLength - curTime);
+		if(ClientPrefs.data.timeBarType == 'Time Elapsed') songCalc = curTime;
+
+		var secondsTotal:Int = Math.floor(songCalc / 1000);
+		if(secondsTotal < 0) secondsTotal = 0;
+
+		var time:Float = CoolUtil.floorDecimal((Conductor.songPosition - ClientPrefs.data.noteOffset) / 1000, 1);
+		if (ClientPrefs.data.timeBarType == 'Time Left') {
+			bpmTxt.text = "Time: " + FlxStringUtil.formatTime(secondsTotal, false)  + "\nSection: " + curSec + "\n\nBeat: " + Std.string(curDecBeat).substring(0,4) + "\n\nStep: " + curStep + "\n\nBeat Snap: " + quantization + "th";
+		} else if (ClientPrefs.data.timeBarType == 'Time Elapsed') {
+			bpmTxt.text = "Time: " + FlxStringUtil.formatTime(FlxG.sound.music.time / 1000, false)  + "\nSection: " + curSec + "\n\nBeat: " + Std.string(curDecBeat).substring(0,4) + "\n\nStep: " + curStep + "\n\nBeat Snap: " + quantization + "th";
+		} else if (ClientPrefs.data.timeBarType == 'Song Name + Time Left'){
+			bpmTxt.text = PlayState.SONG.song + " - Time: [" + FlxStringUtil.formatTime(secondsTotal, false) + "]" + "\nSection: " + curSec + "\n\nBeat: " + Std.string(curDecBeat).substring(0,4) + "\n\nStep: " + curStep + "\n\nBeat Snap: " + quantization + "th";
+		} else if (ClientPrefs.data.timeBarType == 'Song Name + Time Elapsed'){
+			bpmTxt.text = PlayState.SONG.song + " - Time: [" + FlxStringUtil.formatTime(FlxG.sound.music.time / 1000, false) + "]" + "\nSection: " + curSec + "\n\nBeat: " + Std.string(curDecBeat).substring(0,4) + "\n\nStep: " + curStep + "\n\nBeat Snap: " + quantization + "th";
+		} else if (ClientPrefs.data.timeBarType == 'Modern Time') {
+			bpmTxt.text = "Time: " + FlxStringUtil.formatTime(secondsTotal, false) + ' / ' + FlxStringUtil.formatTime(songLength / 1000, false) + "\nSection: " + curSec + "\n\nBeat: " + Std.string(curDecBeat).substring(0,4) + "\n\nStep: " + curStep + "\n\nBeat Snap: " + quantization + "th";
+		} else if (ClientPrefs.data.timeBarType == 'Modern Time Elapsed') {
+			bpmTxt.text = "Time: " + FlxStringUtil.formatTime(FlxG.sound.music.time / 1000, false) + ' / ' + FlxStringUtil.formatTime(FlxG.sound.music.length / 1000, true) + "\nSection: " + curSec + "\n\nBeat: " + Std.string(curDecBeat).substring(0,4) + "\n\nStep: " + curStep + "\n\nBeat Snap: " + quantization + "th";
+		} else {
+			bpmTxt.text = "Time: " + Std.string(FlxMath.roundDecimal(Conductor.songPosition / 1000, 2)) + " / " + Std.string(FlxMath.roundDecimal(FlxG.sound.music.length / 1000, 2)) + "\nSection: " + curSec + "\n\nBeat: " + Std.string(curDecBeat).substring(0,4) + "\n\nStep: " + curStep + "\n\nBeat Snap: " + quantization + "th";
+		}
 
 		var playedSound:Array<Bool> = [false, false, false, false]; //Prevents ouchy GF sex sounds
 		curRenderedNotes.forEachAlive(function(note:Note) {

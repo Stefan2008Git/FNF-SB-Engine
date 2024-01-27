@@ -50,6 +50,8 @@ class DialogueEditorState extends MusicBeatState
 				copyDefaultLine()
 			]
 		};
+
+		Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Mod Editors menu (Dialogue editor)";
 		
 		character = new DialogueCharacter();
 		character.scrollFactor.set();

@@ -1,5 +1,6 @@
 package states.editors;
 
+import objects.HealthBar;
 import backend.Song;
 import backend.Section;
 import backend.Rating;
@@ -20,6 +21,7 @@ class EditorPlayState extends MusicBeatSubstate
 	var finishTimer:FlxTimer = null;
 	var noteKillOffset:Float = 350;
 	var spawnTime:Float = 2000;
+	var updateTime:Bool = true;
 	var startingSong:Bool = true;
 
 	var playbackRate:Float = 1;
@@ -65,6 +67,9 @@ class EditorPlayState extends MusicBeatSubstate
 	var startPos:Float = 0;
 	var timerToStart:Float = 0;
 
+	var timeBar:HealthBar;
+	var timeTxt:FlxText;
+	var songPercent:Float = 0;
 	var scoreTxt:FlxText;
 	var dataTxt:FlxText;
 
@@ -106,13 +111,6 @@ class EditorPlayState extends MusicBeatSubstate
 		grpNoteSplashes.add(splash);
 		splash.alpha = 0.000001; //cant make it invisible or it won't allow precaching
 
-		opponentStrums = new FlxTypedGroup<StrumNote>();
-		playerStrums = new FlxTypedGroup<StrumNote>();
-		
-		generateStaticArrows(0);
-		generateStaticArrows(1);
-		/***************/
-		
 		scoreTxt = new FlxText(10, FlxG.height - 50, FlxG.width - 20, "", 20);
 		scoreTxt.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		scoreTxt.scrollFactor.set();
@@ -125,6 +123,71 @@ class EditorPlayState extends MusicBeatSubstate
 		dataTxt.scrollFactor.set();
 		dataTxt.borderSize = 1.25;
 		add(dataTxt);
+
+		
+		opponentStrums = new FlxTypedGroup<StrumNote>();
+		playerStrums = new FlxTypedGroup<StrumNote>();
+
+		Conductor.songPosition = -5000 / Conductor.songPosition;
+		var showTime:Bool = (ClientPrefs.data.timeBarType != 'Disabled');
+		timeTxt = new FlxText(PlayState.STRUM_X + (FlxG.width / 2) - 248, 19, 400, "", 32);
+		switch (ClientPrefs.data.gameStyle) {
+			case 'SB Engine':
+				timeTxt.setFormat(Paths.font("bahnschrift.ttf"), 29, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+				timeTxt.borderSize = 1.5;
+
+			case 'Psych Engine':
+				timeTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+				timeTxt.borderSize = 2;
+			
+			case 'Kade Engine':
+				timeTxt.setFormat(Paths.font("vcr.ttf"), 18, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+				timeTxt.borderSize = 1;
+
+			case 'Dave and Bambi':
+				timeTxt.setFormat(Paths.font("comic.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+				timeTxt.borderSize = 2;
+			
+			case 'TGT Engine':
+				timeTxt.setFormat(Paths.font("calibri.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+				timeTxt.borderSize = 2;
+			
+			case 'Cheeky':
+				timeTxt.setFormat(Paths.font("vcr.ttf"), 42, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+				timeTxt.borderSize = 1.25;
+		}
+		timeTxt.scrollFactor.set();
+		timeTxt.visible = false;
+		timeTxt.visible = updateTime = showTime;
+		if(ClientPrefs.data.downScroll) timeTxt.y = FlxG.height - 44;
+		if(ClientPrefs.data.timeBarType == 'Song Name') timeTxt.text = PlayState.SONG.song;
+		add(timeTxt);
+
+		switch (ClientPrefs.data.gameStyle) {
+			case 'Psych Engine' | 'TGT Engine':
+				timeBar = new HealthBar(0, timeTxt.y + (timeTxt.height / 4), 'timeBar', function() return songPercent, 0, 1);
+			
+			case 'SB Engine' | 'Kade Engine' | 'Cheeky' | 'Dave and Bambi':
+				timeBar = new HealthBar(0, timeTxt.y + (timeTxt.height / 4), 'healthBar', function() return songPercent, 0, 1);
+		}
+		timeBar.scrollFactor.set();
+		timeBar.screenCenter(X);
+		/*switch (ClientPrefs.data.gameStyle) {
+			case 'SB Engine' | 'Psych Engine' | 'TGT Engine' | 'Cheeky':
+				timeBar.alpha = 0;
+			
+			case 'Kade Engine' | 'Dave and Bambi':
+				timeBar.alpha = 1;
+		}*/
+		timeBar.visible = showTime && ClientPrefs.data.timeBar;
+		timeBar.leftBar.color = FlxColor.PURPLE;
+		timeBar.rightBar.color = 0xFF1A1A1A;
+		timeBar.alpha = 0;
+		add(timeBar);
+		
+		generateStaticArrows(0);
+		generateStaticArrows(1);
+		/***************/
 
 		var tipText:FlxText = new FlxText(10, FlxG.height - 24, 0, 'Press ESC to Go Back to Chart Editor', 16);
 		#if android
@@ -151,9 +214,9 @@ class EditorPlayState extends MusicBeatSubstate
 		addAndroidControls();
 		#end
 
-		/* #if android
+		#if android
 		MusicBeatState.androidControls.visible = true;
-		#end */ // What if disable this shit because of Null Object Refrence???
+		#end
 	}
 
 	override function update(elapsed:Float)
@@ -227,8 +290,32 @@ class EditorPlayState extends MusicBeatSubstate
 			});
 		}
 		
+		var curTime:Float = Math.max(0, Conductor.songPosition - ClientPrefs.data.noteOffset);
+		songPercent = (curTime / songLength);
+
+		var songCalc:Float = (songLength - curTime);
+		if(ClientPrefs.data.timeBarType == 'Time Elapsed') songCalc = curTime;
+
+		var secondsTotal:Int = Math.floor(songCalc / 1000);
+		if(secondsTotal < 0) secondsTotal = 0;
+
 		var time:Float = CoolUtil.floorDecimal((Conductor.songPosition - ClientPrefs.data.noteOffset) / 1000, 1);
-		dataTxt.text = 'Time: $time / ${songLength/1000}\nSection: $curSection\nBeat: $curBeat\nStep: $curStep';
+		if (ClientPrefs.data.timeBarType == 'Time Left') {
+			dataTxt.text = 'Time: ${FlxStringUtil.formatTime(secondsTotal, false)}\nSection: $curSection\nBeat: $curBeat\nStep: $curStep';
+		} else if (ClientPrefs.data.timeBarType == 'Time Elapsed') {
+			dataTxt.text = 'Time: ${FlxStringUtil.formatTime(FlxG.sound.music.time / 1000, false)}\nSection: $curSection\nBeat: $curBeat\nStep: $curStep';
+		} else if (ClientPrefs.data.timeBarType == 'Song Name + Time Left'){
+			dataTxt.text = PlayState.SONG.song + ' [${FlxStringUtil.formatTime(secondsTotal, false)}]\nSection: $curSection\nBeat: $curBeat\nStep: $curStep';
+		} else if (ClientPrefs.data.timeBarType == 'Song Name + Time Elapsed'){
+			dataTxt.text = PlayState.SONG.song + ' [${FlxStringUtil.formatTime(FlxG.sound.music.time / 1000, false)}]\nSection: $curSection\nBeat: $curBeat\nStep: $curStep';
+		} else if (ClientPrefs.data.timeBarType == 'Modern Time') {
+			dataTxt.text = 'Time: ${FlxStringUtil.formatTime(FlxG.sound.music.time / 1000, false)} / ${FlxStringUtil.formatTime(songLength / 1000, false)}\nSection: $curSection\nBeat: $curBeat\nStep: $curStep';
+		} else if (ClientPrefs.data.timeBarType == 'Modern Time Elapsed') {
+			dataTxt.text = 'Time: ${FlxStringUtil.formatTime(FlxG.sound.music.time / 1000, false)} / ${FlxStringUtil.formatTime(FlxG.sound.music.length / 1000, false)}\nSection: $curSection\nBeat: $curBeat\nStep: $curStep';
+		} else {
+			dataTxt.text = 'Time: $time / ${songLength/1000}\nSection: $curSection\nBeat: $curBeat\nStep: $curStep';
+		}
+
 		super.update(elapsed);
 	}
 	
@@ -296,6 +383,8 @@ class EditorPlayState extends MusicBeatSubstate
 
 		// Song duration in a float, useful for the time left feature
 		songLength = FlxG.sound.music.length;
+
+		FlxTween.tween(timeBar, {alpha: 1}, 0.8, {ease: FlxEase.sineInOut});
 	}
 
 	// Borrowed from PlayState
