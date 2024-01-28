@@ -200,6 +200,10 @@ class ChartingState extends MusicBeatState
 	var songLength:Float = 0;
 	var songPercent:Float = 0;
 
+	var warningStateTxt:FlxText;
+	var warningStateBG:FlxSprite;
+	var warningStateChecker:FlxBackdrop;
+
 	override function create()
 	{
 		if (PlayState.SONG != null)
@@ -251,6 +255,7 @@ class ChartingState extends MusicBeatState
 		velocityBackground = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0x70000000, 0x0));
 		velocityBackground.velocity.set(FlxG.random.bool(50) ? 90 : -90, FlxG.random.bool(50) ? 90 : -90);
 		velocityBackground.visible = ClientPrefs.data.velocityBackground;
+		velocityBackground.screenCenter();
 		add(velocityBackground);
 
 		gridLayer = new FlxTypedGroup<FlxSprite>();
@@ -411,6 +416,37 @@ class ChartingState extends MusicBeatState
 		zoomTxt = new FlxText(10, 100-16, 0, "Zoom: 1 / 1", 16);
 		zoomTxt.scrollFactor.set();
 		add(zoomTxt);
+
+		warningStateBG = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+		warningStateBG.visible = false;
+		warningStateBG.screenCenter();
+		add(warningStateBG);
+
+		warningStateChecker = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0xFFFF0000, 0x0));
+		warningStateChecker.velocity.set(FlxG.random.bool(50) ? 90 : -90, FlxG.random.bool(50) ? 90 : -90);
+		warningStateChecker.alpha = 0.4;
+		warningStateChecker.visible = false;
+		warningStateChecker.screenCenter();
+		add(warningStateChecker);
+		
+		warningStateTxt = new FlxText(50, 0, FlxG.width - 100, '', 24);
+		switch (ClientPrefs.data.gameStyle) {
+			case 'Psych Engine' | 'Kade Engine':
+				warningStateTxt.setFormat(Paths.font("vcr.ttf"), 24, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			
+			case 'Dave and Bambi':
+				warningStateTxt.setFormat(Paths.font("comic.ttf"), 24, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			
+			case 'TGT Engine':
+				warningStateTxt.setFormat(Paths.font("calibri.ttf"), 24, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			
+			default:
+				warningStateTxt.setFormat(Paths.font("bahnschrift.ttf"), 24, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		}
+		warningStateTxt.scrollFactor.set();
+		warningStateTxt.visible = false;
+		warningStateTxt.screenCenter(Y);
+		add(warningStateTxt);
 		
 		updateGrid();
 
@@ -1864,8 +1900,18 @@ class ChartingState extends MusicBeatState
 				playtesting = true;
 				playtestingTime = Conductor.songPosition;
 				playtestingOnComplete = FlxG.sound.music.onComplete;
+				#if android
+				warningStateTxt.visible = true;
+				warningStateTxt.text = "Chart playtesting is currently broken on Android build because of Null Object Refrence for controls, so it will be fixed on v3.1.0 update!\nTouch the screen to continue";
+				warningStateBG.visible = true;
+				warningStateChecker.visible = true;
+				FlxG.camera.shake(0.05, 0.6);
+				FlxG.sound.play(Paths.sound('error'));
+				#else
 				openSubState(new states.editors.EditorPlayState(playbackSpeed));
+				#end
 			}
+
 			if (FlxG.keys.justPressed.ENTER #if mobile || MusicBeatState.virtualPad.buttonA.justPressed #end)
 			{
 				autosaveSong();
@@ -1874,7 +1920,6 @@ class ChartingState extends MusicBeatState
 				FlxG.sound.music.stop();
 				if(vocals != null) vocals.stop();
 
-				//if(_song.stage == null) _song.stage = stageDropDown.selectedLabel;
 				StageData.loadDirectory(_song);
 				if (PlayState.isStoryMode) {
 					Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Story Mode (Loading current song: " + PlayState.SONG.song + " (" + Difficulty.getString() + ") )... ";
@@ -1882,6 +1927,23 @@ class ChartingState extends MusicBeatState
 					Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Freeplay Menu (Loading current song: " + PlayState.SONG.song + " (" + Difficulty.getString() + ") )... ";
 				}
 				LoadingState.loadAndSwitchState(new PlayState());
+			}
+
+			#if android
+			var touchedTheScreen:Bool = false;
+	
+			for (touch in FlxG.touches.list) {
+				if (touch.justPressed) {
+					touchedTheScreen = true;
+				}
+			}
+			#end
+
+			if (FlxG.keys.pressed.SHIFT #if android || touchedTheScreen #end) {
+				warningStateTxt.visible = false;
+				warningStateBG.visible = false;
+				warningStateChecker.visible = false;
+				FlxG.sound.music.stop();
 			}
 
 			if(currentlySelectedNote != null && currentlySelectedNote[1] > -1)
@@ -3214,8 +3276,8 @@ class ChartingState extends MusicBeatState
 		return noteData;
 	}
 
-	var missingText:FlxText;
-	var missingTextTimer:FlxTimer;
+	var warningTxt:FlxText;
+	var warningTxtTimer:FlxTimer;
 	function loadJson(song:String):Void
 	{
 		//make it look sexier if possible
@@ -3236,21 +3298,21 @@ class ChartingState extends MusicBeatState
 			var errorStr:String = e.toString();
 			if(errorStr.startsWith('[file_contents,assets/data/')) errorStr = 'Missing file: ' + errorStr.substring(27, errorStr.length-1); //Missing chart
 
-			if(missingText == null)
+			if(warningTxt == null)
 			{
-				missingText = new FlxText(50, 0, FlxG.width - 100, '', 24);
-				missingText.setFormat(Paths.font("vcr.ttf"), 24, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-				missingText.scrollFactor.set();
-				add(missingText);
+				warningTxt = new FlxText(50, 0, FlxG.width - 100, '', 24);
+				warningTxt.setFormat(Paths.font("vcr.ttf"), 24, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+				warningTxt.scrollFactor.set();
+				add(warningTxt);
 			}
-			else missingTextTimer.cancel();
+			else warningTxtTimer.cancel();
 
-			missingText.text = 'ERROR WHILE LOADING CHART:\n$errorStr';
-			missingText.screenCenter(Y);
+			warningTxt.text = 'ERROR WHILE LOADING CHART:\n$errorStr';
+			warningTxt.screenCenter(Y);
 
-			missingTextTimer = new FlxTimer().start(5, function(tmr:FlxTimer) {
-				remove(missingText);
-				missingText.destroy();
+			warningTxtTimer = new FlxTimer().start(5, function(tmr:FlxTimer) {
+				remove(warningTxt);
+				warningTxt.destroy();
 			});
 			FlxG.sound.play(Paths.sound('cancelMenu'));
 		}
