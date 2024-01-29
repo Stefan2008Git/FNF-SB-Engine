@@ -73,12 +73,17 @@ class EditorPlayState extends MusicBeatSubstate
 	var scoreTxt:FlxText;
 	var dataTxt:FlxText;
 
+	var camHUD:FlxCamera;
+
 	public function new(playbackRate:Float)
 	{
 		super();
 		
 		Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Mod Editors menu (Chart Editor - Playtesting the chart: " + PlayState.SONG.song + " - " + Difficulty.getString() + ")";
 
+		camHUD = new FlxCamera();
+		camHUD.bgColor.alpha = 0;
+		FlxG.cameras.add(camHUD, false);
 		/* setting up some important data */
 		this.playbackRate = playbackRate;
 		this.startPos = Conductor.songPosition;
@@ -103,9 +108,14 @@ class EditorPlayState extends MusicBeatSubstate
 		bg.alpha = 0.9;
 		add(bg);
 		
+		noteGroup = new FlxTypedGroup<FlxBasic>();
+		add(noteGroup);
+		uiGroup = new FlxSpriteGroup();
+		add(uiGroup);
+
 		/**** NOTES ****/
 		strumLineNotes = new FlxTypedGroup<StrumNote>();
-		add(strumLineNotes);
+		noteGroup.add(strumLineNotes);
 		grpNoteSplashes = new FlxTypedGroup<NoteSplash>();
 		add(grpNoteSplashes);
 		
@@ -118,15 +128,14 @@ class EditorPlayState extends MusicBeatSubstate
 		scoreTxt.scrollFactor.set();
 		scoreTxt.borderSize = 1.25;
 		scoreTxt.visible = !ClientPrefs.data.hideHud;
-		add(scoreTxt);
+		uiGroup.add(scoreTxt);
 		
 		dataTxt = new FlxText(10, 580, FlxG.width - 20, "Section: 0", 20);
 		dataTxt.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		dataTxt.scrollFactor.set();
 		dataTxt.borderSize = 1.25;
-		add(dataTxt);
+		uiGroup.add(dataTxt);
 
-		
 		opponentStrums = new FlxTypedGroup<StrumNote>();
 		playerStrums = new FlxTypedGroup<StrumNote>();
 
@@ -163,7 +172,7 @@ class EditorPlayState extends MusicBeatSubstate
 		timeTxt.visible = updateTime = showTime;
 		if(ClientPrefs.data.downScroll) timeTxt.y = FlxG.height - 44;
 		if(ClientPrefs.data.timeBarType == 'Song Name') timeTxt.text = PlayState.SONG.song;
-		add(timeTxt);
+		uiGroup.add(timeTxt);
 
 		switch (ClientPrefs.data.gameStyle) {
 			case 'Psych Engine' | 'TGT Engine':
@@ -185,7 +194,7 @@ class EditorPlayState extends MusicBeatSubstate
 		timeBar.leftBar.color = FlxColor.PURPLE;
 		timeBar.rightBar.color = 0xFF1A1A1A;
 		timeBar.alpha = 0;
-		add(timeBar);
+		uiGroup.add(timeBar);
 		
 		generateStaticArrows(0);
 		generateStaticArrows(1);
@@ -198,10 +207,11 @@ class EditorPlayState extends MusicBeatSubstate
 		tipText.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		tipText.borderSize = 2;
 		tipText.scrollFactor.set();
-		add(tipText);
+		uiGroup.add(tipText);
 		FlxG.mouse.visible = false;
 		
 		generateSong(PlayState.SONG.song);
+		noteGroup.add(grpNoteSplashes);
 
 		FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
 		FlxG.stage.addEventListener(KeyboardEvent.KEY_UP, onKeyRelease);
@@ -210,6 +220,10 @@ class EditorPlayState extends MusicBeatSubstate
 		// Updating Discord Rich Presence (with Time Left)
 		DiscordClient.changePresence('Playtesting on Chart Editor', PlayState.SONG.song, null, true, songLength);
 		#end
+
+		uiGroup.cameras = [camHUD];
+		noteGroup.cameras = [camHUD];
+
 		RecalculateRating();
 		
 		#if android
@@ -419,7 +433,7 @@ class EditorPlayState extends MusicBeatSubstate
 		FlxG.sound.music.volume = 0;
 
 		notes = new FlxTypedGroup<Note>();
-		add(notes);
+		noteGroup.add(notes);
 
 		var noteData:Array<SwagSection>;
 
@@ -577,6 +591,11 @@ class EditorPlayState extends MusicBeatSubstate
 		}
 		close();
 	}
+
+	// Stores HUD Objects in a Group
+	public var uiGroup:FlxSpriteGroup;
+	// Stores Note Objects in a Group
+	public var noteGroup:FlxTypedGroup<FlxBasic>;
 
 	private function cachePopUpScore()
 	{

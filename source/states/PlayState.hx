@@ -607,12 +607,12 @@ class PlayState extends MusicBeatState
 		}
 		stagesFunc(function(stage:BaseStage) stage.createPost());
 
-		comboGroup = new FlxSpriteGroup();
-		add(comboGroup);
 		noteGroup = new FlxTypedGroup<FlxBasic>();
 		add(noteGroup);
 		uiGroup = new FlxSpriteGroup();
 		add(uiGroup);
+		comboGroup = new FlxSpriteGroup();
+		add(comboGroup);
 
 		Conductor.songPosition = -5000 / Conductor.songPosition;
 		var showTime:Bool = (ClientPrefs.data.timeBarType != 'Disabled');
