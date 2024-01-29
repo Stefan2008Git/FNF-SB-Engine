@@ -241,6 +241,7 @@ class PlayState extends MusicBeatState
 	public var songMisses:Int = 0;
 	public var nps:Int = 0;
 	public var maxNPS:Int = 0;
+	public var scoreTextSine:Float = 0;
 	public var scoreTxt:FlxText;
 	var scoreTxtTween:FlxTween;
 	var timeTxt:FlxText;
@@ -792,10 +793,12 @@ class PlayState extends MusicBeatState
 
 			case 'Psych Engine':
 				botplayTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+				botplayTxt.text = "BOTPLAY";
 				botplayTxt.borderSize = 1.25;
 			
 			case 'Kade Engine':
 				botplayTxt.setFormat(Paths.font("vcr.ttf"), 25, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+				botplayTxt.text = "BOTPLAY";
 				botplayTxt.borderSize = 1.50;
 			
 			case 'Dave and Bambi':
@@ -810,8 +813,8 @@ class PlayState extends MusicBeatState
 			
 			case 'Cheeky':
 				botplayTxt.setFormat(Paths.font("vcr.ttf"), 42, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+				botplayTxt.text = "BOTPLAY";
 		}
-		botplayTxt.text = "BOTPLAY";
 		botplayTxt.scrollFactor.set();
 		botplayTxt.visible = cpuControlled;
 		if(ClientPrefs.data.downScroll) {
@@ -1785,26 +1788,60 @@ class PlayState extends MusicBeatState
 			str += ' (${percent}%) - ${ratingFC}';
 		}
 
-		switch (ClientPrefs.data.gameStyle) {
-			case 'SB Engine':
-				scoreTxt.text = 'Score: ' + /*Std.parseInt(scoreLerp)*/ songScore + ' // Combo breaks: ' + songMisses + ' // Accuracy: ' + Math.ceil(ratingPercent * 10000) / 100 + '%' + ' // ' + ratingName + ' [' + ratingFC + ']';
+		if (!cpuControlled && !practiceMode) {
+			switch (ClientPrefs.data.gameStyle) {
+				case 'SB Engine':
+					scoreTxt.text = 'Score: ' + /*Std.parseInt(scoreLerp)*/ songScore + ' // Combo breaks: ' + songMisses + ' // Accuracy: ' + Math.ceil(ratingPercent * 10000) / 100 + '%' + ' // ' + ratingName + ' [' + ratingFC + ']';
+	
+				case 'Psych Engine':
+					scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + str;
+	
+				case 'Kade Engine':
+					scoreTxt.text = 'NPS: ' + nps + ' (Max: ' + maxNPS + ')' + ' | Score: ' + songScore + ' | Combo Breaks: ' + songMisses + ' | Accurarcy: ' + CoolUtil.floorDecimal(ratingPercent * 100, 2) + '%' + ' | ' + ratingName + ' [' + ratingFC + ']';
+				
+				case 'TGT Engine':
+					scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + str;
+	
+				case 'Dave and Bambi':
+					scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Accurarcy: ' + CoolUtil.floorDecimal(ratingPercent * 100, 2) + '%';
+				
+				case 'Cheeky':
+					scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Accurarcy: ' + CoolUtil.floorDecimal(ratingPercent * 100, 2) + '%' + ' | ' + ratingName + ' [' + ratingFC + ']';
+			}
 
-			case 'Psych Engine':
-				scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + str;
-
-			case 'Kade Engine':
-				scoreTxt.text = 'NPS: ' + nps + ' (Max: ' + maxNPS + ')' + ' | Score: ' + songScore + ' | Combo Breaks: ' + songMisses + ' | Accurarcy: ' + CoolUtil.floorDecimal(ratingPercent * 100, 2) + '%' + ' | ' + ratingName + ' [' + ratingFC + ']';
+			switch (ClientPrefs.data.judgementCounterStyle) {
+				case 'Original':
+					judgementCounterTxt.text = 'Sicks: ${ratingsData[0].hits}\n' + 'Goods: ${ratingsData[1].hits}\n' + 'Bads: ${ratingsData[2].hits}\n' + 'Shits: ${ratingsData[3].hits}';
 			
-			case 'TGT Engine':
-				scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + str;
-
-			case 'Dave and Bambi':
-				scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Accurarcy: ' + CoolUtil.floorDecimal(ratingPercent * 100, 2) + '%';
+				case 'With Misses':
+					judgementCounterTxt.text = 'Sicks: ${ratingsData[0].hits}\n' + 'Goods: ${ratingsData[1].hits}\n' + 'Bads: ${ratingsData[2].hits}\n' + 'Shits: ${ratingsData[3].hits}\n' + 'Combo Breaks: ${songMisses}';
 			
-			case 'Cheeky':
-				scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Accurarcy: ' + CoolUtil.floorDecimal(ratingPercent * 100, 2) + '%' + ' | ' + ratingName + ' [' + ratingFC + ']';
-		}
-		if (!cpuControlled) {
+				case 'Better Judge':
+					judgementCounterTxt.text = 'Total Notes Hit: ${totalPlayed}\n' + 'NPS: ${nps}\n' + 'Combo: ${combo}\n'  + 'Max Combo: ${maxCombo}\n' + 'Sicks: ${ratingsData[0].hits}\n' + 'Goods: ${ratingsData[1].hits}\n' + 'Bads: ${ratingsData[2].hits}\n' + 'Shits: ${ratingsData[3].hits}\n' + 'Combo Breaks: ${songMisses}';
+			}
+		} else if (cpuControlled && !practiceMode) {
+			switch (ClientPrefs.data.gameStyle) {
+				case 'SB Engine':
+					scoreTxt.text = '[AUTOPAY]';
+	
+				case 'Psych Engine' | 'Kade Engine' | 'Cheeky':
+					scoreTxt.text = 'BOTPLAY';
+				
+				case 'TGT Engine':
+					scoreTxt.text = '[BUTTPLUG]';
+	
+				case 'Dave and Bambi':
+					scoreTxt.text = 'CHEATER!';
+			}
+		} else if (!cpuControlled && practiceMode) {
+			switch (ClientPrefs.data.gameStyle) {
+				case 'SB Engine':
+					scoreTxt.text = 'Practicol Mode Enabled!!! // Combo break: ' + songMisses + ' // NPS: ' + nps + ' (Max NPS: ' + maxNPS + ')' + ' // Total Notes Hit: ' + totalPlayed + ' // Combo: ' + combo + ' (Max Combo: ' + maxCombo + ')'; 
+	
+				case 'Psych Engine' | 'Kade Engine' | 'Cheeky' | 'TGT Engine' | 'Dave and Bambi':
+					scoreTxt.text = 'Practice Mode | Misses: ' + songMisses;
+			}
+
 			switch (ClientPrefs.data.judgementCounterStyle) {
 				case 'Original':
 					judgementCounterTxt.text = 'Sicks: ${ratingsData[0].hits}\n' + 'Goods: ${ratingsData[1].hits}\n' + 'Bads: ${ratingsData[2].hits}\n' + 'Shits: ${ratingsData[3].hits}';
@@ -2384,18 +2421,22 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		if (ClientPrefs.data.textSineEffect) {
+		if (ClientPrefs.data.textSineEffect && !practiceMode) {
 			switch (ClientPrefs.data.gameStyle) {
 				case 'Psych Engine' | 'TGT Engine':
-					if(botplayTxt != null && botplayTxt.visible) {
+					if(botplayTxt != null && botplayTxt.visible || scoreTxt != null && scoreTxt.visible) {
 						botplaySine += 180 * elapsed;
 						botplayTxt.alpha = 1 - Math.sin((Math.PI * botplaySine) / 180);
+						scoreTextSine += 180 * elapsed;
+						scoreTxt.alpha = 1 - Math.sin((Math.PI * scoreTextSine) / 180);
 					}
 
 				case 'SB Engine':
-					if (botplayTxt != null && botplayTxt.visible) {
+					if (botplayTxt != null && botplayTxt.visible || scoreTxt != null && scoreTxt.visible) {
 						botplaySine += 50 * elapsed;
 						botplayTxt.alpha = 1 - Math.sin((Math.PI * botplaySine) / 120);
+						scoreTextSine += 50 * elapsed;
+						scoreTxt.alpha = 1 - Math.sin((Math.PI * scoreTextSine) / 120);
 				}
 			}
 		}
