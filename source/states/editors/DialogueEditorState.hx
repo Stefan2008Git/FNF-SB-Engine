@@ -51,6 +51,7 @@ class DialogueEditorState extends MusicBeatState
 			]
 		};
 
+		FlxG.sound.playMusic(Paths.music('offsetSong'), 1, true);
 		Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Mod Editors menu (Dialogue editor)";
 		
 		character = new DialogueCharacter();

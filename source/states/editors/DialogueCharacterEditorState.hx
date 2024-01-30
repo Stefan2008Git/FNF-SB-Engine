@@ -93,6 +93,7 @@ class DialogueCharacterEditorState extends MusicBeatState
     	\nHold B to move offsets 10x faster';
     	#end
 
+		FlxG.sound.playMusic(Paths.music('offsetSong'), 1, true);
 		Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Mod Editors menu (Dialogue portrait)";
 		
 		mainGroup = new FlxSpriteGroup();

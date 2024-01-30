@@ -122,25 +122,48 @@ class EditorPlayState extends MusicBeatSubstate
 		var splash:NoteSplash = new NoteSplash(100, 100);
 		grpNoteSplashes.add(splash);
 		splash.alpha = 0.000001; //cant make it invisible or it won't allow precaching
+		
+		dataTxt = new FlxText(10, 580, FlxG.width - 20, "Section: 0", 20);
+		switch (ClientPrefs.data.gameStyle) {
+			case 'SB Engine':
+				dataTxt.setFormat(Paths.font("bahnschrift.ttf"), 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			
+			case 'Psych Engine' | 'Kade Engine' | 'Cheeky':
+				dataTxt.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			
+			case 'TGT Engine':
+				dataTxt.setFormat(Paths.font("calibri.ttf"), 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			
+			case 'Dave and Bambi':
+				dataTxt.setFormat(Paths.font("comic.ttf"), 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		}
+		dataTxt.scrollFactor.set();
+		dataTxt.borderSize = 1.25;
+		uiGroup.add(dataTxt);
 
 		scoreTxt = new FlxText(10, FlxG.height - 50, FlxG.width - 20, "", 20);
-		scoreTxt.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		switch (ClientPrefs.data.gameStyle) {
+			case 'SB Engine':
+				scoreTxt.setFormat(Paths.font("bahnschrift.ttf"), 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			
+			case 'Psych Engine' | 'Kade Engine' | 'Cheeky':
+				scoreTxt.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			
+			case 'TGT Engine':
+				scoreTxt.setFormat(Paths.font("calibri.ttf"), 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			
+			case 'Dave and Bambi':
+				scoreTxt.setFormat(Paths.font("comic.ttf"), 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		}
 		scoreTxt.scrollFactor.set();
 		scoreTxt.borderSize = 1.25;
 		scoreTxt.visible = !ClientPrefs.data.hideHud;
 		uiGroup.add(scoreTxt);
-		
-		dataTxt = new FlxText(10, 580, FlxG.width - 20, "Section: 0", 20);
-		dataTxt.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		dataTxt.scrollFactor.set();
-		dataTxt.borderSize = 1.25;
-		uiGroup.add(dataTxt);
 
 		opponentStrums = new FlxTypedGroup<StrumNote>();
 		playerStrums = new FlxTypedGroup<StrumNote>();
 
 		Conductor.songPosition = -5000 / Conductor.songPosition;
-		var showTime:Bool = (ClientPrefs.data.timeBarType != 'Disabled');
 		timeTxt = new FlxText(PlayState.STRUM_X + (FlxG.width / 2) - 248, 19, 400, "", 32);
 		switch (ClientPrefs.data.gameStyle) {
 			case 'SB Engine':
@@ -168,8 +191,7 @@ class EditorPlayState extends MusicBeatSubstate
 				timeTxt.borderSize = 1.25;
 		}
 		timeTxt.scrollFactor.set();
-		timeTxt.visible = false;
-		timeTxt.visible = updateTime = showTime;
+		// timeTxt.alpha = 0;
 		if(ClientPrefs.data.downScroll) timeTxt.y = FlxG.height - 44;
 		if(ClientPrefs.data.timeBarType == 'Song Name') timeTxt.text = PlayState.SONG.song;
 		uiGroup.add(timeTxt);
@@ -183,14 +205,6 @@ class EditorPlayState extends MusicBeatSubstate
 		}
 		timeBar.scrollFactor.set();
 		timeBar.screenCenter(X);
-		/*switch (ClientPrefs.data.gameStyle) {
-			case 'SB Engine' | 'Psych Engine' | 'TGT Engine' | 'Cheeky':
-				timeBar.alpha = 0;
-			
-			case 'Kade Engine' | 'Dave and Bambi':
-				timeBar.alpha = 1;
-		}*/
-		timeBar.visible = showTime && ClientPrefs.data.timeBar;
 		timeBar.leftBar.color = FlxColor.PURPLE;
 		timeBar.rightBar.color = 0xFF1A1A1A;
 		timeBar.alpha = 0;
@@ -205,6 +219,19 @@ class EditorPlayState extends MusicBeatSubstate
         tipText.text = 'Press BACK to Go Back to Chart Editor';
 		#end
 		tipText.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		switch (ClientPrefs.data.gameStyle) {
+			case 'SB Engine':
+				tipText.setFormat(Paths.font("bahnschrift.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			
+			case 'Psych Engine' | 'Kade Engine' | 'Cheeky':
+				tipText.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			
+			case 'TGT Engine':
+				tipText.setFormat(Paths.font("calibri.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			
+			case 'Dave and Bambi':
+				tipText.setFormat(Paths.font("comic.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		}
 		tipText.borderSize = 2;
 		tipText.scrollFactor.set();
 		uiGroup.add(tipText);
@@ -332,6 +359,13 @@ class EditorPlayState extends MusicBeatSubstate
 			dataTxt.text = 'Time: $time / ${songLength/1000}\nSection: $curSection\nBeat: $curBeat\nStep: $curStep';
 		}
 
+		if(ClientPrefs.data.timeBarType != 'Song Name') timeTxt.text = FlxStringUtil.formatTime(secondsTotal, false);
+		if(ClientPrefs.data.timeBarType == 'Song Name + Time') timeTxt.text = PlayState.SONG.song + ' [${FlxStringUtil.formatTime(secondsTotal, false)}]';
+		if(ClientPrefs.data.timeBarType == 'Song Name + Time Elapsed') timeTxt.text = PlayState.SONG.song + ' [${FlxStringUtil.formatTime(FlxG.sound.music.time / 1000, false)}]';
+		if(ClientPrefs.data.timeBarType == 'Song Name + Difficulty') timeTxt.text = PlayState.SONG.song + ' [${Difficulty.getString()}]';
+		if(ClientPrefs.data.timeBarType == 'Modern Time') timeTxt.text = FlxStringUtil.formatTime(secondsTotal, false) + ' / ' + FlxStringUtil.formatTime(songLength / 1000, false);
+		if(ClientPrefs.data.timeBarType == 'Modern Time Elapsed') timeTxt.text = FlxStringUtil.formatTime(FlxG.sound.music.time / 1000, false) + ' / ' + FlxStringUtil.formatTime(FlxG.sound.music.length / 1000, false);
+
 		super.update(elapsed);
 	}
 	
@@ -401,6 +435,7 @@ class EditorPlayState extends MusicBeatSubstate
 		songLength = FlxG.sound.music.length;
 
 		FlxTween.tween(timeBar, {alpha: 1}, 0.8, {ease: FlxEase.sineInOut});
+		// FlxTween.tween(timeTxt, {alpha: 1}, 0.8, {ease: FlxEase.sineInOut});
 	}
 
 	// Borrowed from PlayState

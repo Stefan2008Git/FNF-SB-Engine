@@ -51,6 +51,8 @@ class WeekEditorState extends MusicBeatState
 	}
 
 	override function create() {
+		Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Mod Editors menu (Week Editor)";
+		FlxG.sound.playMusic(Paths.music('offsetSong'), 1, true);
 		txtWeekTitle = new FlxText(FlxG.width * 0.7, 10, 0, "", 32);
 		txtWeekTitle.setFormat("VCR OSD Mono", 32, FlxColor.WHITE, RIGHT);
 		txtWeekTitle.alpha = 0.7;
@@ -601,6 +603,7 @@ class WeekEditorFreeplayState extends MusicBeatState
 	var currentlySelected = 0;
 
 	override function create() {
+		Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Mod Editors menu (Week Editor - Freeplay week editor)";
 		bg = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
 		bg.antialiasing = ClientPrefs.data.antialiasing;
 		bg.color = FlxColor.WHITE;

@@ -37,6 +37,7 @@ class MenuCharacterEditorState extends MusicBeatState
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence("Menu Character Editor", "Editting: " + characterFile.image);
 		#end
+		FlxG.sound.playMusic(Paths.music('offsetSong'), 1, true);
 		Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Mod Editors menu (Menu Character ";
 
 		grpWeekCharacters = new FlxTypedGroup<MenuCharacter>();

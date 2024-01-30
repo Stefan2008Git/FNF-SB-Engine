@@ -36,6 +36,7 @@ class NoteSplashDebugState extends MusicBeatState
 
 	override function create()
 	{
+		FlxG.sound.playMusic(Paths.music('offsetSong'), 1, true);
 		Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Mod Editors menu (Note splash debug)";
 		switch (ClientPrefs.data.themes) {
 			case 'SB Engine':

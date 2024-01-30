@@ -2421,7 +2421,7 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		if (ClientPrefs.data.textSineEffect && !practiceMode) {
+		if (ClientPrefs.data.textSineEffect && !practiceMode && cpuControlled) {
 			switch (ClientPrefs.data.gameStyle) {
 				case 'Psych Engine' | 'TGT Engine':
 					if(botplayTxt != null && botplayTxt.visible || scoreTxt != null && scoreTxt.visible) {
@@ -3441,37 +3441,60 @@ class PlayState extends MusicBeatState
 		rating.y -= 60;
 		rating.acceleration.y = 550 * playbackRate * playbackRate;
 
+		rating.velocity.y -= FlxG.random.int(140, 175) * playbackRate;
+		rating.velocity.x -= FlxG.random.int(0, 10) * playbackRate;
+		rating.visible = (!ClientPrefs.data.hideHud && showRating);
+		rating.x += ClientPrefs.data.comboOffset[0];
+		rating.y -= ClientPrefs.data.comboOffset[1];
+		rating.antialiasing = antialias;
+
+		var comboSpr:FlxSprite = new FlxSprite().loadGraphic(Paths.image(uiPrefix + 'combo' + uiSuffix));
+		comboSpr.screenCenter();
+		comboSpr.x = placement;
+		comboSpr.acceleration.y = FlxG.random.int(200, 300) * playbackRate * playbackRate;
+		comboSpr.velocity.y -= FlxG.random.int(140, 160) * playbackRate;
+		comboSpr.visible = (!ClientPrefs.data.hideHud && showCombo);
+		comboSpr.x += ClientPrefs.data.comboOffset[0];
+		comboSpr.y -= ClientPrefs.data.comboOffset[1];
+		comboSpr.antialiasing = antialias;
+		comboSpr.y += 60;
+		comboSpr.velocity.x += FlxG.random.int(1, 10) * playbackRate;
+
+		comboGroup.add(rating);
+
+		if (!PlayState.isPixelStage)
+		{
+			rating.setGraphicSize(Std.int(rating.width * 0.7));
+			comboSpr.setGraphicSize(Std.int(comboSpr.width * 0.7));
+		}
+		else
+		{
+			rating.setGraphicSize(Std.int(rating.width * daPixelZoom * 0.85));
+			comboSpr.setGraphicSize(Std.int(comboSpr.width * daPixelZoom * 0.85));
+		}
+
+		comboSpr.updateHitbox();
+		rating.updateHitbox();
+
 		var msTiming = truncateFloat(noteDiff, 3);
 		if (cpuControlled) msTiming = 0;							   
 		if (msTxt != null) remove(msTxt);
 		msTxt = new FlxText(0, 0, 0, "0ms");
 		timeShown = 0;
-		switch(daRating.name)
-		{
-			case 'shit': msTxt.color = FlxColor.RED;
-			case 'bad': msTxt.color = FlxColor.ORANGE;
-			case 'good': msTxt.color = FlxColor.GREEN;
-			case 'sick': msTxt.color = FlxColor.CYAN;
-			default: msTxt.color = FlxColor.WHITE;
-		}
-		msTxt.borderStyle = OUTLINE;
-		msTxt.borderSize = 1;
-		msTxt.borderColor = FlxColor.BLACK;
 		msTxt.text = msTiming + "ms";
-		msTxt.size = 20;
 		msTxt.visible = ClientPrefs.data.millisecondTxt;
 		switch (ClientPrefs.data.gameStyle) {
 			case 'SB Engine':
-				msTxt.setFormat(Paths.font('bahnschrift.ttf'));
+				msTxt.setFormat(Paths.font('bahnschrift.ttf'), 20, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 			
 			case 'Psych Engine' | 'Kade Engine' | 'Cheeky':
-				msTxt.setFormat(Paths.font('vcr.ttf'));
+				msTxt.setFormat(Paths.font('vcr.ttf'), 20, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 			
 			case 'TGT Engine':
-				msTxt.setFormat(Paths.font('calibri.ttf'));
+				msTxt.setFormat(Paths.font('calibri.ttf'), 20, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 			
 			case 'Dave and Bambi':
-				msTxt.setFormat(Paths.font('comic.ttf'));
+				msTxt.setFormat(Paths.font('comic.ttf'), 20, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		}
 
 		if (msTiming >= 0.03)
@@ -3493,51 +3516,14 @@ class PlayState extends MusicBeatState
 			offsetTest = truncateFloat(total / hits.length, 2);
 		}
 		if (msTxt.alpha != 1) msTxt.alpha = 1;
-
-		rating.velocity.y -= FlxG.random.int(140, 175) * playbackRate;
-		rating.velocity.x -= FlxG.random.int(0, 10) * playbackRate;
-		rating.visible = (!ClientPrefs.data.hideHud && showRating);
-		rating.x += ClientPrefs.data.comboOffset[0];
-		rating.y -= ClientPrefs.data.comboOffset[1];
-		rating.antialiasing = antialias;
-
-		var comboSpr:FlxSprite = new FlxSprite().loadGraphic(Paths.image(uiPrefix + 'combo' + uiSuffix));
-		comboSpr.screenCenter();
-		comboSpr.x = placement;
-		comboSpr.acceleration.y = FlxG.random.int(200, 300) * playbackRate * playbackRate;
-		comboSpr.velocity.y -= FlxG.random.int(140, 160) * playbackRate;
-
 		msTxt.screenCenter();
 		msTxt.x = comboSpr.x + 100;
 		msTxt.y = rating.y + 100;
 		msTxt.acceleration.y = 600;
 		msTxt.velocity.y -= 150;
-	
-		comboSpr.visible = (!ClientPrefs.data.hideHud && showCombo);
-		comboSpr.x += ClientPrefs.data.comboOffset[0];
-		comboSpr.y -= ClientPrefs.data.comboOffset[1];
-		comboSpr.antialiasing = antialias;
-		comboSpr.y += 60;
-		comboSpr.velocity.x += FlxG.random.int(1, 10) * playbackRate;
 		msTxt.velocity.x += comboSpr.velocity.x;
-
-		comboGroup.add(rating);
-		if(!cpuControlled) comboGroup.add(msTxt);
-
-		if (!PlayState.isPixelStage)
-		{
-			rating.setGraphicSize(Std.int(rating.width * 0.7));
-			comboSpr.setGraphicSize(Std.int(comboSpr.width * 0.7));
-		}
-		else
-		{
-			rating.setGraphicSize(Std.int(rating.width * daPixelZoom * 0.85));
-			comboSpr.setGraphicSize(Std.int(comboSpr.width * daPixelZoom * 0.85));
-		}
-
-		comboSpr.updateHitbox();
-		rating.updateHitbox();
 		msTxt.updateHitbox();
+		if(!cpuControlled) comboGroup.add(msTxt);
 
 		var seperatedScore:Array<Int> = [];
 
@@ -3586,14 +3572,26 @@ class PlayState extends MusicBeatState
 			if(numScore.x > xThing) xThing = numScore.x;
 			}
 			comboSpr.x = xThing + 50;
+
 			FlxTween.tween(rating, {alpha: 0}, 0.2 / playbackRate, {
-				startDelay: Conductor.crochet * 0.001 / playbackRate
+				startDelay: Conductor.crochet * 0.001 / playbackRate,
+				onUpdate: function(tween:FlxTween)
+				{
+					if (msTxt != null)
+						msTxt.alpha = 0;
+					timeShown++;
+				}
 			});
 
 			FlxTween.tween(comboSpr, {alpha: 0}, 0.2 / playbackRate, {
 				onComplete: function(tween:FlxTween)
 				{
 					comboSpr.destroy();
+					if (msTxt != null && timeShown >= 20)
+					{
+						remove(msTxt);
+						msTxt = null;
+					}
 					rating.destroy();
 				},
 				startDelay: Conductor.crochet * 0.002 / playbackRate

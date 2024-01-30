@@ -65,15 +65,18 @@ class NoteOffsetState extends MusicBeatState
 		new BackgroundStage();
 
 		// Characters
-		gf = new Character(400, 130, 'gf');
-		gf.x += gf.positionArray[0];
-		gf.y += gf.positionArray[1];
-		gf.scrollFactor.set(0.95, 0.95);
-		boyfriend = new Character(770, 100, 'bf', true);
-		boyfriend.x += boyfriend.positionArray[0];
-		boyfriend.y += boyfriend.positionArray[1];
-		add(gf);
-		add(boyfriend);
+		if (ClientPrefs.data.objects) {
+			gf = new Character(400, 130, 'gf');
+			gf.x += gf.positionArray[0];
+			gf.y += gf.positionArray[1];
+			gf.scrollFactor.set(0.95, 0.95);
+			add(gf);
+
+			boyfriend = new Character(770, 100, 'bf', true);
+			boyfriend.x += boyfriend.positionArray[0];
+			boyfriend.y += boyfriend.positionArray[1];
+			add(boyfriend);
+		}
 
 		// Combo stuff
 		coolText = new FlxText(0, 0, 0, '', 32);
@@ -143,7 +146,8 @@ class NoteOffsetState extends MusicBeatState
 		timeBar.screenCenter(X);
 		timeBar.visible = false;
 		timeBar.cameras = [camHUD];
-		timeBar.leftBar.color = FlxColor.LIME;
+		timeBar.leftBar.color = FlxColor.PURPLE;
+		timeBar.rightBar.color = 0xFF1A1A1A;
 
 		add(timeBar);
 		add(timeTxt);

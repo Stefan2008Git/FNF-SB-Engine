@@ -65,7 +65,7 @@ class CharacterEditorState extends MusicBeatState
 
 	override function create()
 	{
-		FlxG.sound.playMusic(Paths.music(''), 0.5);
+		FlxG.sound.playMusic(Paths.music('offsetSong'), 1, true);
 		if(ClientPrefs.data.cacheOnGPU) Paths.clearStoredMemory();
 		Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Mod Editors menu (Character Editor)";
 
