@@ -3,7 +3,7 @@ package objects;
 import flixel.math.FlxPoint;
 import flixel.math.FlxRect;
 
-class HealthBar extends FlxSpriteGroup
+class Bar extends FlxSpriteGroup
 {
 	public var leftBar:FlxSprite;
 	public var rightBar:FlxSprite;

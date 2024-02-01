@@ -9,8 +9,7 @@ package substates;
     You can use it for your mods or modified PE forks, but you must need to give me a credit and plus icon (Don't forget!)
     Logically is very easy to use it, so I think everyone can understand it
     
-    Who cares about Rudy's HScript so I can continue to choose it to use my lua logic,
-    but her HScript is not weren't worth, so I didn't stole it.
+    Who cares about Rudy's HScript? I can continue to choose it to use my Lua logic, but her HScript is not weren't worth, so I didn't stole it.
     
     By the way dont move this to the HScript, I dont allow it! --NF | Beihu
 */
@@ -43,6 +42,7 @@ typedef NoteTypeColorData =
 class ResultsScreenSubstate extends MusicBeatSubstate
 {
 	public var background:FlxSprite;	
+	public var bgGrid:FlxBackdrop;
     public var graphBG:FlxSprite;
     public var graphSizeUp:FlxSprite;
 	public var graphSizeDown:FlxSprite;
@@ -77,6 +77,11 @@ class ResultsScreenSubstate extends MusicBeatSubstate
 		background.scrollFactor.set();
 		background.alpha = 0;
 		add(background);
+
+		bgGrid = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0x11FFFFFF, 0x0));
+		bgGrid.alpha = 0;
+		bgGrid.velocity.set(175, 175);
+		add(bgGrid);
 		
 		var graphWidth = 550;
 		var graphHeight = 300;
@@ -217,15 +222,17 @@ class ResultsScreenSubstate extends MusicBeatSubstate
 	    
 	    var accurarcyCeil = Math.ceil(PlayState.resultsScreenAcurracy * 10000) / 100;
 		judgeText = new FlxText(-400, 200, 0, 
-		'Judgements:\nSicks: ' + PlayState.resultsScreenSicks 
+		'Judgements:
+		\nSicks: ' + PlayState.resultsScreenSicks 
 		+ '\nGoods: ' + PlayState.resultsScreenGoods 
 		+ '\nBads: ' + PlayState.resultsScreenBads 
 		+ '\nShits: ' + PlayState.resultsScreenShits 
 		+ '\n\nCombe Breaks: ' + PlayState.resultsScreenMisses 
-		+ '\nMax Combo: ' + PlayState.resultsScreenMaxCombo 
+		+ '\nCombo: ' + PlayState.resultsScreenCombo + ' (Max Combo: ' + PlayState.resultsScreenMaxCombo + ')'
+		+ '\nNPS: ' + PlayState.resultsScreenNPS + ' (Max NPS: ' + PlayState.resultsScreenMaxNPS + ')'
 		+ '\nScore: ' + PlayState.resultsScreenScore 
 		+ '\nAccuracy: ' + accurarcyCeil + '%'
-		+ '\nRank: ' + PlayState.resultsScreenRatingName + '(' + PlayState.resultsScreenFullCombo + ')\n'
+		+ '\nRating: ' + PlayState.resultsScreenRatingName + '(' + PlayState.resultsScreenFullCombo + ')\n'
 		);
 		judgeText.size = 25;
 		switch (ClientPrefs.data.gameStyle) {
@@ -338,38 +345,42 @@ class ResultsScreenSubstate extends MusicBeatSubstate
 		//--------------text
 		
 		//time = 0
-		FlxTween.tween(background, {alpha: 0.5}, 0.5);		
-		new FlxTimer().start(0.5, function(tmr:FlxTimer) { FlxTween.tween(clearText, {y: ClientPrefs.data.showFPS ? 60 : 5}, 0.5, {ease: FlxEase.backInOut}); });
+		FlxTween.tween(background, {alpha: 0.5}, 0.5, {ease: FlxEase.sineInOut});
+		FlxTween.tween(bgGrid, {alpha: 0.5}, 0.5, {ease: FlxEase.sineInOut});		
+		new FlxTimer().start(0.5, function(tmr:FlxTimer) { 
+			FlxTween.tween(clearText, {y: ClientPrefs.data.showFPS ? 60 : 5}, 0.5, {ease: FlxEase.sineInOut}); 
+		});
 		
 		
-		new FlxTimer().start(1, function(tmr:FlxTimer) { FlxTween.tween(setMsText, {y: FlxG.height - 25 * 2}, 0.5, {ease: FlxEase.backInOut});			
+		new FlxTimer().start(1, function(tmr:FlxTimer) { 
+			FlxTween.tween(setMsText, {y: FlxG.height - 25 * 2}, 0.5, {ease: FlxEase.sineInOut});			
 		});
 		
 		new FlxTimer().start(1.5, function(tmr:FlxTimer){
-		    FlxTween.tween(judgeText, {x: 20}, 0.5, {ease: FlxEase.backInOut});		
-		    FlxTween.tween(setGameText, {x: FlxG.width - setGameText.width - 20}, 0.5, {ease: FlxEase.backInOut});		
+		    FlxTween.tween(judgeText, {x: 20}, 0.5, {ease: FlxEase.sineInOut});		
+		    FlxTween.tween(setGameText, {x: FlxG.width - setGameText.width - 20}, 0.5, {ease: FlxEase.sineInOut});		
 		});
 		
 		new FlxTimer().start(2, function(tmr:FlxTimer){
-			FlxTween.tween(graphBG, {alpha: 0.75}, 0.5);
-			FlxTween.tween(graphJudgeCenter, {alpha: 0.3}, 0.5);	
-			FlxTween.tween(graphSickUp, {alpha: 0.3}, 0.5);	
-			FlxTween.tween(graphSickDown, {alpha: 0.3}, 0.5);	
-			FlxTween.tween(graphGoodUp, {alpha: 0.3}, 0.5);	
-			FlxTween.tween(graphGoodDown, {alpha: 0.3}, 0.5);	
-			FlxTween.tween(graphBadUp, {alpha: 0.3}, 0.5);	
-			FlxTween.tween(graphBadDown, {alpha: 0.3}, 0.5);	
-			FlxTween.tween(graphShitUp, {alpha: 0.3}, 0.5);
-			FlxTween.tween(graphShitDown, {alpha: 0.3}, 0.5);	
-			FlxTween.tween(graphMiss, {alpha: 0.3}, 0.5);	
-		    FlxTween.tween(graphSizeUp, {alpha: 0.75}, 0.5);
-		    FlxTween.tween(graphSizeDown, {alpha: 0.75}, 0.5);
-		    FlxTween.tween(graphSizeLeft, {alpha: 0.75}, 0.5);
-		    FlxTween.tween(graphSizeRight, {alpha: 0.75}, 0.5);	
+			FlxTween.tween(graphBG, {alpha: 0.75}, 0.5, {ease: FlxEase.sineInOut});
+			FlxTween.tween(graphJudgeCenter, {alpha: 0.3}, 0.5, {ease: FlxEase.sineInOut});	
+			FlxTween.tween(graphSickUp, {alpha: 0.3}, 0.5, {ease: FlxEase.sineInOut});	
+			FlxTween.tween(graphSickDown, {alpha: 0.3}, 0.5, {ease: FlxEase.sineInOut});	
+			FlxTween.tween(graphGoodUp, {alpha: 0.3}, 0.5, {ease: FlxEase.sineInOut});	
+			FlxTween.tween(graphGoodDown, {alpha: 0.3}, 0.5, {ease: FlxEase.sineInOut});	
+			FlxTween.tween(graphBadUp, {alpha: 0.3}, 0.5, {ease: FlxEase.sineInOut});	
+			FlxTween.tween(graphBadDown, {alpha: 0.3}, 0.5, {ease: FlxEase.sineInOut});	
+			FlxTween.tween(graphShitUp, {alpha: 0.3}, 0.5, {ease: FlxEase.sineInOut});
+			FlxTween.tween(graphShitDown, {alpha: 0.3}, 0.5, {ease: FlxEase.sineInOut});	
+			FlxTween.tween(graphMiss, {alpha: 0.3}, 0.5, {ease: FlxEase.sineInOut});	
+		    FlxTween.tween(graphSizeUp, {alpha: 0.75}, 0.5, {ease: FlxEase.sineInOut});
+		    FlxTween.tween(graphSizeDown, {alpha: 0.75}, 0.5, {ease: FlxEase.sineInOut});
+		    FlxTween.tween(graphSizeLeft, {alpha: 0.75}, 0.5, {ease: FlxEase.sineInOut});
+		    FlxTween.tween(graphSizeRight, {alpha: 0.75}, 0.5, {ease: FlxEase.sineInOut});	
 		});
 		
 		new FlxTimer().start(2.5, function(tmr:FlxTimer){
-			FlxTween.tween(backText, {alpha: 1}, 1);	
+			FlxTween.tween(backText, {alpha: 1}, 1, {ease: FlxEase.sineInOut});	
 		});
 
 		cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];	

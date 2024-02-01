@@ -46,9 +46,13 @@ class NotesSubState extends MusicBeatSubstate
 	var _lastControllerMode:Bool = false;
 	var tipTxt:FlxText;
 	
-	var AndroidColorGet:FlxUIInputText;
-    var LengthCheck:String = '';
-    var ColorCheck:String = '';
+	var easyColorMethodBox:FlxUIInputText;
+    var checkTheLenght:String = '';
+    var checkTheColor:String = '';
+
+	var warningStateTxt:FlxText;
+	var warningStateBG:FlxSprite;
+	var warningStateChecker:FlxBackdrop;
 	public function new() {
 		super();
 
@@ -200,11 +204,42 @@ class NotesSubState extends MusicBeatSubstate
 		controllerPointer.visible = controls.controllerMode;
 		_lastControllerMode = controls.controllerMode;
 		
+		easyColorMethodBox = new FlxUIInputText(940, 20, 160, '', 30);
+		easyColorMethodBox.focusGained = () -> FlxG.stage.window.textInputEnabled = true;
+		checkTheLenght = easyColorMethodBox.text;
+		add(easyColorMethodBox);
+
+		warningStateBG = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+		warningStateBG.visible = false;
+		warningStateBG.screenCenter();
+		add(warningStateBG);
+
+		warningStateChecker = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0xFFFF0000, 0x0));
+		warningStateChecker.velocity.set(FlxG.random.bool(50) ? 90 : -90, FlxG.random.bool(50) ? 90 : -90);
+		warningStateChecker.alpha = 0.4;
+		warningStateChecker.visible = false;
+		warningStateChecker.screenCenter();
+		add(warningStateChecker);
 		
-		AndroidColorGet = new FlxUIInputText(940, 20, 160, '', 30);
-		AndroidColorGet.focusGained = () -> FlxG.stage.window.textInputEnabled = true;
-		LengthCheck = AndroidColorGet.text;
-		add(AndroidColorGet);
+		warningStateTxt = new FlxText(50, 0, FlxG.width - 100, '', 24);
+		switch (ClientPrefs.data.gameStyle) {
+			case 'Psych Engine' | 'Kade Engine':
+				warningStateTxt.setFormat(Paths.font("vcr.ttf"), 24, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			
+			case 'Dave and Bambi':
+				warningStateTxt.setFormat(Paths.font("comic.ttf"), 24, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			
+			case 'TGT Engine':
+				warningStateTxt.setFormat(Paths.font("calibri.ttf"), 24, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			
+			case 'SB Engine':
+				warningStateTxt.setFormat(Paths.font("bahnschrift.ttf"), 24, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		}
+		warningStateTxt.scrollFactor.set();
+		warningStateTxt.visible = false;
+		warningStateTxt.screenCenter(Y);
+		add(warningStateTxt);
+
 		#if android
 		addVirtualPad(NONE, NOTESTATE);
 		#end
@@ -212,7 +247,9 @@ class NotesSubState extends MusicBeatSubstate
 
 	function updateTip()
 	{
+		#if !android
 		tipTxt.text = 'Hold ' + (!controls.controllerMode ? 'Shift' : 'Left Shoulder Button') + ' + Press RELOAD to fully reset the selected Note.';
+		#end
 	}
 
 	var _storedColor:FlxColor;
@@ -225,7 +262,7 @@ class NotesSubState extends MusicBeatSubstate
 
 	override function update(elapsed:Float) {
 	
-	LengthCheck = AndroidColorGet.text;
+	checkTheLenght = easyColorMethodBox.text;
 	
 		if (FlxG.keys.justPressed.ESCAPE #if android || MusicBeatSubstate.virtualPad.buttonB.justPressed #end ) {
 			FlxG.mouse.visible = false;
@@ -294,18 +331,41 @@ class NotesSubState extends MusicBeatSubstate
 
 		if(FlxG.keys.justPressed.CONTROL)
 		{
-			onPixel = !onPixel;
-			spawnNotes();
-			updateNotes(true);
-			FlxG.sound.play(Paths.sound('scrollMenu'), 0.6);
+			warningStateTxt.visible = true;
+			#if android
+			warningStateTxt.text = "You tried to switch on pixel notes, but is currently broken because of\nNull Object Refrence from broken code, so it will be fixed on v3.1.0 update!\nTouch the screen to close!";
+			#else
+			warningStateTxt.text = "You tried to switch on pixel notes, but is currently broken because of\nNull Object Refrence from broken code, so it will be fixed on v3.1.0 update!\nPress any keybind or mouse to close!";
+			#end
+			warningStateBG.visible = true;
+			warningStateChecker.visible = true;
+			FlxG.camera.shake(0.05, 0.6);
+			FlxG.sound.play(Paths.sound('error'));
+		}
+
+		#if android
+		var touchedTheScreen:Bool = false;
+	
+		for (touch in FlxG.touches.list) {
+			if (touch.justPressed) {
+				touchedTheScreen = true;
+			}
+		}
+		#end
+
+		if(FlxG.keys.justPressed.ANY || FlxG.mouse.justPressed #if android || touchedTheScreen #end)
+		{
+			warningStateTxt.visible = false;
+			warningStateChecker.visible = false;
+			warningStateBG.visible = false;
 		}
 		
-		if(LengthCheck.length == 6 && ColorCheck != LengthCheck)
+		if(checkTheLenght.length == 6 && checkTheColor != checkTheLenght)
 			{
-			    ColorCheck = LengthCheck;
+			    checkTheColor = checkTheLenght;
 			
 				var curColor:String = alphabetHex.text;
-				var newColor:String = AndroidColorGet.text /*curColor.substring(0, hexTypeNum) + allowedTypeKeys.get(keyPressed) + curColor.substring(hexTypeNum + 1)*/ ;
+				var newColor:String = easyColorMethodBox.text /*curColor.substring(0, hexTypeNum) + allowedTypeKeys.get(keyPressed) + curColor.substring(hexTypeNum + 1)*/ ;
 
 				var colorHex:FlxColor = FlxColor.fromString('#' + newColor);
 				setShaderColor(colorHex);
@@ -328,12 +388,12 @@ class NotesSubState extends MusicBeatSubstate
 				hexTypeNum++;
 			else if(FlxG.keys.justPressed.ENTER)
 				hexTypeNum = -1;	
-			else if(LengthCheck.length == 6)
+			else if(checkTheLenght.length == 6)
 			{
-			    ColorCheck = LengthCheck;
+			    checkTheColor = checkTheLenght;
 			
 				var curColor:String = alphabetHex.text;
-				var newColor:String = AndroidColorGet.text /*curColor.substring(0, hexTypeNum) + allowedTypeKeys.get(keyPressed) + curColor.substring(hexTypeNum + 1)*/ ;
+				var newColor:String = easyColorMethodBox.text /*curColor.substring(0, hexTypeNum) + allowedTypeKeys.get(keyPressed) + curColor.substring(hexTypeNum + 1)*/ ;
 
 				var colorHex:FlxColor = FlxColor.fromString('#' + newColor);
 				setShaderColor(colorHex);

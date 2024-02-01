@@ -530,14 +530,14 @@ class ChartingState extends MusicBeatState
 			saveEvents();
 		});
 
-		var clear_events:FlxButton = new FlxButton(320, 310, 'Clear events', function()
+		var clear_events:FlxButton = new FlxButton(460, 310, 'Clear events', function()
 			{
 				openSubState(new Prompt('This action will clear current progress.\n\nProceed?', 0, clearEvents, null,ignoreWarnings));
 			});
 		clear_events.color = FlxColor.RED;
 		clear_events.label.color = FlxColor.WHITE;
 
-		var clear_notes:FlxButton = new FlxButton(320, clear_events.y + 30, 'Clear notes', function()
+		var clear_notes:FlxButton = new FlxButton(460, clear_events.y + 30, 'Clear notes', function()
 			{
 				openSubState(new Prompt('This action will clear current progress.\n\nProceed?', 0, function(){for (sec in 0..._song.notes.length) {
 					_song.notes[sec].sectionNotes = [];
@@ -663,6 +663,21 @@ class ChartingState extends MusicBeatState
 		if (Difficulty.getString() != Difficulty.getDefault() && Difficulty.getString() != null)
 			postfix = '-' + Difficulty.getString().toLowerCase();
 
+		var difficultyDropDown = new FlxUIDropDownMenu(stageDropDown.x, gfVersionDropDown.y,
+			FlxUIDropDownMenu.makeStrIdLabelArray(Difficulty.list, true), function(difficulty:String) {
+				var newDifficulty:String = Difficulty.getString().toLowerCase();
+				trace("Current difficulty: " + Difficulty.getDefault());
+				trace("New diffculty: " + newDifficulty);
+				PlayState.storyDifficulty = Std.parseInt(difficulty);
+				if (newDifficulty != 'normal') {
+					postfix = '-' + newDifficulty;
+				}
+				PlayState.SONG = Song.loadFromJson(_song.song.toLowerCase() + postfix, _song.song.toLowerCase());
+				MusicBeatState.resetState();
+		});
+		difficultyDropDown.selectedLabel = Difficulty.getString();
+		blockPressWhileScrolling.push(difficultyDropDown);
+
 		var tab_group_song = new FlxUI(null, UI_box);
 		tab_group_song.name = "Song";
 		tab_group_song.add(UI_songTitle);
@@ -678,6 +693,7 @@ class ChartingState extends MusicBeatState
 		tab_group_song.add(loadEventJson);
 		tab_group_song.add(stepperBPM);
 		tab_group_song.add(stepperSpeed);
+		tab_group_song.add(difficultyDropDown);
 		tab_group_song.add(new FlxText(stepperBPM.x, stepperBPM.y - 15, 0, 'Song BPM:'));
 		tab_group_song.add(new FlxText(stepperBPM.x + 100, stepperBPM.y - 15, 0, 'Song Offset:'));
 		tab_group_song.add(new FlxText(stepperSpeed.x, stepperSpeed.y - 15, 0, 'Song Speed:'));
@@ -685,6 +701,7 @@ class ChartingState extends MusicBeatState
 		tab_group_song.add(new FlxText(gfVersionDropDown.x, gfVersionDropDown.y - 15, 0, 'Girlfriend:'));
 		tab_group_song.add(new FlxText(player1DropDown.x, player1DropDown.y - 15, 0, 'Boyfriend:'));
 		tab_group_song.add(new FlxText(stageDropDown.x, stageDropDown.y - 15, 0, 'Stage:'));
+		tab_group_song.add(new FlxText(difficultyDropDown.x, stageDropDown.y - -25, 0, 'Difficulty:'));
 		tab_group_song.add(player2DropDown);
 		tab_group_song.add(gfVersionDropDown);
 		tab_group_song.add(player1DropDown);
@@ -1902,7 +1919,7 @@ class ChartingState extends MusicBeatState
 				playtestingOnComplete = FlxG.sound.music.onComplete;
 				#if android
 				warningStateTxt.visible = true;
-				warningStateTxt.text = "Chart playtesting is currently broken on Android build because of Null Object Refrence for controls, so it will be fixed on v3.1.0 update!\nTouch the screen to continue";
+				warningStateTxt.text = "Chart playtesting is currently broken on Android build because of\nNull Object Refrence for controls, so it will be fixed on v3.1.0 update!\nTouch the screen to continue";
 				warningStateBG.visible = true;
 				warningStateChecker.visible = true;
 				FlxG.camera.shake(0.05, 0.6);

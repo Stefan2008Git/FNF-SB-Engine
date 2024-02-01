@@ -1,6 +1,6 @@
 package states.editors;
 
-import objects.HealthBar;
+import objects.Bar;
 import backend.Song;
 import backend.Section;
 import backend.Rating;
@@ -67,12 +67,12 @@ class EditorPlayState extends MusicBeatSubstate
 	var startPos:Float = 0;
 	var timerToStart:Float = 0;
 
-	var timeBar:HealthBar;
+	var timeBar:Bar;
 	var timeTxt:FlxText;
 	var songPercent:Float = 0;
 	var scoreTxt:FlxText;
 	var dataTxt:FlxText;
-
+	var guitarHeroSustains:Bool = false;
 	var camHUD:FlxCamera;
 
 	public function new(playbackRate:Float)
@@ -98,6 +98,7 @@ class EditorPlayState extends MusicBeatSubstate
 			FlxG.sound.music.stop();
 
 		cachePopUpScore();
+		guitarHeroSustains = ClientPrefs.data.guitarHeroSustains;
 		if(ClientPrefs.data.hitsoundVolume > 0) Paths.sound('hitsound');
 
 		/* setting up Editor PlayState stuff */
@@ -191,24 +192,23 @@ class EditorPlayState extends MusicBeatSubstate
 				timeTxt.borderSize = 1.25;
 		}
 		timeTxt.scrollFactor.set();
-		// timeTxt.alpha = 0;
+		timeTxt.alpha = 0;
 		if(ClientPrefs.data.downScroll) timeTxt.y = FlxG.height - 44;
 		if(ClientPrefs.data.timeBarType == 'Song Name') timeTxt.text = PlayState.SONG.song;
-		uiGroup.add(timeTxt);
 
 		switch (ClientPrefs.data.gameStyle) {
 			case 'Psych Engine' | 'TGT Engine':
-				timeBar = new HealthBar(0, timeTxt.y + (timeTxt.height / 4), 'timeBar', function() return songPercent, 0, 1);
+				timeBar = new Bar(0, timeTxt.y + (timeTxt.height / 4), 'timeBar', function() return songPercent, 0, 1);
 			
 			case 'SB Engine' | 'Kade Engine' | 'Cheeky' | 'Dave and Bambi':
-				timeBar = new HealthBar(0, timeTxt.y + (timeTxt.height / 4), 'healthBar', function() return songPercent, 0, 1);
+				timeBar = new Bar(0, timeTxt.y + (timeTxt.height / 4), 'healthBar', function() return songPercent, 0, 1);
 		}
 		timeBar.scrollFactor.set();
 		timeBar.screenCenter(X);
-		timeBar.leftBar.color = FlxColor.PURPLE;
-		timeBar.rightBar.color = 0xFF1A1A1A;
+		reloadTimeBarColor();
 		timeBar.alpha = 0;
 		uiGroup.add(timeBar);
+		uiGroup.add(timeTxt);
 		
 		generateStaticArrows(0);
 		generateStaticArrows(1);
@@ -434,8 +434,18 @@ class EditorPlayState extends MusicBeatSubstate
 		// Song duration in a float, useful for the time left feature
 		songLength = FlxG.sound.music.length;
 
-		FlxTween.tween(timeBar, {alpha: 1}, 0.8, {ease: FlxEase.sineInOut});
-		// FlxTween.tween(timeTxt, {alpha: 1}, 0.8, {ease: FlxEase.sineInOut});
+		switch (ClientPrefs.data.gameStyle) {
+			case 'SB Engine':
+				FlxTween.tween(timeBar, {alpha: 1}, 0.8, {ease: FlxEase.sineInOut});
+				FlxTween.tween(timeTxt, {alpha: 1}, 0.8, {ease: FlxEase.sineInOut});
+
+			case 'Psych Engine' | 'TGT Engine':
+				FlxTween.tween(timeBar, {alpha: 1}, 0.5, {ease: FlxEase.expoInOut});
+				FlxTween.tween(timeTxt, {alpha: 1}, 0.5, {ease: FlxEase.expoInOut});
+			
+			case 'Kade Engine' | 'Dave and Bambi':
+				FlxTween.tween(timeTxt, {alpha: 1}, 0.5);
+		}
 	}
 
 	// Borrowed from PlayState
@@ -893,8 +903,11 @@ class EditorPlayState extends MusicBeatSubstate
 		for (key in keysArray)
 		{
 			holdArray.push(controls.pressed(key));
-			pressArray.push(controls.justPressed(key));
-			releaseArray.push(controls.justReleased(key));
+			if(controls.controllerMode)
+			{
+				pressArray.push(controls.justPressed(key));
+				releaseArray.push(controls.justReleased(key));
+			}
 		}
 
 		// TO DO: Find a better way to handle controller inputs, this should work for now
@@ -904,13 +917,22 @@ class EditorPlayState extends MusicBeatSubstate
 					keyPressed(i);
 
 		// rewritten inputs???
-		notes.forEachAlive(function(daNote:Note)
-		{
-			// hold note functions
-			if (daNote.isSustainNote && holdArray[daNote.noteData] && daNote.canBeHit
-				&& daNote.mustPress && !daNote.tooLate && !daNote.wasGoodHit && !daNote.blockHit)
-				goodNoteHit(daNote);
-		});
+		if (notes.length > 0) {
+			for (n in notes) { // I can't do a filter here, that's kinda awesome
+				var canHit:Bool = (n != null && n.canBeHit && n.mustPress &&
+					!n.tooLate && !n.wasGoodHit && !n.blockHit);
+
+				if (guitarHeroSustains)
+					canHit = canHit && n.parent != null && n.parent.wasGoodHit;
+
+				if (canHit && n.isSustainNote) {
+					var released:Bool = !holdArray[n.noteData];
+					
+					if (!released)
+						goodNoteHit(n);
+				}
+			}
+		}
 
 		// TO DO: Find a better way to handle controller inputs, this should work for now
 		if(controls.controllerMode && releaseArray.contains(true))
@@ -918,7 +940,6 @@ class EditorPlayState extends MusicBeatSubstate
 				if(releaseArray[i])
 					keyReleased(i);
 	}
-
 	
 	function opponentNoteHit(note:Note):Void
 	{
@@ -933,64 +954,81 @@ class EditorPlayState extends MusicBeatSubstate
 		note.hitByOpponent = true;
 
 		if (!note.isSustainNote)
-		{
-			note.kill();
-			notes.remove(note, true);
-			note.destroy();
-		}
+			invalidateNote(note);
 	}
 
 	function goodNoteHit(note:Note):Void
 	{
-		if (!note.wasGoodHit)
-		{
-			note.wasGoodHit = true;
-			if (ClientPrefs.data.hitsoundVolume > 0 && !note.hitsoundDisabled)
-				FlxG.sound.play(Paths.sound('hitsound'), ClientPrefs.data.hitsoundVolume);
+		if(note.wasGoodHit) return;
 
-			if(note.hitCausesMiss) {
-				noteMiss(note);
-				if(!note.noteSplashData.disabled && !note.isSustainNote)
-					spawnNoteSplashOnNote(note);
+		note.wasGoodHit = true;
+		if (ClientPrefs.data.hitsoundVolume > 0 && !note.hitsoundDisabled)
+			FlxG.sound.play(Paths.sound('hitsound'), ClientPrefs.data.hitsoundVolume);
 
-				if (!note.isSustainNote)
-				{
-					note.kill();
-					notes.remove(note, true);
-					note.destroy();
-				}
-				return;
-			}
+		if(note.hitCausesMiss) {
+			noteMiss(note);
+			if(!note.noteSplashData.disabled && !note.isSustainNote)
+				spawnNoteSplashOnNote(note);
 
 			if (!note.isSustainNote)
-			{
-				combo++;
-				if(combo > 9999) combo = 9999;
-				popUpScore(note);
-			}
-
-			var spr:StrumNote = playerStrums.members[note.noteData];
-			if(spr != null) spr.playAnim('confirm', true);
-			vocals.volume = 1;
-
-			if (!note.isSustainNote)
-			{
-				note.kill();
-				notes.remove(note, true);
-				note.destroy();
-			}
+				invalidateNote(note);
+			return;
 		}
+
+		if (!note.isSustainNote)
+		{
+			combo++;
+			if(combo > 9999) combo = 9999;
+			popUpScore(note);
+		}
+
+		var spr:StrumNote = playerStrums.members[note.noteData];
+		if(spr != null) spr.playAnim('confirm', true);
+		vocals.volume = 1;
+
+		if (!note.isSustainNote)
+			invalidateNote(note);
 	}
-	
+
 	function noteMiss(daNote:Note):Void { //You didn't hit the key and let it go offscreen, also used by Hurt Notes
 		//Dupe note remove
 		notes.forEachAlive(function(note:Note) {
-			if (daNote != note && daNote.mustPress && daNote.noteData == note.noteData && daNote.isSustainNote == note.isSustainNote && Math.abs(daNote.strumTime - note.strumTime) < 1) {
-				note.kill();
-				notes.remove(note, true);
-				note.destroy();
+			if (daNote != note && daNote.mustPress && daNote.noteData == note.noteData && daNote.isSustainNote == note.isSustainNote && Math.abs(daNote.strumTime - note.strumTime) < 1)
+				invalidateNote(daNote);
+			});
+
+		if (daNote != null && guitarHeroSustains && daNote.parent == null) {
+			if(daNote.tail.length > 0) {
+				daNote.alpha = 0.35;
+				for(childNote in daNote.tail) {
+					childNote.alpha = daNote.alpha;
+					childNote.missed = true;
+					childNote.canBeHit = false;
+					childNote.ignoreNote = true;
+					childNote.tooLate = true;
+				}
+				daNote.missed = true;
+				daNote.canBeHit = false;
 			}
-		});
+
+			if (daNote.missed)
+				return;
+		}
+
+		if (daNote != null && guitarHeroSustains && daNote.parent != null && daNote.isSustainNote) {
+			if (daNote.missed)
+				return; 
+			
+			var parentNote:Note = daNote.parent;
+			if (parentNote.wasGoodHit && parentNote.tail.length > 0) {
+				for (child in parentNote.tail) if (child != daNote) {
+					child.missed = true;
+					child.canBeHit = false;
+					child.ignoreNote = true;
+					child.tooLate = true;
+				}
+			}
+		}
 
 		// score and data
 		songMisses++;
@@ -998,6 +1036,12 @@ class EditorPlayState extends MusicBeatSubstate
 		RecalculateRating(true);
 		vocals.volume = 0;
 		combo = 0;
+	}
+
+	public function invalidateNote(note:Note):Void {
+		note.kill();
+		notes.remove(note, true);
+		note.destroy();
 	}
 
 	function spawnNoteSplashOnNote(note:Note) {
@@ -1066,5 +1110,18 @@ class EditorPlayState extends MusicBeatSubstate
 		}
 		else if (songMisses < 10)
 			ratingFC = 'SDCB';
+	}
+
+	function reloadTimeBarColor() {
+		if (ClientPrefs.data.gameStyle == 'SB Engine') {
+			timeBar.leftBar.color = FlxColor.PURPLE;
+			timeBar.rightBar.color = 0xFF1A1A1A;
+		} else if (ClientPrefs.data.gameStyle == 'Psych Engine' || ClientPrefs.data.gameStyle == 'TGT Engine') {
+			timeBar.leftBar.color = FlxColor.WHITE;
+			timeBar.rightBar.color = FlxColor.BLACK;
+		} else if (ClientPrefs.data.gameStyle == 'Kade Engine' || ClientPrefs.data.gameStyle == 'Dave and Bambi' || ClientPrefs.data.gameStyle == 'Cheeky') {
+			timeBar.leftBar.color = FlxColor.LIME;
+			timeBar.rightBar.color = FlxColor.GRAY;
+		}
 	}
 }

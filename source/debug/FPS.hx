@@ -16,10 +16,7 @@ import states.MainMenuState;
 	The FPS class provides an easy-to-use monitor to display
 	the current frame rate of an OpenFL project
 **/
-#if !openfl_debug
-@:fileXml('tags="haxe,release"')
-@:noDebug
-#end
+
 enum GLInfo {
 	RENDERER;
 	SHADING_LANGUAGE_VERSION;
@@ -113,7 +110,7 @@ class FPS extends TextField
 			totalFPS = 0;
 
 		if (currentCount != cacheCount) {
-			text = "FPS: " + currentlyFPS;
+			text =  currentlyFPS + " FPS";
 
 			redText = false;
 
@@ -122,7 +119,7 @@ class FPS extends TextField
 				maximumMemory = currentlyMemory;
 
 			if (ClientPrefs.data.showTotalFPS) {
-				text += "\nTotal FPS: " + totalFPS;
+				text += "\n" + totalFPS + " Total FPS";
 			}
 
 			if (ClientPrefs.data.memory) {
@@ -147,46 +144,26 @@ class FPS extends TextField
 				text += "\nGL Render: " + '${getGLInfo(RENDERER)}';
 				text += "\nGL Shading version: " + '${getGLInfo(SHADING_LANGUAGE_VERSION)})';
 				text += "\nFlixel: " + FlxG.VERSION;
-				text += "\nLime: ?";
-				text += "\nOpenFL: ?";
+				text += "\nLime: ?????";
+				text += "\nOpenFL: ?????";
 			}
 			#end
 
 			switch (ClientPrefs.data.gameStyle) {
 				case 'SB Engine':
-					#if android
 					Main.fpsVar.defaultTextFormat = new TextFormat('Bahnschrift', 14, color);
-					#else
-					Main.fpsVar.defaultTextFormat = new TextFormat('Bahnschrift', 12, color);
-					#end
 
 				case 'Psych Engine' | 'Cheeky':
-					#if android
 					Main.fpsVar.defaultTextFormat = new TextFormat('_sans', 14, color);
-					#else
-					Main.fpsVar.defaultTextFormat = new TextFormat('_sans', 12, color);
-					#end
 				
 				case 'Kade Engine':
-					#if android
 					Main.fpsVar.defaultTextFormat = new TextFormat('VCR OSD Mono', 14, color);
-					#else
-					Main.fpsVar.defaultTextFormat = new TextFormat('VCR OSD Mono', 12, color);
-					#end
 				
 				case 'Dave and Bambi':
-					#if android
 					Main.fpsVar.defaultTextFormat = new TextFormat('Comic Sans MS Bold', 14, color);
-					#else
-					Main.fpsVar.defaultTextFormat = new TextFormat('Comic Sans MS Bold', 12, color);
-					#end
 				
 				case 'TGT Engine':
-					#if android
 					Main.fpsVar.defaultTextFormat = new TextFormat('Calibri', 14, color);
-					#else
-					Main.fpsVar.defaultTextFormat = new TextFormat('Calibri', 12, color);
-					#end
 			}
 
 			if (ClientPrefs.data.redText) {

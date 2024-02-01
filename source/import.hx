@@ -87,6 +87,7 @@ import shaders.RGBPalette.RGBShaderReference;
 import objects.Alphabet;
 import objects.AttachedText;
 import objects.AttachedSprite;
+import objects.Bar;
 import objects.BGSprite;
 import objects.Character;
 import objects.CheckboxThingie;

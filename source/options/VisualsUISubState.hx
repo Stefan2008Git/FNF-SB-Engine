@@ -84,6 +84,12 @@ class VisualsUISubState extends BaseOptionsMenu
 		    'If unchecked, this option is disabling velocity background for optimization.', 'velocityBackground', 'bool');
 		addOption(option);
 
+		#if PSYCH_WATERMARKS
+		var option:Option = new Option('0.7.3 Loading screen', 
+		    'If checked, enables the loading screen from 0.7.3 experimental build, but it breaks the entire GPU caching.', 'loadingScreen', 'bool');
+		addOption(option);
+		#end
+
 		/*var option:Option = new Option('Skip the Custom fade transition', 
 		    'If checked, skips the custom fade transition.', 'skipFadeTransition', 'bool');
 		addOption(option);*/
