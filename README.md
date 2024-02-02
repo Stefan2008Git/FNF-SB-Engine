@@ -2,8 +2,9 @@
 ![sbEngineLogo](https://github.com/Stefan2008Git/FNF-SB-Engine/assets/126715034/69f5983a-e492-4ebd-8741-2fd9ea70eb63)
 [![Star History Chart](https://api.star-history.com/svg?repos=Stefan2008Git/FNF-SB-Engine&type=Timeline)](https://star-history.com/#Stefan2008Git/FNF-SB-Engine&Timeline)
 
-[![GitHub Releases](https://img.shields.io/github/downloads/Stefan2008Git/FNF-SB-Engine/total?style=flat-square)](https://github.com/Stefan2008Git/FNF-SB-Engine/releases)
+[![GitHub Releases](https://img.shields.io/github/downloads/Stefan2008Git/FNF-SB-Engine/total?style=flat)](https://github.com/Stefan2008Git/FNF-SB-Engine/releases)
 [![Discord](https://img.shields.io/discord/1088890563396382720?label=discord)](https://discord.gg/dEf8aK8ygG)
+![Supported platforms](https://img.shields.io/badge/Supported%20platforms-Windows%2C%20MacOS%2C%20Linux%2C%20Android-purple)
 
 Used and coded on: [Psych Engine](https://gamebanana.com/mods/309789).
 
@@ -63,7 +64,6 @@ Used and coded on: [Psych Engine](https://gamebanana.com/mods/309789).
 
 <details>
   <summary><h2>PE Features</h2></summary>
-# Features
 
 ## Attractive animated dialogue boxes:
 
