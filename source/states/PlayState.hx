@@ -1886,7 +1886,7 @@ class PlayState extends MusicBeatState
 		} else if (!cpuControlled && practiceMode) {
 			switch (ClientPrefs.data.gameStyle) {
 				case 'SB Engine':
-					scoreTxt.text = 'Practice Mode Enabled!!! // Combo break: ' + songMisses + ' // NPS: ' + nps + ' (Max NPS: ' + maxNPS + ')' + ' // Total Played: ' + totalPlayed + ' // Combo: ' + combo + ' (Max Combo: ' + maxCombo + ')'; 
+					scoreTxt.text = 'Practice Mode Enabled!!! // Note Missed: ' + songMisses + ' // CPS: ' + nps + ' (Max CPS: ' + maxNPS + ')' + ' // Total Played: ' + totalPlayed + ' // Combo: ' + combo + ' (Max Combo: ' + maxCombo + ')'; 
 	
 				case 'Psych Engine' | 'Kade Engine' | 'Cheeky' | 'TGT Engine' | 'Dave and Bambi':
 					scoreTxt.text = 'Practice Mode | Misses: ' + songMisses;
@@ -2545,10 +2545,10 @@ class PlayState extends MusicBeatState
 			if(cpuControlled && ClientPrefs.data.autoplayTextOnTimeBar) 
 				switch (ClientPrefs.data.gameStyle) {
 					case 'SB Engine':
-						timeTxt.text += " [Autoplay]";
+						timeTxt.text += " [AUTO]";
 					
 					case 'Psych Engine' | 'TGT Engine' | 'Kade Engine' | 'Dave and Bambi' | 'Cheeky':
-						timeTxt.text += " (BOTPLAY)";
+						timeTxt.text += " (BOT)";
 				}
 		}
 
