@@ -171,7 +171,7 @@ jobs:
       - name: Publish Artifact
         uses: actions/upload-artifact@v2.2.4
         with:
-          name: sbEngineDebugedLinuxBuild
+          name: sbEngineDebuggedLinuxBuild
           path: 'export/debug/linux/bin'
   Windows:
     runs-on: windows-latest
@@ -325,7 +325,7 @@ jobs:
       - name: Publish Artifact
         uses: actions/upload-artifact@v2.2.4
         with:
-          name: sbEngineDebugedWindowsBuild
+          name: sbEngineDebuggedWindowsBuild
           path: export/debug/windows/bin
   Mac:
     runs-on: macos-latest
@@ -479,7 +479,7 @@ jobs:
       - name: Publish Artifact
         uses: actions/upload-artifact@v2.2.4
         with:
-          name: sbEngineDebugedMacOSBuild
+          name: sbEngineDebuggedMacOSBuild
           path: export/debug/macos/bin
   Android:
     name: Android
@@ -723,6 +723,6 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@main
         with:
-          name: sbEngineDebugedAndroidBuild
+          name: sbEngineDebuggedAndroidBuild
           path: export/debug/android/bin/app/build/outputs/apk/debug
 

@@ -227,7 +227,7 @@ class ResultsScreenSubstate extends MusicBeatSubstate
 		+ '\nGoods: ' + PlayState.resultsScreenGoods 
 		+ '\nBads: ' + PlayState.resultsScreenBads 
 		+ '\nShits: ' + PlayState.resultsScreenShits 
-		+ '\n\nCombe Breaks: ' + PlayState.resultsScreenMisses 
+		+ '\n\nCombo Breaks: ' + PlayState.resultsScreenMisses 
 		+ '\nCombo: ' + PlayState.resultsScreenCombo + ' (Max Combo: ' + PlayState.resultsScreenMaxCombo + ')'
 		+ '\nNPS: ' + PlayState.resultsScreenNPS + ' (Max NPS: ' + PlayState.resultsScreenMaxNPS + ')'
 		+ '\nScore: ' + PlayState.resultsScreenScore 
@@ -259,8 +259,8 @@ class ResultsScreenSubstate extends MusicBeatSubstate
 		if (ClientPrefs.getGameplaySetting('practice')) practice = 'True';
 
 		setGameText = new FlxText(FlxG.width + 400, 420, 0, 
-		'Gained health: X' + ClientPrefs.getGameplaySetting('healthgain')
-		+ ' / Lossed health: X' + ClientPrefs.getGameplaySetting('healthloss')
+		'Gained health multiplier: X' + ClientPrefs.getGameplaySetting('healthgain')
+		+ ' / Losed health multiplier: X' + ClientPrefs.getGameplaySetting('healthloss')
 		+ '\n'
 		+ 'Used the song speed: X' + ClientPrefs.getGameplaySetting('scrollspeed')
 		+ ' / Playback used: X' + ClientPrefs.getGameplaySetting('songspeed')
@@ -404,8 +404,8 @@ class ResultsScreenSubstate extends MusicBeatSubstate
 		var practice:String = 'False';
 		if (ClientPrefs.getGameplaySetting('practice')) practice = 'True';
 
-		setGameText.text = 'Gained health: X' + ClientPrefs.getGameplaySetting('healthgain')
-		+ ' / Lossed health: X' + ClientPrefs.getGameplaySetting('healthloss')
+		setGameText.text = 'Gained health multiplier: X' + ClientPrefs.getGameplaySetting('healthgain')
+		+ ' / Losed health multiplier: X' + ClientPrefs.getGameplaySetting('healthloss')
 		+ '\n'
 		+ 'Used the song speed: X' + ClientPrefs.getGameplaySetting('scrollspeed')
 		+ ' / Playback used: X' + ClientPrefs.getGameplaySetting('songspeed')
