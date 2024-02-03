@@ -60,6 +60,18 @@ Used and coded on: [Psych Engine](https://gamebanana.com/mods/309789).
 | ![](https://raw.githubusercontent.com/Stefan2008Git/FNF-SB-Engine/main/assets/preload/images/credits/keoiki.png) | [Keoiki](https://twitter.com/Keoiki_) | Note Splash Animations.
 | ![](https://raw.githubusercontent.com/Stefan2008Git/FNF-SB-Engine/main/assets/preload/images/credits/superpowers04.png) | [Superpowers04](https://twitter.com/superpowers04) | LUA JIT Fork.
 | ![](https://raw.githubusercontent.com/Stefan2008Git/FNF-SB-Engine/main/assets/preload/images/credits/smokey.png) | [Smokey](https://twitter.com/Smokey_5_) | Sprite Atlas Support.
+
+## Welcome to modified Psych Engine fork called: SB Engine. Note: this is an fork, not the base FNF game engine.
+
+# Features (I am lazy to type everything what this fork had:
+![1000037789](https://github.com/Stefan2008Git/FNF-SB-Engine/assets/126715034/f55d8c5b-59a1-4a4d-ae84-fb59baf93920)
+![1000038350](https://github.com/Stefan2008Git/FNF-SB-Engine/assets/126715034/5f82ad1f-8efa-411c-978b-03c031d8eac8)
+![1000038351](https://github.com/Stefan2008Git/FNF-SB-Engine/assets/126715034/e3f21205-7157-4bac-8283-477fa7149a9c)
+![1000038352](https://github.com/Stefan2008Git/FNF-SB-Engine/assets/126715034/3c83330d-85e3-48bf-9e29-3bf2e29b014b)
+
+
+
+
 </details>
 
 <details>
