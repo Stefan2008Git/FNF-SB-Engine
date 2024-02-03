@@ -81,59 +81,59 @@ class MasterEditorMenu extends MusicBeatState
 			leText.snapToPosition();
 		}
 
-		tipText = new FlxText(FlxG.width - 380, 35, 0, "", 32);
+		tipText = new FlxText(FlxG.width - 345, 35, 0, "", 32);
 		switch (ClientPrefs.data.gameStyle) {
-			case 'SB Engine': tipText.setFormat(Paths.font("bahnscrift.ttf"), 18, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			case 'SB Engine': tipText.setFormat(Paths.font("bahnschrift.ttf"), 18, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 			case 'Psych Engine' | 'Kade Engine' | 'Cheeky': tipText.setFormat(Paths.font("vcr.ttf"), 18, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 			case 'TGT Engine': tipText.setFormat(Paths.font("calibri.ttf"), 18, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 			case 'Dave and Bambi': tipText.setFormat(Paths.font("comic.ttf"), 18, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		}
 
-		testSprite = FlxSpriteUtil.drawRoundRect(new FlxSprite(870, 30).makeGraphic(340, 440, FlxColor.TRANSPARENT), 0, 0, 340, 440, 75, 75, FlxColor.BLACK);
+		testSprite = FlxSpriteUtil.drawRoundRect(new FlxSprite(930, 10).makeGraphic(340, 440, FlxColor.TRANSPARENT), 0, 0, 340, 440, 75, 75, FlxColor.BLACK);
 		testSprite.alpha = 0.5;
+		add(testSprite);
+		add(tipText);
 
-		characterEditor = new FlxSprite(785, 30).loadGraphic(Paths.image('engineStuff/masterMenu/characterEditor'));
+		characterEditor = new FlxSprite(845, 30).loadGraphic(Paths.image('engineStuff/masterMenu/characterEditor'));
 		characterEditor.scrollFactor.set();
 		characterEditor.visible = false;
 		characterEditor.antialiasing = ClientPrefs.data.antialiasing;
 		characterEditor.scale.set(0.6, 0.6);
+		add(characterEditor);
 
-		chartEditor = new FlxSprite(945, 210).loadGraphic(Paths.image('engineStuff/masterMenu/chartEditor'));
+		chartEditor = new FlxSprite(1025, 205).loadGraphic(Paths.image('engineStuff/masterMenu/chartEditor'));
 		chartEditor.scrollFactor.set();
 		chartEditor.visible = false;
 		chartEditor.antialiasing = ClientPrefs.data.antialiasing;
 		chartEditor.scale.set(1.7, 1.7);
+		add(chartEditor);
 
-		dialogueEditor = new FlxSprite(785, 30).loadGraphic(Paths.image('engineStuff/masterMenu/dialogueEditor'));
+		dialogueEditor = new FlxSprite(845, 30).loadGraphic(Paths.image('engineStuff/masterMenu/dialogueEditor'));
 		dialogueEditor.scrollFactor.set();
 		dialogueEditor.visible = false;
 		dialogueEditor.antialiasing = ClientPrefs.data.antialiasing;
 		dialogueEditor.scale.set(0.6, 0.6);
+		add(dialogueEditor);
 
-		dialoguePortraitEditor = new FlxSprite(785, 30).loadGraphic(Paths.image('engineStuff/masterMenu/dialoguePortraitEditor'));
+		dialoguePortraitEditor = new FlxSprite(845, 30).loadGraphic(Paths.image('engineStuff/masterMenu/dialoguePortraitEditor'));
 		dialoguePortraitEditor.scrollFactor.set();
 		dialoguePortraitEditor.visible = false;
 		dialoguePortraitEditor.antialiasing = ClientPrefs.data.antialiasing;
 		dialoguePortraitEditor.scale.set(0.6, 0.6);
+		add(dialoguePortraitEditor);
 
-		menuCharacterEditor = new FlxSprite(785, 30).loadGraphic(Paths.image('engineStuff/masterMenu/menuCharacterEditor'));
+		menuCharacterEditor = new FlxSprite(840, 30).loadGraphic(Paths.image('engineStuff/masterMenu/menuCharacterEditor'));
 		menuCharacterEditor.scrollFactor.set();
 		menuCharacterEditor.visible = false;
 		menuCharacterEditor.antialiasing = ClientPrefs.data.antialiasing;
 		menuCharacterEditor.scale.set(0.6, 0.6);
+		add(menuCharacterEditor);
 
-		weekEditor = new FlxSprite(590, -50).loadGraphic(Paths.image('engineStuff/masterMenu/weekEditor'));
+		weekEditor = new FlxSprite(645, -50).loadGraphic(Paths.image('engineStuff/masterMenu/weekEditor'));
 		weekEditor.scrollFactor.set();
 		weekEditor.visible = false;
 		weekEditor.antialiasing = ClientPrefs.data.antialiasing;
 		weekEditor.scale.set(0.4, 0.4);
-		add(testSprite);
-		add(tipText);
-		add(characterEditor);
-		add(chartEditor);
-		add(dialogueEditor);
-		add(dialoguePortraitEditor);
-		add(menuCharacterEditor);
 		add(weekEditor);
 		
 		#if MODS_ALLOWED
@@ -143,7 +143,7 @@ class MasterEditorMenu extends MusicBeatState
 
 		directoryTxt = new FlxText(textBG.x, textBG.y + 4, FlxG.width, '', 32);
 		switch (ClientPrefs.data.gameStyle) {
-			case 'SB Engine': directoryTxt.setFormat(Paths.font("bahnscrift.ttf"), 32, FlxColor.WHITE, CENTER);
+			case 'SB Engine': directoryTxt.setFormat(Paths.font("bahnschrift.ttf"), 32, FlxColor.WHITE, CENTER);
 			case 'Psych Engine' | 'Kade Engine' | 'Cheeky': directoryTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER);
 			case 'TGT Engine': directoryTxt.setFormat(Paths.font("calibri.ttf"), 32, FlxColor.WHITE, CENTER);
 			case 'Dave and Bambi': directoryTxt.setFormat(Paths.font("comic.ttf"), 32, FlxColor.WHITE, CENTER);

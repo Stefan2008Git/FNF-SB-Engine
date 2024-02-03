@@ -112,8 +112,6 @@ class FPS extends TextField
 		if (currentCount != cacheCount) {
 			text =  currentlyFPS + " FPS";
 
-			redText = false;
-
 			currentlyMemory = obtainMemory();
 			if (currentlyMemory >= maximumMemory)
 				maximumMemory = currentlyMemory;
@@ -178,7 +176,6 @@ class FPS extends TextField
 		}
 
 		cacheCount = currentCount;
-		alpha = realAlpha;
 		set_rainbowEnabled(ClientPrefs.data.rainbowFPS);
 	}
 

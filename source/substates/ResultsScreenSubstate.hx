@@ -221,19 +221,46 @@ class ResultsScreenSubstate extends MusicBeatSubstate
 		add(clearText);		
 	    
 	    var accurarcyCeil = Math.ceil(PlayState.resultsScreenAcurracy * 10000) / 100;
-		judgeText = new FlxText(-400, 200, 0, 
-		'Judgements:
-		\nSicks: ' + PlayState.resultsScreenSicks 
-		+ '\nGoods: ' + PlayState.resultsScreenGoods 
-		+ '\nBads: ' + PlayState.resultsScreenBads 
-		+ '\nShits: ' + PlayState.resultsScreenShits 
-		+ '\n\nCombo Breaks: ' + PlayState.resultsScreenMisses 
-		+ '\nCombo: ' + PlayState.resultsScreenCombo + ' (Max Combo: ' + PlayState.resultsScreenMaxCombo + ')'
-		+ '\nNPS: ' + PlayState.resultsScreenNPS + ' (Max NPS: ' + PlayState.resultsScreenMaxNPS + ')'
-		+ '\nScore: ' + PlayState.resultsScreenScore 
-		+ '\nAccuracy: ' + accurarcyCeil + '%'
-		+ '\nRating: ' + PlayState.resultsScreenRatingName + '(' + PlayState.resultsScreenFullCombo + ')\n'
-		);
+		judgeText = new FlxText(-400, 200, 0);
+		switch (ClientPrefs.data.gameStyle) {
+			case 'SB Engine':
+				judgeText.text = 'Judgements:
+				\nSicks: ' + PlayState.resultsScreenSicks 
+				+ '\nGoods: ' + PlayState.resultsScreenGoods 
+				+ '\nBads: ' + PlayState.resultsScreenBads 
+				+ '\nShits: ' + PlayState.resultsScreenShits 
+				+ '\n\nNote missed: ' + PlayState.resultsScreenMisses 
+				+ '\nCombo: ' + PlayState.resultsScreenCombo + ' (Max Combo: ' + PlayState.resultsScreenMaxCombo + ')'
+				+ '\nCPS: ' + PlayState.resultsScreenNPS + ' (Max CPS: ' + PlayState.resultsScreenMaxNPS + ')'
+				+ '\nScore: ' + PlayState.resultsScreenScore 
+				+ '\nPercent: ' + accurarcyCeil + '%'
+				+ '\nRank: ' + PlayState.resultsScreenRatingName + '{' + PlayState.resultsScreenFullCombo + '}';
+			
+			case 'Psych Engine' | 'TGT Engine':
+				judgeText.text = 'Judgements:
+				\nSicks: ' + PlayState.resultsScreenSicks 
+				+ '\nGoods: ' + PlayState.resultsScreenGoods 
+				+ '\nBads: ' + PlayState.resultsScreenBads 
+				+ '\nShits: ' + PlayState.resultsScreenShits 
+				+ '\n\nMisses: ' + PlayState.resultsScreenMisses 
+				+ '\nCombo: ' + PlayState.resultsScreenCombo + ' (Max Combo: ' + PlayState.resultsScreenMaxCombo + ')'
+				+ '\nNPS: ' + PlayState.resultsScreenNPS + ' (Max NPS: ' + PlayState.resultsScreenMaxNPS + ')'
+				+ '\nScore: ' + PlayState.resultsScreenScore 
+				+ '\nRating: ' + PlayState.resultsScreenRatingName + '(' + PlayState.resultsScreenFullCombo + accurarcyCeil + '%)';
+			
+			case 'Kade Engine' | 'Dave and Bambi' | 'Cheeky':
+				judgeText.text = 'Judgements:
+				\nSicks: ' + PlayState.resultsScreenSicks 
+				+ '\nGoods: ' + PlayState.resultsScreenGoods 
+				+ '\nBads: ' + PlayState.resultsScreenBads 
+				+ '\nShits: ' + PlayState.resultsScreenShits 
+				+ '\n\nCombo Breaks: ' + PlayState.resultsScreenMisses 
+				+ '\nCombo: ' + PlayState.resultsScreenCombo + ' (Max Combo: ' + PlayState.resultsScreenMaxCombo + ')'
+				+ '\nNPS: ' + PlayState.resultsScreenNPS + ' (Max NPS: ' + PlayState.resultsScreenMaxNPS + ')'
+				+ '\nScore: ' + PlayState.resultsScreenScore 
+				+ '\nAccuracy: ' + accurarcyCeil + '%'
+				+ '\nRating: ' + PlayState.resultsScreenRatingName + '[' + PlayState.resultsScreenFullCombo + ']';
+		}
 		judgeText.size = 25;
 		switch (ClientPrefs.data.gameStyle) {
 			case 'SB Engine':
