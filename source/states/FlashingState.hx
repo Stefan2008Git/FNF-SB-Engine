@@ -82,7 +82,7 @@ class FlashingState extends MusicBeatState {
 					ClientPrefs.saveSettings();
 					FlxG.sound.play(Paths.sound('confirmMenu'));
 					#if android
-					FlxTween.tween(virtualPad, {alpha: 0}, 1);
+					FlxTween.tween(MusicBeatState.virtualPad, {alpha: 0}, 1);
 					#end
 					FlxTween.tween(background, {alpha: 0}, 0.25, {startDelay: 0.25});
 					FlxTween.tween(boyfriend, {alpha: 0}, 0.25, {startDelay: 0.25});
@@ -95,7 +95,7 @@ class FlashingState extends MusicBeatState {
 				} else {
 					FlxG.sound.play(Paths.sound('cancelMenu'));
 					#if android
-					FlxTween.tween(virtualPad, {alpha: 0}, 1);
+					FlxTween.tween(MusicBeatState.virtualPad, {alpha: 0}, 1);
 					#end
 					FlxTween.tween(background, {alpha: 0}, 0.25, {startDelay: 0.25});
 					FlxTween.tween(boyfriend, {alpha: 0}, 0.25, {startDelay: 0.25});

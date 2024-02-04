@@ -153,7 +153,7 @@ class CreditsState extends MusicBeatState
 			case 'SB Engine':
 				descText.setFormat(Paths.font("bahnschrift.ttf"), 32, FlxColor.WHITE, CENTER/*, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK*/);
 
-			case 'Psych Engine' | 'Kade Engine' | 'Kade Engine' | 'Cheeky':
+			case 'Psych Engine' | 'Kade Engine' | 'Cheeky':
 				descText.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER/*, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK*/);
 			
 			case 'Dave and Bambi':
