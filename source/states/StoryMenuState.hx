@@ -53,7 +53,7 @@ class StoryMenuState extends MusicBeatState
 
 		scoreText = new FlxText(10, 10, 0, "SCORE: 0", 36);
 		switch (ClientPrefs.data.gameStyle) {
-			case 'Psych Engine' | 'Kade Engine':
+			case 'Psych Engine' | 'Kade Engine' | 'Cheeky':
 				scoreText.setFormat("VCR OSD Mono", 32);
 			
 			case 'Dave and Bambi':
@@ -62,13 +62,13 @@ class StoryMenuState extends MusicBeatState
 			case 'TGT Engine':
 				scoreText.setFormat("Calibri", 32);
 			
-			default:
+			case 'SB Engine':
 				scoreText.setFormat("Bahnschrift", 32);
 		}
 
 		txtWeekTitle = new FlxText(FlxG.width * 0.7, 10, 0, "", 32);
 		switch (ClientPrefs.data.gameStyle) {
-			case 'Psych Engine' | 'Kade Engine':
+			case 'Psych Engine' | 'Kade Engine' | 'Cheeky':
 				txtWeekTitle.setFormat("VCR OSD Mono", 32, FlxColor.WHITE, RIGHT);
 			
 			case 'Dave and Bambi':
@@ -77,7 +77,7 @@ class StoryMenuState extends MusicBeatState
 			case 'TGT Engine':
 				txtWeekTitle.setFormat("Calibri", 32, FlxColor.WHITE, RIGHT);
 			
-			default:
+			case 'SB Engine':
 				txtWeekTitle.setFormat("Bahnschrift", 32, FlxColor.WHITE, RIGHT);
 			
 		}
@@ -86,7 +86,7 @@ class StoryMenuState extends MusicBeatState
 		var rankText:FlxText = new FlxText(0, 10);
 		rankText.text = 'Nothing';
 		switch (ClientPrefs.data.gameStyle) {
-			case 'Psych Engine' | 'Kade Engine':
+			case 'Psych Engine' | 'Kade Engine' | 'Cheeky':
 				rankText.setFormat(Paths.font("vcr.ttf"), 32);
 			
 			case 'Dave and Bambi':
@@ -95,7 +95,7 @@ class StoryMenuState extends MusicBeatState
 			case 'TGT Engine':
 				rankText.setFormat(Paths.font("calibri.ttf"), 32);
 			
-			default:
+			case 'SB Engine':
 				rankText.setFormat(Paths.font("bahnschrift.ttf"), 32);
 		}
 		rankText.size = scoreText.size;

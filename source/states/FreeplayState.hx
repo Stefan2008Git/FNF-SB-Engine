@@ -136,7 +136,10 @@ class FreeplayState extends MusicBeatState
 
 		scoreText = new FlxText(FlxG.width * 0.7, 5, 0, "", 32);
 		switch (ClientPrefs.data.gameStyle) {
-			case 'Psych Engine' | 'Kade Engine':
+			case 'SB Engine':
+				scoreText.setFormat(Paths.font("bahnschrift.ttf"), 32, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+
+			case 'Psych Engine' | 'Kade Engine' | 'Cheeky':
 				scoreText.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 			
 			case 'Dave and Bambi':
@@ -144,9 +147,6 @@ class FreeplayState extends MusicBeatState
 			
 			case 'TGT Engine':
 				scoreText.setFormat(Paths.font("calibri.ttf"), 32, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-			
-			default:
-				scoreText.setFormat(Paths.font("bahnschrift.ttf"), 32, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		}
 
 		scoreBG = new FlxSprite(scoreText.x - 6, 0).makeGraphic(1, 66, 0xFF000000);
@@ -166,7 +166,10 @@ class FreeplayState extends MusicBeatState
 		
 		missingText = new FlxText(50, 0, FlxG.width - 100, '', 24);
 		switch (ClientPrefs.data.gameStyle) {
-			case 'Psych Engine' | 'Kade Engine':
+			case 'SB Engine':
+				missingText.setFormat(Paths.font("bahnschrift.ttf"), 24, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+
+			case 'Psych Engine' | 'Kade Engine' | 'Cheeky':
 				missingText.setFormat(Paths.font("vcr.ttf"), 24, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 			
 			case 'Dave and Bambi':
@@ -174,9 +177,6 @@ class FreeplayState extends MusicBeatState
 			
 			case 'TGT Engine':
 				missingText.setFormat(Paths.font("calibri.ttf"), 24, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-			
-			default:
-				missingText.setFormat(Paths.font("bahnschrift.ttf"), 24, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		}
 		missingText.scrollFactor.set();
 		missingText.visible = false;
@@ -209,7 +209,7 @@ class FreeplayState extends MusicBeatState
 		var size:Int = 16;
 		bottomText = new FlxText(bottomBG.x, bottomBG.y + 4, FlxG.width, leText, size);
 		switch (ClientPrefs.data.gameStyle) {
-			case 'Psych Engine' | 'Kade Engine':
+			case 'Psych Engine' | 'Kade Engine' | 'Cheeky':
 				bottomText.setFormat(Paths.font("vcr.ttf"), size, FlxColor.WHITE, CENTER);
 			
 			case 'Dave and Bambi':
@@ -218,7 +218,7 @@ class FreeplayState extends MusicBeatState
 			case 'TGT Engine':
 				bottomText.setFormat(Paths.font("calibri.ttf"), size, FlxColor.WHITE, CENTER);
 			
-			default:
+			case 'SB Engine':
 				bottomText.setFormat(Paths.font("bahnschrift.ttf"), size, FlxColor.WHITE, CENTER);
 		}
 		bottomText.scrollFactor.set();

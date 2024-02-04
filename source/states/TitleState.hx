@@ -61,6 +61,7 @@ class TitleState extends MusicBeatState {
 
 	override public function create():Void
 	{
+		Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion +" - Title screen";
 		#if android
 		FlxG.android.preventDefaultKeys = [BACK];
 		removeVirtualPad();

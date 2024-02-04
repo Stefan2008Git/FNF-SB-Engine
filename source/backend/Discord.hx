@@ -16,7 +16,8 @@ class DiscordClient
 		state: null,
 		largeImageKey: 'icon',
 		largeImageText: "SB Engine",
-		smallImageKey : null,
+		smallImageKey : "ministefan",
+		smallImageText: 'Creator: Stefan2008',
 		startTimestamp : null,
 		endTimestamp : null
 	};
@@ -120,6 +121,7 @@ class DiscordClient
 		_options.largeImageKey = 'icon';
 		_options.largeImageText = "Engine version: " + MainMenuState.sbEngineVersion + " (PE " + MainMenuState.psychEngineVersion + ") ";
 		_options.smallImageKey = smallImageKey;
+		_options.smallImageText = "Creator: Stefan2008";
 		// Obtained times are in milliseconds so they are divided so Discord can use it
 		_options.startTimestamp = Std.int(startTimestamp / 1000);
 		_options.endTimestamp = Std.int(endTimestamp / 1000);
