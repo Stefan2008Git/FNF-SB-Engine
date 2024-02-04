@@ -83,7 +83,7 @@ class TitleState extends MusicBeatState {
 
 		super.create();
 
-		FlxG.save.bind('funkin', CoolUtil.getSavePath());
+		FlxG.save.bind('stefan2008', CoolUtil.getSavePath());
 
 		ClientPrefs.loadPrefs();
 		Highscore.load();

@@ -89,7 +89,7 @@ class MasterEditorMenu extends MusicBeatState
 			case 'Dave and Bambi': tipText.setFormat(Paths.font("comic.ttf"), 18, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		}
 
-		testSprite = FlxSpriteUtil.drawRoundRect(new FlxSprite(930, 10).makeGraphic(340, 440, FlxColor.TRANSPARENT), 0, 0, 340, 440, 75, 75, FlxColor.BLACK);
+		testSprite = FlxSpriteUtil.drawRoundRect(new FlxSprite(930, 10).makeGraphic(340, 440, FlxColor.TRANSPARENT), 0, 0, 340, 440, 55, 55, FlxColor.BLACK);
 		testSprite.alpha = 0.5;
 		add(testSprite);
 		add(tipText);

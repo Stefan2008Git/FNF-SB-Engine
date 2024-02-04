@@ -173,14 +173,12 @@ class CoolUtil
 	}
 
 	/** Quick Function to Fix Save Files for Flixel 5
-		if you are making a mod, you are gonna wanna change "Stefan2008" to something else
+		if you are making a mod, you are gonna wanna change "ShadowMario" to something else
 		so Base Psych saves won't conflict with yours
 		@BeastlyGabi
 	**/
 	inline public static function getSavePath(folder:String = 'Stefan2008'):String {
 		@:privateAccess
-		return #if (flixel < "5.0.0") folder #else FlxG.stage.application.meta.get('company')
-			+ '/'
-			+ FlxSave.validate(FlxG.stage.application.meta.get('file')) #end;
+		return #if (flixel < "5.0.0") folder #else FlxG.stage.application.meta.get('company') + ' / ' + FlxSave.validate(FlxG.stage.application.meta.get('file')) #end;
 	}
 }
