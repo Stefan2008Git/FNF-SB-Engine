@@ -621,7 +621,7 @@ class ModsMenuState extends MusicBeatState
 			var rawZip:String = File.getContent(fullPath);
 			if(rawZip != null)
 			{
-				MusicBeatState.resetState();
+				FlxG.resetState();
 				var uncompressingFile:Bytes = new Uncompress().run(File.getBytes(rawZip));
 				if (uncompressingFile.done)
 				{

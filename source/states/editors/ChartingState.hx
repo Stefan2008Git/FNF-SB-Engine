@@ -504,7 +504,7 @@ class ChartingState extends MusicBeatState
 		var loadAutosaveBtn:FlxButton = new FlxButton(reloadSongJson.x, reloadSongJson.y + 30, 'Load Autosave', function()
 		{
 			PlayState.SONG = Song.parseJSONshit(FlxG.save.data.autosave);
-			MusicBeatState.resetState();
+			FlxG.resetState();
 		});
 
 		var loadEventJson:FlxButton = new FlxButton(loadAutosaveBtn.x, loadAutosaveBtn.y + 30, 'Load Events', function()
@@ -673,7 +673,7 @@ class ChartingState extends MusicBeatState
 					postfix = '-' + newDifficulty;
 				}
 				PlayState.SONG = Song.loadFromJson(_song.song.toLowerCase() + postfix, _song.song.toLowerCase());
-				MusicBeatState.resetState();
+				FlxG.resetState();
 		});
 		difficultyDropDown.selectedLabel = Difficulty.getString();
 		blockPressWhileScrolling.push(difficultyDropDown);
@@ -3306,7 +3306,7 @@ class ChartingState extends MusicBeatState
 					PlayState.SONG = Song.loadFromJson(song.toLowerCase() + "-" + Difficulty.getString(), song.toLowerCase());
 			}
 			else PlayState.SONG = Song.loadFromJson(song.toLowerCase(), song.toLowerCase());
-			MusicBeatState.resetState();
+			FlxG.resetState();
 		}
 		catch(e)
 		{
