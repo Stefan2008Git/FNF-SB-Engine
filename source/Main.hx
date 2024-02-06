@@ -12,9 +12,10 @@ import lime.app.Application;
 import debug.FPS;
 import states.TitleState;
 #if android
-import backend.SUtil;
 import android.backend.AndroidDialogsExtend;
 #end
+
+import backend.SUtil;
 
 #if linux
 import lime.graphics.Image;
