@@ -1917,16 +1917,16 @@ class ChartingState extends MusicBeatState
 				playtesting = true;
 				playtestingTime = Conductor.songPosition;
 				playtestingOnComplete = FlxG.sound.music.onComplete;
-				#if android
-				warningStateTxt.visible = true;
+				//#if android
+				/*warningStateTxt.visible = true;
 				warningStateTxt.text = "Chart playtesting is currently broken on Android build because of\nNull Object Refrence for controls, so it will be fixed on v3.1.0 update!\nTouch the screen to continue";
 				warningStateBG.visible = true;
-				warningStateChecker.visible = true;
-				FlxG.camera.shake(0.05, 0.6);
-				FlxG.sound.play(Paths.sound('error'));
-				#else
+				warningStateChecker.visible = true;*/
+				// FlxG.camera.shake(0.05, 0.6);
+				// FlxG.sound.play(Paths.sound('error'));
+				// #else
 				openSubState(new states.editors.EditorPlayState(playbackSpeed));
-				#end
+				// #end
 			}
 
 			if (FlxG.keys.justPressed.ENTER #if mobile || MusicBeatState.virtualPad.buttonA.justPressed #end)
@@ -1946,7 +1946,7 @@ class ChartingState extends MusicBeatState
 				LoadingState.loadAndSwitchState(new PlayState());
 			}
 
-			#if android
+			/* #if android
 			var touchedTheScreen:Bool = false;
 	
 			for (touch in FlxG.touches.list) {
@@ -1961,7 +1961,7 @@ class ChartingState extends MusicBeatState
 				warningStateBG.visible = false;
 				warningStateChecker.visible = false;
 				FlxG.sound.music.stop();
-			}
+			}*/
 
 			if(currentlySelectedNote != null && currentlySelectedNote[1] > -1)
 			{
