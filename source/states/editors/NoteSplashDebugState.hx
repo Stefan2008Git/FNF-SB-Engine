@@ -164,7 +164,7 @@ class NoteSplashDebugState extends MusicBeatState
 		add(curAnimText);
 		
 		var text:FlxText = new FlxText(0, 520, FlxG.width, "", 16);
-		#if android text.text = "Press B to Reset animation\nPress A twice to save to the loaded Note Splash PNG's folder\nLeft/Right change selected note - Arrow Keys(right) to change offset (Hold C for 10x)\nZ + C/X - Copy & Paste" #else "Press SPACE to Reset animation\nPress ENTER twice to save to the loaded Note Splash PNG's folder\nA/D change selected note - Arrow Keys to change offset (Hold shift for 10x)\nCtrl + C/Y - Copy & Paste"; #end
+		#if android text.text = "Press B to Reset animation\nPress A twice to save to the loaded Note Splash PNG's folder\nLeft/Right change selected note - Arrow Keys(right) to change offset (Hold C for 10x)\nZ + C/X - Copy & Paste"; #else "Press SPACE to Reset animation\nPress ENTER twice to save to the loaded Note Splash PNG's folder\nA/D change selected note - Arrow Keys to change offset (Hold shift for 10x)\nCtrl + C/Y - Copy & Paste"; #end
 		switch (ClientPrefs.data.gameStyle) {
 			case 'SB Enigne':
 				text.setFormat(Paths.font("bahnscrift.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
