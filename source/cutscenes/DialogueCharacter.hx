@@ -8,6 +8,8 @@ import sys.FileSystem;
 import sys.io.File;
 #end
 
+import backend.SUtil;
+
 typedef DialogueCharacterFile = {
 	var image:String;
 	var dialogue_pos:String;

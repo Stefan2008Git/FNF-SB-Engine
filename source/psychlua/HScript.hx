@@ -4,6 +4,7 @@ import flixel.FlxBasic;
 import objects.Character;
 import psychlua.FunkinLua;
 import psychlua.CustomSubstate;
+import backend.SUtil;
 
 #if HSCRIPT_ALLOWED
 import tea.SScript;

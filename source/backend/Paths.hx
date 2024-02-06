@@ -25,6 +25,7 @@ import sys.FileSystem;
 import tjson.TJSON as Json;
 import haxe.io.Bytes;
 
+import backend.SUtil;
 #if MODS_ALLOWED
 import backend.Mods;
 #end

@@ -4,6 +4,7 @@ import shaders.RGBPalette;
 import flixel.system.FlxAssets.FlxShader;
 import flixel.graphics.frames.FlxFrame;
 import sys.FileSystem;
+import backend.SUtil;
 
 typedef NoteSplashConfig = {
 	anim:String,

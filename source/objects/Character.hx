@@ -1,7 +1,4 @@
 package objects;
-
-import animateatlas.AtlasFrameMaker;
-
 import flixel.util.FlxSort;
 
 #if MODS_ALLOWED
@@ -14,6 +11,7 @@ import tjson.TJSON as Json;
 
 import backend.Song;
 import backend.Section;
+import backend.SUtil;
 import states.stages.objects.TankmenBG;
 
 typedef CharacterFile = {

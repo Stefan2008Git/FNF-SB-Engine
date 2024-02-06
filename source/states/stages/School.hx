@@ -3,6 +3,7 @@ package states.stages;
 import states.stages.objects.*;
 import substates.GameOverSubstate;
 import cutscenes.DialogueBox;
+import backend.SUtil;
 
 #if MODS_ALLOWED
 import sys.FileSystem;

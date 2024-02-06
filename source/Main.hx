@@ -12,7 +12,7 @@ import lime.app.Application;
 import debug.FPS;
 import states.TitleState;
 #if android
-import SUtil;
+import backend.SUtil;
 import android.backend.AndroidDialogsExtend;
 #end
 

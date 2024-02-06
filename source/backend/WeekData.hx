@@ -5,6 +5,7 @@ import sys.io.File;
 import sys.FileSystem;
 #end
 
+import backend.SUtil;
 import tjson.TJSON as Json;
 
 typedef WeekFile =

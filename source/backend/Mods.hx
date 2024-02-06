@@ -8,6 +8,7 @@ import lime.utils.Assets;
 #end
 
 import tjson.TJSON as Json;
+import backend.SUtil;
 
 typedef ModsList = {
 	enabled:Array<String>,

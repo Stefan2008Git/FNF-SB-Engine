@@ -15,6 +15,7 @@ import sys.io.File;
 import sys.FileSystem;
 #end
 
+import backend.SUtil;
 import objects.AttachedSprite;
 
 /*import haxe.zip.Reader;

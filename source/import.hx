@@ -76,9 +76,7 @@ import backend.Section.SwagSection;
 import backend.Song;
 import backend.Song.SwagSong;
 import backend.StageData;
-#if android
 import backend.SUtil;
-#end
 import backend.WeekData;
 import cutscenes.DialogueBox;
 import cutscenes.DialogueBoxPsych;
