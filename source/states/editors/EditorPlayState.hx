@@ -258,7 +258,7 @@ class EditorPlayState extends MusicBeatSubstate
 		#end
 
 		#if android
-		MusicBeatState.androidControls.visible = true;
+		MusicBeatSubstate.androidControls.visible = true;
 		#end
 	}
 
@@ -267,7 +267,7 @@ class EditorPlayState extends MusicBeatSubstate
 		if (FlxG.keys.justPressed.ESCAPE #if android || FlxG.android.justReleased.BACK #end)
 		{		
 		    #if android
-			MusicBeatState.androidControls.visible = false;
+			MusicBeatSubstate.androidControls.visible = false;
 			#end
 			
 			endSong();

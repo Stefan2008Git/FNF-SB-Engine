@@ -26,21 +26,21 @@ class CoolUtil
 		return Math.max(min, Math.min(max, value));
 	}
 
-	inline public static function coolTextFile(path:String):Array<String> {
-		var daList:Array<String> = [];
-		#if MODS_ALLOWED
-		if (FileSystem.exists(path))
-			daList = File.getContent(path).trim().split('\n');
+	inline public static function coolTextFile(path:String, ?android:Bool = true):Array<String>
+	{
+		var daList:String = null;
+		#if (sys && MODS_ALLOWED)
+		var formatted:Array<String> = path.split(':'); //prevent "shared:", "preload:" and other library names on file path
+		if (android)
+			path = SUtil.getPath() + formatted[formatted.length-1];
+		else
+			path = formatted[formatted.length-1];
+
+		if(FileSystem.exists(path)) daList = File.getContent(path);
 		#else
-		if (Assets.exists(path))
-			daList = Assets.getText(path).trim().split('\n');
+		if(Assets.exists(path)) daList = Assets.getText(path);
 		#end
-
-		for (i in 0...daList.length) {
-			daList[i] = daList[i].trim();
-		}
-
-		return daList;
+		return daList != null ? listFromString(daList) : [];
 	}
 
 	inline public static function colorFromString(color:String):FlxColor

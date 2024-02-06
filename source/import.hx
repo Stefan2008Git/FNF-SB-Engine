@@ -53,7 +53,6 @@ import openfl.text.TextFormat;
 
 // Friday Night Funkin': SB Engine stuff (Im talking about states, substates, backend, etc.)
 import psychlua.FunkinLua;
-import SUtil;
 import backend.BaseStage;
 import backend.ClientPrefs;
 import backend.Conductor;
@@ -77,6 +76,9 @@ import backend.Section.SwagSection;
 import backend.Song;
 import backend.Song.SwagSong;
 import backend.StageData;
+#if android
+import backend.SUtil;
+#end
 import backend.WeekData;
 import cutscenes.DialogueBox;
 import cutscenes.DialogueBoxPsych;
