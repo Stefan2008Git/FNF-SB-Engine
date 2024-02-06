@@ -16,7 +16,7 @@ import substates.NoSecretScreen1Substate;
 
 class MainMenuState extends MusicBeatState
 {
-	public static var sbEngineVersion:String = '3.0.0';
+	public static var sbEngineVersion:String = '3.0.5a';
 	public static var psychEngineVersion:String = '0.7.1h';
 	public static var fnfEngineVersion:String = '0.2.8';
 	public static var currentlySelected:Int = 0;
@@ -33,6 +33,13 @@ class MainMenuState extends MusicBeatState
 	var versionPsych:FlxText;
 	var versionFnf:FlxText;
 	var secretText1:FlxText;
+
+	/*var tipTextMargin:Float = 10;
+	var tipTextScrolling:Bool = false;
+	var tipBackground:FlxSprite;
+	var tipText:FlxText;
+	var isTweening:Bool = false;
+	var lastString:String = '';*/
 	
 	var optionSelect:Array<String> = [
 		'story_mode',
@@ -100,7 +107,7 @@ class MainMenuState extends MusicBeatState
 		background.antialiasing = ClientPrefs.data.antialiasing;
 		switch (ClientPrefs.data.themes) {
 			case 'SB Engine':
-				background.color = 0xFF800080;
+				background.color = 0xFF382512;
 			
 			case 'Psych Engine':
 				background.color = 0xFFea71fd;
@@ -167,6 +174,41 @@ class MainMenuState extends MusicBeatState
 			menuItem.x= 50;
 		}
         firstStart = false;
+
+		/*tipBackground = FlxSpriteUtil.drawRoundRect(new FlxSprite(25, 10).makeGraphic(980, 50, FlxColor.TRANSPARENT), 0, 0, 980, 50, 55, 55, FlxColor.GRAY);
+		tipBackground.scrollFactor.set();
+		tipBackground.alpha = 0.7;
+		tipBackground.screenCenter(X);
+		FlxTween.tween(tipBackground, {y: 20}, 0.3);
+		tipBackground.visible = ClientPrefs.data.objects;
+
+		tipText = new FlxText(0, 0, 0, "");
+		tipText.scrollFactor.set();
+		/*switch (ClientPrefs.gameStyle) {
+			case 'Psych Engine': tipText.setFormat("VCR OSD Mono", 24, FlxColor.WHITE, CENTER);
+			default: tipText.setFormat("Bahnschrift", 24, FlxColor.WHITE, CENTER);
+		}
+		switch (ClientPrefs.data.gameStyle) {
+			case 'SB Engine':
+				tipText.setFormat("Bahnschrift", 24, FlxColor.WHITE, CENTER);
+
+			case 'Psych Engine' | 'Kade Engine' | 'Cheeky':
+				tipText.setFormat("VCR OSD Mono", 24, FlxColor.WHITE, CENTER);
+			
+			case 'Dave and Bambi':
+				tipText.setFormat("Comic Sans MS Bold", 24, FlxColor.WHITE, CENTER);
+			
+			case 'TGT Engine':
+				tipText.setFormat("Calibri", 24, FlxColor.WHITE, CENTER);
+		}
+		tipText.updateHitbox();
+		tipText.visible = ClientPrefs.data.objects;
+		tipText.scale.x = 0.7;
+		tipText.scale.y = 0.7;
+		tipText.y = 30;
+		FlxTween.tween(tipText, {y: 20}, 0.3);
+		add(tipBackground);
+		add(tipText);*/
 
 		FlxG.camera.follow(camFollow, null, 0);
 
@@ -246,6 +288,8 @@ class MainMenuState extends MusicBeatState
 			if(FreeplayState.vocals != null) FreeplayState.vocals.volume += 0.5 * elapsed;
 		}
 		FlxG.camera.followLerp = FlxMath.bound(elapsed * 9 / (FlxG.updateFramerate / 60), 0, 1);
+
+		// if (tipTextScrolling) changeTipText();
 
 		if (!selectedSomething)
 		{
@@ -349,6 +393,51 @@ class MainMenuState extends MusicBeatState
 		lastBeatHit = curBeat;
 	}
 
+	/*function tipTextStartScrolling()
+	{
+		tipText.x = tipTextMargin;
+		tipText.y = -tipText.height;
+
+		new FlxTimer().start(1.0, function(timer:FlxTimer)
+		{
+			FlxTween.tween(tipText, {y: tipTextMargin}, 0.3);
+			new FlxTimer().start(2.25, function(timer:FlxTimer)
+			{
+				tipTextScrolling = true;
+			});
+		});
+	}
+
+	function changeTipText() {
+		var selectedText:String = '';
+		var textArray:Array<String> = CoolUtil.coolTextFile(SUtil.getPath() + Paths.txt('funnyTips'));
+
+		tipText.alpha = 1;
+		isTweening = true;
+		selectedText = textArray[FlxG.random.int(0, (textArray.length - 1))].replace('--', '\n');
+		FlxTween.tween(tipText, {alpha: 0}, 1, {
+			ease: FlxEase.sineInOut,
+			onComplete: function(textValue:FlxTween) {
+				if (selectedText != lastString) {
+					tipText.text = selectedText;
+					lastString = selectedText;
+				} else {
+					selectedText = textArray[FlxG.random.int(0, (textArray.length - 1))].replace('--', '\n');
+					tipText.text = selectedText;
+				}
+
+				tipText.alpha = 0;
+
+				FlxTween.tween(tipText, {alpha: 1}, 1, {
+					ease: FlxEase.sineInOut,
+					onComplete: function(textValue:FlxTween) {
+						isTweening = false;
+					}
+				});
+			}
+		});
+	}*/
+
 	function changeItem(huh:Int = 0, bool:Bool = true)
 	{
 		if (finishedFunnyMove) {
@@ -446,7 +535,7 @@ class MainMenuState extends MusicBeatState
 		switch(clickCount)
 		{
 			case 0:
-				colorTag = FlxColor.PURPLE;
+				colorTag = 0xFF382512;
 			case 1:
 				colorTag = FlxColor.ORANGE;
 			case 2:
@@ -454,7 +543,7 @@ class MainMenuState extends MusicBeatState
 			case 3:
 				colorTag = FlxColor.BLUE;
 			case 4:
-				colorTag = FlxColor.BROWN;
+				colorTag = 0xFF382512;
 			case 5:
 				colorTag = FlxColor.CYAN;
 		}

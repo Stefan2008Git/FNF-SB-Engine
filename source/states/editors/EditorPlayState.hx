@@ -1114,7 +1114,7 @@ class EditorPlayState extends MusicBeatSubstate
 
 	function reloadTimeBarColor() {
 		if (ClientPrefs.data.gameStyle == 'SB Engine') {
-			timeBar.leftBar.color = FlxColor.PURPLE;
+			timeBar.leftBar.color = 0xFF382512;
 			timeBar.rightBar.color = 0xFF1A1A1A;
 		} else if (ClientPrefs.data.gameStyle == 'Psych Engine' || ClientPrefs.data.gameStyle == 'TGT Engine') {
 			timeBar.leftBar.color = FlxColor.WHITE;

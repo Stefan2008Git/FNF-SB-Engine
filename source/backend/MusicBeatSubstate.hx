@@ -100,10 +100,11 @@ class MusicBeatSubstate extends FlxSubState
 				checkHitbox = true;
 				checkDUO = false;
 				Controls.checkTheKeyboard = false;
-			//case KEYBOARD:				    
+			//case KEYBOARD:	
+			    
 			default:
 			    checkHitbox = false;
-			    checkDUO = false;
+				checkDUO = false;
 			    Controls.checkTheKeyboard = true;
 		}
 
@@ -113,10 +114,9 @@ class MusicBeatSubstate extends FlxSubState
 		androidControls.cameras = [camcontrol];
 
 		androidControls.visible = false;
-		
 
 		add(androidControls);
-		Controls.checkTheControls = false;
+		Controls.checkTheControls = true;
 	}
 	#end
 

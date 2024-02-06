@@ -319,8 +319,6 @@ class TitleState extends MusicBeatState {
 		}
 		#end
 
-		if (controls.FULL_SCREEN) FlxG.fullscreen = !FlxG.fullscreen;
-
 		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
 
 		if (gamepad != null)
@@ -497,17 +495,9 @@ class TitleState extends MusicBeatState {
 					deleteCoolText();
 					psychSpr.visible = false;
 				case 10:
-					#if !android
 					createCoolText([curWacky[0]]);
-					#else
-					deleteCoolText();
-					#end
 				case 12:
-					#if !android
 					addMoreText(curWacky[1]);
-					#else
-					deleteCoolText();
-					#end
 				case 13:
 					deleteCoolText();
 				case 14:

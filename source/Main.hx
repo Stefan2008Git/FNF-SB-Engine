@@ -1,5 +1,6 @@
 package;
 
+import openfl.events.KeyboardEvent;
 import flixel.graphics.FlxGraphic;
 
 import openfl.Assets;
@@ -149,6 +150,10 @@ class Main extends Sprite
 		#end
 
 		#if desktop
+		FlxG.stage.addEventListener(KeyboardEvent.KEY_UP, toggleFullScreen);
+		#end
+
+		#if desktop
 		DiscordClient.start();
 		#end
 
@@ -172,6 +177,11 @@ class Main extends Sprite
 		        sprite.__cacheBitmap = null;
 			sprite.__cacheBitmapData = null;
 		}
+	}
+
+	function toggleFullScreen(event:KeyboardEvent):Void {
+		if(Controls.instance.justReleased('full_screen'))
+			FlxG.fullscreen = !FlxG.fullscreen;
 	}
 
 	// Code was entirely made by sqirra-rng for their fnf engine named "Izzy Engine", big props to them!!!

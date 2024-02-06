@@ -40,7 +40,7 @@ class NoteSplashDebugState extends MusicBeatState
 		Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Mod Editors menu (Note splash debug)";
 		switch (ClientPrefs.data.themes) {
 			case 'SB Engine':
-				FlxG.camera.bgColor = FlxColor.PURPLE;
+				FlxG.camera.bgColor = 0xFF382512;
 			
 			case 'Psych Engine':
 				FlxG.camera.bgColor = FlxColor.fromHSL(0, 0, 0.5);
@@ -51,7 +51,7 @@ class NoteSplashDebugState extends MusicBeatState
 		velocityBackground.visible = ClientPrefs.data.velocityBackground;
 		add(velocityBackground);
 
-		selection = new FlxSprite(0, 270).makeGraphic(150, 150, FlxColor.BLACK);
+		selection = FlxSpriteUtil.drawRoundRect(new FlxSprite(0, 270).makeGraphic(150, 150, FlxColor.TRANSPARENT), 0, 0, 150, 150, 65, 65, FlxColor.BLACK);
 		selection.alpha = 0.4;
 		add(selection);
 
@@ -80,7 +80,7 @@ class NoteSplashDebugState extends MusicBeatState
 		//
 		var txtx = 60;
 		var txty = 640;
-		var animName:FlxText = new FlxText(txtx, txty, 'Animation name:', 16);
+		var animName:FlxText = new FlxText(txtx, txty, 'Animation name: ', 16);
 		add(animName);
 
 		nameInputText = new FlxInputText(txtx, txty + 20, 360, '', 16);
@@ -112,39 +112,89 @@ class NoteSplashDebugState extends MusicBeatState
 
 		//
 		offsetsText = new FlxText(300, 150, 680, '', 16);
-		offsetsText.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		switch (ClientPrefs.data.gameStyle) {
+			case 'SB Enigne':
+				offsetsText.setFormat(Paths.font("bahnscrift.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			
+			case 'Psych Engine' | 'Kade Engine' | 'Cheeky':
+				offsetsText.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			
+			case 'TGT Enigne':
+				offsetsText.setFormat(Paths.font("calibri.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			
+			case 'Dave and Bambi':
+				offsetsText.setFormat(Paths.font("comic.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		}
 		offsetsText.scrollFactor.set();
 		add(offsetsText);
 
 		curFrameText = new FlxText(300, 100, 680, '', 16);
-		curFrameText.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		switch (ClientPrefs.data.gameStyle) {
+			case 'SB Enigne':
+				curFrameText.setFormat(Paths.font("bahnscrift.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			
+			case 'Psych Engine' | 'Kade Engine' | 'Cheeky':
+				curFrameText.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			
+			case 'TGT Enigne':
+				curFrameText.setFormat(Paths.font("calibri.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			
+			case 'Dave and Bambi':
+				curFrameText.setFormat(Paths.font("comic.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		}
 		curFrameText.scrollFactor.set();
 		add(curFrameText);
 
 		curAnimText = new FlxText(300, 50, 680, '', 16);
+		switch (ClientPrefs.data.gameStyle) {
+			case 'SB Enigne':
+				curAnimText.setFormat(Paths.font("bahnscrift.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			
+			case 'Psych Engine' | 'Kade Engine' | 'Cheeky':
+				curAnimText.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			
+			case 'TGT Enigne':
+				curAnimText.setFormat(Paths.font("calibri.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			
+			case 'Dave and Bambi':
+				curAnimText.setFormat(Paths.font("comic.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		}
 		curAnimText.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		curAnimText.scrollFactor.set();
 		add(curAnimText);
 		
-		#if android
-		var text:FlxText = new FlxText(0, 520, FlxG.width,
-			"Press B to Reset animation\n
-			Press A twice to save to the loaded Note Splash PNG's folder\n
-			Left/Right change selected note - Arrow Keys(right) to change offset (Hold C for 10x)\n
-			Z + C/X - Copy & Paste", 16);
-		#else
-		var text:FlxText = new FlxText(0, 520, FlxG.width,
-			"Press SPACE to Reset animation\n
-			Press ENTER twice to save to the loaded Note Splash PNG's folder\n
-			A/D change selected note - Arrow Keys to change offset (Hold shift for 10x)\n
-			Ctrl + C/Y - Copy & Paste", 16);
-		#end
-		text.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		var text:FlxText = new FlxText(0, 520, FlxG.width, "", 16);
+		#if android text.text = "Press B to Reset animation\nPress A twice to save to the loaded Note Splash PNG's folder\nLeft/Right change selected note - Arrow Keys(right) to change offset (Hold C for 10x)\nZ + C/X - Copy & Paste" #else "Press SPACE to Reset animation\nPress ENTER twice to save to the loaded Note Splash PNG's folder\nA/D change selected note - Arrow Keys to change offset (Hold shift for 10x)\nCtrl + C/Y - Copy & Paste"; #end
+		switch (ClientPrefs.data.gameStyle) {
+			case 'SB Enigne':
+				text.setFormat(Paths.font("bahnscrift.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			
+			case 'Psych Engine' | 'Kade Engine' | 'Cheeky':
+				text.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			
+			case 'TGT Enigne':
+				text.setFormat(Paths.font("calibri.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			
+			case 'Dave and Bambi':
+				text.setFormat(Paths.font("comic.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		}
 		text.scrollFactor.set();
 		add(text);
 
 		savedText = new FlxText(0, 340, FlxG.width, '', 24);
-		savedText.setFormat(Paths.font("vcr.ttf"), 24, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		switch (ClientPrefs.data.gameStyle) {
+			case 'SB Enigne':
+				savedText.setFormat(Paths.font("bahnscrift.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			
+			case 'Psych Engine' | 'Kade Engine' | 'Cheeky':
+				savedText.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			
+			case 'TGT Enigne':
+				savedText.setFormat(Paths.font("calibri.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			
+			case 'Dave and Bambi':
+				savedText.setFormat(Paths.font("comic.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		}
 		savedText.scrollFactor.set();
 		add(savedText);
 

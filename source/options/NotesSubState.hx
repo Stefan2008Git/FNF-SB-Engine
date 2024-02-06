@@ -79,12 +79,12 @@ class NotesSubState extends MusicBeatSubstate
 		FlxTween.tween(grid, {alpha: 1}, 0.5, {ease: FlxEase.quadOut});
 		add(grid);
 
-		modeBG = new FlxSprite(215, 85).makeGraphic(315, 115, FlxColor.BLACK);
+		modeBG = FlxSpriteUtil.drawRoundRect(new FlxSprite(215, 85).makeGraphic(315, 115, FlxColor.TRANSPARENT), 0, 0, 315, 115, 65, 65, FlxColor.BLACK);
 		modeBG.visible = false;
 		modeBG.alpha = 0.4;
 		add(modeBG);
 
-		notesBG = new FlxSprite(140, 190).makeGraphic(480, 125, FlxColor.BLACK);
+		notesBG = FlxSpriteUtil.drawRoundRect(new FlxSprite(120, 190).makeGraphic(510, 125, FlxColor.TRANSPARENT), 0, 0, 510, 125, 65, 65, FlxColor.BLACK);
 		notesBG.visible = false;
 		notesBG.alpha = 0.4;
 		add(notesBG);
@@ -160,6 +160,7 @@ class NotesSubState extends MusicBeatSubstate
 		var tipX = 20;
 		var tipY = 660;
 		var tip:FlxText = new FlxText(tipX, tipY, 0, "Press RELOAD to Reset the selected Note Part.", 16);
+		#if android tip.text ="Tap on C button to Reset the selected Note Part"; #end
 		switch (ClientPrefs.data.gameStyle) {
 			case 'Psych Engine' | 'Kade Engine':
 				tip.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -795,7 +796,8 @@ class NotesSubState extends MusicBeatSubstate
 			var newAnim:String = currentlySelectedNote == note.ID ? 'confirm' : 'pressed';
 			note.alpha = (currentlySelectedNote == note.ID) ? 1 : 0.6;
 			if(note.animation.curAnim == null || note.animation.curAnim.name != newAnim) note.playAnim(newAnim, true);
-			if(instant) note.animation.curAnim.finish();
+			if (!instant) continue;
+			note.animation.curAnim.finish();
 		}
 		bigNote.animation.play('note$currentlySelectedNote', true);
 		updateColors();

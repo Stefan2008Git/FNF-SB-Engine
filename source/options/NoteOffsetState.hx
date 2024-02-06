@@ -146,7 +146,7 @@ class NoteOffsetState extends MusicBeatState
 		timeBar.screenCenter(X);
 		timeBar.visible = false;
 		timeBar.cameras = [camHUD];
-		timeBar.leftBar.color = FlxColor.PURPLE;
+		timeBar.leftBar.color = 0xFF382512;
 		timeBar.rightBar.color = 0xFF1A1A1A;
 
 		add(timeBar);

@@ -241,7 +241,7 @@ class ChartingState extends MusicBeatState
 		background = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
 		switch (ClientPrefs.data.themes) {
 			case 'SB Engine':
-				background.color = 0xFF800080;
+				background.color = 0xFF382512;
 			
 			case 'Psych Engine':
 				background.color = 0xFF353535;

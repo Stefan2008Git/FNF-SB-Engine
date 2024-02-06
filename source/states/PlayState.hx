@@ -1279,7 +1279,7 @@ class PlayState extends MusicBeatState
 		}
 
 		} else if (ClientPrefs.data.gameStyle == 'SB Engine') {
-			timeBar.leftBar.color = FlxColor.PURPLE;
+			timeBar.leftBar.color = 0xFF382512;
 			timeBar.rightBar.color = 0xFF1A1A1A;
 		} else if (ClientPrefs.data.gameStyle == 'Psych Engine' || ClientPrefs.data.gameStyle == 'TGT Engine') {
 			timeBar.leftBar.color = FlxColor.WHITE;
@@ -1819,7 +1819,7 @@ class PlayState extends MusicBeatState
 		if (!cpuControlled && !practiceMode && !miss) {
 			switch (ClientPrefs.data.gameStyle) {
 				case 'SB Engine':
-					scoreTxt.text = '<< Score: ' +  songScore + ' // Combo: ' + combo + '(Max Como:' + maxCombo + ')' + ' // Missed notes: ' + songMisses + ' // Percent: ' + CoolUtil.floorDecimal(ratingPercent * 100, 2) + '%' + ' // Rank: ' + ratingName + ' {' + ratingFC + '} >>';
+					scoreTxt.text = '<< Score: ' +  songScore + ' // Combo: ' + combo + ' (Max Como:' + maxCombo + ')' + ' // Missed notes: ' + songMisses + ' // Percent: ' + CoolUtil.floorDecimal(ratingPercent * 100, 2) + '%' + ' // Rank: ' + ratingName + ' {' + ratingFC + '} >>';
 	
 				case 'Psych Engine' | 'TGT Engine':
 					scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + str;
@@ -2546,8 +2546,11 @@ class PlayState extends MusicBeatState
 					case 'SB Engine':
 						timeTxt.text += " [AUTO]";
 					
-					case 'Psych Engine' | 'TGT Engine' | 'Kade Engine' | 'Dave and Bambi' | 'Cheeky':
+					case 'Psych Engine' | 'TGT Engine' | 'Kade Engine' | 'Cheeky':
 						timeTxt.text += " (BOT)";
+					
+					case 'Dave and Bambi':
+						timeTxt.text = " (CHEATER!)";
 				}
 		}
 
