@@ -1,4 +1,5 @@
 package objects;
+import animateatlas.AtlasFrameMaker;
 import flixel.util.FlxSort;
 
 #if MODS_ALLOWED
