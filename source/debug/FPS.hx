@@ -44,6 +44,7 @@ class FPS extends TextField
 		if (!v) textColor = 0xffffffff;
 		return rainbowEnabled = v;
 	}
+	public var differentPosition:Bool = false;
 
 	public function new(x:Float = 10, y:Float = 10)
 	{
@@ -177,6 +178,20 @@ class FPS extends TextField
 
 		cacheCount = currentCount;
 		set_rainbowEnabled(ClientPrefs.data.rainbowFPS);
+
+		#if desktop
+		#if !debug 
+		if (differentPosition)
+			y = (Lib.current.stage.stageHeight - 3) - (75);
+		else
+			y = 3;
+		#else
+		if (differentPosition)
+			y = (Lib.current.stage.stageHeight - 3) - (150);
+		else
+			y = 3;
+		#end
+		#end
 	}
 
 	function obtainMemory():Dynamic {

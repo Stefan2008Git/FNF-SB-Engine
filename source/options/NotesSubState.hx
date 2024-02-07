@@ -61,7 +61,7 @@ class NotesSubState extends MusicBeatSubstate
 		bg = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
 		switch (ClientPrefs.data.themes) {
 			case 'SB Engine':
-				bg.color = 0xFF800080;
+				bg.color = 0xFF382512;
 			
 			case 'Psych Engine':
 				bg.color = 0xFFea71fd;
@@ -797,7 +797,7 @@ class NotesSubState extends MusicBeatSubstate
 			note.alpha = (currentlySelectedNote == note.ID) ? 1 : 0.6;
 			if(note.animation.curAnim == null || note.animation.curAnim.name != newAnim) note.playAnim(newAnim, true);
 			if (!instant) continue;
-			note.animation.curAnim.finish();
+			if(instant) note.animation.curAnim.finish();
 		}
 		bigNote.animation.play('note$currentlySelectedNote', true);
 		updateColors();

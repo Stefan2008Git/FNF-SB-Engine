@@ -157,7 +157,7 @@ class NoteSplash extends FlxSprite
 
 		var path:String = Paths.getPath('images/$skin.txt', TEXT, true);
 		if (!FileSystem.exists(path)) path = SUtil.getPath() + 'assets/shared/images/noteSplashes/noteSplashes.txt'; // use default text
-		var configFile:Array<String> = CoolUtil.coolTextFile(path);
+		var configFile:Array<String> = CoolUtil.coolTextFile(path, false);
 		if(configFile.length < 1) return null;
 		
 		var framerates:Array<String> = configFile[1].split(' ');

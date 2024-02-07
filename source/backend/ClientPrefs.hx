@@ -91,6 +91,7 @@ class SaveVariables {
 	public var mainMenuMusic:String = 'SB Engine';
 	public var resultsScreen:Bool = false;
 	public var loadingScreen:Bool = false;
+	public var gameOverScreen:Bool = true;
 	public var gameplaySettings:Map<String, Dynamic> = [
 		'scrollspeed' => 1.0,
 		'scrolltype' => 'multiplicative', 

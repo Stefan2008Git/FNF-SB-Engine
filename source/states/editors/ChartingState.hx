@@ -236,6 +236,7 @@ class ChartingState extends MusicBeatState
 		DiscordClient.changePresence("Chart Editor", StringTools.replace(_song.song, '-', ' '));
 		#end
 		Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Mod Editors menu (Chart Editor)";
+		Main.fpsVar.differentPosition = true;
 
 		vortex = FlxG.save.data.chart_vortex;
 		ignoreWarnings = FlxG.save.data.ignoreWarnings;
@@ -1945,6 +1946,7 @@ class ChartingState extends MusicBeatState
 					Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Freeplay Menu (Loading current song: " + PlayState.SONG.song + " (" + Difficulty.getString() + ") )... ";
 				}
 				LoadingState.loadAndSwitchState(new PlayState());
+				Main.fpsVar.differentPosition = false;
 			}
 
 			/* #if android
@@ -1978,6 +1980,7 @@ class ChartingState extends MusicBeatState
 				PlayState.chartingMode = false;
 				autosaveSong();
 				MusicBeatState.switchState(new states.editors.MasterEditorMenu());
+				Main.fpsVar.differentPosition = false;
 				FlxG.sound.playMusic(Paths.music('freakyMenu-' + ClientPrefs.data.mainMenuMusic));
 				FlxG.mouse.visible = false;
 				return;

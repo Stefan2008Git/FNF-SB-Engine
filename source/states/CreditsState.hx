@@ -74,6 +74,7 @@ class CreditsState extends MusicBeatState
 			['SquidBowl', 'tinki', 'For gallery stuff', 'https://www.youtube.com/@squidbowl', '964B00'],
 			['Jordan Santiago', 'jordan', 'Main Programmer of JS Engine (Psych Engine: Anti-lag edition).', 'https://www.youtube.com/@JordanSantiago', '5E99DF'],
 			['Sayofthelor', 'bean', 'Main Programmer of Lore Engine', 'https://twitter.com/sayofthelor', '663399'],
+			['Raltyro', 'raltyro', 'Used the better FPS position code only for editors. Thanks buddy', 'https://twitter.com/raltyro', 'F3F3F3'],
 			['MarioMaster', 'mario', 'Created hitbox selector and virtual pad opacity', 'https://www.youtube.com/channel/UC65m-_5tbYFJ7oRqZzpFBJw', 'fc0000'],
 			['NF | Beihu', 'beihu', 'Created hitbox space for dodge mechanic system on NF Engine.', 'https://www.youtube.com/@beihu235', '964B00'],
 			['M.A. Jigsaw77', 'jigsaw', 'Main Programmer of Psych Engine\nWith Android Support', 'https://www.youtube.com/channel/UC2Sk7vtPzOvbVzdVTWrribQ', '444444'],

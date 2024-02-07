@@ -10,6 +10,7 @@ package states;
 // "function eventEarlyTrigger" - Used for making your event start a few MILLISECONDS earlier
 // "function triggerEvent" - Called when the song hits your event's timestamp, this is probably what you were looking for
 
+import substates.CustomGameOverSubstate;
 import backend.Highscore;
 import backend.StageData;
 import backend.WeekData;
@@ -2862,8 +2863,17 @@ class PlayState extends MusicBeatState
 					timer.active = true;
 				}
 				#end
-				openSubState(new GameOverSubstate(boyfriend.getScreenPosition().x - boyfriend.positionArray[0], boyfriend.getScreenPosition().y - boyfriend.positionArray[1], camFollow.x, camFollow.y));
-
+				if (ClientPrefs.data.gameOverScreen) {
+					openSubState(new GameOverSubstate(boyfriend.getScreenPosition().x - boyfriend.positionArray[0], boyfriend.getScreenPosition().y - boyfriend.positionArray[1], camFollow.x, camFollow.y));
+				} else {
+					noteGroup.visible = false;
+					comboGroup.visible = false;
+					uiGroup.visible = false;
+					#if android
+					MusicBeatState.androidControls.visible = false;
+					#end
+					openSubState(new CustomGameOverSubstate());
+				}
 				// MusicBeatState.switchState(new GameOverState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
 
 				#if desktop
@@ -3369,9 +3379,9 @@ class PlayState extends MusicBeatState
 	public var totalPlayed:Int = 0;
 	public var totalNotesHit:Float = 0.0;
 
-	public var showCombo:Bool = true;
-	public var showComboNum:Bool = true;
-	public var showRating:Bool = true;
+	public var showCombo:Bool = ClientPrefs.data.ratingPopup;
+	public var showComboNum:Bool = ClientPrefs.data.ratingPopup;
+	public var showRating:Bool = ClientPrefs.data.ratingPopup;
 
 	// Stores Ratings and Combo Sprites in a group
 	public var comboGroup:FlxSpriteGroup;
@@ -3479,7 +3489,7 @@ class PlayState extends MusicBeatState
 		}
 
 		// let's not make this disabled by default
-		if ((!ClientPrefs.data.ratingPopup || ClientPrefs.data.comboStacking) && !cpuControlled) {
+		if (!cpuControlled) {
 		rating.loadGraphic(Paths.image(uiPrefix + daRating.image + uiSuffix));
 		rating.screenCenter();
 		rating.x = placement - 40;
