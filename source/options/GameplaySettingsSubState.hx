@@ -238,7 +238,11 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		addOption(option);
 
 		var option:Option = new Option('Game over screen',
-			"If unchecked, disables the original FNF game over screen and enables the customs one.", 'gameOverScreen', 'bool');
+			"If unchecked, disables the original FNF game over screen.", 'gameOverScreen', 'bool');
+		addOption(option);
+
+		var option:Option = new Option('Song percent',
+			"If checked, shows the song percent.", 'songPercent', 'bool');
 		addOption(option);
 
 		var option:Option = new Option('Pause Screen Song:',

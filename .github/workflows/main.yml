@@ -25,7 +25,7 @@ jobs:
 
       - uses: krdlab/setup-haxe@master
         with:
-          haxe-version: 4.2.5
+          haxe-version: latest
       # Runs a set of commands using the runners shell
       - name: Install Haxelib
         run: |
@@ -33,7 +33,7 @@ jobs:
           sudo apt-get install libvlccore-dev
           haxelib setup ~/haxelib
           haxelib --global update haxelib
-          haxelib install hxcpp 4.2.1 > /dev/null
+          haxelib install hxcpp > /dev/null
           haxelib install hmm --quiet
           haxelib run hmm install
       - name: Create Version Tag
@@ -41,7 +41,6 @@ jobs:
       - name: Configure Linux
         run: |
           haxelib run lime setup -alias -y
-          haxelib set hxcpp 4.2.1
           haxelib set lime 8.0.2
           haxelib set openfl 9.2.2
           haxelib set SScript 8.1.6
@@ -113,7 +112,7 @@ jobs:
           sudo apt-get install libvlccore-dev
           haxelib setup ~/haxelib
           haxelib --global update haxelib
-          haxelib install hxcpp 4.2.1 > /dev/null
+          haxelib install hxcpp > /dev/null
           haxelib install hmm --quiet
           haxelib run hmm install
       - name: Create Version Tag
@@ -121,7 +120,6 @@ jobs:
       - name: Configure Debugged Linux
         run: |
           haxelib run lime setup -alias -y
-          haxelib set hxcpp 4.2.1
           haxelib set lime 8.0.2
           haxelib set openfl 9.2.2
           haxelib set SScript 8.1.6
@@ -182,13 +180,13 @@ jobs:
 
       - uses: krdlab/setup-haxe@master
         with:
-          haxe-version: 4.2.5
+          haxe-version: latest
       # Runs a set of commands using the runners shell
       - name: Install Haxelib
         run: |
           haxelib setup C:/haxelib
           haxelib --global update haxelib
-          haxelib install hxcpp 4.2.1 > /dev/null
+          haxelib install hxcpp > /dev/null
           haxelib install hmm --quiet
           haxelib run hmm install
         shell: cmd
@@ -197,7 +195,6 @@ jobs:
       - name: Configure Windows
         run: |
           haxelib run lime setup -alias -y
-          haxelib set hxcpp 4.2.1
           haxelib set lime 8.0.2
           haxelib set openfl 9.2.2
           haxelib set SScript 8.1.6
@@ -259,13 +256,13 @@ jobs:
 
       - uses: krdlab/setup-haxe@master
         with:
-          haxe-version: 4.2.5
+          haxe-version: latest
       # Runs a set of commands using the runners shell
       - name: Install Haxelib
         run: |
           haxelib setup C:/haxelib
           haxelib --global update haxelib
-          haxelib install hxcpp 4.2.1 > /dev/null
+          haxelib install hxcpp > /dev/null
           haxelib install hmm --quiet
           haxelib run hmm install
         shell: cmd
@@ -274,7 +271,6 @@ jobs:
       - name: Configure Debugged Windows
         run: |
           haxelib run lime setup -alias -y
-          haxelib set hxcpp 4.2.1
           haxelib set lime 8.0.2
           haxelib set openfl 9.2.2
           haxelib set SScript 8.1.6
@@ -336,19 +332,18 @@ jobs:
 
       - uses: krdlab/setup-haxe@master
         with:
-          haxe-version: 4.2.5
+          haxe-version: latest
       # Runs a set of commands using the runners shell
       - name: Install Haxelib
         run: |
           haxelib setup ~/haxelib
           haxelib --global update haxelib
-          haxelib install hxcpp 4.2.1 > /dev/null
+          haxelib install hxcpp > /dev/null
           haxelib install hmm --quiet
           haxelib run hmm install
       - name: Configure Mac
         run: |
           haxelib run lime setup -alias -y
-          haxelib set hxcpp 4.2.1
           haxelib set lime 8.0.2
           haxelib set openfl 9.2.2
           haxelib set SScript 8.1.6
@@ -413,19 +408,18 @@ jobs:
 
       - uses: krdlab/setup-haxe@master
         with:
-          haxe-version: 4.2.5
+          haxe-version: latest
       # Runs a set of commands using the runners shell
       - name: Install Haxelib
         run: |
           haxelib setup ~/haxelib
           haxelib --global update haxelib
-          haxelib install hxcpp 4.2.1 > /dev/null
+          haxelib install hxcpp > /dev/null
           haxelib install hmm --quiet
           haxelib run hmm install
       - name: Configure Debugged Mac
         run: |
           haxelib run lime setup -alias -y
-          haxelib set hxcpp 4.2.1
           haxelib set lime 8.0.2
           haxelib set openfl 9.2.2
           haxelib set SScript 8.1.6

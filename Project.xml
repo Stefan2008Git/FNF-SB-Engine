@@ -114,10 +114,13 @@
     <haxelib name="extension-androidtools" if="android"/>
 	<haxelib name="AndroidDialogs" if = "android"/>
 	<haxelib name="devicelanguage" if = "android"/>
-	<haxelib name="discord_rpc" if="desktop"/>
+	<haxelib name="hxdiscord_rpc" if="cpp"/>
 	<haxelib name="tjson" />
 	<haxedef name="openflPos" if="desktop"/>
 	<haxedef name="hscriptPos" />
+
+	<!-- Disable Discord IO Thread -->
+	<haxedef name="DISCORD_DISABLE_IO_THREAD" if="hxdiscord_rpc" />
 
 	<!-- Enables a terminal log prompt on debug builds -->
 	<haxelib name="hxcpp-debug-server" if="desktop debug"  />

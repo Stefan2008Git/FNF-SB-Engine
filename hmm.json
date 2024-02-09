@@ -33,7 +33,7 @@
       {
         "name": "hxcpp",
         "type": "haxelib",
-        "version": "4.2.1"
+        "version": null
       },
       {
         "name": "tjson",
@@ -56,16 +56,14 @@
         "version": "8.1.6"
       },
       {
-        "name": "hxcpp-debug-server",
+        "name": "hxdiscord_rpc",
         "type": "haxelib",
         "version": null
       },
       {
-        "name": "discord_rpc",
-        "type": "git",
-        "dir": null,
-        "ref": "master",
-        "url": "https://github.com/Aidan63/linc_discord-rpc"
+        "name": "hxcpp-debug-server",
+        "type": "haxelib",
+        "version": null
       },
       {
         "name": "linc_luajit",

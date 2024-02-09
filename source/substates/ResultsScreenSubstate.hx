@@ -244,6 +244,7 @@ class ResultsScreenSubstate extends MusicBeatSubstate
 				+ '\nShits: ' + PlayState.resultsScreenShits 
 				+ '\n\nMisses: ' + PlayState.resultsScreenMisses 
 				+ '\nCombo: ' + PlayState.resultsScreenCombo + ' (Max Combo: ' + PlayState.resultsScreenMaxCombo + ')'
+				+ '\nNote hits: ' + PlayState.resultsScreenHits + ' (Total Notes Hit: )' + PlayState.resultsScreenMaxTNH + ')'
 				+ '\nNPS: ' + PlayState.resultsScreenNPS + ' (Max NPS: ' + PlayState.resultsScreenMaxNPS + ')'
 				+ '\nScore: ' + PlayState.resultsScreenScore 
 				+ '\nRating: ' + PlayState.resultsScreenRatingName + '(' + PlayState.resultsScreenFullCombo + accurarcyCeil + '%)';
@@ -449,7 +450,6 @@ class ResultsScreenSubstate extends MusicBeatSubstate
 		    MusicBeatState.switchState(new FreeplayState());
             FlxG.sound.playMusic(Paths.music('freakyMenu-' + ClientPrefs.data.mainMenuMusic));
 		}
-		PlayState.cancelMusicFadeTween();
 	}
 
 	override function destroy()
