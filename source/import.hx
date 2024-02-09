@@ -81,7 +81,6 @@ import backend.WeekData;
 import cutscenes.DialogueBox;
 import cutscenes.DialogueBoxPsych;
 import shaders.ColorSwap;
-import shaders.Shaders;
 import shaders.RGBPalette;
 import shaders.RGBPalette.RGBShaderReference;
 import objects.Alphabet;
