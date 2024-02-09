@@ -47,6 +47,7 @@
 	<define name="HSCRIPT_ALLOWED" if="desktop || android"  />
 	<define name="MODS_ALLOWED" if="desktop || android" />
 	<define name="LUA_ALLOWED" if="desktop || android"/>
+	<define name="DISCORD_ALLOWED" if="desktop" unless="hl"/>
 	<define name="VIDEOS_ALLOWED" if="web || windows || android" unless="32bits"/>
 	<define name="PSYCH_WATERMARKS"/> <!-- DELETE THIS TO REMOVE THE PSYCH LOGO FROM LOADING SCREEN -->
 	<define name="CRASH_HANDLER" if="desktop release || android" />
@@ -111,16 +112,17 @@
 	<haxelib name="linc_luajit" if="LUA_ALLOWED"/>
 	<haxelib name="SScript" if="HSCRIPT_ALLOWED"/>
 	<haxelib name="hxCodec" if="VIDEOS_ALLOWED"/>
-    <haxelib name="extension-androidtools" if="android"/>
+    	<haxelib name="extension-androidtools" if="android"/>
 	<haxelib name="AndroidDialogs" if = "android"/>
 	<haxelib name="devicelanguage" if = "android"/>
-	<haxelib name="hxdiscord_rpc" if="cpp"/>
+	<haxelib name="hxdiscord_rpc" if="DISCORD_ALLOWED"/>
 	<haxelib name="tjson" />
 	<haxedef name="openflPos" if="desktop"/>
 	<haxedef name="hscriptPos" />
 
 	<!-- Disable Discord IO Thread -->
 	<haxedef name="DISCORD_DISABLE_IO_THREAD" if="hxdiscord_rpc" />
+	<haxedef name="NO_PRECOMPILED_HEADERS" if="linux" />
 
 	<!-- Enables a terminal log prompt on debug builds -->
 	<haxelib name="hxcpp-debug-server" if="desktop debug"  />
@@ -172,7 +174,7 @@
 	<haxedef name="HXCPP_STACK_LINE" if="CRASH_HANDLER" />
 
 	<!--Used to ignore no deprecreationed warning shits for TJSON and PlayState-->
-	<haxedef name="no-deprecation-warnings" unless="debug" />
+	<haxedef name='no-deprecation-warnings' />
 
 	<!-- _________________________________ Mobile Stuff _______________________________ -->
 	<config:android permission="android.permission.READ_EXTERNAL_STORAGE" if="android"/>
