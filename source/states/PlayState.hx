@@ -2557,7 +2557,7 @@ class PlayState extends MusicBeatState
 			{
 				if(!cpuControlled) {
 					keysCheck();
-				} else 
+				} else {
 					playerDance();
 					//boyfriend.animation.curAnim.finish();
 				}
