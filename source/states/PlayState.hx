@@ -3149,13 +3149,13 @@ class PlayState extends MusicBeatState
 		}
 	}
 
-	public function finishSong(?ignoreNoteOffset:Bool = false) -> Void
+	public function finishSong():Void
 	{
 		updateTime = false;
 		FlxG.sound.music.volume = 0;
 		vocals.volume = 0;
 		vocals.pause();
-		if(ClientPrefs.data.noteOffset <= 0 || ignoreNoteOffset) {
+		if(ClientPrefs.data.noteOffset <= 0) {
 			endCallback();
 		} else {
 			finishTimer = new FlxTimer().start(ClientPrefs.data.noteOffset / 1000, function(tmr:FlxTimer) {
