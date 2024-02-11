@@ -1,8 +1,5 @@
 package android;
 
-#if desktop
-import Discord.DiscordClient;
-#end
 import flash.text.TextField;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -30,14 +27,11 @@ import options.BaseOptionsMenu;
 import options.Option;
 import openfl.Lib;
 
-using StringTools;
-
 class HitboxSettingsSubState extends BaseOptionsMenu
 {
 	public function new()
 	{
 		title = 'Hitbox Settings';
-		rpcTitle = 'Hitbox Settings Menu'; //hi, you can ask what is that, i will answer it's all what you needed lol.
 
 		var option:Option = new Option('Space Extend',
 			"Allow Extend Space Control --Made by NF|Beihu",
@@ -83,19 +77,4 @@ class HitboxSettingsSubState extends BaseOptionsMenu
 	ClientPrefs.saveSettings();
 	MusicBeatState.virtualPad.alpha = ClientPrefs.data.VirtualPadAlpha / OGpadAlpha;
 	}
-
-/*
-	override function update(elapsed:Float)
-	{
-		super.update(elapsed);
-			#if android
-		if (FlxG.android.justReleased.BACK)
-		{
-			FlxTransitionableState.skipNextTransIn = true;
-			FlxTransitionableState.skipNextTransOut = true;
-			MusicBeatState.switchState(new options.OptionsState());
-	}
-		#end
-		}
-	*/ //why this exists?!?¡
 }

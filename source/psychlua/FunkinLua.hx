@@ -826,7 +826,7 @@ class FunkinLua {
 			else
 				MusicBeatState.switchState(new FreeplayState());
 			
-			#if desktop DiscordClient.resetClientID(); #end
+			#if DISCORD_ALLOWED DiscordClient.resetClientID(); #end
 
 			FlxG.sound.playMusic(Paths.music('freakyMenu-' + ClientPrefs.data.mainMenuMusic));
 			PlayState.changedDifficulty = false;
@@ -1474,8 +1474,9 @@ class FunkinLua {
 			return closed;
 		});
 
-		#if desktop DiscordClient.addLuaCallbacks(lua); #end
+		#if DISCORD_ALLOWED DiscordClient.addLuaCallbacks(lua); #end
 		#if (SScript >= "3.0.0") HScript.implement(this); #end
+		#if flxanimate FlxAnimateFunctions.implement(this); #end
 		ReflectionFunctions.implement(this);
 		TextFunctions.implement(this);
 		ExtraFunctions.implement(this);

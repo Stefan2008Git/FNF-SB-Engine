@@ -47,7 +47,7 @@
 	<define name="HSCRIPT_ALLOWED" if="desktop || android"  />
 	<define name="MODS_ALLOWED" if="desktop || android" />
 	<define name="LUA_ALLOWED" if="desktop || android"/>
-	<define name="DISCORD_ALLOWED" if="desktop" unless="hl"/>
+	<define name="DISCORD_ALLOWED" if="desktop || cpp" unless="hl || android"/>
 	<define name="VIDEOS_ALLOWED" if="web || windows || android" unless="32bits"/>
 	<define name="PSYCH_WATERMARKS"/> <!-- DELETE THIS TO REMOVE THE PSYCH LOGO FROM LOADING SCREEN -->
 	<define name="CRASH_HANDLER" if="desktop release || android" />

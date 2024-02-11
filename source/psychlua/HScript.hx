@@ -75,7 +75,7 @@ class HScript extends SScript
 		set('FlxColor', CustomFlxColor);
 		set('Countdown', backend.BaseStage.Countdown);
 		set('PlayState', PlayState);
-		#if desktop
+		#if DISCORD_ALLOWED
 		set('DiscordClient', DiscordClient);
 		#end
 		set('Paths', Paths);
@@ -90,6 +90,9 @@ class HScript extends SScript
 		#end
 		set('ShaderFilter', openfl.filters.ShaderFilter);
 		set('StringTools', StringTools);
+		#if flxanimate
+		set('FlxAnimate', FlxAnimate);
+		#end
 		#if android
 		set('SUtil', SUtil);
 		#end
@@ -176,12 +179,17 @@ class HScript extends SScript
 		set('Function_StopHScript', FunkinLua.Function_StopHScript);
 		set('Function_StopAll', FunkinLua.Function_StopAll);
 		
-		set('add', function(obj:FlxBasic) PlayState.instance.add(obj));
-		set('addBehindGF', function(obj:FlxBasic) PlayState.instance.addBehindGF(obj));
-		set('addBehindDad', function(obj:FlxBasic) PlayState.instance.addBehindDad(obj));
-		set('addBehindBF', function(obj:FlxBasic) PlayState.instance.addBehindBF(obj));
-		set('insert', function(pos:Int, obj:FlxBasic) PlayState.instance.insert(pos, obj));
-		set('remove', function(obj:FlxBasic, splice:Bool = false) PlayState.instance.remove(obj, splice));
+		set('add', FlxG.state.add);
+		set('insert', FlxG.state.insert);
+		set('remove', FlxG.state.remove);
+
+		if(PlayState.instance == FlxG.state)
+		{
+			set('addBehindGF', PlayState.instance.addBehindGF);
+			set('addBehindDad', PlayState.instance.addBehindDad);
+			set('addBehindBF', PlayState.instance.addBehindBF);
+			setSpecialObject(PlayState.instance, false, PlayState.instance.instancesExclude);
+		}
 
 		if(varsToBring != null)
 		{

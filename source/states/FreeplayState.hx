@@ -59,7 +59,7 @@ class FreeplayState extends MusicBeatState
 		PlayState.isStoryMode = false;
 		WeekData.reloadWeekFiles(false);
 
-		#if desktop
+		#if DISCORD_ALLOWED
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence("In the Freeplay Menus", null);
 		#end
@@ -347,8 +347,7 @@ class FreeplayState extends MusicBeatState
 		{
 			if (player.playingMusic)
 			{
-
-				#if desktop
+				#if DISCORD_ALLOWED
 				// Updating Discord Rich Presence
 				DiscordClient.changePresence("In the Freeplay Menus", null);
 				#end
@@ -413,7 +412,7 @@ class FreeplayState extends MusicBeatState
 					iconLerp = FlxMath.lerp(0.4, iconArray[i].scale.x, CoolUtil.boundTo(1 - (elapsed * 9), 0, 1));
 					iconArray[i].scale.set(iconLerp, iconLerp);
 				}
-				#if desktop
+				#if DISCORD_ALLOWED
 				// Updating Discord Rich Presence
 				DiscordClient.changePresence("Listening on the Freeplay Menus:" + firstLetterUpperCase(PlayState.SONG.song), null);
 				#end

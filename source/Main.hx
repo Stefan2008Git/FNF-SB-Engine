@@ -154,7 +154,7 @@ class Main extends Sprite
 		FlxG.stage.addEventListener(KeyboardEvent.KEY_UP, toggleFullScreen);
 		#end
 
-		#if desktop
+		#if DISCORD_ALLOWED
 		DiscordClient.prepare();
 		#end
 
@@ -230,7 +230,7 @@ class Main extends Sprite
 		FlxG.sound.music.stop();
 		FlxG.sound.play(Paths.sound('error'));
 		Application.current.window.alert(errorMessage, "Error! SB Engine v" + MainMenuState.sbEngineVersion);
-		#if desktop
+		#if DISCORD_ALLOWED
 		DiscordClient.shutdown();
 		#end
 		Sys.exit(1);

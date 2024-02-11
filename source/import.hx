@@ -63,7 +63,7 @@ import backend.Conductor;
 import backend.Controls;
 import backend.CoolUtil;
 import backend.CustomFadeTransition;
-#if desktop
+#if DISCORD_ALLOWED
 import backend.Discord.DiscordClient;
 #end
 import backend.Difficulty;
