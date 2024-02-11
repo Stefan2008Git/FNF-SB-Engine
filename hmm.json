@@ -71,6 +71,13 @@
         "dir": null,
         "ref": "master",
         "url": "https://github.com/superpowers04/linc_luajit"
+      },
+      {
+        "name": "flxanimate",
+        "type": "git",
+        "dir": null,
+        "ref": "dev",
+        "url": "https://github.com/ShadowMario/flxanimate"
       }
     ]
 }

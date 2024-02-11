@@ -50,6 +50,8 @@ import openfl.filters.BitmapFilter;
 import openfl.display.Sprite;
 import openfl.text.TextField;
 import openfl.text.TextFormat;
+import sys.FileSystem;
+import sys.io.File;
 
 // Friday Night Funkin': SB Engine stuff (Im talking about states, substates, backend, etc.)
 import psychlua.FunkinLua;

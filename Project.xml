@@ -119,6 +119,7 @@
 	<haxelib name="tjson" />
 	<haxedef name="openflPos" if="desktop"/>
 	<haxedef name="hscriptPos" />
+	<haxelib name="flxanimate"/>
 
 	<!-- Disable Discord IO Thread -->
 	<haxedef name="DISCORD_DISABLE_IO_THREAD" if="hxdiscord_rpc" />
