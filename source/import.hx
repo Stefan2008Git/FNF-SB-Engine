@@ -104,6 +104,10 @@ import states.MainMenuState;
 import states.LoadingState;
 import states.PlayState;
 
+#if flxanimate
+import flxanimate.*;
+#end
+
 // Lua stuff
 #if LUA_ALLOWED
 import llua.*;
