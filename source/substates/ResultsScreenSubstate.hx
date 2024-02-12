@@ -229,7 +229,8 @@ class ResultsScreenSubstate extends MusicBeatSubstate
 				+ '\nGoods: ' + PlayState.resultsScreenGoods 
 				+ '\nBads: ' + PlayState.resultsScreenBads 
 				+ '\nShits: ' + PlayState.resultsScreenShits 
-				+ '\n\nNote missed: ' + PlayState.resultsScreenMisses 
+				+ '\n\nNote missed: ' + PlayState.resultsScreenMisses
+				+ '\nNote hits: ' + PlayState.resultsScreenHits + ' (Total Notes Hit: )' + PlayState.resultsScreenMaxTNH + ')'
 				+ '\nCombo: ' + PlayState.resultsScreenCombo + ' (Max Combo: ' + PlayState.resultsScreenMaxCombo + ')'
 				+ '\nCPS: ' + PlayState.resultsScreenNPS + ' (Max CPS: ' + PlayState.resultsScreenMaxNPS + ')'
 				+ '\nScore: ' + PlayState.resultsScreenScore 
@@ -257,6 +258,7 @@ class ResultsScreenSubstate extends MusicBeatSubstate
 				+ '\nShits: ' + PlayState.resultsScreenShits 
 				+ '\n\nCombo Breaks: ' + PlayState.resultsScreenMisses 
 				+ '\nCombo: ' + PlayState.resultsScreenCombo + ' (Max Combo: ' + PlayState.resultsScreenMaxCombo + ')'
+				+ '\nNote Hits: ' + PlayState.resultsScreenHits + ' (Total Notes Hit: )' + PlayState.resultsScreenMaxTNH + ')'
 				+ '\nNPS: ' + PlayState.resultsScreenNPS + ' (Max NPS: ' + PlayState.resultsScreenMaxNPS + ')'
 				+ '\nScore: ' + PlayState.resultsScreenScore 
 				+ '\nAccuracy: ' + accurarcyCeil + '%'

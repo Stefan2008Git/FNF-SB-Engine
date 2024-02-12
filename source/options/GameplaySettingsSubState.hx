@@ -185,8 +185,12 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			"If checked, enables to move camera on note hit.", 'cameraMovement', 'bool');
 		addOption(option);
 
-		var option:Option = new Option('Note glow',
-			"If unchecked, disables note glow for opponent.", 'arrowGlow', 'bool');
+		var option:Option = new Option('Boyfriend Note glow',
+			"If unchecked, disables note glow for boyfriend side.", 'arrowGlow', 'bool');
+		addOption(option);
+
+		var option:Option = new Option('Boyfriend Note glow',
+			"If unchecked, disables note glow for boyfriend side.", 'opponentArrowGlow', 'bool');
 		addOption(option);
 
 		var option:Option = new Option('Text Sine Effect',
