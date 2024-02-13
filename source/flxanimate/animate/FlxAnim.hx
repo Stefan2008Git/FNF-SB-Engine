@@ -52,7 +52,6 @@ class FlxAnim implements IFlxDestroyable
 	 * When ever the animation is playing.
 	 */
 	public var isPlaying(default, null):Bool;
-	public var callback:(name:String, frameNumber:Int) -> Void;
 	
 	public var onComplete:()->Void;
 
@@ -73,6 +72,11 @@ class FlxAnim implements IFlxDestroyable
 	var loopType(get, null):Loop;
 
 	public var symbolType(get, set):SymbolT;
+
+	/**
+ 	* Animation name on the last anim.play() call
+	*/
+	var lastPlayedAnim:String = null;
 
 	var _parent:FlxAnimate;
 
@@ -144,6 +148,8 @@ class FlxAnim implements IFlxDestroyable
 		}
 		reversed = Reverse;
 		isPlaying = true;
+
+		lastPlayedAnim = Name;
 	}
 
 
@@ -183,12 +189,8 @@ class FlxAnim implements IFlxDestroyable
 		while (_tick > frameDelay)
 		{
 			(reversed) ? curFrame-- : curFrame++;
+			curSymbol.fireCallbacks(curFrame);
 			_tick -= frameDelay;
-
-			@:privateAccess
-			curSymbol._shootCallback = true;
-
-			fireCallback();
 		}
 
 		if (finished || curFrame == (reversed ? 0 : curSymbol.length - 1))
@@ -270,12 +272,10 @@ class FlxAnim implements IFlxDestroyable
 		var params = new FlxElement(new SymbolParameters((Looped) ? Loop : PlayOnce), new FlxMatrix(1,0,0,1,X,Y));
 		var timeline = new FlxTimeline();
 		timeline.add("Layer 1");
-
 		for (index in 0...Indices.length)
 		{
 			var i = Indices[index];
 			var keyframe = new FlxKeyFrame(index);
-
 
 			var params = new SymbolParameters(SymbolName, params.symbol.loop);
 			params.firstFrame = i;
@@ -450,16 +450,6 @@ class FlxAnim implements IFlxDestroyable
 		return symbolDictionary.get(curInstance.symbol.name);
 	}
 
-	inline function fireCallback():Void
-	{
-		if (callback != null)
-		{
-			var name:String = (curSymbol != null) ? curSymbol.name : null;
-			callback(name, curFrame);
-		}
-			
-	}
-
 	public function destroy()
 	{
 		isPlaying = false;
@@ -468,10 +458,12 @@ class FlxAnim implements IFlxDestroyable
 		_tick = 0;
 		buttonMap = null;
 		animsMap = null;
-		callback = null;
-		curInstance = FlxDestroyUtil.destroy(curInstance);
-		stageInstance = FlxDestroyUtil.destroy(stageInstance);
-		metadata = FlxDestroyUtil.destroy(metadata);
+		curInstance.destroy();
+		curInstance = null;
+		stageInstance.destroy();
+		stageInstance = null;
+		metadata.destroy();
+		metadata = null;
 		swfRender = false;
 		_parent = null;
 		symbolDictionary = null;
