@@ -189,8 +189,12 @@ class FlxAnim implements IFlxDestroyable
 		while (_tick > frameDelay)
 		{
 			(reversed) ? curFrame-- : curFrame++;
-			curSymbol.fireCallbacks(curFrame);
 			_tick -= frameDelay;
+
+			@:privateAccess
+			curSymbol._shootCallback = true;
+
+			fireCallback();
 		}
 
 		if (finished || curFrame == (reversed ? 0 : curSymbol.length - 1))
@@ -444,10 +448,19 @@ class FlxAnim implements IFlxDestroyable
 		return symbol;
 	}
 
-
 	function get_curSymbol()
 	{
 		return symbolDictionary.get(curInstance.symbol.name);
+	}
+
+	inline function fireCallback():Void
+	{
+		if (callback != null)
+		{
+			var name:String = (curSymbol != null) ? curSymbol.name : null;
+			callback(name, curFrame);
+		}
+			
 	}
 
 	public function destroy()
