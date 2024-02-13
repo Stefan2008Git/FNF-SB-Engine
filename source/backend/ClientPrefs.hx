@@ -76,6 +76,7 @@ class SaveVariables {
 	public var iconBounce:Bool = true;
 	public var cameraMovement:Bool = true;
 	public var arrowGlow:Bool = true;
+	public var opponentArrowGlow:Bool = true;
 	public var scoreText:Bool = true;
 	public var textSineEffect:Bool = true;
 	public var shakeObjects:Bool = true;

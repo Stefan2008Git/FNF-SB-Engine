@@ -1,6 +1,7 @@
 package psychlua;
 
 import openfl.utils.Assets;
+import psychlua.ModchartAnimatedSprite;
 
 #if (LUA_ALLOWED && flxanimate)
 class FlxAnimateFunctions
@@ -18,7 +19,7 @@ class FlxAnimateFunctions
 				lastSprite.destroy();
 			}
 
-			var mySprite:ModchartAnimateSprite = new ModchartAnimateSprite(x, y);
+			var mySprite:ModchartAnimatedSprite = new ModchartAnimatedSprite(x, y);
 			if(loadFolder != null) Paths.loadAnimateAtlas(mySprite, loadFolder);
 			PlayState.instance.variables.set(tag, mySprite);
 			mySprite.active = true;
