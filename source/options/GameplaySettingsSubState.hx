@@ -189,7 +189,7 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			"If unchecked, disables note glow for boyfriend side.", 'arrowGlow', 'bool');
 		addOption(option);
 
-		var option:Option = new Option('Boyfriend Note glow',
+		var option:Option = new Option('Opponent Note glow',
 			"If unchecked, disables note glow for boyfriend side.", 'opponentArrowGlow', 'bool');
 		addOption(option);
 

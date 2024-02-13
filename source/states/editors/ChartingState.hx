@@ -711,7 +711,7 @@ class ChartingState extends MusicBeatState
 
 		UI_box.addGroup(tab_group_song);
 
-		initPsychCamera().follow(camPos, LOCKON, 999);
+		FlxG.camera.follow(camPos);
 	}
 
 	var stepperBeats:FlxUINumericStepper;
@@ -1979,7 +1979,7 @@ class ChartingState extends MusicBeatState
 			if (FlxG.keys.justPressed.BACKSPACE #if mobile || FlxG.android.justReleased.BACK #end) {
 				PlayState.chartingMode = false;
 				autosaveSong();
-				FlxG.switchState(() -> states.editors.MasterEditorMenu());
+				FlxG.switchState(() -> new states.editors.MasterEditorMenu());
 				Main.fpsVar.differentPosition = false;
 				FlxG.sound.playMusic(Paths.music('freakyMenu-' + ClientPrefs.data.mainMenuMusic));
 				FlxG.mouse.visible = false;

@@ -435,7 +435,6 @@ class PlayState extends MusicBeatState
 		camHUD.bgColor.alpha = 0;
 		camOther.bgColor.alpha = 0;
 
-		FlxG.cameras.reset(camGame);
 		FlxG.cameras.add(camHUD, false);
 		FlxG.cameras.add(camOther, false);
 		grpNoteSplashes = new FlxTypedGroup<NoteSplash>();
@@ -845,38 +844,75 @@ class PlayState extends MusicBeatState
 				judgementCounterTxt.borderSize = 2;
 				judgementCounterTxt.borderQuality = 2;
 		}
-		if (ClientPrefs.data.gameStyle == 'SB Engine') {
-			switch (ClientPrefs.data.judgementCounterStyle) {
-				case 'Original':
-					judgementCounterTxt.text = 'Sicks: 0' + '\n' + 'Goods: 0' + '\n' + 'Bads: 0' + '\n' + 'Shits: 0';
-				
-				case 'With Misses':
-					judgementCounterTxt.text = 'Sicks: 0' + '\n' + 'Goods: 0' + '\n' + 'Bads: 0' + '\n' + 'Shits: 0' + '\n' + 'Note Missed: 0';
-				
-				case 'Better Judge':
-					judgementCounterTxt.text = 'Total Notes Hit: 0\n' + 'CPS: 0 (Max CPS: 0)\n' + 'Combo: 0 (Max Combo: 0)' + 'Sicks: 0\n' + 'Goods: 0\n' + 'Bads: 0\n' + 'Shits: 0\n' + 'Note Missed: 0';
+		if (!instakillOnMiss) {
+			if (ClientPrefs.data.gameStyle == 'SB Engine') {
+				switch (ClientPrefs.data.judgementCounterStyle) {
+					case 'Original':
+						judgementCounterTxt.text = 'Sicks: 0' + '\n' + 'Goods: 0' + '\n' + 'Bads: 0' + '\n' + 'Shits: 0';
+					
+					case 'With Misses':
+						judgementCounterTxt.text = 'Sicks: 0' + '\n' + 'Goods: 0' + '\n' + 'Bads: 0' + '\n' + 'Shits: 0';
+					
+					case 'Better Judge':
+						judgementCounterTxt.text = 'Total Notes Hit: 0\n' + 'CPS: 0 (Max CPS: 0)\n' + 'Combo: 0 (Max Combo: 0)' + 'Sicks: 0\n' + 'Goods: 0\n' + 'Bads: 0\n' + 'Shits: 0';
+				}
+			} else if (ClientPrefs.data.gameStyle == 'Psych Engine' || ClientPrefs.data.gameStyle == 'TGT Engine') {
+				switch (ClientPrefs.data.judgementCounterStyle) {
+					case 'Original':
+						judgementCounterTxt.text = 'Sicks: 0' + '\n' + 'Goods: 0' + '\n' + 'Bads: 0' + '\n' + 'Shits: 0';
+					
+					case 'With Misses':
+						judgementCounterTxt.text = 'Sicks: 0' + '\n' + 'Goods: 0' + '\n' + 'Bads: 0' + '\n' + 'Shits: 0';
+					
+					case 'Better Judge':
+						judgementCounterTxt.text = 'Total Notes Hit: 0\n' + 'NPS: 0 (Max NPS: 0)\n' + 'Combo: 0 (Max Combo: 0)' + 'Sicks: 0\n' + 'Goods: 0\n' + 'Bads: 0\n' + 'Shits: 0';
+				}
+			} else if (ClientPrefs.data.gameStyle == 'Kade Engine' || ClientPrefs.data.gameStyle == 'Dave and Bambi' || ClientPrefs.data.gameStyle == 'Cheeky') {
+				switch (ClientPrefs.data.judgementCounterStyle) {
+					case 'Original':
+						judgementCounterTxt.text = 'Sicks: 0' + '\n' + 'Goods: 0' + '\n' + 'Bads: 0' + '\n' + 'Shits: 0';
+					
+					case 'With Misses':
+						judgementCounterTxt.text = 'Sicks: 0' + '\n' + 'Goods: 0' + '\n' + 'Bads: 0' + '\n' + 'Shits: 0';
+					
+					case 'Better Judge':
+						judgementCounterTxt.text = 'Total Notes Hit: 0\n' + 'NPS: 0 (Max NPS: 0)\n' + 'Combo: 0 (Max Combo: 0)' + 'Sicks: 0\n' + 'Goods: 0\n' + 'Bads: 0\n' + 'Shits: 0';
+				}
 			}
-		} else if (ClientPrefs.data.gameStyle == 'Psych Engine' || ClientPrefs.data.gameStyle == 'TGT Engine') {
-			switch (ClientPrefs.data.judgementCounterStyle) {
-				case 'Original':
-					judgementCounterTxt.text = 'Sicks: 0' + '\n' + 'Goods: 0' + '\n' + 'Bads: 0' + '\n' + 'Shits: 0';
-				
-				case 'With Misses':
-					judgementCounterTxt.text = 'Sicks: 0' + '\n' + 'Goods: 0' + '\n' + 'Bads: 0' + '\n' + 'Shits: 0' + '\n' + 'Misses: 0';
-				
-				case 'Better Judge':
-					judgementCounterTxt.text = 'Total Notes Hit: 0\n' + 'NPS: 0 (Max NPS: 0)\n' + 'Combo: 0 (Max Combo: 0)' + 'Sicks: 0\n' + 'Goods: 0\n' + 'Bads: 0\n' + 'Shits: 0\n' + 'Misses: 0';
-			}
-		} else if (ClientPrefs.data.gameStyle == 'Kade Engine' || ClientPrefs.data.gameStyle == 'Dave and Bambi' || ClientPrefs.data.gameStyle == 'Cheeky') {
-			switch (ClientPrefs.data.judgementCounterStyle) {
-				case 'Original':
-					judgementCounterTxt.text = 'Sicks: 0' + '\n' + 'Goods: 0' + '\n' + 'Bads: 0' + '\n' + 'Shits: 0';
-				
-				case 'With Misses':
-					judgementCounterTxt.text = 'Sicks: 0' + '\n' + 'Goods: 0' + '\n' + 'Bads: 0' + '\n' + 'Shits: 0' + '\n' + 'Combo Breaks: 0';
-				
-				case 'Better Judge':
-					judgementCounterTxt.text = 'Total Notes Hit: 0\n' + 'NPS: 0 (Max NPS: 0)\n' + 'Combo: 0 (Max Combo: 0)' + 'Sicks: 0\n' + 'Goods: 0\n' + 'Bads: 0\n' + 'Shits: 0\n' + 'Combo Breaks: 0';
+		} else {
+			if (ClientPrefs.data.gameStyle == 'SB Engine') {
+				switch (ClientPrefs.data.judgementCounterStyle) {
+					case 'Original':
+						judgementCounterTxt.text = 'Sicks: 0' + '\n' + 'Goods: 0' + '\n' + 'Bads: 0' + '\n' + 'Shits: 0';
+					
+					case 'With Misses':
+						judgementCounterTxt.text = 'Sicks: 0' + '\n' + 'Goods: 0' + '\n' + 'Bads: 0' + '\n' + 'Shits: 0' + '\n' + 'Note Missed: 0';
+					
+					case 'Better Judge':
+						judgementCounterTxt.text = 'Total Notes Hit: 0\n' + 'CPS: 0 (Max CPS: 0)\n' + 'Combo: 0 (Max Combo: 0)' + 'Sicks: 0\n' + 'Goods: 0\n' + 'Bads: 0\n' + 'Shits: 0\n' + 'Note Missed: 0';
+				}
+			} else if (ClientPrefs.data.gameStyle == 'Psych Engine' || ClientPrefs.data.gameStyle == 'TGT Engine') {
+				switch (ClientPrefs.data.judgementCounterStyle) {
+					case 'Original':
+						judgementCounterTxt.text = 'Sicks: 0' + '\n' + 'Goods: 0' + '\n' + 'Bads: 0' + '\n' + 'Shits: 0';
+					
+					case 'With Misses':
+						judgementCounterTxt.text = 'Sicks: 0' + '\n' + 'Goods: 0' + '\n' + 'Bads: 0' + '\n' + 'Shits: 0' + '\n' + 'Misses: 0';
+					
+					case 'Better Judge':
+						judgementCounterTxt.text = 'Total Notes Hit: 0\n' + 'NPS: 0 (Max NPS: 0)\n' + 'Combo: 0 (Max Combo: 0)' + 'Sicks: 0\n' + 'Goods: 0\n' + 'Bads: 0\n' + 'Shits: 0\n' + 'Misses: 0';
+				}
+			} else if (ClientPrefs.data.gameStyle == 'Kade Engine' || ClientPrefs.data.gameStyle == 'Dave and Bambi' || ClientPrefs.data.gameStyle == 'Cheeky') {
+				switch (ClientPrefs.data.judgementCounterStyle) {
+					case 'Original':
+						judgementCounterTxt.text = 'Sicks: 0' + '\n' + 'Goods: 0' + '\n' + 'Bads: 0' + '\n' + 'Shits: 0';
+					
+					case 'With Misses':
+						judgementCounterTxt.text = 'Sicks: 0' + '\n' + 'Goods: 0' + '\n' + 'Bads: 0' + '\n' + 'Shits: 0' + '\n' + 'Combo Breaks: 0';
+					
+					case 'Better Judge':
+						judgementCounterTxt.text = 'Total Notes Hit: 0\n' + 'NPS: 0 (Max NPS: 0)\n' + 'Combo: 0 (Max Combo: 0)' + 'Sicks: 0\n' + 'Goods: 0\n' + 'Bads: 0\n' + 'Shits: 0\n' + 'Combo Breaks: 0';
+				}
 			}
 		}
 		judgementCounterTxt.scrollFactor.set();
@@ -1747,7 +1783,7 @@ class PlayState extends MusicBeatState
 			if (instakillOnMiss) {
 				switch (ClientPrefs.data.gameStyle) {
 					case 'SB Engine':
-						scoreTxt.text = '<< Score: ' +  songScore + ' // Combo: ' + combo + ' (Max Como:' + maxCombo + ')' + ' // Percent: ' + CoolUtil.floorDecimal(ratingPercent * 100, 2) + '%' + ' // Rank: ' + ratingName + ' {' + ratingFC + '} >>';
+						scoreTxt.text = '<< Score: ' +  songScore + ' // Combo: ' + combo + ' (Max Combo: ' + maxCombo + ')' + ' // Percent: ' + CoolUtil.floorDecimal(ratingPercent * 100, 2) + '%' + ' // Rank: ' + ratingName + ' {' + ratingFC + '} >>';
 		
 					case 'Psych Engine' | 'TGT Engine':
 						scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + str;
@@ -1771,7 +1807,7 @@ class PlayState extends MusicBeatState
 							judgementCounterTxt.text = 'Sicks: ${ratingsData[0].hits}' + '\n' + 'Goods: ${ratingsData[1].hits}' + '\n' + 'Bads: ${ratingsData[2].hits}' + '\n' + 'Shits: ${ratingsData[3].hits}';
 						
 						case 'Better Judge':
-							judgementCounterTxt.text = 'Total Played: ${totalPlayed}\n' + 'CPS: ${nps} (Max CPS: ${maxNPS})\n' + 'Combo: ${combo} (Max Combo: ${maxCombo})\n' + 'Sicks: ${ratingsData[0].hits}\n' + 'Goods: ${ratingsData[1].hits}\n' + 'Bads: ${ratingsData[2].hits}\n' + 'Shits: ${ratingsData[3].hits}';
+							judgementCounterTxt.text = 'Notes hitted: ${songHits} (Total Played: ${totalPlayed})' + '\n' + 'CPS: ${nps} (Max CPS: ${maxNPS})\n' + 'Combo: ${combo} (Max Combo: ${maxCombo})' + '\n' + 'Sicks: ${ratingsData[0].hits}\n' + 'Goods: ${ratingsData[1].hits}\n' + 'Bads: ${ratingsData[2].hits}\n' + 'Shits: ${ratingsData[3].hits}';
 					}
 				} else if (ClientPrefs.data.gameStyle == 'Psych Engine' || ClientPrefs.data.gameStyle == 'TGT Engine') {
 					switch (ClientPrefs.data.judgementCounterStyle) {
@@ -1782,7 +1818,7 @@ class PlayState extends MusicBeatState
 							judgementCounterTxt.text = 'Sicks: ${ratingsData[0].hits}' + '\n' + 'Goods: ${ratingsData[1].hits}' + '\n' + 'Bads: ${ratingsData[2].hits}' + '\n' + 'Shits: ${ratingsData[3].hits}';
 						
 						case 'Better Judge':
-							judgementCounterTxt.text = 'Total Notes Hit: ${totalPlayed}\n' + 'NPS: ${nps} (Max NPS: ${maxNPS})\n' + 'Combo: ${combo} (Max Combo: ${maxCombo})' + 'Sicks: ${ratingsData[0].hits}\n' + 'Goods: ${ratingsData[1].hits}\n' + 'Bads: ${ratingsData[2].hits}\n' + 'Shits: ${ratingsData[3].hits}';
+							judgementCounterTxt.text = 'Song Note Hits: ${songHits} (Total Song Note Hits: ${totalPlayed})' + '\n' + 'NPS: ${nps} (Max NPS: ${maxNPS})' + '\n' + 'Combo: ${combo} (Max Combo: ${maxCombo})' + '\n' + 'Sicks: ${ratingsData[0].hits}\n' + 'Goods: ${ratingsData[1].hits}\n' + 'Bads: ${ratingsData[2].hits}\n' + 'Shits: ${ratingsData[3].hits}';
 					}
 				} else if (ClientPrefs.data.gameStyle == 'Kade Engine' || ClientPrefs.data.gameStyle == 'Dave and Bambi' || ClientPrefs.data.gameStyle == 'Cheeky') {
 					switch (ClientPrefs.data.judgementCounterStyle) {
@@ -1793,13 +1829,13 @@ class PlayState extends MusicBeatState
 							judgementCounterTxt.text = 'Sicks: ${ratingsData[0].hits}' + '\n' + 'Goods: ${ratingsData[1].hits}' + '\n' + 'Bads: ${ratingsData[2].hits}' + '\n' + 'Shits: ${ratingsData[3].hits}';
 						
 						case 'Better Judge':
-							judgementCounterTxt.text = 'Total Notes Hit: ${totalPlayed}\n' + 'NPS: ${nps} (Max NPS: ${maxNPS})\n' + 'Combo: ${combo} (Max Combo: ${maxCombo})' + 'Sicks: ${ratingsData[0].hits}\n' + 'Goods: ${ratingsData[1].hits}\n' + 'Bads: ${ratingsData[2].hits}\n' + 'Shits: ${ratingsData[3].hits}';
+							judgementCounterTxt.text = 'Notes Hits: ${songHits} (Total Notes Hits: ${totalPlayed})' + '\n' + 'NPS: ${nps} (Max NPS: ${maxNPS})' + '\n' + 'Combo: ${combo} (Max Combo: ${maxCombo})' + '\n' + 'Sicks: ${ratingsData[0].hits}' + '\n' + 'Goods: ${ratingsData[1].hits}' + '\n' + 'Bads: ${ratingsData[2].hits}' + '\n' + 'Shits: ${ratingsData[3].hits}';
 					}
 				}
 			} else if (!instakillOnMiss) {
 				switch (ClientPrefs.data.gameStyle) {
 					case 'SB Engine':
-						scoreTxt.text = '<< Score: ' +  songScore + ' // Combo: ' + combo + ' (Max Como:' + maxCombo + ')' + ' // Missed notes: ' + songMisses + '  Percent: ' + CoolUtil.floorDecimal(ratingPercent * 100, 2) + '%' + ' // Rank: ' + ratingName + ' {' + ratingFC + '} >>';
+						scoreTxt.text = '<< Score: ' +  songScore + ' // Combo: ' + combo + ' (Max Combo: ' + maxCombo + ')' + ' // Missed notes: ' + songMisses + '  Percent: ' + CoolUtil.floorDecimal(ratingPercent * 100, 2) + '%' + ' // Rank: ' + ratingName + ' {' + ratingFC + '} >>';
 		
 					case 'Psych Engine' | 'TGT Engine':
 						scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + str;
@@ -1823,7 +1859,7 @@ class PlayState extends MusicBeatState
 							judgementCounterTxt.text = 'Sicks: ${ratingsData[0].hits}' + '\n' + 'Goods: ${ratingsData[1].hits}' + '\n' + 'Bads: ${ratingsData[2].hits}' + '\n' + 'Shits: ${ratingsData[3].hits}' + '\n' + 'Note Missed: ${songMisses}';
 						
 						case 'Better Judge':
-							judgementCounterTxt.text = 'Total Played: ${totalPlayed}\n' + 'CPS: ${nps} (Max CPS: ${maxNPS})\n' + 'Combo: ${combo} (Max Combo: ${maxCombo})\n' + 'Sicks: ${ratingsData[0].hits}\n' + 'Goods: ${ratingsData[1].hits}\n' + 'Bads: ${ratingsData[2].hits}\n' + 'Shits: ${ratingsData[3].hits}\n' + 'Note Missed: ${songMisses}';
+							judgementCounterTxt.text = 'Notes hitted: ${songHits} (Total Played: ${totalPlayed})' + '\n' + 'CPS: ${nps} (Max CPS: ${maxNPS})' + '\n' + 'Combo: ${combo} (Max Combo: ${maxCombo})' + '\n' + 'Sicks: ${ratingsData[0].hits}' + '\n' + 'Goods: ${ratingsData[1].hits}' + '\n' + 'Bads: ${ratingsData[2].hits}' + '\n' + 'Shits: ${ratingsData[3].hits}' + '\n' + 'Note Missed: ${songMisses}';
 					}
 				} else if (ClientPrefs.data.gameStyle == 'Psych Engine' || ClientPrefs.data.gameStyle == 'TGT Engine') {
 					switch (ClientPrefs.data.judgementCounterStyle) {
@@ -1834,7 +1870,7 @@ class PlayState extends MusicBeatState
 							judgementCounterTxt.text = 'Sicks: ${ratingsData[0].hits}' + '\n' + 'Goods: ${ratingsData[1].hits}' + '\n' + 'Bads: ${ratingsData[2].hits}' + '\n' + 'Shits: ${ratingsData[3].hits}' + '\n' + 'Misses: ${songMisses}';
 						
 						case 'Better Judge':
-							judgementCounterTxt.text = 'Total Notes Hit: ${totalPlayed}\n' + 'NPS: ${nps} (Max NPS: ${maxNPS})\n' + 'Combo: ${combo} (Max Combo: ${maxCombo})' + 'Sicks: ${ratingsData[0].hits}\n' + 'Goods: ${ratingsData[1].hits}\n' + 'Bads: ${ratingsData[2].hits}\n' + 'Shits: ${ratingsData[3].hits}\n' + 'Misses: ${songMisses}';
+							judgementCounterTxt.text = 'Song Note Hits: ${songHits} (Total Song Note Hits: ${totalPlayed})' + '\n' + 'NPS: ${nps} (Max NPS: ${maxNPS})' + '\n' + 'Combo: ${combo} (Max Combo: ${maxCombo})' + '\n' + 'Sicks: ${ratingsData[0].hits}' + '\n' + 'Goods: ${ratingsData[1].hits}' + '\n' + 'Bads: ${ratingsData[2].hits}' + '\n' + 'Shits: ${ratingsData[3].hits}' + '\n' + 'Misses: ${songMisses}';
 					}
 				} else if (ClientPrefs.data.gameStyle == 'Kade Engine' || ClientPrefs.data.gameStyle == 'Dave and Bambi' || ClientPrefs.data.gameStyle == 'Cheeky') {
 					switch (ClientPrefs.data.judgementCounterStyle) {
@@ -1845,14 +1881,14 @@ class PlayState extends MusicBeatState
 							judgementCounterTxt.text = 'Sicks: ${ratingsData[0].hits}' + '\n' + 'Goods: ${ratingsData[1].hits}' + '\n' + 'Bads: ${ratingsData[2].hits}' + '\n' + 'Shits: ${ratingsData[3].hits}' + '\n' + 'Combo Breaks: ${songMisses}';
 						
 						case 'Better Judge':
-							judgementCounterTxt.text = 'Total Notes Hit: ${totalPlayed}\n' + 'NPS: ${nps} (Max NPS: ${maxNPS})\n' + 'Combo: ${combo} (Max Combo: ${maxCombo})' + 'Sicks: ${ratingsData[0].hits}\n' + 'Goods: ${ratingsData[1].hits}\n' + 'Bads: ${ratingsData[2].hits}\n' + 'Shits: ${ratingsData[3].hits}\n' + 'Combo Breaks: ${songMisses}';
+							judgementCounterTxt.text = 'Notes Hits: ${songHits} (Total Notes Hits: ${totalPlayed})' + '\n' + 'NPS: ${nps} (Max NPS: ${maxNPS})' + '\n' + 'Combo: ${combo} (Max Combo: ${maxCombo})' + '\n' + 'Sicks: ${ratingsData[0].hits}' + '\n' + 'Goods: ${ratingsData[1].hits}' + '\n' + 'Bads: ${ratingsData[2].hits}' + '\n' + 'Shits: ${ratingsData[3].hits}' + '\n' + 'Combo Breaks: ${songMisses}';
 					}
 				}
 			}
 		} else if (cpuControlled && !practiceMode) {
 			switch (ClientPrefs.data.gameStyle) {
 				case 'SB Engine':
-					scoreTxt.text = '[AUTOPAY]';
+					scoreTxt.text = '[AUTOPLAY]';
 	
 				case 'Psych Engine' | 'Kade Engine' | 'Cheeky':
 					scoreTxt.text = 'BOTPLAY';
@@ -1866,7 +1902,7 @@ class PlayState extends MusicBeatState
 		} else if (!cpuControlled && practiceMode) {
 			switch (ClientPrefs.data.gameStyle) {
 				case 'SB Engine':
-					scoreTxt.text = 'Practice Mode Enabled!!! // Note Missed: ' + songMisses + ' // CPS: ' + nps + ' (Max CPS: ' + maxNPS + ')' + ' // Total Played: ' + totalPlayed + ' // Combo: ' + combo + ' (Max Combo: ' + maxCombo + ')'; 
+					scoreTxt.text = 'Practice Mode Enabled!!! // Note Missed: ' + songMisses + ' // CPS: ' + nps + ' (Max CPS: ' + maxNPS + ')' + ' // Note hitted: ' + songHits + '(Total Played: ' + totalPlayed + ')' + ' // Combo: ' + combo + ' (Maximum Combo: ' + maxCombo + ')'; 
 	
 				case 'Psych Engine' | 'Kade Engine' | 'Cheeky' | 'TGT Engine' | 'Dave and Bambi':
 					scoreTxt.text = 'Practice Mode | Misses: ' + songMisses;
@@ -2774,7 +2810,7 @@ class PlayState extends MusicBeatState
 		DiscordClient.resetClientID();
 		#end
 
-		FlxG.switchState(() -> ChartingState());
+		FlxG.switchState(() -> new ChartingState());
 	}
 
 	function openCharacterEditor()
@@ -2784,7 +2820,7 @@ class PlayState extends MusicBeatState
 		paused = true;
 		cancelMusicFadeTween();
 		#if DISCORD_ALLOWED DiscordClient.resetClientID(); #end
-		FlxG.switchState(() -> CharacterEditorState(SONG.player2));
+		FlxG.switchState(() -> new CharacterEditorState(SONG.player2));
 	}
 
 	public var isDead:Bool = false; //Don't mess with this on Lua!!!
@@ -3234,7 +3270,7 @@ class PlayState extends MusicBeatState
 					if(FlxTransitionableState.skipNextTransIn) {
 						CustomFadeTransition.nextCamera = null;
 					}
-					FlxG.switchState(() -> StoryMenuState());
+					FlxG.switchState(() -> new StoryMenuState());
 
 					// if ()
 					if(!ClientPrefs.getGameplaySetting('practice') && !ClientPrefs.getGameplaySetting('botplay')) {
@@ -3301,7 +3337,7 @@ class PlayState extends MusicBeatState
 				
 				} else {
 				Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Freeplay Menu (Closing the state)";
-				FlxG.switchState(() -> FreeplayState());
+				FlxG.switchState(() -> new FreeplayState());
 				FlxG.sound.playMusic(Paths.music('freakyMenu-' + ClientPrefs.data.mainMenuMusic));
 				changedDifficulty = false;
 				}

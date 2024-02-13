@@ -110,7 +110,7 @@ class TitleState extends MusicBeatState {
 		if(FlxG.save.data.flashing == null && !FlashingState.leftState) {
 			FlxTransitionableState.skipNextTransIn = true;
 			FlxTransitionableState.skipNextTransOut = true;
-			FlxG.switchState(() -> FlashingState());
+			FlxG.switchState(() -> new FlashingState());
 		} else {
 			if (initialized)
 				startIntro();
@@ -391,7 +391,7 @@ class TitleState extends MusicBeatState {
 				transitioning = true;
 
 				new FlxTimer().start(1, function(tmr:FlxTimer) {
-					FlxG.switchState(() -> MainMenuState());
+					FlxG.switchState(() -> new MainMenuState());
 					closedState = true;
 				});
 			}

@@ -230,8 +230,8 @@ class ResultsScreenSubstate extends MusicBeatSubstate
 				+ '\nBads: ' + PlayState.resultsScreenBads 
 				+ '\nShits: ' + PlayState.resultsScreenShits 
 				+ '\n\nNote missed: ' + PlayState.resultsScreenMisses
-				+ '\nNote hits: ' + PlayState.resultsScreenHits + ' (Total Notes Hit: )' + PlayState.resultsScreenMaxTNH + ')'
-				+ '\nCombo: ' + PlayState.resultsScreenCombo + ' (Max Combo: ' + PlayState.resultsScreenMaxCombo + ')'
+				+ '\nNote hitted: ' + PlayState.resultsScreenHits + ' (Total Played: ' + PlayState.resultsScreenMaxTNH + ')'
+				+ '\nCombo: ' + PlayState.resultsScreenCombo + ' (Maximum Combo: ' + PlayState.resultsScreenMaxCombo + ')'
 				+ '\nCPS: ' + PlayState.resultsScreenNPS + ' (Max CPS: ' + PlayState.resultsScreenMaxNPS + ')'
 				+ '\nScore: ' + PlayState.resultsScreenScore 
 				+ '\nPercent: ' + accurarcyCeil + '%'
@@ -245,7 +245,7 @@ class ResultsScreenSubstate extends MusicBeatSubstate
 				+ '\nShits: ' + PlayState.resultsScreenShits 
 				+ '\n\nMisses: ' + PlayState.resultsScreenMisses 
 				+ '\nCombo: ' + PlayState.resultsScreenCombo + ' (Max Combo: ' + PlayState.resultsScreenMaxCombo + ')'
-				+ '\nNote hits: ' + PlayState.resultsScreenHits + ' (Total Notes Hit: )' + PlayState.resultsScreenMaxTNH + ')'
+				+ '\nSong note hits: ' + PlayState.resultsScreenHits + ' (Total Song Note Hits: ' + PlayState.resultsScreenMaxTNH + ')'
 				+ '\nNPS: ' + PlayState.resultsScreenNPS + ' (Max NPS: ' + PlayState.resultsScreenMaxNPS + ')'
 				+ '\nScore: ' + PlayState.resultsScreenScore 
 				+ '\nRating: ' + PlayState.resultsScreenRatingName + '(' + PlayState.resultsScreenFullCombo + accurarcyCeil + '%)';
@@ -258,7 +258,7 @@ class ResultsScreenSubstate extends MusicBeatSubstate
 				+ '\nShits: ' + PlayState.resultsScreenShits 
 				+ '\n\nCombo Breaks: ' + PlayState.resultsScreenMisses 
 				+ '\nCombo: ' + PlayState.resultsScreenCombo + ' (Max Combo: ' + PlayState.resultsScreenMaxCombo + ')'
-				+ '\nNote Hits: ' + PlayState.resultsScreenHits + ' (Total Notes Hit: )' + PlayState.resultsScreenMaxTNH + ')'
+				+ '\nNote Hits: ' + PlayState.resultsScreenHits + ' (Total Notes Hits: ' + PlayState.resultsScreenMaxTNH + ')'
 				+ '\nNPS: ' + PlayState.resultsScreenNPS + ' (Max NPS: ' + PlayState.resultsScreenMaxNPS + ')'
 				+ '\nScore: ' + PlayState.resultsScreenScore 
 				+ '\nAccuracy: ' + accurarcyCeil + '%'
@@ -449,7 +449,7 @@ class ResultsScreenSubstate extends MusicBeatSubstate
 		if(FlxG.keys.justPressed.ENTER #if android || pressedTheTouchScreen #end)
 		{
             Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Freeplay Menu (Closing the state)";
-		    FlxG.switchState(() -> FreeplayState());
+		    FlxG.switchState(() -> new FreeplayState());
             FlxG.sound.playMusic(Paths.music('freakyMenu-' + ClientPrefs.data.mainMenuMusic));
 		}
 	}

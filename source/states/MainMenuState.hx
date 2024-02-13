@@ -310,7 +310,7 @@ class MainMenuState extends MusicBeatState
 				FlxG.mouse.visible = false;
 				selectedSomething = true;
 				FlxG.sound.play(Paths.sound('cancelMenu'));
-				FlxG.switchState(() -> MasterEditorMenu());
+				FlxG.switchState(() -> new MasterEditorMenu());
 			}
 
 			if (controls.ACCEPT)
@@ -323,7 +323,7 @@ class MainMenuState extends MusicBeatState
 			{
 				FlxG.mouse.visible = false;
 				selectedSomething = true;
-				FlxG.switchState(() -> MasterEditorMenu());
+				FlxG.switchState(() -> new MasterEditorMenu());
 			}
 			#end
 
@@ -500,21 +500,21 @@ class MainMenuState extends MusicBeatState
 				switch (daChoice) {
 					case 'story_mode':
 						FlxG.mouse.visible = false;
-						FlxG.switchState(() -> StoryMenuState());
+						FlxG.switchState(() -> new StoryMenuState());
 					case 'freeplay':
 						FlxG.mouse.visible = false;
-						FlxG.switchState(() -> FreeplayState());
+						FlxG.switchState(() -> new FreeplayState());
 					#if MODS_ALLOWED
 					case 'mods':
 						FlxG.mouse.visible = false;
-						FlxG.switchState(() -> ModsMenuState());
+						FlxG.switchState(() -> new ModsMenuState());
 					#end
 					case 'credits':
 						FlxG.mouse.visible = false;
-						FlxG.switchState(() -> CreditsState());
+						FlxG.switchState(() -> new CreditsState());
 					case 'options':
 						FlxG.mouse.visible = false;
-						FlxG.switchState(() -> options.OptionsState());
+						FlxG.switchState(() -> new options.OptionsState());
 						OptionsState.onPlayState = false;
 						if (PlayState.SONG != null)
 						{

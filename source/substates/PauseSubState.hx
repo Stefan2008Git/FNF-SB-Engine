@@ -287,7 +287,6 @@ class PauseSubState extends MusicBeatSubstate
 			switch (daSelected)
 			{
 				case "Resume":
-
 					close();
 					FlxTween.tween(bgGrid.velocity, {x: 175, y: 175}, 0.05, {ease: FlxEase.quadIn});
 					FlxTween.tween(levelInfo, {alpha: 0}, 0.25, {ease: FlxEase.quadOut});
@@ -300,7 +299,7 @@ class PauseSubState extends MusicBeatSubstate
 					deleteSkipTimeText();
 					regenMenu();
 				case 'Chart Editor':
-					FlxG.switchState(() -> states.editors.ChartingState());
+					FlxG.switchState(() -> new states.editors.ChartingState());
 					PlayState.chartingMode = true;
 					FlxTween.tween(bgGrid.velocity, {x: 175, y: 175}, 0.05, {ease: FlxEase.quadIn});
 					FlxTween.tween(levelInfo, {alpha: 0}, 0.25, {ease: FlxEase.quadOut});
@@ -313,7 +312,7 @@ class PauseSubState extends MusicBeatSubstate
 					PlayState.changedDifficulty = true;
 					practiceText.visible = PlayState.instance.practiceMode;
 				case "Restart Song":
-					restartSong(false);
+					restartSong();
 					FlxTween.tween(bgGrid.velocity, {x: 175, y: 175}, 0.05, {ease: FlxEase.quadIn});
 					FlxTween.tween(levelInfo, {alpha: 0}, 0.25, {ease: FlxEase.quadOut});
 					FlxTween.tween(levelDifficulty, {alpha: 0}, 0.25, {ease: FlxEase.quadOut});
@@ -321,7 +320,7 @@ class PauseSubState extends MusicBeatSubstate
 					FlxTween.tween(bgGrid, {alpha: 0}, 0.25, {ease: FlxEase.quadOut});
 					FlxTween.tween(fadeOutSpr, {alpha: 1}, 0.25, {ease: FlxEase.quadOut});
 				case "Leave Charting Mode":
-					restartSong(false);
+					restartSong();
 					PlayState.chartingMode = false;
 					FlxTween.tween(bgGrid.velocity, {x: 175, y: 175}, 0.05, {ease: FlxEase.quadIn});
 					FlxTween.tween(levelInfo, {alpha: 0}, 0.25, {ease: FlxEase.quadOut});
@@ -364,7 +363,7 @@ class PauseSubState extends MusicBeatSubstate
 				case 'Options':
 					PlayState.instance.paused = true; // For lua
 					PlayState.instance.vocals.volume = 0;
-					FlxG.switchState(() -> options.OptionsState());
+					FlxG.switchState(() -> new options.OptionsState());
 					if(ClientPrefs.data.pauseMusic != 'None')
 					{
 						FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath(ClientPrefs.data.pauseMusic)), pauseMusic.volume);
@@ -385,9 +384,9 @@ class PauseSubState extends MusicBeatSubstate
 
 					Mods.loadTopMod();
 					if(PlayState.isStoryMode) {
-						FlxG.switchState(() -> StoryMenuState());
+						FlxG.switchState(() -> new StoryMenuState());
 					} else {
-						FlxG.switchState(() -> FreeplayState());
+						FlxG.switchState(() -> new FreeplayState());
 					}
 					PlayState.cancelMusicFadeTween();
 					FlxG.sound.playMusic(Paths.music('freakyMenu-' + ClientPrefs.data.mainMenuMusic));

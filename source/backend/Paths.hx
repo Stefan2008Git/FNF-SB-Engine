@@ -141,7 +141,7 @@ class Paths
 
 	inline public static function getSharedPath(file:String = '')
 	{
-		return 'assets/shared/$file';
+		return SUtil.getPath() + 'assets/shared/$file';
 	}
 
 	inline static function getLibraryPathForce(file:String, library:String, ?level:String)

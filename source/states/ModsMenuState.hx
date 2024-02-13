@@ -444,7 +444,7 @@ class ModsMenuState extends MusicBeatState
 			}
 			else
 			{
-				FlxG.switchState(() -> MainMenuState());
+				FlxG.switchState(() -> new MainMenuState());
 			}
 		}
 

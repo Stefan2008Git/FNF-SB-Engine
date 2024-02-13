@@ -43,7 +43,7 @@ class NoteOffsetState extends MusicBeatState
 		Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Options Menu (In Note Offset Menu)";
 		if (ClientPrefs.data.cacheOnGPU) Paths.clearStoredMemory();
 		// Cameras
-		camGame = initPsychCamera();
+		camGame = new FlxCamera();
 		camHUD = new FlxCamera();
 		camOther = new FlxCamera();
 		camHUD.bgColor.alpha = 0;

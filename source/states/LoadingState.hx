@@ -17,10 +17,12 @@ class LoadingState extends MusicBeatState
 {
 	var target:NextState = null;
 	var stopMusic:Bool = false;
+	var directory:String;
 	var dontUpdate:Bool = false;
 
 	public static var loaded:Int = 0;
 	public static var loadMax:Int = 0;
+
 	function new(target:NextState, stopMusic:Bool, directory:String)
 	{
 		super();
