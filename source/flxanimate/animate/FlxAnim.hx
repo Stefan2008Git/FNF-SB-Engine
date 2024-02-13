@@ -52,7 +52,6 @@ class FlxAnim implements IFlxDestroyable
 	 * When ever the animation is playing.
 	 */
 	public var isPlaying(default, null):Bool;
-	public var callback:(name:String, frameNumber:Int) -> Void;
 	
 	public var onComplete:()->Void;
 
@@ -190,12 +189,8 @@ class FlxAnim implements IFlxDestroyable
 		while (_tick > frameDelay)
 		{
 			(reversed) ? curFrame-- : curFrame++;
+			curSymbol.fireCallbacks(curFrame);
 			_tick -= frameDelay;
-
-			@:privateAccess
-			curSymbol._shootCallback = true;
-
-			fireCallback();
 		}
 
 		if (finished || curFrame == (reversed ? 0 : curSymbol.length - 1))
@@ -455,16 +450,6 @@ class FlxAnim implements IFlxDestroyable
 		return symbolDictionary.get(curInstance.symbol.name);
 	}
 
-	inline function fireCallback():Void
-	{
-		if (callback != null)
-		{
-			var name:String = (curSymbol != null) ? curSymbol.name : null;
-			callback(name, curFrame);
-		}
-			
-	}
-
 	public function destroy()
 	{
 		isPlaying = false;
@@ -473,10 +458,12 @@ class FlxAnim implements IFlxDestroyable
 		_tick = 0;
 		buttonMap = null;
 		animsMap = null;
-		callback = null;
-		curInstance = FlxDestroyUtil.destroy(curInstance);
-		stageInstance = FlxDestroyUtil.destroy(stageInstance);
-		metadata = FlxDestroyUtil.destroy(metadata);
+		curInstance.destroy();
+		curInstance = null;
+		stageInstance.destroy();
+		stageInstance = null;
+		metadata.destroy();
+		metadata = null;
 		swfRender = false;
 		_parent = null;
 		symbolDictionary = null;
