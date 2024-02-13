@@ -97,7 +97,7 @@ class FlashingState extends MusicBeatState {
 					FlxTween.tween(warningText, {alpha: 0}, 0.25, {startDelay: 0.25});
 					FlxTween.tween(creditsMusic, {alpha: 0}, 0.25, {startDelay: 0.25});
 					FlxTween.tween(warningText.scale, {x: 1.5, y: 1.5}, .5,
-						{ease: FlxEase.sineInOut, onComplete: (_) -> new FlxTimer().start(0.5, (t) -> MusicBeatState.switchState(new TitleState()))});
+						{ease: FlxEase.sineInOut, onComplete: (_) -> new FlxTimer().start(0.5, (t) -> FlxG.switchState(() -> TitleState()))});
 					FlxTween.tween(velocityBackground, {alpha: 0}, 0.25, {startDelay: 0.25});
 					if (FlxG.sound.music != null)
 				  		FlxTween.tween(FlxG.sound.music, {pitch: 0, volume: 0}, 1.5, {ease: FlxEase.sineInOut});
@@ -111,7 +111,7 @@ class FlashingState extends MusicBeatState {
 					FlxTween.tween(warningText, {alpha: 0}, 0.25, {startDelay: 0.25});
 					FlxTween.tween(creditsMusic, {alpha: 0}, 0.25, {startDelay: 0.25});
 					FlxTween.tween(warningText.scale, {x: 0, y: 0}, .5,
-						{ease: FlxEase.sineInOut, onComplete: (_) -> new FlxTimer().start(0.5, (t) -> MusicBeatState.switchState(new TitleState()))});
+						{ease: FlxEase.sineInOut, onComplete: (_) -> new FlxTimer().start(0.5, (t) -> FlxG.switchState(() -> TitleState()))});
 					FlxTween.tween(velocityBackground, {alpha: 0}, 0.25, {startDelay: 0.25});
 					if (FlxG.sound.music != null)
 						FlxTween.tween(FlxG.sound.music, {pitch: 0, volume: 0}, 2.5, {ease: FlxEase.sineInOut});

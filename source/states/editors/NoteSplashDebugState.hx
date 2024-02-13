@@ -221,7 +221,7 @@ class NoteSplashDebugState extends MusicBeatState
 		var notTyping:Bool = !nameInputText.hasFocus;
 		if(FlxG.keys.justPressed.ESCAPE #if android || FlxG.android.justReleased.BACK #end && notTyping)
 		{
-			MusicBeatState.switchState(new MasterEditorMenu());
+			FlxG.switchState(() -> MasterEditorMenu());
 			Main.fpsVar.differentPosition = false;
 			FlxG.sound.playMusic(Paths.music('freakyMenu-' + ClientPrefs.data.mainMenuMusic));
 			FlxG.mouse.visible = false;

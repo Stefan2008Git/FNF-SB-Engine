@@ -71,7 +71,7 @@ class MainMenuState extends MusicBeatState
 		DiscordClient.changePresence("In the Menus", null);
 		#end
 
-		camGame = initPsychCamera();
+		camGame = new FlxCamera();
 
 		FlxG.cameras.reset(camGame);
 		FlxG.cameras.setDefaultDrawTarget(camGame, true);
@@ -310,7 +310,7 @@ class MainMenuState extends MusicBeatState
 				FlxG.mouse.visible = false;
 				selectedSomething = true;
 				FlxG.sound.play(Paths.sound('cancelMenu'));
-				MusicBeatState.switchState(new TitleState());
+				FlxG.switchState(() -> MasterEditorMenu());
 			}
 
 			if (controls.ACCEPT)
@@ -323,7 +323,7 @@ class MainMenuState extends MusicBeatState
 			{
 				FlxG.mouse.visible = false;
 				selectedSomething = true;
-				MusicBeatState.switchState(new MasterEditorMenu());
+				FlxG.switchState(() -> MasterEditorMenu());
 			}
 			#end
 
@@ -500,21 +500,21 @@ class MainMenuState extends MusicBeatState
 				switch (daChoice) {
 					case 'story_mode':
 						FlxG.mouse.visible = false;
-						MusicBeatState.switchState(new StoryMenuState());
+						FlxG.switchState(() -> StoryMenuState());
 					case 'freeplay':
 						FlxG.mouse.visible = false;
-						MusicBeatState.switchState(new FreeplayState());
+						FlxG.switchState(() -> FreeplayState());
 					#if MODS_ALLOWED
 					case 'mods':
 						FlxG.mouse.visible = false;
-						MusicBeatState.switchState(new ModsMenuState());
+						FlxG.switchState(() -> ModsMenuState());
 					#end
 					case 'credits':
 						FlxG.mouse.visible = false;
-						MusicBeatState.switchState(new CreditsState());
+						FlxG.switchState(() -> CreditsState());
 					case 'options':
 						FlxG.mouse.visible = false;
-						MusicBeatState.switchState(new OptionsState());
+						FlxG.switchState(() -> options.OptionsState());
 						OptionsState.onPlayState = false;
 						if (PlayState.SONG != null)
 						{

@@ -38,7 +38,7 @@ class Main extends Sprite
 	var game = {
 		width: 1280,
 		height: 720,
-		initialState: TitleState,
+		initialState: () -> new TitleState(),
 		zoom: -1.0,
 		framerate: 60,
 		skipSplash: true,
@@ -205,13 +205,13 @@ class Main extends Sprite
 			switch (stackItem)
 			{
 				case FilePos(s, file, line, column):
-					errorMessage += file + " (Line " + line + ")\n";
+					errorMessage += file + " (Line " + line + " , " + Std.string(s).replace(', ', ', ') + ")\n";
 				default:
 					Sys.println(stackItem);
 			}
 		}
 
-		errorMessage += "\nUncaught Error: " + e.error + "\nPlease report this error to the GitHub page: https://github.com/Stefan2008Git/FNF-SB-Engine\n\n> Crash Handler written by: sqirra-rng";
+		errorMessage += "\nUncaught Error: " + Std.string(e.error).replace('\n', '\\n') + "\nPlease report this error to the GitHub page: https://github.com/Stefan2008Git/FNF-SB-Engine\n\n> Crash Handler written by: sqirra-rng";
 
 		if (!FileSystem.exists(SUtil.getPath() + "crash/"))
 			FileSystem.createDirectory(SUtil.getPath() + "crash/");

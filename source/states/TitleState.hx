@@ -107,15 +107,10 @@ class TitleState extends MusicBeatState {
 		}
 
 		FlxG.mouse.visible = false;
-		#if FREEPLAY
-		MusicBeatState.switchState(new FreeplayState());
-		#elseif CHARTING
-		MusicBeatState.switchState(new ChartingState());
-		#else
 		if(FlxG.save.data.flashing == null && !FlashingState.leftState) {
 			FlxTransitionableState.skipNextTransIn = true;
 			FlxTransitionableState.skipNextTransOut = true;
-			MusicBeatState.switchState(new FlashingState());
+			FlxG.switchState(() -> FlashingState());
 		} else {
 			if (initialized)
 				startIntro();
@@ -127,7 +122,6 @@ class TitleState extends MusicBeatState {
 				});
 			}
 		}
-		#end
 	}
 
 	var logoBl:FlxSprite;
@@ -397,7 +391,7 @@ class TitleState extends MusicBeatState {
 				transitioning = true;
 
 				new FlxTimer().start(1, function(tmr:FlxTimer) {
-					MusicBeatState.switchState(new MainMenuState());
+					FlxG.switchState(() -> MainMenuState());
 					closedState = true;
 				});
 			}

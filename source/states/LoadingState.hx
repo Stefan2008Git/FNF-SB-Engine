@@ -8,19 +8,20 @@ import lime.utils.Assets;
 import openfl.utils.AssetType;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.FlxState;
+import flixel.util.typeLimit.NextState;
 
 import backend.StageData;
 import objects.Character;
 
 class LoadingState extends MusicBeatState
 {
-	var target:FlxState = null;
-	var stopMusic = false;
-	var directory:String = null;
+	var target:NextState = null;
+	var stopMusic:Bool = false;
+	var dontUpdate:Bool = false;
 
 	public static var loaded:Int = 0;
 	public static var loadMax:Int = 0;
-	function new(target:FlxState, stopMusic:Bool, directory:String)
+	function new(target:NextState, stopMusic:Bool, directory:String)
 	{
 		super();
 		this.target = target;
@@ -228,19 +229,19 @@ class LoadingState extends MusicBeatState
 		if (stopMusic && FlxG.sound.music != null)
 			FlxG.sound.music.stop();
 		
-		MusicBeatState.switchState(target);
+		FlxG.switchState(target);
 		imagesToPrepare = [];
 		soundsToPrepare = [];
 		musicToPrepare = [];
 		songsToPrepare = [];
 	}
 	
-	inline static public function loadAndSwitchState(target:FlxState, stopMusic = false)
+	inline static public function loadAndSwitchState(target:NextState, stopMusic = false)
 	{
-		MusicBeatState.switchState(getNextState(target, stopMusic));
+		FlxG.switchState(getNextState(target, stopMusic));
 	}
 	
-	static function getNextState(target:FlxState, stopMusic = false):FlxState
+	static function getNextState(target:NextState, stopMusic = false):NextState
 	{
 		var directory:String = 'shared';
 		var weekDir:String = StageData.forceNextDirectory;

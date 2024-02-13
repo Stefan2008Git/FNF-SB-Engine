@@ -449,7 +449,7 @@ class ResultsScreenSubstate extends MusicBeatSubstate
 		if(FlxG.keys.justPressed.ENTER #if android || pressedTheTouchScreen #end)
 		{
             Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Freeplay Menu (Closing the state)";
-		    MusicBeatState.switchState(new FreeplayState());
+		    FlxG.switchState(() -> FreeplayState());
             FlxG.sound.playMusic(Paths.music('freakyMenu-' + ClientPrefs.data.mainMenuMusic));
 		}
 	}

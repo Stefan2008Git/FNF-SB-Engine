@@ -1054,10 +1054,10 @@ class CharacterEditorState extends MusicBeatState
 		if(!charDropDown.dropPanel.visible) {
 			if (FlxG.keys.justPressed.ESCAPE #if android || FlxG.android.justReleased.BACK #end) {
 				if(goToPlayState) {
-					MusicBeatState.switchState(new PlayState());
+					LoadingState.loadAndSwitchState(() -> new PlayState());
 					Main.fpsVar.differentPosition = false;
 				} else {
-					MusicBeatState.switchState(new states.editors.MasterEditorMenu());
+					FlxG.switchState(() -> states.editors.MasterEditorMenu());
 					Main.fpsVar.differentPosition = false;
 					FlxG.sound.playMusic(Paths.music('freakyMenu-' + ClientPrefs.data.mainMenuMusic));
 				}
