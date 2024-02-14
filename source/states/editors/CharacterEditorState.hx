@@ -1019,12 +1019,12 @@ class CharacterEditorState extends MusicBeatState
 		if(FlxG.keys.justPressed.F12)
 			silhouettes.visible = !silhouettes.visible;
 
-		if(FlxG.keys.justPressed.F1 || (helpBg.visible && FlxG.keys.justPressed.ESCAPE))
+		if(helpBg.visible && FlxG.keys.justPressed.ESCAPE #if android || FlxG.android.justPressed.BACK || #end)
 		{
 			helpBg.visible = !helpBg.visible;
 			helpTexts.visible = helpBg.visible;
 		}
-		else if(FlxG.keys.justPressed.ESCAPE)
+		else if(FlxG.keys.justPressed.ESCAPE #if android || FlxG.android.justPressed.BACK || #end)
 		{
 			Main.fpsVar.differentPosition = false;
 			FlxG.mouse.visible = false;

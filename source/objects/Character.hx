@@ -332,7 +332,6 @@ class Character extends FlxSprite
 		else
 		{
 			if(value) atlas.anim.pause();
-			else atlas.anim.resume();
 		} 
 
 		return value;
