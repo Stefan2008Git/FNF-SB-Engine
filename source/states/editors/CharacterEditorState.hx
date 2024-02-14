@@ -874,9 +874,9 @@ class CharacterEditorState extends MusicBeatState
 
 		// CAMERA CONTROLS
 		if (FlxG.keys.pressed.J #if android || MusicBeatState.virtualPad.buttonLeft2.justPressed #end) FlxG.camera.scroll.x -= elapsed * 500 * shiftMult * ctrlMult;
-		if (FlxG.keys.pressed.K #if android || MusicBeatState.virtualPad.buttonUp2.justPressed #end) FlxG.camera.scroll.y += elapsed * 500 * shiftMult * ctrlMult;
-		if (FlxG.keys.pressed.L #if android || MusicBeatState.virtualPad.buttonDown2.justPressed #end) FlxG.camera.scroll.x += elapsed * 500 * shiftMult * ctrlMult;
-		if (FlxG.keys.pressed.I #if android || MusicBeatState.virtualPad.buttonRight2.justPressed #end) FlxG.camera.scroll.y -= elapsed * 500 * shiftMult * ctrlMult;
+		if (FlxG.keys.pressed.K #if android || MusicBeatState.virtualPad.buttonDown2.justPressed #end) FlxG.camera.scroll.y += elapsed * 500 * shiftMult * ctrlMult;
+		if (FlxG.keys.pressed.L #if android || MusicBeatState.virtualPad.buttonRight2.justPressed #end) FlxG.camera.scroll.x += elapsed * 500 * shiftMult * ctrlMult;
+		if (FlxG.keys.pressed.I #if android || MusicBeatState.virtualPad.buttonUp2.justPressed #end) FlxG.camera.scroll.y -= elapsed * 500 * shiftMult * ctrlMult;
 
 		var lastZoom = FlxG.camera.zoom;
 		if(FlxG.keys.justPressed.R && !FlxG.keys.pressed.CONTROL #if android || MusicBeatState.virtualPad.buttonZ.justPressed #end) FlxG.camera.zoom = 1;
@@ -884,7 +884,7 @@ class CharacterEditorState extends MusicBeatState
 			FlxG.camera.zoom += elapsed * FlxG.camera.zoom * shiftMult * ctrlMult;
 			if(FlxG.camera.zoom > 3) FlxG.camera.zoom = 3;
 		}
-		else if ((FlxG.keys.pressed.Q #if android || MusicBeatState.virtualPad.buttonX.justPressed #end) && FlxG.camera.zoom > 0.1) {
+		else if ((FlxG.keys.pressed.Q #if android || MusicBeatState.virtualPad.buttonY.justPressed #end) && FlxG.camera.zoom > 0.1) {
 			FlxG.camera.zoom -= elapsed * FlxG.camera.zoom * shiftMult * ctrlMult;
 			if(FlxG.camera.zoom < 0.1) FlxG.camera.zoom = 0.1;
 		}
@@ -911,8 +911,8 @@ class CharacterEditorState extends MusicBeatState
 		var moveKeysP = [FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.RIGHT, FlxG.keys.justPressed.UP, FlxG.keys.justPressed.DOWN];
 		var moveKeys = [FlxG.keys.pressed.LEFT, FlxG.keys.pressed.RIGHT, FlxG.keys.pressed.UP, FlxG.keys.pressed.DOWN];
 		#if android
-		moveKeysP = [MusicBeatState.virtualPad.buttonLeft.justPressed, MusicBeatState.virtualPad.buttonDown.justPressed, MusicBeatState.virtualPad.buttonUp.justPressed, MusicBeatState.virtualPad.buttonDown.justPressed];
-		moveKeys = [MusicBeatState.virtualPad.buttonLeft.pressed, MusicBeatState.virtualPad.buttonDown.pressed, MusicBeatState.virtualPad.buttonUp.pressed, MusicBeatState.virtualPad.buttonDown.pressed];
+		moveKeysP = [MusicBeatState.virtualPad.buttonLeft.justPressed, MusicBeatState.virtualPad.buttonRight.justPressed, MusicBeatState.virtualPad.buttonUp.justPressed, MusicBeatState.virtualPad.buttonDown.justPressed];
+		moveKeys = [MusicBeatState.virtualPad.buttonLeft.pressed, MusicBeatState.virtualPad.buttonRight.pressed, MusicBeatState.virtualPad.buttonUp.pressed, MusicBeatState.virtualPad.buttonDown.pressed];
 		#end
 		if(moveKeysP.contains(true))
 		{
