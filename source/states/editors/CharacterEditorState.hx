@@ -974,7 +974,7 @@ class CharacterEditorState extends MusicBeatState
 			}
 		}
 		#if android
-		if (#if android || MusicBeatState.virtualPad.buttonF.justPressed #end)
+		if (MusicBeatState.virtualPad.buttonA.justPressed #end)
 		{
 			undoOffsets = [character.offset.x, character.offset.y];
 			character.offset.x = copiedOffset[0];
