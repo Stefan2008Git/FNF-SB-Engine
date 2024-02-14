@@ -13,9 +13,9 @@ import debug.FPS;
 import states.TitleState;
 #if android
 import android.backend.AndroidDialogsExtend;
-#end
-
+import android.content.Context;
 import backend.SUtil;
+#end
 
 #if linux
 import lime.graphics.Image;
@@ -115,7 +115,9 @@ class Main extends Sprite
 			game.width = Math.ceil(stageWidth / game.zoom);
 			game.height = Math.ceil(stageHeight / game.zoom);
 		}
+		#if android
 	    SUtil.doTheCheck();
+		#end
 
 		#if LUA_ALLOWED Lua.set_callbacks_function(cpp.Callable.fromStaticFunction(psychlua.CallbackHandler.call)); #end
 		Controls.instance = new Controls();
