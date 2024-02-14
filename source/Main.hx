@@ -14,11 +14,16 @@ import states.TitleState;
 #if android
 import android.backend.AndroidDialogsExtend;
 #end
-
+-
 import backend.SUtil;
 
 #if linux
 import lime.graphics.Image;
+
+@:cppInclude('./external/gamemode_client.h')
+@:cppFileCode('
+	#define GAMEMODE_AUTO
+')
 #end
 
 //crash handler stuff
@@ -60,6 +65,13 @@ class Main extends Sprite
 	public function new()
 	{
 		super();
+
+		// Credits to MAJigsaw77 (he's the og author for this code)
+		#if android
+		Sys.setCwd(Path.addTrailingSlash(Context.getExternalFilesDir()));
+		#elseif ios
+		Sys.setCwd(lime.system.System.applicationStorageDirectory);
+		#end
 
 		if (stage != null)
 		{
@@ -113,14 +125,14 @@ class Main extends Sprite
 		#if mobile
 		addChild(new FlxGame(1280, 720, TitleState, 60, 60, true, false));
 		#else
-		addChild(new FlxGame(game.width, game.height, game.initialState, #if (flixel < "5.0.0") game.zoom, #end game.framerate, game.framerate, game.skipSplash, game.startFullscreen));
+		addChild(new FlxGame(game.width, game.height, game.initialState, game.framerate, game.framerate, game.skipSplash, game.startFullscreen));
 		#end
 
 		fpsVar = new FPS(10, 3);
 		addChild(fpsVar);
 		Lib.current.stage.align = "tl";
 		Lib.current.stage.scaleMode = StageScaleMode.NO_SCALE;
-		if(fpsVar != null) {
+		if (fpsVar != null) {
 			fpsVar.visible = ClientPrefs.data.showFPS;
 		}
 
