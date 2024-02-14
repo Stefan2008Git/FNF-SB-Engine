@@ -13,7 +13,6 @@ import debug.FPS;
 import states.TitleState;
 #if android
 import android.backend.AndroidDialogsExtend;
-import android.content.Context;
 import backend.SUtil;
 #end
 
@@ -65,13 +64,6 @@ class Main extends Sprite
 	public function new()
 	{
 		super();
-
-		// Credits to MAJigsaw77 (he's the og author for this code)
-		#if android
-		Sys.setCwd(Path.addTrailingSlash(Context.getExternalFilesDir()));
-		#elseif ios
-		Sys.setCwd(lime.system.System.applicationStorageDirectory);
-		#end
 
 		if (stage != null)
 		{
