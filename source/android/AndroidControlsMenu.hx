@@ -41,16 +41,16 @@ class AndroidControlsMenu extends MusicBeatState
 		currentlySelected = config.getControlMode();
 
 		var bg:FlxSprite = new FlxSprite(0, 0).loadGraphic(Paths.image('menuDesat'));
-		bg.color = 0xFFea71fd;
+		switch (ClientPrefs.data.themes) {
+			case 'SB Engine':
+				bg.color = FlxColor.BROWN;
+			
+			case 'Psych Engine':
+				bg.color = 0xFFea71fd;
+		}
 		bg.screenCenter();
 		bg.antialiasing = ClientPrefs.data.antialiasing;
 		add(bg);
-
-		var titleText:Alphabet = new Alphabet(75, 60, "Android Controls", true);
-		titleText.scaleX = 0.6;
-		titleText.scaleY = 0.6;
-		titleText.alpha = 0.4;
-		add(titleText);
 
 		virtualPads = new FlxVirtualPad(RIGHT_FULL, NONE, 0.75, ClientPrefs.data.antialiasing);
 		virtualPads.alpha = 0;
@@ -59,6 +59,12 @@ class AndroidControlsMenu extends MusicBeatState
 		newHitbox = new FlxNewHitbox();
 		newHitbox.visible = false;
 		add(newHitbox);
+
+		var titleText:Alphabet = new Alphabet(10, 60, "Android Controls", true);
+		titleText.scaleX = 0.6;
+		titleText.scaleY = 0.6;
+		titleText.alpha = 0.4;
+		add(titleText);
 
 		inputvari = new PsychAlphabet(0, 50, controlitems[currentlySelected], false, false, 0.05, 0.8);
 		inputvari.screenCenter(X);

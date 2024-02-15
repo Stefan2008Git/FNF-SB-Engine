@@ -58,7 +58,7 @@ class ControlsSubState extends MusicBeatSubstate
 	var selectSpr:AttachedSprite;
 
 	var gamepadColor:FlxColor = 0xFF800080;
-	var keyboardColor:FlxColor = 0xFF382512;
+	var keyboardColor:FlxColor = FlxColor.BROWN;
 	var onKeyboardMode:Bool = true;
 	
 	var controllerSpr:FlxSprite;

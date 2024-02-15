@@ -42,7 +42,7 @@ class NoteSplashDebugState extends MusicBeatState
 
 		switch (ClientPrefs.data.themes) {
 			case 'SB Engine':
-				FlxG.camera.bgColor = 0xFF382512;
+				FlxG.camera.bgColor = FlxColor.BROWN;
 			
 			case 'Psych Engine':
 				FlxG.camera.bgColor = FlxColor.fromHSL(0, 0, 0.5);
