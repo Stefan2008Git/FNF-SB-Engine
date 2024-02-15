@@ -26,11 +26,7 @@ Used and coded on: [Psych Engine](https://gamebanana.com/mods/309789).
 ## Special credits:
 | Avatar | Username | Involvement |
 | ------ | -------- | ----------- |
-| ![](https://raw.githubusercontent.com/Stefan2008Git/FNF-SB-Engine/main/assets/preload/images/credits/stefan-ro123.png) | [Stefan Ro 123](https://www.youtube.com/channel/UCXVxTNqqrrHLGw_6ulzhfzQ) | Fixed Wiggle effect shaders to run possible on PC and Android.
-| ![](https://raw.githubusercontent.com/Stefan2008Git/FNF-SB-Engine/main/assets/preload/images/credits/elgatosinnombre.png) | [Elgatosinnombre](https://www.youtube.com/channel/UCQ7CD5-XkoFMlXbeX_9qG3w) | Made a code for new wiggle effect shaders function to look like from\nPsych Engine 0.5.1 with shaders.
 | ![](https://raw.githubusercontent.com/Stefan2008Git/FNF-SB-Engine/main/assets/preload/images/credits/sam.png) | [Sussy Sam](https://www.youtube.com/@sussysam6789) | Maked new icons and new music for SB Engine, but he is not on SB Engine team.
-| ![](https://raw.githubusercontent.com/Stefan2008Git/FNF-SB-Engine/main/assets/preload/images/credits/lizzy.png) | [Lizzy Strawbery](https://www.youtube.com/@LizzyStrawberry) | Fixed shaders from Psych Engine 0.5.1 with shaders build.
-| ![](https://raw.githubusercontent.com/Stefan2008Git/FNF-SB-Engine/main/assets/preload/images/credits/joalor.png) | [Joalor64](https://www.youtube.com/channel/UC4tRMRL_iAHX5n1qQpHibfg) | For simple main menu and Joalor64 Engine Rewriten.
 | ![](https://raw.githubusercontent.com/Stefan2008Git/FNF-SB-Engine/main/assets/preload/images/credits/xale.png) | [JustXale](https://github.com/JustXale) | Main Programmer of Grafex Engine.
 | ![](https://raw.githubusercontent.com/Stefan2008Git/FNF-SB-Engine/main/assets/preload/images/credits/tinki.png) | [SquidBowl](https://www.youtube.com/@squidbowl) | For gallery stuff.
 | ![](https://raw.githubusercontent.com/Stefan2008Git/FNF-SB-Engine/main/assets/preload/images/credits/mario.png) | [MarioMaster](https://www.youtube.com/channel/UC65m-_5tbYFJ7oRqZzpFBJw) | Created hitbox selector and virtual pad opacity.
@@ -59,7 +55,6 @@ Used and coded on: [Psych Engine](https://gamebanana.com/mods/309789).
 | ![](https://raw.githubusercontent.com/Stefan2008Git/FNF-SB-Engine/main/assets/preload/images/credits/kade.png) | [Kade Dev](https://twitter.com/kade0912) | Fixed some cool stuff on Chart Editor and other PRs.
 | ![](https://raw.githubusercontent.com/Stefan2008Git/FNF-SB-Engine/main/assets/preload/images/credits/keoiki.png) | [Keoiki](https://twitter.com/Keoiki_) | Note Splash Animations.
 | ![](https://raw.githubusercontent.com/Stefan2008Git/FNF-SB-Engine/main/assets/preload/images/credits/superpowers04.png) | [Superpowers04](https://twitter.com/superpowers04) | LUA JIT Fork.
-| ![](https://raw.githubusercontent.com/Stefan2008Git/FNF-SB-Engine/main/assets/preload/images/credits/smokey.png) | [Smokey](https://twitter.com/Smokey_5_) | Sprite Atlas Support.
 
 ## Welcome to modified Psych Engine fork called: SB Engine. Note: this is an fork, not the base FNF game engine.
 

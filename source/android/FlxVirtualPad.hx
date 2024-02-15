@@ -263,9 +263,9 @@ class FlxVirtualPad extends FlxSpriteGroup {
 					actions.add(add(buttonB = createButton(FlxG.width - 86 * 3, FlxG.height - 45 * 3 - 460, 44 * 3, 127, "b", FlxColor.BROWN)));								
 					actions.add(add(buttonA = createButton(FlxG.width - 44 * 3, FlxG.height - 45 * 3 - 460, 44 * 3, 127, "a", FlxColor.BROWN)));	
 				case NOTESTATE:
-					actions.add(add(buttonE = createButton(42 * 3, FlxG.height - 125 * 3, 44 * 3, 127, "e", FlxColor.BROWN)));
-					actions.add(add(buttonC = createButton(0, FlxG.height - 125 * 3, 44 * 3, 127, "c", FlxColor.BROWN)));  
-					actions.add(add(buttonB = createButton(0, FlxG.height - 165 * 3, 44 * 3, 127, "b", FlxColor.BROWN)));					
+					actions.add(add(buttonE = createButton(42 * 3, FlxG.height - 165 * 3, 44 * 3, 127, "e", FlxColor.BROWN)));
+					actions.add(add(buttonC = createButton(0, FlxG.height - 165 * 3, 44 * 3, 127, "c", FlxColor.BROWN)));  
+					actions.add(add(buttonB = createButton(0, FlxG.height - 185 * 3, 44 * 3, 127, "b", FlxColor.BROWN)));					
 				case NONE:
 			}
 		} else {
@@ -440,9 +440,9 @@ class FlxVirtualPad extends FlxSpriteGroup {
 				actions.add(add(buttonB = createButton(FlxG.width - 86 * 3, FlxG.height - 45 * 3 - 460, 44 * 3, 127, "b", 0xFFCB00)));								
 				actions.add(add(buttonA = createButton(FlxG.width - 44 * 3, FlxG.height - 45 * 3 - 460, 44 * 3, 127, "a", 0xFF0000)));	
 			case NOTESTATE:
-			    actions.add(add(buttonE = createButton(42 * 3, FlxG.height - 125 * 3, 44 * 3, 127, "e", 0xFF7D00)));
-				actions.add(add(buttonC = createButton(0, FlxG.height - 125 * 3, 44 * 3, 127, "c", 0x44FF00)));  
-				actions.add(add(buttonB = createButton(0, FlxG.height - 165 * 3, 44 * 3, 127, "b", 0xFFCB00)));					
+			    actions.add(add(buttonE = createButton(42 * 3, FlxG.height - 165 * 3, 44 * 3, 127, "e", 0xFF7D00)));
+				actions.add(add(buttonC = createButton(0, FlxG.height - 165 * 3, 44 * 3, 127, "c", 0x44FF00)));  
+				actions.add(add(buttonB = createButton(0, FlxG.height - 185 * 3, 44 * 3, 127, "b", 0xFFCB00)));					
 			case NONE:
 		}
 		}
