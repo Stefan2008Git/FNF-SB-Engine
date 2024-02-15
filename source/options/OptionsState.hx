@@ -103,17 +103,17 @@ class OptionsState extends MusicBeatState
 		ClientPrefs.saveSettings();
 
 		#if android
-		addVirtualPad(UP_DOWN, A_B_X_Y);
 		androidControlsStyleTipText = new FlxText(10, FlxG.height - 44, 0, "Press Y to open the Android controls style!", 16);
 		customizeAndroidControlsTipText = new FlxText(10, FlxG.height - 24, 0, "Press X to customize the Android controls!", 16);
-		androidControlsStyleTipText.setFormat("VCR OSD Mono", 17, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		customizeAndroidControlsTipText.setFormat("VCR OSD Mono", 17, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		androidControlsStyleTipText.setFormat("VCR OSD Mono", 17, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		customizeAndroidControlsTipText.setFormat("VCR OSD Mono", 17, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		androidControlsStyleTipText.borderSize = 1.25;
 		androidControlsStyleTipText.scrollFactor.set();
 		customizeAndroidControlsTipText.borderSize = 1.25;
 		customizeAndroidControlsTipText.scrollFactor.set();
 		add(androidControlsStyleTipText);
 		add(customizeAndroidControlsTipText);
+		addVirtualPad(UP_DOWN, A_B_X_Y);
 	  	#end
 
 		super.create();

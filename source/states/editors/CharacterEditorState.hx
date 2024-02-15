@@ -1052,7 +1052,7 @@ class CharacterEditorState extends MusicBeatState
 			helpBg.visible = !helpBg.visible;
 			helpTexts.visible = helpBg.visible;
 		}
-		else if(FlxG.keys.justPressed.ESCAPE #if android || FlxG.android.justPressed.BACK #end)
+		else if(FlxG.keys.justPressed.ESCAPE #if android || MusicBeatState.virtualPad.buttonB.justPressed #end)
 		{
 			Main.fpsVar.differentPosition = false;
 			FlxG.mouse.visible = false;

@@ -220,7 +220,7 @@ class NotesSubState extends MusicBeatSubstate
 		#if !android
 		tipTxt.text = 'Hold ' + (!controls.controllerMode ? 'Shift' : 'Left Shoulder Button') + ' + Press RELOAD to fully reset the selected Note.';
 		#else
-		tipTxt.text = "Tap on E button to fully reset the selected Note."
+		tipTxt.text = "Tap on E button to fully reset the selected Note.";
 		#end
 	}
 

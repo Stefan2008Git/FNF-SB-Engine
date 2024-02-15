@@ -122,11 +122,11 @@ class FPS extends TextField
 			}
 
 			if (ClientPrefs.data.memory) {
-				text += "\nMemory: " + CoolUtil.formatMemory(Std.int(currentlyMemory));
+				text += "\n" + CoolUtil.formatMemory(Std.int(currentlyMemory));
 			}
 
 			if (ClientPrefs.data.totalMemory) {
-				text += "\nMemory peak: " + CoolUtil.formatMemory(Std.int(maximumMemory));
+				text += "\n" + CoolUtil.formatMemory(Std.int(maximumMemory));
 			}
 
 			if (ClientPrefs.data.engineVersion) {
