@@ -103,8 +103,8 @@ class OptionsState extends MusicBeatState
 		ClientPrefs.saveSettings();
 
 		#if android
-		androidControlsStyleTipText = new FlxText(50, FlxG.height - 44, 0, "Press Y to open the Android controls style!", 16);
-		customizeAndroidControlsTipText = new FlxText(50, FlxG.height - 24, 0, "Press X to customize the Android controls!", 16);
+		androidControlsStyleTipText = new FlxText(150, FlxG.height - 44, 0, "Press Y to open the Android controls style!", 16);
+		customizeAndroidControlsTipText = new FlxText(150, FlxG.height - 24, 0, "Press X to customize the Android controls!", 16);
 		androidControlsStyleTipText.setFormat("VCR OSD Mono", 17, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		customizeAndroidControlsTipText.setFormat("VCR OSD Mono", 17, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		androidControlsStyleTipText.borderSize = 1.25;
@@ -132,6 +132,7 @@ class OptionsState extends MusicBeatState
 			FlxTransitionableState.skipNextTransOut = true;
 			FlxG.switchState(() -> new options.android.AndroidControlsMenuState());
 		}
+
 		if (MusicBeatState.virtualPad.buttonY.justPressed) {
 			removeVirtualPad();
 			openSubState(new options.android.AndroidOptionsSubState());
