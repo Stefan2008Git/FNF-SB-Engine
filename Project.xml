@@ -83,6 +83,7 @@
 	</section>
 	<assets path="CHANGELOGS.md" rename='changelogs.txt' />
 	<assets path="assets/fonts" />
+	<assets path="assets/android" if="android"/> <!-- to not have the android assets in another builds -saw -->
 
 	<!-- _______________________________ Libraries ______________________________ -->
 

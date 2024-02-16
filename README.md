@@ -33,6 +33,8 @@ Used and coded on: [Psych Engine](https://gamebanana.com/mods/309789).
 | ![](https://raw.githubusercontent.com/Stefan2008Git/FNF-SB-Engine/main/assets/preload/images/credits/beihu.png) | [NF Beihu](https://www.youtube.com/@beihu235) | Created hitbox space for dodge mechanic system on NF Engine.
 | ![](https://raw.githubusercontent.com/Stefan2008Git/FNF-SB-Engine/main/assets/preload/images/credits/jigsaw.png) | [M.A. Jigsaw77](https://www.youtube.com/channel/UC2Sk7vtPzOvbVzdVTWrribQ) | Main Programmer of Psych Engine with Android Support.
 | ![](https://raw.githubusercontent.com/Stefan2008Git/FNF-SB-Engine/main/assets/preload/images/credits/goldie.png) | [Goldie](https://www.youtube.com/channel/UCjTi9Hfl1Eb5Bgk5gksmsbA) | Old Hitbox and Virtual Pad Artist.
+| ![](https://raw.githubusercontent.com/Stefan2008Git/FNF-SB-Engine/main/assets/preload/images/credits/lily.png) | [mcgabe19](https://www.youtube.com/@mcagabe19) | Head Porter of Psych Engine Mobile.
+| ![](https://raw.githubusercontent.com/Stefan2008Git/FNF-SB-Engine/main/assets/preload/images/credits/karim.png) | [Karim Akra](https://youtube.com/@Karim0690) | Assistant Porter/Helper #1 of Psych Engine Mobile
 
 ## Psych Engine Credits:
 | Avatar | Username | Involvement |

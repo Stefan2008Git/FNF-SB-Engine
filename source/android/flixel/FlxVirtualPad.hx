@@ -1,5 +1,6 @@
 package android.flixel;
 
+import openfl.utils.Assets;
 import flixel.FlxG;
 import flixel.graphics.frames.FlxTileFrames;
 import flixel.group.FlxSpriteGroup;
@@ -129,13 +130,13 @@ class FlxVirtualPad extends FlxSpriteGroup {
 					dPad.add(add(buttonDown = createButton(0, FlxG.height - 45 * 3, 44 * 3, 127, "down", FlxColor.BROWN)));
 					dPad.add(add(buttonLeft = createButton(42 * 3, FlxG.height - 85 * 3, 44 * 3, 127, "left", FlxColor.BROWN)));
 					dPad.add(add(buttonRight = createButton(42 * 3, FlxG.height - 45 * 3, 44 * 3, 127, "right", FlxColor.BROWN)));		
-				case MenuCharacterEditor:
+				case MENUCHARACTEREDITOR:
 					//orgAlpha = 0.75;
 					dPad.add(add(buttonUp = createButton(220, FlxG.height - 85 * 3, 44 * 3, 127, "up", FlxColor.BROWN)));
 					dPad.add(add(buttonDown = createButton(220, FlxG.height - 45 * 3, 44 * 3, 127, "down", FlxColor.BROWN)));
 					dPad.add(add(buttonLeft = createButton(220 + 42 * 3, FlxG.height - 85 * 3, 44 * 3, 127, "left", FlxColor.BROWN)));
 					dPad.add(add(buttonRight = createButton(220 + 42 * 3, FlxG.height - 45 * 3, 44 * 3, 127, "right", FlxColor.BROWN)));	
-				case DialogueCharacterEditor:
+				case DIALOGUECHARACTER:
 					//orgAlpha = 0.75;
 					dPad.add(add(buttonUp = createButton(0, FlxG.height - 85 * 3, 44 * 3, 127, "up", FlxColor.BROWN)));
 					dPad.add(add(buttonDown = createButton(0, FlxG.height - 45 * 3, 44 * 3, 127, "down", FlxColor.BROWN)));
@@ -145,7 +146,7 @@ class FlxVirtualPad extends FlxSpriteGroup {
 					dPad.add(add(buttonDown2 = createButton(0 * 3, FlxG.height - 125 * 3, 44 * 3, 127, "down", FlxColor.BROWN)));
 					dPad.add(add(buttonLeft2 = createButton(42 * 3, FlxG.height - 165 * 3, 44 * 3, 127, "left", FlxColor.BROWN)));
 					dPad.add(add(buttonRight2 = createButton(42 * 3, FlxG.height - 125 * 3, 44 * 3, 127, "right", FlxColor.BROWN)));					
-				case NoteSplashDebugState:
+				case NOTESLPLASHDEBUG:
 					//orgAlpha = 0.75;
 					dPad.add(add(buttonUp = createButton(0, FlxG.height - 85 * 3 - 460, 44 * 3, 127, "up", FlxColor.BROWN)));
 					dPad.add(add(buttonDown = createButton(0, FlxG.height - 45 * 3 - 460, 44 * 3, 127, "down", FlxColor.BROWN)));
@@ -230,17 +231,17 @@ class FlxVirtualPad extends FlxSpriteGroup {
 					actions.add(add(buttonA = createButton(FlxG.width - 44 * 3, FlxG.height - 45 * 3, 44 * 3, 127, "a", FlxColor.BROWN)));				
 					dPad.add(add(buttonCEUp = createButton(FlxG.width - (44 + 42 * 4) * 3, FlxG.height - 85 * 3, 44 * 3, 127, "up", FlxColor.BROWN)));
 					dPad.add(add(buttonCEDown = createButton(FlxG.width - (44 + 42 * 4) * 3, FlxG.height - 45 * 3, 44 * 3, 127, "down", FlxColor.BROWN)));		
-				case MenuCharacterEditor:
+				case MENUCHARACTEREDITOR:
 					actions.add(add(buttonA = createButton(FlxG.width - 44 * 3 - 350, FlxG.height - 45 * 3, 44 * 3, 127, "a", FlxColor.BROWN)));
 					actions.add(add(buttonB = createButton(FlxG.width - 44 * 3 - 350, FlxG.height - 85 * 3, 44 * 3, 127, "b", FlxColor.BROWN)));	
-				case DialogueCharacterEditor:
+				case DIALOGUECHARACTER:
 					actions.add(add(buttonX = createButton(FlxG.width - 128 * 3, FlxG.height - 85 * 3 - 460, 44 * 3, 127, "x", FlxColor.BROWN)));
 					actions.add(add(buttonY = createButton(FlxG.width - 86 * 3, FlxG.height - 85 * 3 - 460, 44 * 3, 127, "y", FlxColor.BROWN)));
 					actions.add(add(buttonZ = createButton(FlxG.width - 44 * 3, FlxG.height - 85 * 3 - 460, 44 * 3, 127, "z", FlxColor.BROWN)));
 					actions.add(add(buttonC = createButton(FlxG.width - 128 * 3, FlxG.height - 45 * 3 - 460, 44 * 3, 127, "c", FlxColor.BROWN)));
 					actions.add(add(buttonB = createButton(FlxG.width - 86 * 3, FlxG.height - 45 * 3 - 460, 44 * 3, 127, "b", FlxColor.BROWN)));								
 					actions.add(add(buttonA = createButton(FlxG.width - 44 * 3, FlxG.height - 45 * 3 - 460, 44 * 3, 127, "a", FlxColor.BROWN)));	
-				case NoteSplashDebugState:
+				case NOTESLPLASHDEBUG:
 					actions.add(add(buttonV = createButton(FlxG.width - 170 * 3, FlxG.height - 85 * 3 - 460, 44 * 3, 127, "v", FlxColor.BROWN)));            
 					actions.add(add(buttonX = createButton(FlxG.width - 128 * 3, FlxG.height - 85 * 3 - 460, 44 * 3, 127, "x", FlxColor.BROWN)));
 					actions.add(add(buttonZ = createButton(FlxG.width - 44 * 3, FlxG.height - 85 * 3 - 460, 44 * 3, 127, "z", FlxColor.BROWN)));
@@ -248,10 +249,10 @@ class FlxVirtualPad extends FlxSpriteGroup {
 					actions.add(add(buttonC = createButton(FlxG.width - 128 * 3, FlxG.height - 45 * 3 - 460, 44 * 3, 127, "c", FlxColor.BROWN)));
 					actions.add(add(buttonB = createButton(FlxG.width - 86 * 3, FlxG.height - 45 * 3 - 460, 44 * 3, 127, "b", FlxColor.BROWN)));								
 					actions.add(add(buttonA = createButton(FlxG.width - 44 * 3, FlxG.height - 45 * 3 - 460, 44 * 3, 127, "a", FlxColor.BROWN)));	
-				case NOTESTATE:
+				case NOTESCOLORMENU:
 					actions.add(add(buttonE = createButton(42 * 3, FlxG.height - 165 * 3, 44 * 3, 127, "e", FlxColor.BROWN)));
 					actions.add(add(buttonC = createButton(0, FlxG.height - 165 * 3, 44 * 3, 127, "c", FlxColor.BROWN)));  
-					actions.add(add(buttonB = createButton(0, FlxG.height - 200 * 3, 44 * 3, 127, "b", FlxColor.BROWN)));					
+					actions.add(add(buttonB = createButton(0, FlxG.height - 225 * 3, 44 * 3, 127, "b", FlxColor.BROWN)));					
 				case NONE:
 			}
 		} else {
@@ -291,13 +292,13 @@ class FlxVirtualPad extends FlxSpriteGroup {
 				dPad.add(add(buttonDown = createButton(0, FlxG.height - 45 * 3, 44 * 3, 127, "down", 0x00FFFF)));
 				dPad.add(add(buttonLeft = createButton(42 * 3, FlxG.height - 85 * 3, 44 * 3, 127, "left", 0xFF00FF)));
 				dPad.add(add(buttonRight = createButton(42 * 3, FlxG.height - 45 * 3, 44 * 3, 127, "right", 0xFF0000)));		
-			case MenuCharacterEditor:
+			case MENUCHARACTEREDITOR:
 			    //orgAlpha = 0.75;
 				dPad.add(add(buttonUp = createButton(220, FlxG.height - 85 * 3, 44 * 3, 127, "up", 0x00FF00)));
 				dPad.add(add(buttonDown = createButton(220, FlxG.height - 45 * 3, 44 * 3, 127, "down", 0x00FFFF)));
 				dPad.add(add(buttonLeft = createButton(220 + 42 * 3, FlxG.height - 85 * 3, 44 * 3, 127, "left", 0xFF00FF)));
 				dPad.add(add(buttonRight = createButton(220 + 42 * 3, FlxG.height - 45 * 3, 44 * 3, 127, "right", 0xFF0000)));	
-			case DialogueCharacterEditor:
+			case DIALOGUECHARACTER:
 			    //orgAlpha = 0.75;
 				dPad.add(add(buttonUp = createButton(0, FlxG.height - 85 * 3, 44 * 3, 127, "up", 0x00FF00)));
 				dPad.add(add(buttonDown = createButton(0, FlxG.height - 45 * 3, 44 * 3, 127, "down", 0x00FFFF)));
@@ -307,7 +308,7 @@ class FlxVirtualPad extends FlxSpriteGroup {
 				dPad.add(add(buttonDown2 = createButton(0 * 3, FlxG.height - 125 * 3, 44 * 3, 127, "down", 0x00FFFF)));
 				dPad.add(add(buttonLeft2 = createButton(42 * 3, FlxG.height - 165 * 3, 44 * 3, 127, "left", 0xFF00FF)));
 				dPad.add(add(buttonRight2 = createButton(42 * 3, FlxG.height - 125 * 3, 44 * 3, 127, "right", 0xFF0000)));					
-            case NoteSplashDebugState:
+            case NOTESLPLASHDEBUG:
 			    //orgAlpha = 0.75;
 				dPad.add(add(buttonUp = createButton(0, FlxG.height - 85 * 3 - 460, 44 * 3, 127, "up", 0x00FF00)));
 				dPad.add(add(buttonDown = createButton(0, FlxG.height - 45 * 3 - 460, 44 * 3, 127, "down", 0x00FFFF)));
@@ -392,17 +393,17 @@ class FlxVirtualPad extends FlxSpriteGroup {
 				actions.add(add(buttonA = createButton(FlxG.width - 44 * 3, FlxG.height - 45 * 3, 44 * 3, 127, "a", 0xFF0000)));				
 				dPad.add(add(buttonCEUp = createButton(FlxG.width - (44 + 42 * 4) * 3, FlxG.height - 85 * 3, 44 * 3, 127, "up", 0x00FF00)));
 				dPad.add(add(buttonCEDown = createButton(FlxG.width - (44 + 42 * 4) * 3, FlxG.height - 45 * 3, 44 * 3, 127, "down", 0x00FFFF)));		
-			case MenuCharacterEditor:
+			case MENUCHARACTEREDITOR:
 				actions.add(add(buttonA = createButton(FlxG.width - 44 * 3 - 350, FlxG.height - 45 * 3, 44 * 3, 127, "a", 0xFF0000)));
 				actions.add(add(buttonB = createButton(FlxG.width - 44 * 3 - 350, FlxG.height - 85 * 3, 44 * 3, 127, "b", 0xFFCB00)));	
-			case DialogueCharacterEditor:
+			case DIALOGUECHARACTER:
 				actions.add(add(buttonX = createButton(FlxG.width - 128 * 3, FlxG.height - 85 * 3 - 460, 44 * 3, 127, "x", 0x99062D)));
 				actions.add(add(buttonY = createButton(FlxG.width - 86 * 3, FlxG.height - 85 * 3 - 460, 44 * 3, 127, "y", 0x4A35B9)));
 				actions.add(add(buttonZ = createButton(FlxG.width - 44 * 3, FlxG.height - 85 * 3 - 460, 44 * 3, 127, "z", 0xCCB98E)));
 				actions.add(add(buttonC = createButton(FlxG.width - 128 * 3, FlxG.height - 45 * 3 - 460, 44 * 3, 127, "c", 0x44FF00)));
 				actions.add(add(buttonB = createButton(FlxG.width - 86 * 3, FlxG.height - 45 * 3 - 460, 44 * 3, 127, "b", 0xFFCB00)));								
 				actions.add(add(buttonA = createButton(FlxG.width - 44 * 3, FlxG.height - 45 * 3 - 460, 44 * 3, 127, "a", 0xFF0000)));	
-			case NoteSplashDebugState:
+			case NOTESLPLASHDEBUG:
 				actions.add(add(buttonV = createButton(FlxG.width - 170 * 3, FlxG.height - 85 * 3 - 460, 44 * 3, 127, "v", 0x49A9B2)));            
 				actions.add(add(buttonX = createButton(FlxG.width - 128 * 3, FlxG.height - 85 * 3 - 460, 44 * 3, 127, "x", 0x99062D)));
 				//actions.add(add(buttonY = createButton(FlxG.width - 86 * 3, FlxG.height - 85 * 3 - 460, 44 * 3, 127, "y", 0x4A35B9)));
@@ -411,10 +412,10 @@ class FlxVirtualPad extends FlxSpriteGroup {
 				actions.add(add(buttonC = createButton(FlxG.width - 128 * 3, FlxG.height - 45 * 3 - 460, 44 * 3, 127, "c", 0x44FF00)));
 				actions.add(add(buttonB = createButton(FlxG.width - 86 * 3, FlxG.height - 45 * 3 - 460, 44 * 3, 127, "b", 0xFFCB00)));								
 				actions.add(add(buttonA = createButton(FlxG.width - 44 * 3, FlxG.height - 45 * 3 - 460, 44 * 3, 127, "a", 0xFF0000)));	
-			case NOTESTATE:
+			case NOTESCOLORMENU:
 			    actions.add(add(buttonE = createButton(42 * 3, FlxG.height - 165 * 3, 44 * 3, 127, "e", 0xFF7D00)));
 				actions.add(add(buttonC = createButton(0, FlxG.height - 165 * 3, 44 * 3, 127, "c", 0x44FF00)));  
-				actions.add(add(buttonB = createButton(0, FlxG.height - 210 * 3, 44 * 3, 127, "b", 0xFFCB00)));					
+				actions.add(add(buttonB = createButton(0, FlxG.height - 225 * 3, 44 * 3, 127, "b", 0xFFCB00)));					
 			case NONE:
 			}
 		}
@@ -422,7 +423,7 @@ class FlxVirtualPad extends FlxSpriteGroup {
 
 	public function createButton(x:Float, y:Float, width:Int, height:Int, frames:String, ColorS:Int):FlxButton {
 		var button = new FlxButton(x, y);
-		button.frames = FlxTileFrames.fromFrame(getFrames().getByName(frames), FlxPoint.get(width, height));
+		button.frames = FlxTileFrames.fromFrame(FlxAtlasFrames.fromSparrow(Assets.getBitmapData('assets/android/androidControls/virtualpad.png'), Assets.getText('assets/android//androidControls/virtualpad.txt')).getByName(frames), FlxPoint.get(width, height));
 		button.resetSizeFromFrame();
 		button.solid = false;
 		button.immovable = true;
@@ -434,10 +435,6 @@ class FlxVirtualPad extends FlxSpriteGroup {
 		button.ignoreDrawDebug = true;
 		#end
 		return button;
-	}
-
-	public static function getFrames():FlxAtlasFrames {
-		return Paths.getPackerAtlas('androidcontrols/virtualpad');
 	}
 
 	override public function destroy():Void {
@@ -489,9 +486,9 @@ enum FlxDPadMode {
 	RIGHT_FULL;
 	DUO;
 	CHART_EDITOR;
-	MenuCharacterEditor;
-	DialogueCharacterEditor;
-	NoteSplashDebugState;
+	MENUCHARACTEREDITOR;
+	DIALOGUECHARACTER;
+	NOTESLPLASHDEBUG;
 	NONE;
 }
 
@@ -508,9 +505,9 @@ enum FlxActionMode {
 	FULL;
 	CHART_EDITOR;
 	CHARACTER_EDITOR;
-	MenuCharacterEditor;
-	DialogueCharacterEditor;
-	NoteSplashDebugState;
-	NOTESTATE;
+	MENUCHARACTEREDITOR;
+	DIALOGUECHARACTER;
+	NOTESLPLASHDEBUG;
+	NOTESCOLORMENU;
 	NONE;
 }

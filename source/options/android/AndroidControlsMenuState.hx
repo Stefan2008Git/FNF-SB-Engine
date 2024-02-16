@@ -1,8 +1,8 @@
 package options.android;
 
+import openfl.utils.Assets;
 import flixel.util.FlxColor;
 import flixel.math.FlxPoint;
-//import flixel.ui.FlxButton;
 import android.flixel.FlxButton;
 import flixel.text.FlxText;
 import flixel.FlxG;
@@ -13,7 +13,7 @@ import android.flixel.FlxNewHitbox;
 import android.AndroidControls.Config;
 import android.flixel.FlxVirtualPad;
 import android.flixel.FlxButton as UIButton;
-import android.backend.PsychAlphabet; // I will keep to backend for now because i am lazy to change classes to different folder.
+import android.objects.PsychAlphabet;
 
 using StringTools;
 
@@ -23,7 +23,7 @@ class AndroidControlsMenuState extends MusicBeatState
 	var background:FlxSprite;
 	var velocityBackground:FlxBackdrop;
 	var virtualPadHandler:FlxVirtualPad;
-	var newHitbox:FlxNewHitbox;
+	var hitbox:FlxNewHitbox;
 	var upPosition:FlxText;
 	var downPosition:FlxText;
 	var leftPosition:FlxText;
@@ -33,10 +33,12 @@ class AndroidControlsMenuState extends MusicBeatState
 	var rightArrow:FlxSprite;
 	var exit:UIButton;
 	var reset:UIButton;
-	var controlitems:Array<String> = ['Pad-Right','Pad-Left','Pad-Custom','Duo','Hitbox','Keyboard'];
+	var tweenieShit:Float = 0;
+	var keyboardText:FlxText;
+	var controlItemName:Array<String> = ['Pad-Right', 'Pad-Left', 'Pad-Custom', 'Duo', 'Hitbox', 'Keyboard'];
 	var currentlySelected:Int = 4;
-	var buttonistouched:Bool = false;
-	var bindbutton:FlxButton;
+	var buttonIsTouched:Bool = false;
+	var bindTheButton:FlxButton;
 	var config:Config;
 
 	override public function create():Void
@@ -75,10 +77,10 @@ class AndroidControlsMenuState extends MusicBeatState
 		virtualPadHandler.cameras = [uiCamera];
 		add(virtualPadHandler);
         
-		newHitbox = new FlxNewHitbox();
-		newHitbox.visible = false;
-		newHitbox.cameras = [uiCamera];
-		add(newHitbox);
+		hitbox = new FlxNewHitbox();
+		hitbox.visible = false;
+		hitbox.cameras = [uiCamera];
+		add(hitbox);
 
 		var titleText:Alphabet = new Alphabet(25, 25, "Android Controls", true);
 		titleText.scaleX = 0.6;
@@ -87,12 +89,12 @@ class AndroidControlsMenuState extends MusicBeatState
 		titleText.cameras = [uiCamera];
 		add(titleText);
 
-		controlVarName = new PsychAlphabet(0, 50, controlitems[currentlySelected], false, false, 0.05, 0.8);
+		controlVarName = new PsychAlphabet(0, 50, controlItemName[currentlySelected], false, false, 0.05, 0.8);
 		controlVarName.screenCenter(X);
 		controlVarName.cameras = [uiCamera];
 		add(controlVarName);
 
-		var ui_tex = Paths.getSparrowAtlas('androidcontrols/menu/arrows');
+		var ui_tex = FlxAtlasFrames.fromSparrow(Assets.getBitmapData('assets/android/menu/arrows.png'), Assets.getText('assets/android/menu/arrows.xml'));
 
 		leftArrow = new FlxSprite(controlVarName.x - 60, controlVarName.y + 50);
 		leftArrow.frames = ui_tex;
@@ -154,7 +156,7 @@ class AndroidControlsMenuState extends MusicBeatState
 		rightPosition.cameras = [uiCamera];
 		add(rightPosition);
 
-		var tipText:FlxText = new FlxText(10, FlxG.height - 24, 0, 'Press BACK to Go Back to Options Menu', 16);
+		var tipText:FlxText = new FlxText(10, FlxG.height - 24, 0, 'Press on Lime button save data and Go Back to Options Menu', 16);
 		switch (ClientPrefs.data.gameStyle) {
 			case 'SB Engine': tipText.setFormat(Paths.font("bahnschrift.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 			case 'Psych Engine' | 'Kade Engine' | 'Cheeky': tipText.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -166,9 +168,21 @@ class AndroidControlsMenuState extends MusicBeatState
 		tipText.cameras = [uiCamera];
 		add(tipText);
 
+		keyboardText = new FlxText(0, 0, FlxG.width, "-- There is no avaiable any Android controls on keyboard options for Android build.\nOnly the PC support can access to keyboard! --", 14);
+		switch (ClientPrefs.data.gameStyle) {
+			case 'SB Engine': keyboardText.setFormat(Paths.font("bahnschrift.ttf"), 36, FlxColor.WHITE, FlxTextAlign.CENTER);
+			case 'Psych Engine' | 'Kade Engine' | 'Cheeky': keyboardText.setFormat(Paths.font("vcr.ttf"), 36, FlxColor.WHITE, FlxTextAlign.CENTER);
+			case 'TGT Engine': keyboardText.setFormat(Paths.font("calibri.ttf"), 36, FlxColor.WHITE, FlxTextAlign.CENTER);
+			case 'Dave and Bambi': keyboardText.setFormat(Paths.font("comic.ttf"), 36, FlxColor.WHITE, FlxTextAlign.CENTER);
+		}
+		keyboardText.screenCenter();
+		keyboardText.cameras = [uiCamera];
+		add(keyboardText);
+		keyboardText.kill();
+
 		exit = new UIButton(0, controlVarName.y - 25, "Exit & Save", () ->
 		{
-			save();
+			saveTheData();
 			FlxTransitionableState.skipNextTransIn = true;
 			FlxTransitionableState.skipNextTransOut = true;
 			FlxG.switchState(() -> new options.OptionsState());
@@ -209,8 +223,8 @@ class AndroidControlsMenuState extends MusicBeatState
 		rightArrow.x = controlVarName.x + controlVarName.width + 10;
 		controlVarName.screenCenter(X);
 		
-		for (touch in FlxG.touches.list){		
-			if(touch.overlaps(leftArrow) && touch.justPressed)
+		for (touch in FlxG.touches.list) {		
+			if (touch.overlaps(leftArrow) && touch.justPressed)
 			{
 				changeSelection(-1);
 			}
@@ -218,8 +232,11 @@ class AndroidControlsMenuState extends MusicBeatState
 			{
 				changeSelection(1);
 			}
-			trackbutton(touch);
+			trackTheButton(touch);
 		}
+
+		tweenieShit += 180 * elapsed;
+		keyboardText.alpha = 1 - Math.sin((Math.PI * tweenieShit) / 180);
 	}
 
 	function changeSelection(change:Int = 0)
@@ -227,47 +244,58 @@ class AndroidControlsMenuState extends MusicBeatState
 		currentlySelected += change;
 	
 		if (currentlySelected < 0)
-			currentlySelected = controlitems.length - 1;
-		if (currentlySelected >= controlitems.length)
+			currentlySelected = controlItemName.length - 1;
+		if (currentlySelected >= controlItemName.length)
 			currentlySelected = 0;
 	
-		controlVarName.changeText(controlitems[currentlySelected]);
+		controlVarName.changeText(controlItemName[currentlySelected]);
 
-		var daChoice:String = controlitems[Math.floor(currentlySelected)];
+		var daChoice:String = controlItemName[Math.floor(currentlySelected)];
 
 		switch (daChoice)
 		{
 				case 'Pad-Right':
 					remove(virtualPadHandler);
 					virtualPadHandler = new FlxVirtualPad(RIGHT_FULL, NONE, 0.75, ClientPrefs.data.antialiasing);
+					keyboardText.kill();
+					reset.kill();
 					add(virtualPadHandler);
 				case 'Pad-Left':
 					remove(virtualPadHandler);
 					virtualPadHandler = new FlxVirtualPad(FULL, NONE, 0.75, ClientPrefs.data.antialiasing);
+					keyboardText.kill();
+					reset.kill();
 					add(virtualPadHandler);
 				case 'Pad-Custom':
 					remove(virtualPadHandler);
 					virtualPadHandler = new FlxVirtualPad(RIGHT_FULL, NONE, 0.75, ClientPrefs.data.antialiasing);
+					keyboardText.kill();
 					add(virtualPadHandler);
 					loadcustom();
 				case 'Duo':
 					remove(virtualPadHandler);
 					virtualPadHandler = new FlxVirtualPad(DUO, NONE, 0.75, ClientPrefs.data.antialiasing);
+					reset.visible = false;
+					keyboardText.kill();
+					reset.kill();
 					add(virtualPadHandler);
 				case 'Hitbox':
 					virtualPadHandler.alpha = 0;
+					keyboardText.kill();
+					reset.kill();
 				case 'Keyboard':
 					remove(virtualPadHandler);
+					reset.kill();
 					virtualPadHandler.alpha = 0;
 		}
 
 		if (daChoice != "Hitbox")
 		{
-			newHitbox.visible = false;
+			hitbox.visible = false;
 		}
 		else
 		{
-		    newHitbox.visible = true;
+		    hitbox.visible = true;
 		}
 
 		if (daChoice != "Pad-Custom")
@@ -286,59 +314,59 @@ class AndroidControlsMenuState extends MusicBeatState
 		}
 	}
 
-	function trackbutton(touch:flixel.input.touch.FlxTouch){
-		var daChoice:String = controlitems[Math.floor(currentlySelected)];
+	function trackTheButton(touch:flixel.input.touch.FlxTouch){
+		var daChoice:String = controlItemName[Math.floor(currentlySelected)];
 
 		if (daChoice == 'Pad-Custom'){
-			if (buttonistouched){
-				if (bindbutton.justReleased && touch.justReleased)
+			if (buttonIsTouched){
+				if (bindTheButton.justReleased && touch.justReleased)
 				{
-					bindbutton = null;
-					buttonistouched = false;
+					bindTheButton = null;
+					buttonIsTouched = false;
 				}else 
 				{
-					movebutton(touch, bindbutton);
-					setbuttontexts();
+					moveTheButton(touch, bindTheButton);
+					updateTheButtonPositionText();
 				}
 			}
 			else 
 			{
 				if (virtualPadHandler.buttonUp.justPressed) {
-					movebutton(touch, virtualPadHandler.buttonUp);
+					moveTheButton(touch, virtualPadHandler.buttonUp);
 				}
 				
 				if (virtualPadHandler.buttonDown.justPressed) {
-					movebutton(touch, virtualPadHandler.buttonDown);
+					moveTheButton(touch, virtualPadHandler.buttonDown);
 				}
 
 				if (virtualPadHandler.buttonRight.justPressed) {
-					movebutton(touch, virtualPadHandler.buttonRight);
+					moveTheButton(touch, virtualPadHandler.buttonRight);
 				}
 
 				if (virtualPadHandler.buttonLeft.justPressed) {
-					movebutton(touch, virtualPadHandler.buttonLeft);
+					moveTheButton(touch, virtualPadHandler.buttonLeft);
 				}
 			}
 		}
 	}
 
-	function movebutton(touch:flixel.input.touch.FlxTouch, button:android.flixel.FlxButton) {
+	function moveTheButton(touch:flixel.input.touch.FlxTouch, button:android.flixel.FlxButton) {
 		button.x = touch.x - virtualPadHandler.buttonUp.width / 2;
 		button.y = touch.y - virtualPadHandler.buttonUp.height / 2;
-		bindbutton = button;
-		buttonistouched = true;
+		bindTheButton = button;
+		buttonIsTouched = true;
 	}
 
-	function setbuttontexts() {
+	function updateTheButtonPositionText() {
 		upPosition.text = "Button Up X:" + virtualPadHandler.buttonUp.x +" Y:" + virtualPadHandler.buttonUp.y;
 		downPosition.text = "Button Down X:" + virtualPadHandler.buttonDown.x +" Y:" + virtualPadHandler.buttonDown.y;
 		leftPosition.text = "Button Left X:" + virtualPadHandler.buttonLeft.x +" Y:" + virtualPadHandler.buttonLeft.y;
 		rightPosition.text = "Button RIght x:" + virtualPadHandler.buttonRight.x +" Y:" + virtualPadHandler.buttonRight.y;
 	}
 
-	function save() {
+	function saveTheData() {
 		config.setcontrolmode(currentlySelected);
-		var daChoice:String = controlitems[Math.floor(currentlySelected)];
+		var daChoice:String = controlItemName[Math.floor(currentlySelected)];
 
 		if (daChoice == 'Pad-Custom'){
 			config.savecustom(virtualPadHandler);

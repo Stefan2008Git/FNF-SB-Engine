@@ -193,7 +193,7 @@ class NotesSubState extends MusicBeatSubstate
 		add(easyColorMethodBox);
 
 		#if android
-		addVirtualPad(FULL, NOTESTATE);
+		addVirtualPad(FULL, NOTESCOLORMENU);
 		#end
 	}
 
