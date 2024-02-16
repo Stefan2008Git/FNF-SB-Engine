@@ -1,4 +1,4 @@
-package android;
+package options.android;
 
 class AndroidOptionsSubState extends BaseOptionsMenu
 {
