@@ -1,4 +1,4 @@
-package android;
+package android.flixel;
 
 import flixel.FlxG;
 import flixel.graphics.frames.FlxTileFrames;
@@ -224,13 +224,13 @@ class FlxVirtualPad extends FlxSpriteGroup {
 					actions.add(add(buttonY = createButton(FlxG.width - 86 * 3, FlxG.height - 85 * 3, 44 * 3, 127, "y", FlxColor.BROWN)));
 					actions.add(add(buttonZ = createButton(FlxG.width - 44 * 3, FlxG.height - 85 * 3, 44 * 3, 127, "z", FlxColor.BROWN)));
 					actions.add(add(buttonD = createButton(FlxG.width - 170 * 3, FlxG.height - 45 * 3, 44 * 3, 127, "d", FlxColor.BROWN)));
-					actions.add(add(buttonF = createButton(FlxG.width - 170 * 3, FlxG.height - 250 * 3, 44 * 3, 127, "f", FlxColor.BROWN)));
+					actions.add(add(buttonF = createButton(FlxG.width - 170 * 3, FlxG.height - 240 * 3, 44 * 3, 127, "f", FlxColor.BROWN)));
 					actions.add(add(buttonC = createButton(FlxG.width - 128 * 3, FlxG.height - 45 * 3, 44 * 3, 127, "c", FlxColor.BROWN)));
 					actions.add(add(buttonB = createButton(FlxG.width - 86 * 3, FlxG.height - 45 * 3, 44 * 3, 127, "b", FlxColor.BROWN)));								
 					actions.add(add(buttonA = createButton(FlxG.width - 44 * 3, FlxG.height - 45 * 3, 44 * 3, 127, "a", FlxColor.BROWN)));
 					dPad.add(add(buttonUp2 = createButton(155 * 3, FlxG.height - 116 * 3, 44 * 3, 127, "up", FlxColor.BROWN)));
-					dPad.add(add(buttonLeft2 = createButton(130, FlxG.height - 81 * 3, 44 * 3, 127, "left", FlxColor.BROWN)));
-					dPad.add(add(buttonRight2 = createButton(180 * 3, FlxG.height - 81 * 3, 44 * 3, 127, "right", FlxColor.BROWN)));
+					dPad.add(add(buttonLeft2 = createButton(150, FlxG.height - 81 * 3, 44 * 3, 127, "left", FlxColor.BROWN)));
+					dPad.add(add(buttonRight2 = createButton(210 * 3, FlxG.height - 81 * 3, 44 * 3, 127, "right", FlxColor.BROWN)));
 					dPad.add(add(buttonDown2 = createButton(155 * 3, FlxG.height - 45 * 3, 44 * 3, 127, "down", FlxColor.BROWN)));
 	
 				case CHART_EDITOR:			    
@@ -265,7 +265,7 @@ class FlxVirtualPad extends FlxSpriteGroup {
 				case NOTESTATE:
 					actions.add(add(buttonE = createButton(42 * 3, FlxG.height - 165 * 3, 44 * 3, 127, "e", FlxColor.BROWN)));
 					actions.add(add(buttonC = createButton(0, FlxG.height - 165 * 3, 44 * 3, 127, "c", FlxColor.BROWN)));  
-					actions.add(add(buttonB = createButton(0, FlxG.height - 185 * 3, 44 * 3, 127, "b", FlxColor.BROWN)));					
+					actions.add(add(buttonB = createButton(0, FlxG.height - 200 * 3, 44 * 3, 127, "b", FlxColor.BROWN)));					
 				case NONE:
 			}
 		} else {
@@ -442,7 +442,7 @@ class FlxVirtualPad extends FlxSpriteGroup {
 			case NOTESTATE:
 			    actions.add(add(buttonE = createButton(42 * 3, FlxG.height - 165 * 3, 44 * 3, 127, "e", 0xFF7D00)));
 				actions.add(add(buttonC = createButton(0, FlxG.height - 165 * 3, 44 * 3, 127, "c", 0x44FF00)));  
-				actions.add(add(buttonB = createButton(0, FlxG.height - 185 * 3, 44 * 3, 127, "b", 0xFFCB00)));					
+				actions.add(add(buttonB = createButton(0, FlxG.height - 200 * 3, 44 * 3, 127, "b", 0xFFCB00)));					
 			case NONE:
 		}
 		}

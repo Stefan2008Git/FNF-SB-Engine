@@ -1,33 +1,6 @@
 package android;
 
-import flash.text.TextField;
-import flixel.FlxG;
-import flixel.FlxSprite;
-import flixel.FlxCamera;
-import flixel.addons.transition.FlxTransitionableState;
-import flixel.addons.display.FlxGridOverlay;
-import flixel.group.FlxGroup.FlxTypedGroup;
-import flixel.math.FlxMath;
-import flixel.text.FlxText;
-import flixel.util.FlxColor;
-import lime.utils.Assets;
-import flixel.FlxSubState;
-import flash.text.TextField;
-import flixel.FlxG;
-import flixel.FlxSprite;
-import flixel.util.FlxSave;
-import haxe.Json;
-import flixel.tweens.FlxEase;
-import flixel.tweens.FlxTween;
-import flixel.util.FlxTimer;
-import flixel.input.keyboard.FlxKey;
-import flixel.graphics.FlxGraphic;
-//import Controls;
-import options.BaseOptionsMenu;
-import options.Option;
-import openfl.Lib;
-
-class HitboxSettingsSubState extends BaseOptionsMenu
+class AndroidOptionsSubState extends BaseOptionsMenu
 {
 	public function new()
 	{
@@ -74,7 +47,9 @@ class HitboxSettingsSubState extends BaseOptionsMenu
 	var OGpadAlpha:Float = ClientPrefs.data.VirtualPadAlpha;
 	function onChangePadAlpha()
 	{
-	ClientPrefs.saveSettings();
-	MusicBeatState.virtualPad.alpha = ClientPrefs.data.VirtualPadAlpha / OGpadAlpha;
+		ClientPrefs.saveSettings();
+		#if android
+		MusicBeatState.virtualPad.alpha = ClientPrefs.data.VirtualPadAlpha / OGpadAlpha;
+		#end
 	}
 }

@@ -5,8 +5,9 @@ import flixel.group.FlxSpriteGroup;
 import flixel.util.FlxSave;
 import flixel.math.FlxPoint;
 
-import android.FlxVirtualPad;
-import android.FlxHitbox;
+import android.flixel.FlxVirtualPad;
+import android.flixel.FlxHitbox;
+import android.flixel.FlxNewHitbox;
 
 class Config {
 	var save:FlxSave;
@@ -113,8 +114,8 @@ class AndroidControls extends FlxSpriteGroup {
 				hitbox = new FlxHitbox(0.75, ClientPrefs.data.antialiasing);
 				add(hitbox);
 			case 5:
-			  newHitbox = new FlxNewHitbox();
-			  add(newHitbox);
+			 	newHitbox = new FlxNewHitbox();
+			  	add(newHitbox);
 			default:
 				virtualPad = new FlxVirtualPad(RIGHT_FULL, NONE, 0.75, ClientPrefs.data.antialiasing);	
 				add(virtualPad);					

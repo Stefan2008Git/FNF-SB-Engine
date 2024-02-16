@@ -1,4 +1,4 @@
-package android;
+package android.backend;
 
 import flixel.FlxG;
 import flixel.FlxSprite;

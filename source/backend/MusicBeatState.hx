@@ -10,9 +10,9 @@ import android.AndroidControls.AndroidControls;
 import android.FlxVirtualPad;
 
 import flixel.group.FlxGroup;
-import android.FlxHitbox;
-import android.FlxNewHitbox;
-import android.FlxVirtualPad;
+import android.flixel.FlxHitbox;
+import android.flixel.FlxNewHitbox;
+import android.flixel.FlxVirtualPad;
 import flixel.ui.FlxButton;
 import android.flixel.FlxButton as FlxNewButton;
 #end

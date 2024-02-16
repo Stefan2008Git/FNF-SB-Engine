@@ -2,16 +2,15 @@ package backend;
 
 import flixel.FlxSubState;
 
-
 #if android
 //import flixel.input.actions.FlxActionInput;
 import android.AndroidControls.AndroidControls;
 import android.FlxVirtualPad;
 
 import flixel.group.FlxGroup;
-import android.FlxHitbox;
-import android.FlxNewHitbox;
-import android.FlxVirtualPad;
+import android.flixel.FlxHitbox;
+import android.flixel.FlxNewHitbox;
+import android.flixel.FlxVirtualPad;
 import flixel.ui.FlxButton;
 import android.flixel.FlxButton as FlxNewButton;
 #end
@@ -61,8 +60,6 @@ class MusicBeatSubstate extends FlxSubState
 		//controls.trackedinputsUI = [];
 	}
 	#end
-	
-
 
 	#if android
 	public function removeVirtualPad() {
@@ -108,10 +105,10 @@ class MusicBeatSubstate extends FlxSubState
 			    Controls.checkTheKeyboard = true;
 		}
 
-		var camcontrol = new flixel.FlxCamera();
-		FlxG.cameras.add(camcontrol, false);
-		camcontrol.bgColor.alpha = 0;
-		androidControls.cameras = [camcontrol];
+		var cameraController = new FlxCamera();
+		FlxG.cameras.add(cameraController, false);
+		cameraController.bgColor.alpha = 0;
+		androidControls.cameras = [cameraController];
 
 		androidControls.visible = false;
 
@@ -122,17 +119,17 @@ class MusicBeatSubstate extends FlxSubState
 
 	#if android
     public function addPadCamera() {
-		var camcontrol = new flixel.FlxCamera();
-		camcontrol.bgColor.alpha = 0;
-		FlxG.cameras.add(camcontrol, false);
-		virtualPad.cameras = [camcontrol];
+		var cameraController = new FlxCamera();
+		cameraController.bgColor.alpha = 0;
+		FlxG.cameras.add(cameraController, false);
+		virtualPad.cameras = [cameraController];
 	}
 	#end
 	
 	override function update(elapsed:Float)
 	{
 		//everyStep();
-		if(!persistentUpdate) MusicBeatState.timePassedOnState += elapsed;
+		if (!persistentUpdate) MusicBeatState.timePassedOnState += elapsed;
 		var oldStep:Int = curStep;
 
 		updateCurStep();

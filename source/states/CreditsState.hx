@@ -70,10 +70,14 @@ class CreditsState extends MusicBeatState
 			['SquidBowl', 'tinki', 'For gallery stuff', 'https://www.youtube.com/@squidbowl', '964B00'],
 			['Sayofthelor', 'bean', 'Main Programmer of Lore Engine', 'https://twitter.com/sayofthelor', '663399'],
 			['Raltyro', 'raltyro', 'Used the better FPS position code only for editors. Thanks buddy', 'https://twitter.com/raltyro', 'F3F3F3'],
+			#if android
 			['MarioMaster', 'mario', 'Created hitbox selector and virtual pad opacity', 'https://www.youtube.com/channel/UC65m-_5tbYFJ7oRqZzpFBJw', 'fc0000'],
 			['NF | Beihu', 'beihu', 'Created hitbox space for dodge mechanic system and used the working Kade Engine for PE on NF Engine.', 'https://www.youtube.com/@beihu235', '964B00'],
 			['M.A. Jigsaw77', 'jigsaw', 'Main Programmer of Psych Engine\nWith Android Support', 'https://www.youtube.com/channel/UC2Sk7vtPzOvbVzdVTWrribQ', '444444'],
 			['Goldie', 'goldie', 'Old Hitbox and Virtual Pad Artist', 'https://www.youtube.com/channel/UCjTi9Hfl1Eb5Bgk5gksmsbA', '444444'],
+			['mcagabe19', 'lily', 'Head Porter of Psych Engine Mobile',	'https://www.youtube.com/@mcagabe19', 'FFE7C0'],
+			['Karim Akra', 'karim', 'Assistant Porter/Helper #1 of Psych Engine Mobile', 'https://youtube.com/@Karim0690', 'FFB4F0'],
+			#end
 			[''],
 			['Psych Engine Team'],
 			['Shadow Mario', 'shadowmario',	'Main Programmer of Psych Engine', 											'https://twitter.com/Shadow_Mario_',	'444444'],

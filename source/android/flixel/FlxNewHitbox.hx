@@ -1,4 +1,4 @@
-package android;
+package android.flixel;
 
 import flixel.FlxG;
 import flixel.group.FlxSpriteGroup;

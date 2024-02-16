@@ -1,4 +1,4 @@
-package android;
+package android.flixel;
 
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.graphics.FlxGraphic;
