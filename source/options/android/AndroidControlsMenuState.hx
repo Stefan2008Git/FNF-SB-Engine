@@ -72,10 +72,12 @@ class AndroidControlsMenuState extends MusicBeatState
 
 		virtualPadHandler = new FlxVirtualPad(RIGHT_FULL, NONE, 0.75, ClientPrefs.data.antialiasing);
 		virtualPadHandler.alpha = 0;
+		virtualPadHandler.cameras = [uiCamera];
 		add(virtualPadHandler);
         
 		newHitbox = new FlxNewHitbox();
 		newHitbox.visible = false;
+		newHitbox.cameras = [uiCamera];
 		add(newHitbox);
 
 		var titleText:Alphabet = new Alphabet(25, 25, "Android Controls", true);
