@@ -145,7 +145,7 @@ class AndroidControlsMenuState extends MusicBeatState
 		leftPosition.cameras = [uiCamera];
 		add(leftPosition);
 
-		rightPosition = new FlxText(10, FlxG.height - 44, 0,"Button RIght x:" + virtualPadHandler.buttonRight.x +" Y:" + virtualPadHandler.buttonRight.y, 16);
+		rightPosition = new FlxText(10, FlxG.height - 44, 0,"Button Right x:" + virtualPadHandler.buttonRight.x +" Y:" + virtualPadHandler.buttonRight.y, 16);
 		switch (ClientPrefs.data.gameStyle) {
 			case 'SB Engine': rightPosition.setFormat(Paths.font("bahnschrift.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 			case 'Psych Engine' | 'Kade Engine' | 'Cheeky': rightPosition.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -156,7 +156,7 @@ class AndroidControlsMenuState extends MusicBeatState
 		rightPosition.cameras = [uiCamera];
 		add(rightPosition);
 
-		var tipText:FlxText = new FlxText(10, FlxG.height - 24, 0, 'Press on Lime button save data and Go Back to Options Menu', 16);
+		var tipText:FlxText = new FlxText(10, FlxG.height - 24, 0, 'Press on lime button to save data and go back to options menu!', 16);
 		switch (ClientPrefs.data.gameStyle) {
 			case 'SB Engine': tipText.setFormat(Paths.font("bahnschrift.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 			case 'Psych Engine' | 'Kade Engine' | 'Cheeky': tipText.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -275,7 +275,6 @@ class AndroidControlsMenuState extends MusicBeatState
 				case 'Duo':
 					remove(virtualPadHandler);
 					virtualPadHandler = new FlxVirtualPad(DUO, NONE, 0.75, ClientPrefs.data.antialiasing);
-					reset.visible = false;
 					keyboardText.kill();
 					reset.kill();
 					add(virtualPadHandler);
