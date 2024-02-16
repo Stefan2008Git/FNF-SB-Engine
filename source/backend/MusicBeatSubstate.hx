@@ -3,10 +3,7 @@ package backend;
 import flixel.FlxSubState;
 
 #if android
-//import flixel.input.actions.FlxActionInput;
 import android.AndroidControls.AndroidControls;
-import android.FlxVirtualPad;
-
 import flixel.group.FlxGroup;
 import android.flixel.FlxHitbox;
 import android.flixel.FlxNewHitbox;
