@@ -17,7 +17,7 @@ import android.backend.PsychAlphabet; // I will keep to backend for now because 
 
 using StringTools;
 
-class AndroidControlsMenu extends MusicBeatState
+class AndroidControlsMenuState extends MusicBeatState
 {
 	var uiCamera:FlxCamera;
 	var background:FlxSprite;
@@ -48,8 +48,8 @@ class AndroidControlsMenu extends MusicBeatState
 
 		uiCamera = new FlxCamera();
 		uiCamera.bgColor.alpha = 0;
-		uiCamera.alpha = 0;
-		add(uiCamera);
+		// uiCamera.alpha = 0;
+		FlxG.cameras.add(uiCamera, false);
 
 		background = new FlxSprite(0, 0).loadGraphic(Paths.image('menuDesat'));
 		switch (ClientPrefs.data.themes) {
