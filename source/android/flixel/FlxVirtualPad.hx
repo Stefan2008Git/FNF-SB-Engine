@@ -422,7 +422,7 @@ class FlxVirtualPad extends FlxSpriteGroup {
 
 	public function createButton(x:Float, y:Float, width:Int, height:Int, frames:String, ColorS:Int):FlxButton {
 		var button = new FlxButton(x, y);
-		button.frames = FlxTileFrames.fromFrame(FlxAtlasFrames.fromSparrow(Assets.getBitmapData('assets/android/androidControls/controls/virtualpad.png'), Assets.getText('assets/android/androidControls/controls/virtualpad.txt')).getByName(frames), FlxPoint.get(width, height));
+		button.frames = FlxTileFrames.fromFrame(getFrames().getByName(frames), FlxPoint.get(width, height));
 		button.resetSizeFromFrame();
 		button.solid = false;
 		button.immovable = true;
@@ -434,6 +434,10 @@ class FlxVirtualPad extends FlxSpriteGroup {
 		button.ignoreDrawDebug = true;
 		#end
 		return button;
+	}
+
+	public static function getFrames():FlxAtlasFrames {
+		return Paths.getPackerAtlas('android/androidControls/controls/virtualpad');
 	}
 
 	override public function destroy():Void {

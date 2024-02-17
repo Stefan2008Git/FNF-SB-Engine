@@ -1,6 +1,5 @@
 package android.objects;
 
-import openfl.utils.Assets;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;
@@ -390,7 +389,7 @@ class AlphaCharacter extends FlxSprite
 	public function new(x:Float, y:Float, textSize:Float)
 	{
 		super(x, y);
-		var tex = FlxAtlasFrames.fromSparrow(Assets.getBitmapData('assets/android/menu/alphabet.png'), Assets.getText('assets/android/menu/alphabet.xml'));
+		var tex = Paths.getSparrowAtlas('android/menu/alphabet');
 		frames = tex;
 
 		setGraphicSize(Std.int(width * textSize));

@@ -1,6 +1,5 @@
 package options.android;
 
-import openfl.utils.Assets;
 import flixel.util.FlxColor;
 import flixel.math.FlxPoint;
 import android.flixel.FlxButton;
@@ -94,7 +93,7 @@ class AndroidControlsMenuState extends MusicBeatState
 		controlVarName.cameras = [uiCamera];
 		add(controlVarName);
 
-		var ui_tex = FlxAtlasFrames.fromSparrow(Assets.getBitmapData('assets/android/menu/arrows.png'), Assets.getText('assets/android/menu/arrows.xml'));
+		var ui_tex = Paths.getSparrowAtlas('android/menu/arrows');
 
 		leftArrow = new FlxSprite(controlVarName.x - 60, controlVarName.y + 50);
 		leftArrow.frames = ui_tex;
@@ -192,6 +191,12 @@ class AndroidControlsMenuState extends MusicBeatState
 		exit.updateHitbox();
 		exit.x = FlxG.width - exit.width - 70;
 		exit.label.setFormat(Paths.font('vcr.ttf'), 28, FlxColor.WHITE, FlxTextAlign.CENTER);
+		switch (ClientPrefs.data.gameStyle) {
+			case 'SB Engine': exit.label.setFormat(Paths.font('bahnschrift.ttf'), 28, FlxColor.WHITE, FlxTextAlign.CENTER);
+			case 'Psych Engine' | 'Kade Engine' | 'Cheeky': exit.label.setFormat(Paths.font('vcr.ttf'), 28, FlxColor.WHITE, FlxTextAlign.CENTER);
+			case 'TGT Engine': exit.label.setFormat(Paths.font('calibri.ttf'), 28, FlxColor.WHITE, FlxTextAlign.CENTER);
+			case 'Dave and Bambi': exit.label.setFormat(Paths.font('comic.ttf'), 28, FlxColor.WHITE, FlxTextAlign.CENTER);
+		}
 		exit.label.fieldWidth = exit.width;
 		exit.label.x = ((exit.width - exit.label.width) / 2) + exit.x;
 		exit.label.offset.y = -10; // WHY THE FUCK I CAN'T CHANGE THE LABEL Y
@@ -205,7 +210,12 @@ class AndroidControlsMenuState extends MusicBeatState
 		reset.color = FlxColor.RED;
 		reset.setGraphicSize(Std.int(reset.width) * 3);
 		reset.updateHitbox();
-		reset.label.setFormat(Paths.font('vcr.ttf'), 28, FlxColor.WHITE, FlxTextAlign.CENTER);
+		switch (ClientPrefs.data.gameStyle) {
+			case 'SB Engine': reset.label.setFormat(Paths.font('bahnschrift.ttf'), 28, FlxColor.WHITE, FlxTextAlign.CENTER);
+			case 'Psych Engine' | 'Kade Engine' | 'Cheeky': reset.label.setFormat(Paths.font('vcr.ttf'), 28, FlxColor.WHITE, FlxTextAlign.CENTER);
+			case 'TGT Engine': reset.label.setFormat(Paths.font('calibri.ttf'), 28, FlxColor.WHITE, FlxTextAlign.CENTER);
+			case 'Dave and Bambi': reset.label.setFormat(Paths.font('comic.ttf'), 28, FlxColor.WHITE, FlxTextAlign.CENTER);
+		}
 		reset.label.fieldWidth = reset.width;
 		reset.label.x = ((reset.width - reset.label.width) / 2) + reset.x;
 		reset.label.offset.y = -10;
