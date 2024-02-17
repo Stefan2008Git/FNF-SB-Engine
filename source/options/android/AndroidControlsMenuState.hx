@@ -72,7 +72,6 @@ class AndroidControlsMenuState extends MusicBeatState
 		add(velocityBackground);
 
 		virtualPadHandler = new FlxVirtualPad(RIGHT_FULL, NONE, 0.75, ClientPrefs.data.antialiasing);
-		virtualPadHandler.alpha = 0;
 		virtualPadHandler.cameras = [uiCamera];
 		add(virtualPadHandler);
         
@@ -175,9 +174,9 @@ class AndroidControlsMenuState extends MusicBeatState
 			case 'Dave and Bambi': keyboardText.setFormat(Paths.font("comic.ttf"), 36, FlxColor.WHITE, FlxTextAlign.CENTER);
 		}
 		keyboardText.screenCenter();
+		keyboardText.visible = false;
 		keyboardText.cameras = [uiCamera];
 		add(keyboardText);
-		keyboardText.kill();
 
 		exit = new UIButton(0, controlVarName.y - 25, "Exit & Save", () ->
 		{
@@ -267,34 +266,36 @@ class AndroidControlsMenuState extends MusicBeatState
 				case 'Pad-Right':
 					remove(virtualPadHandler);
 					virtualPadHandler = new FlxVirtualPad(RIGHT_FULL, NONE, 0.75, ClientPrefs.data.antialiasing);
-					keyboardText.kill();
-					reset.kill();
+					keyboardText.visible = false;
+					reset.visible = false;
 					add(virtualPadHandler);
 				case 'Pad-Left':
 					remove(virtualPadHandler);
 					virtualPadHandler = new FlxVirtualPad(FULL, NONE, 0.75, ClientPrefs.data.antialiasing);
-					keyboardText.kill();
-					reset.kill();
+					keyboardText.visible = false;
+					reset.visible = false;
 					add(virtualPadHandler);
 				case 'Pad-Custom':
 					remove(virtualPadHandler);
 					virtualPadHandler = new FlxVirtualPad(RIGHT_FULL, NONE, 0.75, ClientPrefs.data.antialiasing);
-					keyboardText.kill();
+					keyboardText.visible = false;
+					reset.visible = true;
 					add(virtualPadHandler);
 					loadcustom();
 				case 'Duo':
 					remove(virtualPadHandler);
 					virtualPadHandler = new FlxVirtualPad(DUO, NONE, 0.75, ClientPrefs.data.antialiasing);
-					keyboardText.kill();
-					reset.kill();
+					keyboardText.visible = false;
+					reset.visible = false;
 					add(virtualPadHandler);
 				case 'Hitbox':
 					virtualPadHandler.alpha = 0;
-					keyboardText.kill();
-					reset.kill();
+					keyboardText.visible = false;
+					reset.visible = false;
 				case 'Keyboard':
 					remove(virtualPadHandler);
-					reset.kill();
+					keyboardText.visible = true;
+					reset.visible = false;
 					virtualPadHandler.alpha = 0;
 		}
 
@@ -313,6 +314,7 @@ class AndroidControlsMenuState extends MusicBeatState
 			downPosition.visible = false;
 			leftPosition.visible = false;
 			rightPosition.visible = false;
+			reset.visible = false;
 		}
 		else
 		{
@@ -320,6 +322,7 @@ class AndroidControlsMenuState extends MusicBeatState
 			downPosition.visible = true;
 			leftPosition.visible = true;
 			rightPosition.visible = true;
+			reset.visible = true;
 		}
 	}
 
