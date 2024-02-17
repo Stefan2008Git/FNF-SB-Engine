@@ -156,7 +156,10 @@ class NotesSubState extends MusicBeatSubstate
 		var tipX = 20;
 		var tipY = 660;
 		var tip:FlxText = new FlxText(tipX, tipY, 0, "Press RELOAD to Reset the selected Note Part.", 16);
-		#if android tip.text ="Tap on C button to Reset the selected Note Part"; #end
+		#if android
+			tipX = 100;
+			tip.text ="Tap on C button to Reset the selected Note Part"; 
+		#end
 		switch (ClientPrefs.data.gameStyle) {
 			case 'SB Engine': tip.setFormat(Paths.font("bahnschrift.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 			case 'Psych Engine' | 'Kade Engine' | 'Cheeky': tip.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -167,6 +170,9 @@ class NotesSubState extends MusicBeatSubstate
 		add(tip);
 
 		tipTxt = new FlxText(tipX, tipY + 24, 0, '', 16);
+		#if android
+			tipX = 100;
+		#end
 		switch (ClientPrefs.data.gameStyle) {
 			case 'SB Engine': tipTxt.setFormat(Paths.font("bahnschrift.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 			case 'Psych Engine' | 'Kade Engine' | 'Cheeky': tipTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
