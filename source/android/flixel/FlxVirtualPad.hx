@@ -1,6 +1,5 @@
 package android.flixel;
 
-import openfl.utils.Assets;
 import flixel.FlxG;
 import flixel.graphics.frames.FlxTileFrames;
 import flixel.group.FlxSpriteGroup;
@@ -437,7 +436,7 @@ class FlxVirtualPad extends FlxSpriteGroup {
 	}
 
 	public static function getFrames():FlxAtlasFrames {
-		return Paths.getPackerAtlas('android/androidControls/controls/virtualpad');
+		return Paths.getPackerAtlas('android/androidControls/controls/virtualpad');																											
 	}
 
 	override public function destroy():Void {

@@ -2847,10 +2847,17 @@ class PlayState extends MusicBeatState
 					timer.active = true;
 				}
 				#end
+
 				if (ClientPrefs.data.gameOverScreen) {
 					openSubState(new GameOverSubstate(boyfriend.getScreenPosition().x - boyfriend.positionArray[0], boyfriend.getScreenPosition().y - boyfriend.positionArray[1], camFollow.x, camFollow.y));
+					uiGroup.kill();
+					noteGroup.kill();
+					comboGroup.kill();
 				} else {
-					FlxG.resetState();
+					if (isStoryMode) 
+						FlxG.switchState(()-> new StoryMenuState());
+					else 
+						FlxG.switchState(()-> new FreeplayState());
 				}
 
 				#if DISCORD_ALLOWED
