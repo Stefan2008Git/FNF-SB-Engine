@@ -6,7 +6,6 @@ import flixel.graphics.frames.FlxTileFrames;
 import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxPoint;
 import flixel.util.FlxDestroyUtil;
-//import flixel.ui.FlxButton;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.graphics.FlxGraphic;
 import android.flixel.FlxButton;
@@ -423,7 +422,7 @@ class FlxVirtualPad extends FlxSpriteGroup {
 
 	public function createButton(x:Float, y:Float, width:Int, height:Int, frames:String, ColorS:Int):FlxButton {
 		var button = new FlxButton(x, y);
-		button.frames = FlxTileFrames.fromFrame(FlxAtlasFrames.fromSparrow(Assets.getBitmapData('assets/android/androidControls/controls/virtualpad.png'), Assets.getText('assets/android//androidControls/controls/virtualpad.txt')).getByName(frames), FlxPoint.get(width, height));
+		button.frames = FlxTileFrames.fromFrame(FlxAtlasFrames.fromSparrow(Assets.getBitmapData('assets/android/androidControls/controls/virtualpad.png'), Assets.getText('assets/android/androidControls/controls/virtualpad.txt')).getByName(frames), FlxPoint.get(width, height));
 		button.resetSizeFromFrame();
 		button.solid = false;
 		button.immovable = true;
