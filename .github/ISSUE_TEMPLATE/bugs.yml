@@ -1,5 +1,5 @@
-name: Bug report
-description: Report bugs with the engine here
+name: SB Engine Bug report tab
+description: Report bugs with the SB Engine here
 labels: [bug]
 body:
   - type: textarea
@@ -24,20 +24,19 @@ body:
       options:
         - Lua
         - Source
+        - No (I am not using any programming language)
     validations:
       required: true
 
   - type: dropdown
     id: btarget
     attributes:
-      label: "What is your build target?"
+      label: "What is your current build target?"
       options:
-        - "Windows"
-        - "Linux"
-        - "Mac"
-        - "HTML5"
-        - "Flash/Air-based target"
-        - "Neko, HashLink, or other build system"
+        - "Windows x64/x32"
+        - "Linux Mint/Ubuntu/Debian/Fedora"
+        - "MacOS"
+        - "Android x32/x64"
     validations:
       required: true
 
@@ -45,6 +44,6 @@ body:
     id: buildsummary
     attributes:
       label: "Did you edit anything in this build? If so, mention or summarize your changes."
-      placeholder: "Yes, I edited ClientPrefs.hx and tried to add a new setting"
+      placeholder: "Yes, I edited State.hx, SubState.hx or FileName.hx and tried to add a new option"
     validations:
       required: true
