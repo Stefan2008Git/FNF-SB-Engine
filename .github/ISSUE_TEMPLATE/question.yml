@@ -1,5 +1,5 @@
-name: Question
-description: Ask about something here.
+name: SB Engine Question tab
+description: Ask about something here for SB Engine.
 labels: [question]
 body:
   - type: textarea
