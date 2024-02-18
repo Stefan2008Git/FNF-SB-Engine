@@ -1,11 +1,11 @@
-name: Help me!
-description: If you need help using the engine.
+name: SB Engine help tab
+description: If you need help using the SB Engine.
 labels: [help wanted]
 body:
   - type: textarea
     id: description
     attributes:
-      label: "Describe your problem here."
+      label: "Describe your bug/help/problem here."
     validations:
       required: true
 
@@ -15,7 +15,9 @@ body:
       label: "Are you modding a build from source or with Lua?"
       options:
         - Lua
-        - Source
+        - HScript
+        - Haxe source code
+        - No
     validations:
       required: true
 
@@ -24,13 +26,10 @@ body:
     attributes:
       label: "What is your build target?"
       options:
-        - "Windows x64"
-        - "Windows x86/x32"
-        - "Linux"
-        - "Mac"
-        - "HTML5/Browser"
-        - "Flash/Air-based target"
-        - "Neko, HashLink, or other build system"
+        - "Windows x86/x64/x32"
+        - "Linux Mint/Ubuntu/Debian/Fedora"
+        - "MacOS"
+        - "Android x86/x64/x32"
     validations:
       required: true
 
@@ -38,6 +37,6 @@ body:
     id: buildsummary
     attributes:
       label: "Did you edit anything in this build? If so, mention or summarize your changes."
-      placeholder: "Yes, I edited ClientPrefs.hx and tried to add a new setting"
+      placeholder: "Yes, I edited State.hx, SubState.hx or FileName.hx and tried to add a new option"
     validations:
       required: false
