@@ -139,11 +139,11 @@ class Log
 		#if sys
 		Sys.print(Std.string(message));
 		#elseif flash
-		untyped __global__["trace"](Std.string(message));
+		untyped __global__["TraceText.makeTheTraceText"](Std.string(message));
 		#elseif js
 		untyped #if haxe4 js.Syntax.code #else __js__ #end ("console").log(Std.string(message));
 		#else
-		trace(Std.string(message));
+		TraceText.makeTheTraceText(Std.string(message));
 		#end
 	}
 
@@ -152,17 +152,17 @@ class Log
 		#if sys
 		Sys.println(Std.string(message));
 		#elseif flash
-		untyped __global__["trace"](Std.string(message));
+		untyped __global__["TraceText.makeTheTraceText"](Std.string(message));
 		#elseif js
 		untyped #if haxe4 js.Syntax.code #else __js__ #end ("console").log(Std.string(message));
 		#else
-		trace(Std.string(message));
+		TraceText.makeTheTraceText(Std.string(message));
 		#end
 	}
 
 	private static function __init__():Void
 	{
-		#if no_traces
+		#if no_TraceText.makeTheTraceTexts
 		level = NONE;
 		#elseif verbose
 		level = VERBOSE;

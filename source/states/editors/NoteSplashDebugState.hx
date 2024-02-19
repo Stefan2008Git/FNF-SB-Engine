@@ -94,7 +94,7 @@ class NoteSplashDebugState extends MusicBeatState
 					nameInputText.hasFocus = false;
 				
 				default:
-					trace('changed anim name to $text');
+					TraceText.makeTheTraceText('changed anim name to $text');
 					config.anim = text;
 					curAnim = 1;
 					reloadAnims();
@@ -321,7 +321,7 @@ class NoteSplashDebugState extends MusicBeatState
 		{
 			if(forceFrame < 0) forceFrame = 0;
 			else if(forceFrame >= maxFrame) forceFrame = maxFrame - 1;
-			//trace('curFrame: $forceFrame');
+			//TraceText.makeTheTraceText('curFrame: $forceFrame');
 			
 			curFrameText.text = 'Force Frame: ${forceFrame+1} / $maxFrame\n(Press V/D to change)';
 			splashes.forEachAlive(function(spr:FlxSprite) {
@@ -430,7 +430,7 @@ class NoteSplashDebugState extends MusicBeatState
 			});
 			if(loopContinue) maxAnims++;
 		}
-		trace('maxAnims: $maxAnims');
+		TraceText.makeTheTraceText('maxAnims: $maxAnims');
 		changeAnim();
 	}
 

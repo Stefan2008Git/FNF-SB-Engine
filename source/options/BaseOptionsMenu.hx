@@ -219,7 +219,7 @@ class BaseOptionsMenu extends MusicBeatSubstate
 
 									curOption.curOption = num;
 									curOption.setValue(curOption.options[num]); //lol
-									//trace(curOption.options[num]);
+									//TraceText.makeTheTraceText(curOption.options[num]);
 							}
 							updateTextFrom(curOption);
 							curOption.change();

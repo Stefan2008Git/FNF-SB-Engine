@@ -480,7 +480,7 @@ class ChartingState extends MusicBeatState
 		check_voices.callback = function()
 		{
 			_song.needsVoices = check_voices.checked;
-			//trace('CHECKED!');
+			//TraceText.makeTheTraceText('CHECKED!');
 		};
 
 		var saveButton:FlxButton = new FlxButton(110, 8, "Save", function()
@@ -668,8 +668,8 @@ class ChartingState extends MusicBeatState
 		var difficultyDropDown = new FlxUIDropDownMenu(stageDropDown.x, gfVersionDropDown.y,
 			FlxUIDropDownMenu.makeStrIdLabelArray(Difficulty.list, true), function(difficulty:String) {
 				var newDifficulty:String = Difficulty.getString().toLowerCase();
-				trace("Current difficulty: " + Difficulty.getDefault());
-				trace("New diffculty: " + newDifficulty);
+				TraceText.makeTheTraceText("Current difficulty: " + Difficulty.getDefault());
+				TraceText.makeTheTraceText("New diffculty: " + newDifficulty);
 				PlayState.storyDifficulty = Std.parseInt(difficulty);
 				if (newDifficulty != 'normal') {
 					postfix = '-' + newDifficulty;
@@ -798,7 +798,7 @@ class ChartingState extends MusicBeatState
 			}
 
 			var addToTime:Float = Conductor.stepCrochet * (getSectionBeats() * 4 * (curSec - sectionToCopy));
-			//trace('Time to add: ' + addToTime);
+			//TraceText.makeTheTraceText('Time to add: ' + addToTime);
 
 			for (note in notesCopied)
 			{
@@ -1421,7 +1421,7 @@ class ChartingState extends MusicBeatState
 		{
 			_song.disableNoteRGB = check_disableNoteRGB.checked;
 			updateGrid();
-			//trace('CHECKED!');
+			//TraceText.makeTheTraceText('CHECKED!');
 		};
 
 		//
@@ -1481,10 +1481,10 @@ class ChartingState extends MusicBeatState
 		FlxG.sound.music.time = Conductor.songPosition;
 
 		var curTime:Float = 0;
-		//trace(_song.notes.length);
+		//TraceText.makeTheTraceText(_song.notes.length);
 		if(_song.notes.length <= 1) //First load ever
 		{
-			trace('first load ever!!');
+			TraceText.makeTheTraceText('first load ever!!');
 			while(curTime < FlxG.sound.music.length)
 			{
 				addSection();
@@ -1795,7 +1795,7 @@ class ChartingState extends MusicBeatState
 					{
 						if (touch.overlaps(note))
 						{
-							//trace('tryin to delete note...');
+							//TraceText.makeTheTraceText('tryin to delete note...');
 							deleteNote(note);
 						}
 					});
@@ -1852,7 +1852,7 @@ class ChartingState extends MusicBeatState
 						}
 						else
 						{
-							//trace('tryin to delete note...');
+							//TraceText.makeTheTraceText('tryin to delete note...');
 							deleteNote(note);
 						}
 					}
@@ -2343,7 +2343,7 @@ class ChartingState extends MusicBeatState
 			var lastMetroStep:Int = Math.floor(((lastConductorPos + metronomeOffsetStepper.value) / metroInterval) / 1000);
 			if(metroStep != lastMetroStep) {
 				FlxG.sound.play(Paths.sound('Metronome_Tick'));
-				//trace('Ticked');
+				//TraceText.makeTheTraceText('Ticked');
 			}
 		}
 		lastConductorPos = Conductor.songPosition;
@@ -2352,7 +2352,7 @@ class ChartingState extends MusicBeatState
 
 	function beatHitValue()
 	{
-		// trace(editingEvents);
+		// TraceText.makeTheTraceText(editingEvents);
 		if (FlxG.sound.music.playing)
 		{
 			leftIcon.scale.x += 0.2;
@@ -2396,13 +2396,13 @@ class ChartingState extends MusicBeatState
 		#if MODS_ALLOWED
 		if(FileSystem.exists(Paths.modFolders('songs/' + currentSongName + '/Inst.ogg'))) {
 			audioBuffers[0] = AudioBuffer.fromFile(Paths.modFolders('songs/' + currentSongName + '/Inst.ogg'));
-			//trace('Custom vocals found');
+			//TraceText.makeTheTraceText('Custom vocals found');
 		}
 		else { #end
 			var leVocals:String = Paths.getPath(currentSongName + '/Inst.' + Paths.SOUND_EXT, SOUND, 'songs');
 			if (OpenFlAssets.exists(leVocals)) { //Vanilla inst
 				audioBuffers[0] = AudioBuffer.fromFile('./' + leVocals.substr(6));
-				//trace('Inst found');
+				//TraceText.makeTheTraceText('Inst found');
 			}
 		#if MODS_ALLOWED
 		}
@@ -2415,12 +2415,12 @@ class ChartingState extends MusicBeatState
 		#if MODS_ALLOWED
 		if(FileSystem.exists(Paths.modFolders('songs/' + currentSongName + '/Voices.ogg'))) {
 			audioBuffers[1] = AudioBuffer.fromFile(Paths.modFolders('songs/' + currentSongName + '/Voices.ogg'));
-			//trace('Custom vocals found');
+			//TraceText.makeTheTraceText('Custom vocals found');
 		} else { #end
 			var leVocals:String = Paths.getPath(currentSongName + '/Voices.' + Paths.SOUND_EXT, SOUND, 'songs');
 			if (OpenFlAssets.exists(leVocals)) { //Vanilla voices
 				audioBuffers[1] = AudioBuffer.fromFile('./' + leVocals.substr(6));
-				//trace('Voices found, LETS FUCKING GOOOO');
+				//TraceText.makeTheTraceText('Voices found, LETS FUCKING GOOOO');
 			}
 		#if MODS_ALLOWED
 		}
@@ -2517,7 +2517,7 @@ class ChartingState extends MusicBeatState
 		waveformPrinted = false;
 
 		if(!FlxG.save.data.chart_waveformInst && !FlxG.save.data.chart_waveformVoices) {
-			//trace('Epic fail on the waveform lol');
+			//TraceText.makeTheTraceText('Epic fail on the waveform lol');
 			return;
 		}
 		
@@ -2917,7 +2917,7 @@ class ChartingState extends MusicBeatState
 		if (_song.notes[curSec].changeBPM && _song.notes[curSec].bpm > 0)
 		{
 			Conductor.bpm = _song.notes[curSec].bpm;
-			//trace('BPM of this section:');
+			//TraceText.makeTheTraceText('BPM of this section:');
 		}
 		else
 		{
@@ -2977,7 +2977,7 @@ class ChartingState extends MusicBeatState
 				if(note.eventLength > 1) daText.yAdd += 8;
 				curRenderedNoteType.add(daText);
 				daText.sprTracker = note;
-				//trace('test: ' + i[0], 'startThing: ' + startThing, 'endThing: ' + endThing);
+				//TraceText.makeTheTraceText('test: ' + i[0], 'startThing: ' + startThing, 'endThing: ' + endThing);
 			}
 		}
 
@@ -3178,7 +3178,7 @@ class ChartingState extends MusicBeatState
 			{
 				if (note.overlapsPoint(new FlxPoint(strumLineNotes.members[d].x + 1,strumLine.y+1)) && note.noteData == d%4)
 				{
-						//trace('tryin to delete note...');
+						//TraceText.makeTheTraceText('tryin to delete note...');
 						if(!delnote) deleteNote(note);
 						delnote = true;
 				}
@@ -3243,7 +3243,7 @@ class ChartingState extends MusicBeatState
 			_song.notes[curSec].sectionNotes.push([noteStrum, (noteData + 4) % 8, noteSus, curNoteTypes[daType]]);
 		}
 
-		//trace(noteData + ', ' + noteStrum + ', ' + curSec);
+		//TraceText.makeTheTraceText(noteData + ', ' + noteStrum + ', ' + curSec);
 		strumTimeInputText.text = '' + currentlySelectedNote[0];
 
 		updateGrid();
@@ -3261,7 +3261,7 @@ class ChartingState extends MusicBeatState
 		//redos.push(_song);
 		undos.pop();
 		//_song.notes = undos[undos.length - 1];
-		///trace(_song.notes);
+		///TraceText.makeTheTraceText(_song.notes);
 		//updateGrid();
 	}
 
@@ -3314,7 +3314,7 @@ class ChartingState extends MusicBeatState
 		}
 		catch(e)
 		{
-			trace('ERROR! $e');
+			TraceText.makeTheTraceText('ERROR! $e');
 
 			var errorStr:String = e.toString();
 			if(errorStr.startsWith('[file_contents,assets/data/')) errorStr = 'Missing file: ' + errorStr.substring(27, errorStr.length-1); //Missing chart

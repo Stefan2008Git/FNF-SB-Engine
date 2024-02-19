@@ -265,7 +265,7 @@ class PauseSubState extends MusicBeatSubstate
 						return;
 					}					
 				}catch(e:Dynamic){
-					trace('ERROR! $e');
+					TraceText.makeTheTraceText('ERROR! $e');
 
 					var errorStr:String = e.toString();
 					if(errorStr.startsWith('[file_contents,assets/data/')) errorStr = 'Missing file: ' + errorStr.substring(27, errorStr.length-1); //Missing chart
@@ -427,7 +427,7 @@ class PauseSubState extends MusicBeatSubstate
 			FlxTransitionableState.skipNextTransIn = true;
 			FlxTransitionableState.skipNextTransOut = true;
 		}
-		MusicBeatState.resetState();
+		FlxG.resetState;
 	}
 
 	override function destroy()

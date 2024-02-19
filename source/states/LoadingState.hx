@@ -252,7 +252,7 @@ class LoadingState extends MusicBeatState
 		if(weekDir != null && weekDir.length > 0 && weekDir != '') directory = weekDir;
 
 		Paths.setCurrentLevel(directory);
-		trace('Setting asset folder to ' + directory);
+		TraceText.makeTheTraceText('Setting asset folder to ' + directory);
 
 		if(ClientPrefs.data.loadingScreen)
 		{
@@ -365,7 +365,7 @@ class LoadingState extends MusicBeatState
 						if(file.endsWith(ext))
 							arr.push(folder + file.substr(0, file.length - ext.length));
 
-				//trace('Folder detected! ' + folder);
+				//TraceText.makeTheTraceText('Folder detected! ' + folder);
 			}
 		}
 
@@ -376,7 +376,7 @@ class LoadingState extends MusicBeatState
 			if(member.endsWith('/') || !Paths.fileExists('$prefix/$member$ext', type))
 			{
 				arr.remove(member);
-				trace('Removed invalid $prefix: $member');
+				TraceText.makeTheTraceText('Removed invalid $prefix: $member');
 			}
 			--i;
 		}
@@ -402,8 +402,8 @@ class LoadingState extends MusicBeatState
 	{
 		Thread.create(() -> {
 			var ret:Dynamic = func();
-			if(ret != null) trace('finished preloading $traceData');
-			else trace('ERROR! fail on preloading $traceData');
+			if(ret != null) TraceText.makeTheTraceText('finished preloading $traceData.makeTheTraceTextData');
+			else TraceText.makeTheTraceText('ERROR! fail on preloading $traceData.makeTheTraceTextData');
 			loaded++;
 		});
 	}

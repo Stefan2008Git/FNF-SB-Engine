@@ -63,7 +63,7 @@ class TypedAlphabet extends Alphabet
 		for (i in start...(upTo+1))
 		{
 			if(letters[i] != null) letters[i].visible = true;
-			//trace('test, showing: $i');
+			//TraceText.makeTheTraceText('test, showing: $i');
 		}
 	}
 

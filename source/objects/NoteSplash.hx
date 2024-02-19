@@ -93,7 +93,7 @@ class NoteSplash extends FlxSprite
 		if(config != null)
 		{
 			var animID:Int = direction + ((animNum - 1) * Note.colArray.length);
-			//trace('anim: ${animation.curAnim.name}, $animID');
+			//TraceText.makeTheTraceText('anim: ${animation.curAnim.name}, $animID');
 			var offs:Array<Float> = config.offsets[FlxMath.wrap(animID, 0, config.offsets.length-1)];
 			offset.x += offs[0];
 			offset.y += offs[1];
@@ -142,12 +142,12 @@ class NoteSplash extends FlxSprite
 			var animID:Int = maxAnims + 1;
 			for (i in 0...Note.colArray.length) {
 				if (!addAnimAndCheck('note$i-$animID', '$animName ${Note.colArray[i]} $animID', 24, false)) {
-					//trace('maxAnims: $maxAnims');
+					//TraceText.makeTheTraceText('maxAnims: $maxAnims');
 					return config;
 				}
 			}
 			maxAnims++;
-			//trace('currently: $maxAnims');
+			//TraceText.makeTheTraceText('currently: $maxAnims');
 		}
 	}
 
@@ -227,7 +227,7 @@ class PixelSplashShaderRef {
 		var pixel:Float = 1;
 		if(PlayState.isPixelStage) pixel = PlayState.daPixelZoom;
 		shader.uBlocksize.value = [pixel, pixel];
-		//trace('Created shader ' + Conductor.songPosition);
+		//TraceText.makeTheTraceText('Created shader ' + Conductor.songPosition);
 	}
 }
 

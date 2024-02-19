@@ -89,7 +89,7 @@ class Paths
 		for (key in currentTrackedSounds.keys()) {
 			if (!localTrackedAssets.contains(key) 
 			&& !dumpExclusions.contains(key) && key != null) {
-				//trace('test: ' + dumpExclusions, key);
+				//TraceText.makeTheTraceText('test: ' + dumpExclusions, key);
 				Assets.cache.clear(key);
 				currentTrackedSounds.remove(key);
 			}
@@ -263,7 +263,7 @@ class Paths
 			return newGraphic;
 		}
 
-		trace('oh no its returning null NOOOO ($file)');
+		TraceText.makeTheTraceText('oh no its returning null NOOOO ($file)');
 		return null;
 	}
 	
@@ -408,7 +408,7 @@ class Paths
 		// I hate this so god damn much
 		var gottenPath:String = SUtil.getPath() + getPath('$path/$key.$SOUND_EXT', SOUND, library);	
 		gottenPath = gottenPath.substring(gottenPath.indexOf(':') + 1, gottenPath.length);
-		// trace(gottenPath);
+		// TraceText.makeTheTraceText(gottenPath);
 		if(!currentTrackedSounds.exists(gottenPath))
 		#if MODS_ALLOWED
 			currentTrackedSounds.set(gottenPath, Sound.fromFile(gottenPath));
@@ -511,7 +511,7 @@ class Paths
 					spriteJson = getTextFromFile('images/$originalPath/spritemap$st.json');
 					if(spriteJson != null)
 					{
-						//trace('found Sprite Json');
+						//TraceText.makeTheTraceText('found Sprite Json');
 						changedImage = true;
 						changedAtlasJson = true;
 						folderOrImg = Paths.image('$originalPath/spritemap$st');
@@ -520,7 +520,7 @@ class Paths
 				}
 				else if(Paths.fileExists('images/$originalPath/spritemap$st.png', IMAGE))
 				{
-					//trace('found Sprite PNG');
+					//TraceText.makeTheTraceText('found Sprite PNG');
 					changedImage = true;
 					folderOrImg = Paths.image('$originalPath/spritemap$st');
 					break;
@@ -529,22 +529,22 @@ class Paths
 
 			if(!changedImage)
 			{
-				//trace('Changing folderOrImg to FlxGraphic');
+				//TraceText.makeTheTraceText('Changing folderOrImg to FlxGraphic');
 				changedImage = true;
 				folderOrImg = Paths.image(originalPath);
 			}
 
 			if(!changedAnimJson)
 			{
-				//trace('found Animation Json');
+				//TraceText.makeTheTraceText('found Animation Json');
 				changedAnimJson = true;
 				animationJson = getTextFromFile('images/$originalPath/Animation.json');
 			}
 		}
 
-		//trace(folderOrImg);
-		//trace(spriteJson);
-		//trace(animationJson);
+		//TraceText.makeTheTraceText(folderOrImg);
+		//TraceText.makeTheTraceText(spriteJson);
+		//TraceText.makeTheTraceText(animationJson);
 		// spr.loadAtlasEx(folderOrImg, spriteJson, animationJson);
 	}
 
@@ -554,7 +554,7 @@ class Paths
 		var path:String = Paths.getPath(path, TEXT, true);
 		if(FileSystem.exists(path) || (onAssets = true && Assets.exists(path, TEXT)))
 		{
-			//trace('Found text: $path');
+			//TraceText.makeTheTraceText('Found text: $path');
 			return !onAssets ? File.getContent(path) : Assets.getText(path);
 		}
 		return null;

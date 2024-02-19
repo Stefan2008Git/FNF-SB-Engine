@@ -37,19 +37,19 @@ class DiscordClient
 		var requestPtr:cpp.Star<DiscordUser> = cpp.ConstPointer.fromRaw(request).ptr;
 
 		if (Std.parseInt(cast(requestPtr.discriminator, String)) != 0) //New Discord IDs/Discriminator system
-			trace('(Discord) Connected to User (${cast(requestPtr.username, String)}#${cast(requestPtr.discriminator, String)})');
+			TraceText.makeTheTraceText('(Discord) Connected to User (${cast(requestPtr.username, String)}#${cast(requestPtr.discriminator, String)})');
 		else //Old discriminators
-			trace('(Discord) Connected to User (${cast(requestPtr.username, String)})');
+			TraceText.makeTheTraceText('(Discord) Connected to User (${cast(requestPtr.username, String)})');
 
 		changePresence();
 	}
 
 	private static function onError(errorCode:Int, message:cpp.ConstCharStar):Void {
-		trace('Discord: Error ($errorCode: ${cast(message, String)})');
+		TraceText.makeTheTraceText('Discord: Error ($errorCode: ${cast(message, String)})');
 	}
 
 	private static function onDisconnected(errorCode:Int, message:cpp.ConstCharStar):Void {
-		trace('Discord: Disconnected ($errorCode: ${cast(message, String)})');
+		TraceText.makeTheTraceText('Discord: Disconnected ($errorCode: ${cast(message, String)})');
 	}
 
 	public static function initialize()
@@ -60,7 +60,7 @@ class DiscordClient
 		discordHandlers.errored = cpp.Function.fromStaticFunction(onError);
 		Discord.Initialize(clientID, cpp.RawPointer.addressOf(discordHandlers), 1, null);
 
-		if(!isInitialized) trace("Discord Client initialized");
+		if(!isInitialized) TraceText.makeTheTraceText("Discord Client initialized");
 
 		sys.thread.Thread.create(() ->
 		{
@@ -95,7 +95,7 @@ class DiscordClient
 		presence.endTimestamp = Std.int(endTimestamp / 1000);
 		updatePresence();
 
-		//trace('Discord RPC Updated. Arguments: $details, $state, $smallImageKey, $hasStartTimestamp, $endTimestamp');
+		//TraceText.makeTheTraceText('Discord RPC Updated. Arguments: $details, $state, $smallImageKey, $hasStartTimestamp, $endTimestamp');
 	}
 
 	public static function updatePresence()
@@ -125,7 +125,7 @@ class DiscordClient
 		if(pack != null && pack.discordRPC != null && pack.discordRPC != clientID)
 		{
 			clientID = pack.discordRPC;
-			//trace('Changing clientID! $clientID, $_defaultID');
+			//TraceText.makeTheTraceText('Changing clientID! $clientID, $_defaultID');
 		}
 	}
 	#end

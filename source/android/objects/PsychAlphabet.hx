@@ -213,7 +213,7 @@ class PsychAlphabet extends FlxSpriteGroup
 		_finalText = text;
 		doSplitWords();
 
-		// trace(arrayShit);
+		// TraceText.makeTheTraceText(arrayShit);
 
 		if(soundDialog == null)
 		{

@@ -210,7 +210,7 @@ class NoteOffsetState extends MusicBeatState
 
 		if(controls.controllerMode != _lastControllerMode)
 		{
-			//trace('changed controller mode');
+			//TraceText.makeTheTraceText('changed controller mode');
 			FlxG.mouse.visible = !controls.controllerMode;
 			controllerPointer.visible = controls.controllerMode;
 
@@ -327,7 +327,7 @@ class NoteOffsetState extends MusicBeatState
 					holdingObjectType = true;
 					startComboOffset.x = ClientPrefs.data.comboOffset[2];
 					startComboOffset.y = ClientPrefs.data.comboOffset[3];
-					//trace('yo bro');
+					//TraceText.makeTheTraceText('yo bro');
 				}
 				else if (startMousePos.x - rating.x >= 0 && startMousePos.x - rating.x <= rating.width &&
 						 startMousePos.y - rating.y >= 0 && startMousePos.y - rating.y <= rating.height)
@@ -335,12 +335,12 @@ class NoteOffsetState extends MusicBeatState
 					holdingObjectType = false;
 					startComboOffset.x = ClientPrefs.data.comboOffset[0];
 					startComboOffset.y = ClientPrefs.data.comboOffset[1];
-					//trace('heya');
+					//TraceText.makeTheTraceText('heya');
 				}
 			}
 			if(FlxG.mouse.justReleased || gamepadReleased) {
 				holdingObjectType = null;
-				//trace('dead');
+				//TraceText.makeTheTraceText('dead');
 			}
 
 			if(holdingObjectType != null)

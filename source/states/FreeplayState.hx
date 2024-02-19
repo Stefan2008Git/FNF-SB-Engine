@@ -439,7 +439,7 @@ class FreeplayState extends MusicBeatState
 			persistentUpdate = false;
 			var songLowercase:String = Paths.formatToSongPath(songs[currentlySelected].songName);
 			var poop:String = Highscore.formatSong(songLowercase, curDifficulty);
-			trace(poop);
+			TraceText.makeTheTraceText(poop);
 
 			try
 			{
@@ -447,14 +447,14 @@ class FreeplayState extends MusicBeatState
 				PlayState.isStoryMode = false;
 				PlayState.storyDifficulty = curDifficulty;
 
-				trace('CURRENT WEEK: ' + WeekData.getWeekFileName());
+				TraceText.makeTheTraceText('CURRENT WEEK: ' + WeekData.getWeekFileName());
 				if(colorTween != null) {
 					colorTween.cancel();
 				}
 			}
 			catch(e:Dynamic)
 			{
-				trace('ERROR! $e');
+				TraceText.makeTheTraceText('ERROR! $e');
 
 				var errorStr:String = e.toString();
 				if(errorStr.startsWith('[file_contents,assets/data/')) errorStr = 'Missing file: ' + errorStr.substring(34, errorStr.length-1); //Missing chart

@@ -269,7 +269,7 @@ class CreditsState extends MusicBeatState
 		} while(unselectableCheck(currentlySelected));
 
 		var newColor:FlxColor = CoolUtil.colorFromString(creditsStuff[currentlySelected][4]);
-		trace('The BG color is: $newColor');
+		TraceText.makeTheTraceText('The BG color is: $newColor');
 		if(newColor != intendedColor) {
 			if(colorTween != null) {
 				colorTween.cancel();

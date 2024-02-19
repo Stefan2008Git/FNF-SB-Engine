@@ -349,7 +349,7 @@ class StoryMenuState extends MusicBeatState
 			}
 			catch(e:Dynamic)
 			{
-				trace('ERROR! $e');
+				TraceText.makeTheTraceText('ERROR! $e');
 				return;
 			}
 			
@@ -398,7 +398,7 @@ class StoryMenuState extends MusicBeatState
 
 		var diff:String = Difficulty.getString(curDifficulty);
 		var newImage:FlxGraphic = Paths.image('menudifficulties/' + Paths.formatToSongPath(diff));
-		//trace(Mods.currentModDirectory + ', menudifficulties/' + Paths.formatToSongPath(diff));
+		//TraceText.makeTheTraceText(Mods.currentModDirectory + ', menudifficulties/' + Paths.formatToSongPath(diff));
 
 		if(sprDifficulty.graphic != newImage)
 		{
@@ -471,7 +471,7 @@ class StoryMenuState extends MusicBeatState
 			curDifficulty = 0;
 
 		var newPos:Int = Difficulty.list.indexOf(lastDifficultyName);
-		//trace('Pos of ' + lastDifficultyName + ' is ' + newPos);
+		//TraceText.makeTheTraceText('Pos of ' + lastDifficultyName + ' is ' + newPos);
 		if(newPos > -1)
 		{
 			curDifficulty = newPos;

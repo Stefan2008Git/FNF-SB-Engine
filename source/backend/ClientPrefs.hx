@@ -214,7 +214,7 @@ class ClientPrefs {
 
 	public static function saveSettings() {
 		for (key in Reflect.fields(data)) {
-			//trace('saved variable: $key');
+			//TraceText.makeTheTraceText('saved variable: $key');
 			Reflect.setField(FlxG.save.data, key, Reflect.field(data, key));
 		}
 		FlxG.save.flush();
@@ -234,7 +234,7 @@ class ClientPrefs {
 
 		for (key in Reflect.fields(data)) {
 			if (key != 'gameplaySettings' && Reflect.hasField(FlxG.save.data, key)) {
-				//trace('loaded variable: $key');
+				//TraceText.makeTheTraceText('loaded variable: $key');
 				Reflect.setField(data, key, Reflect.field(FlxG.save.data, key));
 			}
 		}

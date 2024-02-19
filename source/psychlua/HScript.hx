@@ -16,7 +16,7 @@ class HScript extends SScript
 	{
 		if(parent.hscript == null)
 		{
-			trace('initializing haxe interp for: ${parent.scriptName}');
+			TraceText.makeTheTraceText('initializing haxe interp for: ${parent.scriptName}');
 			parent.hscript = new HScript(parent);
 		}
 	}
@@ -26,7 +26,7 @@ class HScript extends SScript
 		var hs:HScript = try parent.hscript catch (e) null;
 		if(hs == null)
 		{
-			trace('initializing haxe interp for: ${parent.scriptName}');
+			TraceText.makeTheTraceText('initializing haxe interp for: ${parent.scriptName}');
 			parent.hscript = new HScript(parent, code, varsToBring);
 		}
 		else
@@ -197,7 +197,7 @@ class HScript extends SScript
 			{
 				key = key.trim();
 				var value = Reflect.field(varsToBring, key);
-				//trace('Key $key: $value');
+				//TraceText.makeTheTraceText('Key $key: $value');
 				set(key, Reflect.field(varsToBring, key));
 			}
 			varsToBring = null;

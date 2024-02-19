@@ -99,6 +99,7 @@ import objects.Note;
 import objects.Note.EventNote;
 import objects.NoteSplash;
 import objects.StrumNote;
+import objects.TraceText;
 import objects.TypedAlphabet;
 import states.MainMenuState;
 import states.LoadingState;

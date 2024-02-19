@@ -310,7 +310,7 @@ class PlayState extends MusicBeatState
 
 	override public function create()
 	{
-		//trace('Playback Rate: ' + playbackRate);
+		//TraceText.makeTheTraceText('Playback Rate: ' + playbackRate);
 		Paths.clearStoredMemory();
 
 		startCallback = startCountdown;
@@ -1196,7 +1196,7 @@ class PlayState extends MusicBeatState
 		
 		for (key => type in precacheList)
 		{
-			//trace('Key $key is type $type');
+			//TraceText.makeTheTraceText('Key $key is type $type');
 			switch(type)
 			{
 				case 'image':
@@ -1955,7 +1955,7 @@ class PlayState extends MusicBeatState
 		startOnTime = 0;
 
 		if(paused) {
-			//trace('Oopsie doopsie! Paused sound');
+			//TraceText.makeTheTraceText('Oopsie doopsie! Paused sound');
 			FlxG.sound.music.pause();
 			vocals.pause();
 		}
@@ -2566,7 +2566,7 @@ class PlayState extends MusicBeatState
 		if (!ClientPrefs.data.noReset && controls.RESET && canReset && !inCutscene && startedCountdown && !endingSong)
 		{
 			health = 0;
-			trace("RESET = True");
+			TraceText.makeTheTraceText("RESET = True");
 		}
 		doDeathCheck();
 
@@ -2940,7 +2940,7 @@ class PlayState extends MusicBeatState
 				}
 
 			case 'Play Animation':
-				//trace('Anim to play: ' + value1);
+				//TraceText.makeTheTraceText('Anim to play: ' + value1);
 				var char:Character = dad;
 				switch(value2.toLowerCase().trim()) {
 					case 'bf' | 'boyfriend':
@@ -3293,8 +3293,8 @@ class PlayState extends MusicBeatState
 				{
 					var difficulty:String = Difficulty.getFilePath();
 
-					trace('LOADING NEXT SONG');
-					trace(Paths.formatToSongPath(PlayState.storyPlaylist[0]) + difficulty);
+					TraceText.makeTheTraceText('LOADING NEXT SONG');
+					TraceText.makeTheTraceText(Paths.formatToSongPath(PlayState.storyPlaylist[0]) + difficulty);
 
 					FlxTransitionableState.skipNextTransIn = true;
 					FlxTransitionableState.skipNextTransOut = true;
@@ -3748,7 +3748,7 @@ class PlayState extends MusicBeatState
 	{
 		var eventKey:FlxKey = event.keyCode;
 		var key:Int = getKeyFromEvent(keysArray, eventKey);
-		//trace('Pressed: ' + eventKey);
+		//TraceText.makeTheTraceText('Pressed: ' + eventKey);
 
 		if(!controls.controllerMode && key > -1) keyReleased(key);
 	}
@@ -4231,7 +4231,7 @@ class PlayState extends MusicBeatState
 	override function beatHit()
 	{
 		if(lastBeatHit >= curBeat) {
-			//trace('BEAT HIT: ' + curBeat + ', LAST HIT: ' + lastBeatHit);
+			//TraceText.makeTheTraceText('BEAT HIT: ' + curBeat + ', LAST HIT: ' + lastBeatHit);
 			return;
 		}
 
@@ -4460,9 +4460,9 @@ class PlayState extends MusicBeatState
 
 					newScript.destroy();
 					hscriptArray.remove(newScript);
-					trace('failed to initialize tea interp!!! ($file)');
+					TraceText.makeTheTraceText('failed to initialize tea interp!!! ($file)');
 				}
-				else trace('initialized tea interp successfully: $file');
+				else TraceText.makeTheTraceText('initialized tea interp successfully: $file');
 			}
 
 		}
@@ -4646,7 +4646,7 @@ class PlayState extends MusicBeatState
 			{
 				// Rating Percent
 				ratingPercent = Math.min(1, Math.max(0, totalNotesHit / totalPlayed));
-				//trace((totalNotesHit / totalPlayed) + ', Total: ' + totalPlayed + ', notes hit: ' + totalNotesHit);
+				//TraceText.makeTheTraceText((totalNotesHit / totalPlayed) + ', Total: ' + totalPlayed + ', notes hit: ' + totalNotesHit);
 
 				// Rating Name
 				ratingName = ratingStuff[ratingStuff.length-1][0]; //Uses last string
@@ -4782,7 +4782,7 @@ class PlayState extends MusicBeatState
 				if(found)
 				{
 					runtimeShaders.set(name, [frag, vert]);
-					//trace('Found shader $name!');
+					//TraceText.makeTheTraceText('Found shader $name!');
 					return true;
 				}
 			}

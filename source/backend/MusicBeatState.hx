@@ -217,36 +217,20 @@ class MusicBeatState extends FlxUIState
 		curStep = lastChange.stepTime + Math.floor(shit);
 	}
 
-	public static function switchState(nextState:FlxState = null) {
-		if(nextState == null) nextState = FlxG.state;
-		if(nextState == FlxG.state)
+	override function startOutro(onOutroComplete:()-> Void):Void
+	{
+		if (!FlxTransitionableState.skipNextTransIn)
 		{
-			resetState();
+			FlxG.state.openSubState(new CustomFadeTransition(0.6, false));
+
+			CustomFadeTransition.finishCallback = onOutroComplete;
+
 			return;
 		}
 
-		if(FlxTransitionableState.skipNextTransIn) FlxG.switchState(nextState);
-		else startTransition(nextState);
 		FlxTransitionableState.skipNextTransIn = false;
-	}
 
-	public static function resetState() {
-		if(FlxTransitionableState.skipNextTransIn) FlxG.resetState();
-		else startTransition();
-		FlxTransitionableState.skipNextTransIn = false;
-	}
-
-	// Custom made Trans in
-	public static function startTransition(nextState:FlxState = null)
-	{
-		if(nextState == null)
-			nextState = FlxG.state;
-
-		FlxG.state.openSubState(new CustomFadeTransition(0.6, false));
-		if(nextState == FlxG.state)
-			CustomFadeTransition.finishCallback = function() FlxG.resetState();
-		else
-			CustomFadeTransition.finishCallback = function() FlxG.switchState(nextState);
+		onOutroComplete();
 	}
 
 	public static function getState():MusicBeatState
@@ -269,7 +253,7 @@ class MusicBeatState extends FlxUIState
 	public var stages:Array<BaseStage> = [];
 	public function beatHit():Void
 	{
-		//trace('Beat: ' + curBeat);
+		//TraceText.makeTheTraceText('Beat: ' + curBeat);
 		stagesFunc(function(stage:BaseStage) {
 			stage.curBeat = curBeat;
 			stage.curDecBeat = curDecBeat;
@@ -279,7 +263,7 @@ class MusicBeatState extends FlxUIState
 
 	public function sectionHit():Void
 	{
-		//trace('Section: ' + curSection + ', Beat: ' + curBeat + ', Step: ' + curStep);
+		//TraceText.makeTheTraceText('Section: ' + curSection + ', Beat: ' + curBeat + ', Step: ' + curStep);
 		stagesFunc(function(stage:BaseStage) {
 			stage.curSection = curSection;
 			stage.sectionHit();

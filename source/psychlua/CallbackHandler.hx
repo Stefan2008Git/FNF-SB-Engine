@@ -6,7 +6,7 @@ class CallbackHandler
 	{
 		try
 		{
-			//trace('calling $fname');
+			//TraceText.makeTheTraceText('calling $fname');
 			var cbf:Dynamic = Lua_helper.callbacks.get(fname);
 
 			//Local functions have the lowest priority
@@ -14,11 +14,11 @@ class CallbackHandler
 			//so that it only loops on reserved/special functions
 			if(cbf == null) 
 			{
-				//trace('looping thru scripts');
+				//TraceText.makeTheTraceText('looping thru scripts');
 				for (script in PlayState.instance.luaArray)
 					if(script != null && script.lua == l)
 					{
-						//trace('found script');
+						//TraceText.makeTheTraceText('found script');
 						cbf = script.callbacks.get(fname);
 						break;
 					}
@@ -46,7 +46,7 @@ class CallbackHandler
 		catch(e:Dynamic)
 		{
 			/*if(Lua_helper.sendErrorsToLua) {LuaL.error(l, 'CALLBACK ERROR! ${if(e.message != null) e.message else e}');return 0;}
-			trace(e);
+			TraceText.makeTheTraceText(e);
 			throw(e);*/
 		}
 		return 0;

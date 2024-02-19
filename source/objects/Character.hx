@@ -118,7 +118,7 @@ class Character extends FlxSprite
 				}
 				catch(e:Dynamic)
 				{
-					trace('Error loading character file of "$character": $e');
+					TraceText.makeTheTraceText('Error loading character file of "$character": $e');
 				}
 		}
 
@@ -224,7 +224,7 @@ class Character extends FlxSprite
 		#if flxanimate
 		if(isAnimateAtlas) copyAtlasValues();
 		#end
-		//trace('Loaded file to character ' + curCharacter);
+		//TraceText.makeTheTraceText('Loaded file to character ' + curCharacter);
 	}
 
 	override function update(elapsed:Float)

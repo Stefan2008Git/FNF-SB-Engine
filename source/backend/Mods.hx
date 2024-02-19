@@ -144,7 +144,7 @@ class Mods
 				#end
 				if(rawJson != null && rawJson.length > 0) return Json.parse(rawJson);
 			} catch(e:Dynamic) {
-				trace(e);
+				TraceText.makeTheTraceText(e);
 			}
 		}
 		#end
@@ -161,7 +161,7 @@ class Mods
 		try {
 			for (mod in CoolUtil.coolTextFile('modsList.txt'))
 			{
-				//trace('Mod: $mod');
+				//TraceText.makeTheTraceText('Mod: $mod');
 				if(mod.trim().length < 1) continue;
 				var dat = mod.split("|");
 				list.all.push(dat[0]);
@@ -220,7 +220,7 @@ class Mods
 
 		File.saveContent(SUtil.getPath() + 'modsList.txt', fileStr);
 		updatedOnState = true;
-		//trace('Saved modsList.txt');
+		//TraceText.makeTheTraceText('Saved modsList.txt');
 		#end
 	}
 

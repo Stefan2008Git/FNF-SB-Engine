@@ -10,7 +10,7 @@ class MenuItem extends FlxSprite
 		super(x, y);
 		loadGraphic(Paths.image('storymenu/' + weekName));
 		antialiasing = ClientPrefs.data.antialiasing;
-		//trace('Test added: ' + WeekData.getWeekNumber(weekNum) + ' (' + weekNum + ')');
+		//TraceText.makeTheTraceText('Test added: ' + WeekData.getWeekNumber(weekNum) + ' (' + weekNum + ')');
 	}
 
 	private var isFlashing:Bool = false;

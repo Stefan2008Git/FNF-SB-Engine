@@ -236,7 +236,7 @@ class ModsMenuState extends MusicBeatState
 			var path = haxe.io.Path.join([Paths.mods(), modsList[currentlySelected][0]]);
 			if(FileSystem.exists(path) && FileSystem.isDirectory(path))
 			{
-				trace('Trying to delete directory ' + path);
+				TraceText.makeTheTraceText('Trying to delete directory ' + path);
 				try
 				{
 					FileSystem.deleteFile(path); //FUCK YOU HAXE WHY DONT YOU WORK WAAAAAAAAAAAAH
@@ -255,7 +255,7 @@ class ModsMenuState extends MusicBeatState
 				}
 				catch(e)
 				{
-					trace('Error deleting directory: ' + e);
+					TraceText.makeTheTraceText('Error deleting directory: ' + e);
 				}
 			}
 		});
@@ -625,7 +625,7 @@ class ModsMenuState extends MusicBeatState
 				var uncompressingFile:Bytes = new Uncompress().run(File.getBytes(rawZip));
 				if (uncompressingFile.done)
 				{
-					trace('test');
+					TraceText.makeTheTraceText('test');
 					_file = null;
 					return;
 				}
@@ -633,7 +633,7 @@ class ModsMenuState extends MusicBeatState
 		}
 		_file = null;
 		canExit = true;
-		trace("File couldn't be loaded! Wtf?");
+		TraceText.makeTheTraceText("File couldn't be loaded! Wtf?");
 	}
 
 	function onLoadCancel(_):Void
@@ -643,7 +643,7 @@ class ModsMenuState extends MusicBeatState
 		_file.removeEventListener(IOErrorEvent.IO_ERROR, onLoadError);
 		_file = null;
 		canExit = true;
-		trace("Cancelled file loading.");
+		TraceText.makeTheTraceText("Cancelled file loading.");
 	}
 
 	function onLoadError(_):Void
@@ -653,7 +653,7 @@ class ModsMenuState extends MusicBeatState
 		_file.removeEventListener(IOErrorEvent.IO_ERROR, onLoadError);
 		_file = null;
 		canExit = true;
-		trace("Problem loading file");
+		TraceText.makeTheTraceText("Problem loading file");
 	}*/
 }
 

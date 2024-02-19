@@ -60,7 +60,7 @@ class LuaUtils
 
 		if(allowMaps && isMap(instance))
 		{
-			//trace(instance);
+			//TraceText.makeTheTraceText(instance);
 			instance.set(variable, value);
 			return value;
 		}
@@ -98,7 +98,7 @@ class LuaUtils
 		
 		if(allowMaps && isMap(instance))
 		{
-			//trace(instance);
+			//TraceText.makeTheTraceText(instance);
 			return instance.get(variable);
 		}
 
@@ -120,7 +120,7 @@ class LuaUtils
 				return false;
 		}*/
 
-		//trace(variable);
+		//TraceText.makeTheTraceText(variable);
 		if(variable.exists != null && variable.keyValueIterator != null) return true;
 		return false;
 	}
