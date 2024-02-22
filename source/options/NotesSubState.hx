@@ -53,6 +53,7 @@ class NotesSubState extends MusicBeatSubstate
 		super();
 
 		Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Options Menu (In Note Color Menu)";
+		FlxTween.tween(FlxG.sound.music, {volume: 0.4}, 0.8);
 
 		bg = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
 		switch (ClientPrefs.data.themes) {
@@ -157,7 +158,7 @@ class NotesSubState extends MusicBeatSubstate
 		var tipY = 660;
 		var tip:FlxText = new FlxText(tipX, tipY, 0, "Press RELOAD to Reset the selected Note Part.", 16);
 		#if android
-			tipX = 100;
+			tipX = 200;
 			tip.text ="Tap on C button to Reset the selected Note Part"; 
 		#end
 		switch (ClientPrefs.data.gameStyle) {
@@ -171,7 +172,7 @@ class NotesSubState extends MusicBeatSubstate
 
 		tipTxt = new FlxText(tipX, tipY + 24, 0, '', 16);
 		#if android
-			tipX = 100;
+			tipX = 200;
 		#end
 		switch (ClientPrefs.data.gameStyle) {
 			case 'SB Engine': tipTxt.setFormat(Paths.font("bahnschrift.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -234,6 +235,7 @@ class NotesSubState extends MusicBeatSubstate
 			close();
 			#end
 			Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Options Menu";
+			FlxTween.tween(FlxG.sound.music, {volume: 1}, 0.8);
 			return;
 		}
 

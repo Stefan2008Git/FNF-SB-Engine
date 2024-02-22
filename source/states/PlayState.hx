@@ -203,6 +203,10 @@ class PlayState extends MusicBeatState
 	var songPercent:Float = 0;
 	var songPercentValue:Float = 0;
 
+	private var timePercentTxt:FlxText;
+	private var updatePercentTime:Bool = true;
+	private var percentTimeFloat:Float = 0;
+
 	public var ratingsData:Array<Rating> = Rating.loadDefault();
 	public var fullComboFunction:Void->Void = null;
 
@@ -427,6 +431,7 @@ class PlayState extends MusicBeatState
 		daveAndBambiIconBounce = (ClientPrefs.data.iconBounce && ClientPrefs.data.gameStyle == 'Dave and Bambi');
 		checkyEngineIconBounce = (ClientPrefs.data.iconBounce && ClientPrefs.data.gameStyle == 'Cheeky');
 		notesCanMoveCamera = (ClientPrefs.data.cameraMovement);
+		updatePercentTime = (ClientPrefs.data.songPercent);
 
 		// var gameCam:FlxCamera = FlxG.camera;
 		camGame = new FlxCamera();
@@ -657,6 +662,40 @@ class PlayState extends MusicBeatState
 		if(ClientPrefs.data.downScroll) timeTxt.y = FlxG.height - 44;
 		if(ClientPrefs.data.timeBarType == 'Song Name') timeTxt.text = SONG.song;
 
+		timePercentTxt = new FlxText(timeTxt.x + 50, "");
+		switch (ClientPrefs.data.gameStyle) {
+			case 'SB Engine':
+				timePercentTxt.setFormat(Paths.font("bahnschrift.ttf"), 29, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+				timePercentTxt.borderSize = 1.5;
+
+			case 'Psych Engine':
+				timePercentTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+				timePercentTxt.borderSize = 2;
+			
+			case 'Kade Engine':
+				timePercentTxt.setFormat(Paths.font("vcr.ttf"), 18, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+				timePercentTxt.borderSize = 1;
+
+			case 'Dave and Bambi':
+				timePercentTxt.setFormat(Paths.font("comic.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+				timePercentTxt.borderSize = 2;
+			
+			case 'TGT Engine':
+				timePercentTxt.setFormat(Paths.font("calibri.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+				timePercentTxt.borderSize = 2;
+			
+			case 'Cheeky':
+				timePercentTxt.setFormat(Paths.font("vcr.ttf"), 42, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+				timePercentTxt.borderSize = 1.25;
+		}
+		if (!ClientPrefs.data.timeBar && ClientPrefs.data.gameStyle == 'Cheeky') {
+			timePercentTxt.alpha = 1;
+		} else if (ClientPrefs.data.gameStyle == 'SB Engine' || ClientPrefs.data.gameStyle == 'Psych Engine' || ClientPrefs.data.gameStyle == 'TGT Engine' || ClientPrefs.data.gameStyle == 'Kade Engine' || ClientPrefs.data.gameStyle == 'Dave and Bambi') {
+			timePercentTxt.alpha = 0;
+		}
+		if (ClientPrefs.data.gameStyle == 'Cheeky') timePercentTxt.text = "0%";
+		timePercentTxt.visible = updatePercentTime;
+
 		switch (ClientPrefs.data.gameStyle) {
 			case 'Psych Engine' | 'TGT Engine':
 				timeBar = new Bar(0, timeTxt.y + (timeTxt.height / 4), 'timeBar', function() return songPercent, 0, 1);
@@ -677,6 +716,7 @@ class PlayState extends MusicBeatState
 		reloadTimeBarColors();
 		uiGroup.add(timeBar);
 		uiGroup.add(timeTxt);
+		uiGroup.add(timePercentTxt);
 
 		strumLineNotes = new FlxTypedGroup<StrumNote>();
 		noteGroup.add(strumLineNotes);
@@ -1966,13 +2006,16 @@ class PlayState extends MusicBeatState
 			case 'SB Engine':
 				FlxTween.tween(timeBar, {alpha: 1}, 0.8, {ease: FlxEase.sineInOut});
 				FlxTween.tween(timeTxt, {alpha: 1}, 0.8, {ease: FlxEase.sineInOut});
+				FlxTween.tween(timePercentTxt, {alpha: 1}, 0.8, {ease: FlxEase.sineInOut});
 
 			case 'Psych Engine' | 'TGT Engine':
 				FlxTween.tween(timeBar, {alpha: 1}, 0.5, {ease: FlxEase.expoInOut});
 				FlxTween.tween(timeTxt, {alpha: 1}, 0.5, {ease: FlxEase.expoInOut});
+				FlxTween.tween(timePercentTxt, {alpha: 1}, 0.5, {ease: FlxEase.expoInOut});
 			
 			case 'Kade Engine' | 'Dave and Bambi':
 				FlxTween.tween(timeTxt, {alpha: 1}, 0.5);
+				FlxTween.tween(timePercentTxt, {alpha: 1}, 0.5);
 		}
 
 		#if DISCORD_ALLOWED
@@ -2550,6 +2593,14 @@ class PlayState extends MusicBeatState
 					case 'Dave and Bambi':
 						timeTxt.text = " (CHEATER!)";
 				}
+		}
+		else if (!paused && updatePercentTime)
+		{
+			var curPercentTime:Float = Math.max(0, Conductor.songPosition - ClientPrefs.data.noteOffset);
+			if(curPercentTime < 0) curPercentTime = 0;
+			songPercent = (curPercentTime / songLength);
+			percentTimeFloat = FlxMath.roundDecimal(curPercentTime / songLength * 100, 1);
+			timePercentTxt.text = percentTimeFloat  + '%';
 		}
 
 		if (camZooming)

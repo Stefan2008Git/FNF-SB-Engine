@@ -40,6 +40,7 @@ class OptionsState extends MusicBeatState
 			case 'Adjust Delay and Combo':
 				Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Options Menu (Loading Adjust Delay Combo Menu)";
 				FlxG.switchState(() -> new options.NoteOffsetState());
+				FlxG.sound.music.pause();
 			  	#if android
 				removeVirtualPad();
 				#end

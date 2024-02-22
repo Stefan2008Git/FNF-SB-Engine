@@ -114,7 +114,6 @@ class Main extends Sprite
 		#if LUA_ALLOWED Lua.set_callbacks_function(cpp.Callable.fromStaticFunction(psychlua.CallbackHandler.call)); #end
 		Controls.instance = new Controls();
 		ClientPrefs.loadDefaultKeys();
-		// Highscore.load(); Failed because of Null Object Refrence :(...
 	
 		#if mobile
 		addChild(new FlxGame(1280, 720, TitleState, 60, 60, true, false));
@@ -145,11 +144,6 @@ class Main extends Sprite
 		#if linux
 		var icon = Image.fromFile("icon.png");
 		Lib.current.stage.window.setIcon(icon);
-		#end
-
-		#if html5
-		FlxG.autoPause = false;
-		FlxG.mouse.visible = false;
 		#end
 		
 		#if CRASH_HANDLER

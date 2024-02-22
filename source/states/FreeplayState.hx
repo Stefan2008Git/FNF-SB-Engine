@@ -50,6 +50,8 @@ class FreeplayState extends MusicBeatState
 
 	var player:MusicPlayer;
 
+	private var controlsActive:Bool = true;
+
 	override function create()
 	{
 		Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Freeplay Menu";
@@ -195,14 +197,14 @@ class FreeplayState extends MusicBeatState
 
 		#if PRELOAD_ALL
 		#if android
-		var leText:String = "Press X to listen to the Song / Press C to open the Gameplay Changers Menu / Press Y to Reset your Score and Accuracy.";
+		var leText:String = "Tap on X to listen to the Song / Tap on C to open the Gameplay Changers Menu / Tap on Y to Reset your Score and Accuracy.";
 		var size:Int = 16;
 		#else
 		var leText:String = "Press SPACE to listen to the Song / Press CTRL to open the Gameplay Changers Menu / Press RESET to Reset your Score and Accuracy.";
 		var size:Int = 16;
 		#end
 		#else
-		var leText:String = "Press C to open the Gameplay Changers Menu / Press Y to Reset your Score and Accuracy.";
+		var leText:String = "Tap on C to open the Gameplay Changers Menu / Tap on Y to Reset your Score and Accuracy.";
 		var size:Int = 18;
 		#end
 		bottomString = leText;
@@ -282,7 +284,7 @@ class FreeplayState extends MusicBeatState
 		}
 
 		var shiftMult:Int = 1;
-		if(FlxG.keys.pressed.SHIFT #if android || MusicBeatState.virtualPad.buttonZ.pressed #end) shiftMult = 3;
+		if(FlxG.keys.pressed.SHIFT #if android || MusicBeatState.virtualPad.buttonZ.pressed #end && controlsActive) shiftMult = 3;
 
 		if (!player.playingMusic)
 		{
@@ -291,30 +293,30 @@ class FreeplayState extends MusicBeatState
 			
 			if(songs.length > 1)
 			{
-				if(FlxG.keys.justPressed.HOME)
+				if(FlxG.keys.justPressed.HOME && controlsActive)
 				{
 					currentlySelected = 0;
 					changeSelection();
 					holdTime = 0;	
 				}
-				else if(FlxG.keys.justPressed.END)
+				else if(FlxG.keys.justPressed.END && controlsActive)
 				{
 					currentlySelected = songs.length - 1;
 					changeSelection();
 					holdTime = 0;	
 				}
-				if (controls.UI_UP_P)
+				if (controls.UI_UP_P && controlsActive)
 				{
 					changeSelection(-shiftMult);
 					holdTime = 0;
 				}
-				if (controls.UI_DOWN_P)
+				if (controls.UI_DOWN_P && controlsActive)
 				{
 					changeSelection(shiftMult);
 					holdTime = 0;
 				}
 
-				if(controls.UI_DOWN || controls.UI_UP)
+				if(controls.UI_DOWN || controls.UI_UP && controlsActive)
 				{
 					var checkLastHold:Int = Math.floor((holdTime - 0.5) * 10);
 					holdTime += elapsed;
@@ -324,26 +326,26 @@ class FreeplayState extends MusicBeatState
 						changeSelection((checkNewHold - checkLastHold) * (controls.UI_UP ? -shiftMult : shiftMult));
 				}
 
-				if(FlxG.mouse.wheel != 0)
+				if(FlxG.mouse.wheel != 0 && controlsActive)
 				{
 					FlxG.sound.play(Paths.sound('scrollMenu'), 0.2);
 					changeSelection(-shiftMult * FlxG.mouse.wheel, false);
 				}
 			}
 
-			if (controls.UI_LEFT_P)
+			if (controls.UI_LEFT_P && controlsActive)
 			{
 				changeDiff(-1);
 				_updateSongLastDifficulty();
 			}
-			else if (controls.UI_RIGHT_P)
+			else if (controls.UI_RIGHT_P && controlsActive)
 			{
 				changeDiff(1);
 				_updateSongLastDifficulty();
 			}
 		}
 
-		if (controls.BACK)
+		if (controls.BACK && controlsActive)
 		{
 			if (player.playingMusic)
 			{
@@ -374,7 +376,7 @@ class FreeplayState extends MusicBeatState
 			}
 		}
 
-		if(FlxG.keys.justPressed.CONTROL #if android || MusicBeatState.virtualPad.buttonC.justPressed #end && !player.playingMusic)
+		if(FlxG.keys.justPressed.CONTROL #if android || MusicBeatState.virtualPad.buttonC.justPressed #end && !player.playingMusic && controlsActive)
 		{
 			#if android
 			removeVirtualPad();
@@ -382,12 +384,12 @@ class FreeplayState extends MusicBeatState
 			persistentUpdate = false;
 			openSubState(new GameplayChangersSubstate());
 		}
-		else if(FlxG.keys.justPressed.SPACE #if android || MusicBeatState.virtualPad.buttonX.justPressed #end)
+		else if(FlxG.keys.justPressed.SPACE #if android || MusicBeatState.virtualPad.buttonX.justPressed #end && controlsActive)
 		{
-			if(instPlaying != currentlySelected && !player.playingMusic)
+			if(instPlaying != currentlySelected && !player.playingMusic && controlsActive)
 			{
 				destroyFreeplayVocals();
-				FlxTween.tween(FlxG.sound.music, {pitch: 0, volume: 0}, 0.5, {ease: FlxEase.cubeOut});
+				FlxTween.tween(FlxG.sound.music, {pitch: 0, volume: 0}, 0.5, {ease: FlxEase.sineInOut});
 
 				Mods.currentModDirectory = songs[currentlySelected].folder;
 				var poop:String = Highscore.formatSong(songs[currentlySelected].songName.toLowerCase(), curDifficulty);
@@ -429,12 +431,12 @@ class FreeplayState extends MusicBeatState
 				player.curTime = 0;
 				player.switchPlayMusic();
 			}
-			else if (instPlaying == currentlySelected && player.playingMusic)
+			else if (instPlaying == currentlySelected && player.playingMusic && controlsActive)
 			{
 				player.pauseOrResume(player.paused);
 			}
 		}
-		else if (controls.ACCEPT && !player.playingMusic)
+		else if (controls.ACCEPT && !player.playingMusic && controlsActive)
 		{
 			persistentUpdate = false;
 			var songLowercase:String = Paths.formatToSongPath(songs[currentlySelected].songName);
@@ -443,6 +445,7 @@ class FreeplayState extends MusicBeatState
 
 			try
 			{
+				controlsActive = false;
 				PlayState.SONG = Song.loadFromJson(poop, songLowercase);
 				PlayState.isStoryMode = false;
 				PlayState.storyDifficulty = curDifficulty;
@@ -459,6 +462,7 @@ class FreeplayState extends MusicBeatState
 				var errorStr:String = e.toString();
 				if(errorStr.startsWith('[file_contents,assets/data/')) errorStr = 'Missing file: ' + errorStr.substring(34, errorStr.length-1); //Missing chart
 				missingText.text = 'ERROR WHILE LOADING CHART:\n$errorStr';
+				TraceText.makeTheTraceText("Error while loading chart: " + errorStr);
 				missingText.screenCenter(Y);
 				missingText.visible = true;
 				missingTextBG.visible = true;
@@ -468,21 +472,37 @@ class FreeplayState extends MusicBeatState
 				super.update(elapsed);
 				return;
 			}
-			if (FlxG.keys.pressed.SHIFT #if android || MusicBeatState.virtualPad.buttonZ.pressed #end) {
-				LoadingState.loadAndSwitchState(() -> new ChartingState());
-			} else {
-				LoadingState.loadAndSwitchState(() -> new PlayState());
-				Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Freeplay Menu (Loading current song: " + PlayState.SONG.song + " (" + Difficulty.getString() + ") )... ";
-			}
+
+			for (item in grpSongs.members) 
+				if (item.targetY == 0) FlxFlicker.flicker(item, 1.05, 0.06, false, false);
+			FlxFlicker.flicker(iconArray[currentlySelected], 1.05, 0.06, false, false);
+			FlxG.sound.play(Paths.sound('confirmMenu'));
+			if (FlxG.sound.music != null) FlxTween.tween(FlxG.sound.music, {pitch: 0, volume: 0}, 2.5, {ease: FlxEase.sineInOut});
+			FlxTween.tween(scoreText, {alpha: 0}, 0.5, {ease: FlxEase.sineInOut});
+			FlxTween.tween(scoreBG, {alpha: 0}, 0.5, {ease: FlxEase.sineInOut});
+			FlxTween.tween(diffText, {alpha: 0}, 0.5, {ease: FlxEase.sineInOut});
+			FlxTween.tween(bottomBG, {alpha: 0}, 0.5, {ease: FlxEase.sineInOut});
+			FlxTween.tween(bottomText, {alpha: 0}, 0.5, {ease: FlxEase.sineInOut});
+			#if android
+			FlxTween.tween(virtualPad, {alpha: 0}, 0.5, {ease: FlxEase.sineInOut});
+			#end
+			Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Freeplay Menu (Loading current song: " + PlayState.SONG.song + " (" + Difficulty.getString() + ") )... ";
+			new FlxTimer().start(2.5, function(tmr:FlxTimer) {
+				if (FlxG.keys.pressed.SHIFT #if android || MusicBeatState.virtualPad.buttonZ.justPressed #end) {
+					LoadingState.loadAndSwitchState(() -> new ChartingState());
+				} else {
+					LoadingState.loadAndSwitchState(() -> new PlayState());
+				}
+			});
 
 			FlxG.sound.music.volume = 0;
 					
 			destroyFreeplayVocals();
-			#if (MODS_ALLOWED && desktop && cpp)
+			#if (MODS_ALLOWED && DISCORD_ALLOWED && cpp)
 			DiscordClient.loadModRPC();
 			#end
 		}
-		else if(controls.RESET #if android || MusicBeatState.virtualPad.buttonY.justPressed #end && !player.playingMusic)
+		else if(controls.RESET #if android || MusicBeatState.virtualPad.buttonY.justPressed #end && !player.playingMusic && controlsActive)
 		{
 			#if android
 			removeVirtualPad();
@@ -652,17 +672,6 @@ class FreeplayState extends MusicBeatState
 		FlxG.autoPause = ClientPrefs.data.autoPause;
 		if (!FlxG.sound.music.playing)
 			FlxG.sound.playMusic(Paths.music('freakyMenu-' + ClientPrefs.data.mainMenuMusic));
-	}
-
-	override function beatHit()
-	{
-		if (FlxG.sound.music.playing)
-		{
-			for (i in 0...iconArray.length) {
-				iconArray[i].scale.x += 0.2;
-				iconArray[i].updateHitbox();
-			}
-		}
 	}
 }
 

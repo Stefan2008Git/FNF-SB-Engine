@@ -140,7 +140,8 @@ class CreditsState extends MusicBeatState
 		}
 		
 		descBox = new AttachedSprite();
-		descBox.makeGraphic(1, 1, FlxColor.BLACK);
+		descBox.makeGraphic(1, 1, FlxColor.TRANSPARENT);
+		FlxSpriteUtil.drawRoundRect(descBox, 0, 0, 1, 1, 65, 65, FlxColor.BLACK);
 		descBox.xAdd = -10;
 		descBox.yAdd = -10;
 		descBox.alphaMult = 0.6;

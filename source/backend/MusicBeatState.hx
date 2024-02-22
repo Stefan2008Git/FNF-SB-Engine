@@ -219,7 +219,7 @@ class MusicBeatState extends FlxUIState
 
 	override function startOutro(onOutroComplete:()-> Void):Void
 	{
-		if (!FlxTransitionableState.skipNextTransIn)
+		if (!FlxTransitionableState.skipNextTransIn || !ClientPrefs.data.fadeTransition)
 		{
 			FlxG.state.openSubState(new CustomFadeTransition(0.6, false));
 

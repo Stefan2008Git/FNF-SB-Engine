@@ -34,6 +34,8 @@ class BaseOptionsMenu extends MusicBeatSubstate
 		#if DISCORD_ALLOWED
 		DiscordClient.changePresence(rpcTitle, null);
 		#end
+
+		FlxTween.tween(FlxG.sound.music, {volume: 0.4}, 0.8);
 		
 		background = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
 		switch (ClientPrefs.data.themes) {
@@ -65,7 +67,8 @@ class BaseOptionsMenu extends MusicBeatSubstate
 		checkboxGroup = new FlxTypedGroup<CheckboxThingie>();
 		add(checkboxGroup);
 
-		descBox = new FlxSprite().makeGraphic(1, 1, FlxColor.BLACK);
+		descBox = new FlxSprite().makeGraphic(1, 1, FlxColor.TRANSPARENT);
+		FlxSpriteUtil.drawRoundRect(descBox, 0, 0, 1, 1, 65, 65, FlxColor.BLACK);
 		descBox.alpha = 0.6;
 		add(descBox);
 
@@ -158,6 +161,7 @@ class BaseOptionsMenu extends MusicBeatSubstate
 			#end
 			ClientPrefs.saveSettings();
 			Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Options Menu";
+			FlxTween.tween(FlxG.sound.music, {volume: 1}, 0.8);
 			FlxG.sound.play(Paths.sound('cancelMenu'));
 		}
 

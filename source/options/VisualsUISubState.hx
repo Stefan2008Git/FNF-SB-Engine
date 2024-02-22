@@ -90,9 +90,9 @@ class VisualsUISubState extends BaseOptionsMenu
 		addOption(option);
 		#end
 
-		/*var option:Option = new Option('Skip the Custom fade transition', 
-		    'If checked, skips the custom fade transition.', 'skipFadeTransition', 'bool');
-		addOption(option);*/
+		var option:Option = new Option('Custom fade Transition', 
+		    'If unchecked, makes transition between states faster.', 'fadeTransition', 'bool');
+		addOption(option);
 
 		var option:Option = new Option('Themes:', 
 			'Change theme from different engines. More themes are coming very soon', 'themes', 'string', ['SB Engine', 'Psych Engine']);
@@ -106,7 +106,7 @@ class VisualsUISubState extends BaseOptionsMenu
 			"What song do you prefer for the main menu?",
 			'mainMenuMusic',
 			'string',
-			['None', 'SB Engine', 'FNF', 'Kade Engine', 'Checky']);
+			['None', 'SB Engine', 'FNF', 'Kade Engine', 'Checky', 'Flixel']);
 		addOption(option);
 		option.onChange = onChangeMainMenuMusic;
 

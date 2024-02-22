@@ -122,6 +122,7 @@ class CharacterEditorState extends MusicBeatState
 		add(animsTxtGroup);
 
 		var tipText:FlxText = new FlxText(FlxG.width - 300, FlxG.height - 24, 300, "Press F1 for Help", 16);
+		#if android tipText.text = "Tap On F Button for Help" #end
 		tipText.cameras = [camHUD];
 		tipText.setFormat(null, 16, FlxColor.WHITE, RIGHT, OUTLINE_FAST, FlxColor.BLACK);
 		tipText.borderColor = FlxColor.BLACK;
@@ -180,6 +181,7 @@ class CharacterEditorState extends MusicBeatState
 		\nArrow Buttons - Move Offset
 		\n
 		\nOTHER
+		\nS - Toggle Sillhouettes
 		\nHold C - Move Offsets 10x faster and Camera 4x faster";
 		#else
 		str = "CAMERA
@@ -1051,14 +1053,13 @@ class CharacterEditorState extends MusicBeatState
 			}
 
 			txt = 'Frames: ( $frames / ${length-1} )';
-			//if(character.animation.curAnim.paused) txt += ' - PAUSED';
 			clr = FlxColor.WHITE;
 		}
 		if(txt != frameAdvanceText.text) frameAdvanceText.text = txt;
 		frameAdvanceText.color = clr;
 
 		// OTHER CONTROLS
-		if(FlxG.keys.justPressed.F12)
+		if(FlxG.keys.justPressed.F12 #if android || MusicBeatState.virtualPad.buttonS.justPressed #end)
 			silhouettes.visible = !silhouettes.visible;
 
 		if(FlxG.keys.justPressed.F1 || helpBg.visible && FlxG.keys.justPressed.ESCAPE #if android || MusicBeatState.virtualPad.buttonF.justPressed #end)
@@ -1066,7 +1067,7 @@ class CharacterEditorState extends MusicBeatState
 			helpBg.visible = !helpBg.visible;
 			helpTexts.visible = helpBg.visible;
 		}
-		else if(FlxG.keys.justPressed.ESCAPE #if android || MusicBeatState.virtualPad.buttonB.justPressed #end)
+		else if (FlxG.keys.justPressed.ESCAPE #if android || MusicBeatState.virtualPad.buttonB.justPressed #end)
 		{
 			Main.fpsVar.differentPosition = false;
 			FlxG.mouse.visible = false;

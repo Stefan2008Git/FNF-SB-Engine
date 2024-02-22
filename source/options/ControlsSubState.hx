@@ -68,6 +68,7 @@ class ControlsSubState extends MusicBeatSubstate
 		super();
 
 		Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Options Menu (In Controls menu)";
+		FlxTween.tween(FlxG.sound.music, {volume: 0.4}, 0.8);
 
 		options.push([true]);
 		options.push([true]);
@@ -79,7 +80,7 @@ class ControlsSubState extends MusicBeatSubstate
 		bg.screenCenter();
 		add(bg);
 
-		var grid:FlxBackdrop = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0x33FFFFFF, 0x0));
+		var grid:FlxBackdrop = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0x70000000, 0x0));
 		grid.velocity.set(40, 40);
 		grid.alpha = 0;
 		FlxTween.tween(grid, {alpha: 1}, 0.5, {ease: FlxEase.quadOut});
@@ -92,7 +93,8 @@ class ControlsSubState extends MusicBeatSubstate
 		grpBlacks = new FlxTypedGroup<AttachedSprite>();
 		add(grpBlacks);
 		selectSpr = new AttachedSprite();
-		selectSpr.makeGraphic(250, 78, FlxColor.WHITE);
+		selectSpr.makeGraphic(250, 78, FlxColor.TRANSPARENT);
+		FlxSpriteUtil.drawRoundRect(selectSpr, 0, 0, 250, 78, 65, 65, FlxColor.WHITE);
 		selectSpr.copyAlpha = false;
 		selectSpr.alpha = 0.75;
 		add(selectSpr);
@@ -111,10 +113,6 @@ class ControlsSubState extends MusicBeatSubstate
 		add(text);
 
 		createTexts();
-		
-		#if android
-		addVirtualPad(FULL, A_B);
-		#end
 	}
 
 	var lastID:Int = 0;
@@ -210,7 +208,8 @@ class ControlsSubState extends MusicBeatSubstate
 
 			// spawn black bars at the right of the key name
 			var black:AttachedSprite = new AttachedSprite();
-			black.makeGraphic(250, 78, FlxColor.BLACK);
+			black.makeGraphic(250, 78, FlxColor.TRANSPARENT);
+			FlxSpriteUtil.drawRoundRect(black, 0, 0, 250, 78, 65, 65, FlxColor.WHITE);
 			black.alphaMult = 0.4;
 			black.sprTracker = text;
 			black.yAdd = -6;
@@ -282,22 +281,18 @@ class ControlsSubState extends MusicBeatSubstate
 		{
 			if(controls.BACK || FlxG.gamepads.anyJustPressed(B))
 			{
-				#if android
-				FlxTransitionableState.skipNextTransOut = true;
-				FlxG.resetState();
-				#else
 				close();
-				#end
 				Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Options Menu";
+				FlxTween.tween(FlxG.sound.music, {volume: 1}, 0.8);
 				return;
 			}
 			if(FlxG.keys.justPressed.CONTROL || FlxG.gamepads.anyJustPressed(LEFT_SHOULDER) || FlxG.gamepads.anyJustPressed(RIGHT_SHOULDER)) swapMode();
 
-			if(FlxG.keys.justPressed.LEFT || FlxG.keys.justPressed.RIGHT || #if mobile MusicBeatState.virtualPad.buttonRight.justPressed || MusicBeatState.virtualPad.buttonLeft.justPressed || #end FlxG.gamepads.anyJustPressed(DPAD_LEFT) || FlxG.gamepads.anyJustPressed(DPAD_RIGHT) ||
+			if(FlxG.keys.justPressed.LEFT || FlxG.keys.justPressed.RIGHT || FlxG.gamepads.anyJustPressed(DPAD_LEFT) || FlxG.gamepads.anyJustPressed(DPAD_RIGHT) ||
 				FlxG.gamepads.anyJustPressed(LEFT_STICK_DIGITAL_LEFT) || FlxG.gamepads.anyJustPressed(LEFT_STICK_DIGITAL_RIGHT)) updateAlt(true);
 
-			if(FlxG.keys.justPressed.UP || #if mobile MusicBeatState.virtualPad.buttonUp.justPressed || #end FlxG.gamepads.anyJustPressed(DPAD_UP) || FlxG.gamepads.anyJustPressed(LEFT_STICK_DIGITAL_UP)) updateText(-1);
-			else if(FlxG.keys.justPressed.DOWN || #if mobile MusicBeatState.virtualPad.buttonDown.justPressed || #end FlxG.gamepads.anyJustPressed(DPAD_DOWN) || FlxG.gamepads.anyJustPressed(LEFT_STICK_DIGITAL_DOWN)) updateText(1);
+			if(FlxG.keys.justPressed.UP || FlxG.gamepads.anyJustPressed(DPAD_UP) || FlxG.gamepads.anyJustPressed(LEFT_STICK_DIGITAL_UP)) updateText(-1);
+			else if(FlxG.keys.justPressed.DOWN || FlxG.gamepads.anyJustPressed(DPAD_DOWN) || FlxG.gamepads.anyJustPressed(LEFT_STICK_DIGITAL_DOWN)) updateText(1);
 
 			if(FlxG.keys.justPressed.ENTER || FlxG.gamepads.anyJustPressed(START) || FlxG.gamepads.anyJustPressed(A))
 			{
@@ -309,6 +304,7 @@ class ControlsSubState extends MusicBeatSubstate
 					add(bindingBlack);
 
 					bindingText = new Alphabet(FlxG.width / 2, 160, "Rebinding " + options[curOptions[currentlySelected]][3], false);
+					TraceText.makeTheTraceText("Rebinding " + options[curOptions[currentlySelected]][3]);
 					bindingText.alignment = CENTERED;
 					add(bindingText);
 					
@@ -341,6 +337,7 @@ class ControlsSubState extends MusicBeatSubstate
 			if(FlxG.keys.pressed.ESCAPE || FlxG.gamepads.anyPressed(B))
 			{
 				holdingEsc += elapsed;
+				TraceText.makeTheTraceText("Closing the Binding sub menu...");
 				if(holdingEsc > 0.5)
 				{
 					FlxG.sound.play(Paths.sound('cancelMenu'));
@@ -511,7 +508,7 @@ class ControlsSubState extends MusicBeatSubstate
 	function swapMode()
 	{
 		if(colorTween != null) colorTween.destroy();
-		colorTween = FlxTween.color(bg, 0.5, bg.color, onKeyboardMode ? gamepadColor : keyboardColor, {ease: FlxEase.linear});
+		colorTween = FlxTween.color(bg, 0.5, bg.color, onKeyboardMode ? gamepadColor : keyboardColor, {ease: FlxEase.sineInOut});
 		onKeyboardMode = !onKeyboardMode;
 
 		currentlySelected = 0;
