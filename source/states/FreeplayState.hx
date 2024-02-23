@@ -484,7 +484,7 @@ class FreeplayState extends MusicBeatState
 			FlxTween.tween(bottomBG, {alpha: 0}, 0.5, {ease: FlxEase.sineInOut});
 			FlxTween.tween(bottomText, {alpha: 0}, 0.5, {ease: FlxEase.sineInOut});
 			#if android
-			FlxTween.tween(virtualPad, {alpha: 0}, 0.5, {ease: FlxEase.sineInOut});
+			FlxTween.tween(MusicBeatState.virtualPad, {alpha: 0}, 0.5, {ease: FlxEase.sineInOut});
 			#end
 			Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Freeplay Menu (Loading current song: " + PlayState.SONG.song + " (" + Difficulty.getString() + ") )... ";
 			new FlxTimer().start(2.5, function(tmr:FlxTimer) {
