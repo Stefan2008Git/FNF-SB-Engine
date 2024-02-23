@@ -27,13 +27,6 @@ class MainMenuState extends MusicBeatState
 	var versionPsych:FlxText;
 	var versionFnf:FlxText;
 	var secretText1:FlxText;
-
-	/*var tipTextMargin:Float = 10;
-	var tipTextScrolling:Bool = false;
-	var tipBackground:FlxSprite;
-	var tipText:FlxText;
-	var isTweening:Bool = false;
-	var lastString:String = '';*/
 	
 	var optionSelect:Array<String> = [
 		'story_mode',
@@ -69,9 +62,6 @@ class MainMenuState extends MusicBeatState
 
 		FlxG.cameras.reset(camGame);
 		FlxG.cameras.setDefaultDrawTarget(camGame, true);
-
-		/* transIn = FlxTransitionableState.defaultTransIn;
-		transOut = FlxTransitionableState.defaultTransOut; */
 
 		persistentUpdate = persistentDraw = true;
 

@@ -23,7 +23,7 @@ class NoSecretScreen1Substate extends MusicBeatSubstate
         FlxTween.tween(blackSprite, {alpha: 0.8}, 0.4, {ease: FlxEase.quartInOut});
         add(blackSprite);
 
-        warningText1 = new FlxText(0, 0, "THERE IS NO DVD SCREEN\nEASTER EGG\nAVAILABLE ON VERSION\n" + MainMenuState.sbEngineVersion + " (PE " + MainMenuState.psychEngineVersion + ")!\nSOME ASSETS AND OTHER STUFF\nFROM OLDEST 0.6.3\nBUGGY BUILD ARE NOT YET\nIMPORTED!!!!!", 23);
+        warningText1 = new FlxText(0, 0, "THERE IS NO DVD SCREEN\nEASTER EGG\nAVAILABLE ON VERSION\n" + MainMenuState.sbEngineVersion + " (PE " + MainMenuState.psychEngineVersion + ")!\nSOME ASSETS AND OTHER STUFF\nFROM OLDEST 0.6.3\nBUGGY BUILD ARE NOT YET\nIMPORTED!!!!!", 40);
         warningText1.setFormat("VCR OSD Mono", 20, FlxColor.RED, CENTER, FlxTextBorderStyle.OUTLINE_FAST, FlxColor.BLACK, false);
         warningText1.scrollFactor.x = 0;
 		warningText1.scrollFactor.y = 0;

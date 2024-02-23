@@ -3295,9 +3295,10 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		timeBar.visible = false;
-		timeTxt.visible = false;
-		timePercentTxt.visible = false;
+		// Destroy method is better because the visibility is weirdo.--Stefan2008
+		timeBar.destroy();
+		timeTxt.destroy();
+		timePercentTxt.destroy();
 		canPause = false;
 		endingSong = true;
 		camZooming = false;
