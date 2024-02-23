@@ -66,7 +66,6 @@ class MasterEditorMenu extends MusicBeatState
 		velocityBackground = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0x70000000, 0x0));
 		velocityBackground.velocity.set(FlxG.random.bool(50) ? 90 : -90, FlxG.random.bool(50) ? 90 : -90);
 		velocityBackground.visible = ClientPrefs.data.velocityBackground;
-		FlxTween.tween(velocityBackground, {alpha: 0.7}, 1, {ease: FlxEase.sineInOut});
 		add(velocityBackground);
 
 		grpTexts = new FlxTypedGroup<Alphabet>();

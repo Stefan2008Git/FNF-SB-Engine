@@ -258,6 +258,8 @@ class ChartingState extends MusicBeatState
 		velocityBackground.velocity.set(FlxG.random.bool(50) ? 90 : -90, FlxG.random.bool(50) ? 90 : -90);
 		velocityBackground.visible = ClientPrefs.data.velocityBackground;
 		velocityBackground.screenCenter();
+		velocityBackground.scrollFactor.x = 0;
+		velocityBackground.scrollFactor.y = 0;
 		add(velocityBackground);
 
 		gridLayer = new FlxTypedGroup<FlxSprite>();

@@ -31,10 +31,6 @@ class MusicBeatSubstate extends FlxSubState
 	private var curDecStep:Float = 0;
 	private var curDecBeat:Float = 0;
 	private var controls(get, never):Controls;
-	
-	public static var checkHitbox:Bool = false;
-	public static var checkDUO:Bool = false;
-	
 
 	inline function get_controls():Controls
 		return Controls.instance;
@@ -42,8 +38,8 @@ class MusicBeatSubstate extends FlxSubState
     #if android
 	public static var virtualPad:FlxVirtualPad;
 	public static var androidControls:AndroidControls;
-	//var trackedinputsUI:Array<FlxActionInput> = [];
-	//var trackedinputsNOTES:Array<FlxActionInput> = [];
+	public static var checkHitbox:Bool = false;
+	public static var checkDUO:Bool = false;
 	#end
 	
 	#if android
@@ -52,15 +48,11 @@ class MusicBeatSubstate extends FlxSubState
 		add(virtualPad);
 		Controls.checkTheState = false;
 		Controls.checkThePressedControl = true;
-		//controls.setVirtualPadUI(virtualPad, DPad, Action);
-		//trackedinputsUI = controls.trackedinputsUI;
-		//controls.trackedinputsUI = [];
 	}
 	#end
 
 	#if android
 	public function removeVirtualPad() {
-		//controls.removeFlxInput(trackedinputsUI);
 		remove(virtualPad);
 	}
 	#end
@@ -80,21 +72,17 @@ class MusicBeatSubstate extends FlxSubState
 		switch (androidControls.mode)
 		{
 			case VIRTUALPAD_RIGHT | VIRTUALPAD_LEFT | VIRTUALPAD_CUSTOM:
-				//controls.setVirtualPadNOTES(androidControls.virtualPads, FULL, NONE);
 				checkHitbox = false;
 				checkDUO = false;
 				Controls.checkTheKeyboard = false;
 			case DUO:
-				//controls.setVirtualPadNOTES(androidControls.virtualPads, DUO, NONE);
 				checkHitbox = false;
 				checkDUO = true;
 				Controls.checkTheKeyboard = false;
 			case HITBOX:
-				//controls.setNewHitBox(androidControls.newHitbox);
 				checkHitbox = true;
 				checkDUO = false;
 				Controls.checkTheKeyboard = false;
-			//case KEYBOARD:	
 			    
 			default:
 			    checkHitbox = false;
@@ -205,12 +193,12 @@ class MusicBeatSubstate extends FlxSubState
 
 	public function beatHit():Void
 	{
-		//do literally nothing dumbass
+		// Unknown...
 	}
 	
 	public function sectionHit():Void
 	{
-		//yep, you guessed it, nothing again, dumbass
+		// Unknown...
 	}
 	
 	function getBeatsOnSection()

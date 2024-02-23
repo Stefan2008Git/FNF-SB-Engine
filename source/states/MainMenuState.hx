@@ -62,7 +62,7 @@ class MainMenuState extends MusicBeatState
 
 		#if DISCORD_ALLOWED
 		// Updating Discord Rich Presence
-		DiscordClient.changePresence("In the Menus", null);
+		DiscordClient.changePresence("In the Main Menus", null);
 		#end
 
 		camGame = new FlxCamera();
@@ -85,16 +85,13 @@ class MainMenuState extends MusicBeatState
 		menuBackground.color = 0xfffde871;
 		add(menuBackground);
 
-		velocityBackground = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0x70000000, 0x0));
-		velocityBackground.velocity.set(FlxG.random.bool(50) ? 90 : -90, FlxG.random.bool(50) ? 90 : -90);
-		velocityBackground.visible = ClientPrefs.data.velocityBackground;
-		add(velocityBackground);
-
 		camFollow = new FlxObject(0, 0, 1, 1);
 		add(camFollow);
 
 		background = new FlxSprite(-80).loadGraphic(Paths.image('menuDesat'));
 		background.setGraphicSize(Std.int(background.width * 1.175));
+		background.scrollFactor.x = 0;
+		background.scrollFactor.y = 0;
 		background.updateHitbox();
 		background.screenCenter();
 		background.visible = false;
@@ -107,6 +104,13 @@ class MainMenuState extends MusicBeatState
 				background.color = 0xFFea71fd;
 		}
 		add(background);
+
+		velocityBackground = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0x70000000, 0x0));
+		velocityBackground.velocity.set(FlxG.random.bool(50) ? 90 : -90, FlxG.random.bool(50) ? 90 : -90);
+		velocityBackground.visible = ClientPrefs.data.velocityBackground;
+		velocityBackground.scrollFactor.x = 0;
+		velocityBackground.scrollFactor.y = 0;
+		add(velocityBackground);
 
 		mainSide = new FlxSprite(0).loadGraphic(Paths.image('mainSide'));
 		mainSide.scrollFactor.x = 0;
@@ -267,7 +271,7 @@ class MainMenuState extends MusicBeatState
 				FlxG.mouse.visible = false;
 				selectedSomething = true;
 				FlxG.sound.play(Paths.sound('cancelMenu'));
-				FlxG.switchState(() -> new MasterEditorMenu());
+				FlxG.switchState(() -> new TitleState());
 			}
 
 			if (controls.ACCEPT)
@@ -287,7 +291,6 @@ class MainMenuState extends MusicBeatState
 			if (FlxG.keys.justPressed.S #if android || FlxG.android.justReleased.BACK #end) 
 			{
 				FlxG.mouse.visible = false;
-				Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Founded a secret menu";
 				FlxG.sound.play(Paths.sound('cancelMenu'), 1);
 				persistentUpdate = false;
 				#if android

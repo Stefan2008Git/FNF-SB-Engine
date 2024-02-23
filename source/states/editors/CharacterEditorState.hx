@@ -122,7 +122,7 @@ class CharacterEditorState extends MusicBeatState
 		add(animsTxtGroup);
 
 		var tipText:FlxText = new FlxText(FlxG.width - 300, FlxG.height - 24, 300, "Press F1 for Help", 16);
-		#if android tipText.text = "Tap On F Button for Help" #end
+		#if android tipText.text = "Tap On F Button for Help"; #end
 		tipText.cameras = [camHUD];
 		tipText.setFormat(null, 16, FlxColor.WHITE, RIGHT, OUTLINE_FAST, FlxColor.BLACK);
 		tipText.borderColor = FlxColor.BLACK;

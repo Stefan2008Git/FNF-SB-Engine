@@ -59,7 +59,7 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		if(Mods.mergeAllTextsNamed('images/noteSplashes/list.txt', 'shared').length > 0)
 			noteSplashes = Mods.mergeAllTextsNamed('images/noteSplashes/list.txt', 'shared');
 		else
-			noteSplashes = CoolUtil.coolTextFile(Paths.getPreloadPath(SUtil.getPath() + 'shared/images/noteSplashes/list.txt'));
+			noteSplashes = CoolUtil.coolTextFile(Paths.getPreloadPath('shared/images/noteSplashes/list.txt'));
 
 		if(noteSplashes.length > 0)
 		{
@@ -177,6 +177,10 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			"If unchecked, hides time bar.", 'timeBar', 'bool');
 		addOption(option);
 
+		var option:Option = new Option('Time txt',
+			"If unchecked, hides time txt.", 'timeTxt', 'bool');
+		addOption(option);
+
 		var option:Option = new Option('Icon bounce',
 			"If unchecked, disables 5 HUD icon bounce instead for Psych Engine HUD.", 'iconBounce', 'bool');
 		addOption(option);
@@ -245,11 +249,11 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			"If unchecked, disables the original FNF game over screen.", 'gameOverScreen', 'bool');
 		addOption(option);
 
-		var option:Option = new Option('Song percent',
-			"If checked, shows the song percent.", 'songPercent', 'bool');
+		var option:Option = new Option('Song percentage',
+			"If checked, shows the song percent.", 'songPercentage', 'bool');
 		addOption(option);
 
-		var option:Option = new Option('Pause Screen Song:',
+		var option:Option = new Option('Pause Screen Song: ',
 			"What song do you prefer for the Pause Screen?",
 			'pauseMusic',
 			'string',
@@ -276,7 +280,7 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		addOption(option);
 
 		var option:Option = new Option('Hitsound Volume',
-			'Funny notes does \"Tick!\" when you hit them."',
+			'Arrows does \"Tick!\" when you hit them."',
 			'hitsoundVolume',
 			'percent');
 		addOption(option);

@@ -135,6 +135,7 @@ class VisualsUISubState extends BaseOptionsMenu
 	{
 		if (ClientPrefs.data.mainMenuMusic != 'FNF') FlxG.sound.playMusic(Paths.music('freakyMenu-' + ClientPrefs.data.mainMenuMusic));
 		if (ClientPrefs.data.mainMenuMusic == 'FNF') FlxG.sound.playMusic(Paths.music('freakyMenu'));
+		if(ClientPrefs.data.mainMenuMusic == 'None') FlxG.sound.music.volume = 0;
 		changedMainMusic = true;
 	}
 }

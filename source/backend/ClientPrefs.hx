@@ -93,8 +93,9 @@ class SaveVariables {
 	public var resultsScreen:Bool = false;
 	public var loadingScreen:Bool = false;
 	public var gameOverScreen:Bool = true;
-	public var songPercent:Bool = false;
-	public var fadeTransition:Bool = false;
+	public var songPercentage:Bool = false;
+	public var fadeTransition:Bool = true;
+	public var timeTxt:Bool = true;
 	public var gameplaySettings:Map<String, Dynamic> = [
 		'scrollspeed' => 1.0,
 		'scrolltype' => 'multiplicative', 

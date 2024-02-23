@@ -431,7 +431,6 @@ class PlayState extends MusicBeatState
 		daveAndBambiIconBounce = (ClientPrefs.data.iconBounce && ClientPrefs.data.gameStyle == 'Dave and Bambi');
 		checkyEngineIconBounce = (ClientPrefs.data.iconBounce && ClientPrefs.data.gameStyle == 'Cheeky');
 		notesCanMoveCamera = (ClientPrefs.data.cameraMovement);
-		updatePercentTime = (ClientPrefs.data.songPercent);
 
 		// var gameCam:FlxCamera = FlxG.camera;
 		camGame = new FlxCamera();
@@ -654,7 +653,7 @@ class PlayState extends MusicBeatState
 		} else if (ClientPrefs.data.gameStyle == 'SB Engine' || ClientPrefs.data.gameStyle == 'Psych Engine' || ClientPrefs.data.gameStyle == 'TGT Engine' || ClientPrefs.data.gameStyle == 'Kade Engine' || ClientPrefs.data.gameStyle == 'Dave and Bambi') {
 			timeTxt.alpha = 0;
 		}
-		timeTxt.visible = updateTime = showTime;
+		timeTxt.visible = updateTime = showTime && ClientPrefs.data.timeTxt;
 		if (ClientPrefs.data.timeBarType == 'Song Name + Time Left' && ClientPrefs.data.gameStyle == 'Cheeky') timeTxt.text = SONG.song + " [0:00]";
 		if (ClientPrefs.data.timeBarType == 'Song Name + Time Elapsed' && ClientPrefs.data.gameStyle == 'Cheeky') timeTxt.text = SONG.song + " [0:00]";
 		if (ClientPrefs.data.timeBarType == 'Modern Time' && ClientPrefs.data.gameStyle == 'Cheeky') timeTxt.text = "0:00 / 0:00";
@@ -662,39 +661,49 @@ class PlayState extends MusicBeatState
 		if(ClientPrefs.data.downScroll) timeTxt.y = FlxG.height - 44;
 		if(ClientPrefs.data.timeBarType == 'Song Name') timeTxt.text = SONG.song;
 
-		timePercentTxt = new FlxText(timeTxt.x + 50, "");
+		timePercentTxt = new FlxText(0, 0, "");
 		switch (ClientPrefs.data.gameStyle) {
 			case 'SB Engine':
 				timePercentTxt.setFormat(Paths.font("bahnschrift.ttf"), 29, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 				timePercentTxt.borderSize = 1.5;
+				timePercentTxt.x = timeTxt.x + 605;
 
 			case 'Psych Engine':
 				timePercentTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 				timePercentTxt.borderSize = 2;
+				timePercentTxt.x = timeTxt.x + 620;
 			
 			case 'Kade Engine':
 				timePercentTxt.setFormat(Paths.font("vcr.ttf"), 18, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 				timePercentTxt.borderSize = 1;
+				timePercentTxt.x = timeTxt.x + 630;
 
 			case 'Dave and Bambi':
 				timePercentTxt.setFormat(Paths.font("comic.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 				timePercentTxt.borderSize = 2;
+				timePercentTxt.x = timeTxt.x + 630;
 			
 			case 'TGT Engine':
 				timePercentTxt.setFormat(Paths.font("calibri.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 				timePercentTxt.borderSize = 2;
+				timePercentTxt.x = timeTxt.x + 630;
 			
 			case 'Cheeky':
 				timePercentTxt.setFormat(Paths.font("vcr.ttf"), 42, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 				timePercentTxt.borderSize = 1.25;
+				timePercentTxt.x = timeTxt.x + 630;
 		}
+		timePercentTxt.y = 20;
 		if (!ClientPrefs.data.timeBar && ClientPrefs.data.gameStyle == 'Cheeky') {
 			timePercentTxt.alpha = 1;
 		} else if (ClientPrefs.data.gameStyle == 'SB Engine' || ClientPrefs.data.gameStyle == 'Psych Engine' || ClientPrefs.data.gameStyle == 'TGT Engine' || ClientPrefs.data.gameStyle == 'Kade Engine' || ClientPrefs.data.gameStyle == 'Dave and Bambi') {
 			timePercentTxt.alpha = 0;
 		}
-		if (ClientPrefs.data.gameStyle == 'Cheeky') timePercentTxt.text = "0%";
-		timePercentTxt.visible = updatePercentTime;
+		if (ClientPrefs.data.gameStyle == 'Cheeky') timePercentTxt.text = "0.0%";
+		if (!ClientPrefs.data.timeBar && !ClientPrefs.data.timeTxt) // For some reason it only show when you disable time text. --Stefan2008
+			timePercentTxt.x = timeTxt.x + 230;
+			// timePercentTxt.screenCenter(X); Im trying my best to make it accrurate as Geometry Dash, but for now i will keep to screenCenter because i can't make it perfectly centered. --Stefan2008
+		timePercentTxt.visible = updatePercentTime && ClientPrefs.data.songPercentage;
 
 		switch (ClientPrefs.data.gameStyle) {
 			case 'Psych Engine' | 'TGT Engine':
@@ -1638,6 +1647,8 @@ class PlayState extends MusicBeatState
 			FlxTween.tween(timeBar, {y: timeBar.y + -10}, 1.5, {ease: FlxEase.backInOut});
 			FlxTween.tween(timeTxt, {alpha: 1}, 1, {ease: FlxEase.cubeInOut});
 			FlxTween.tween(timeTxt, {y: timeTxt.y + -10}, 1.5, {ease: FlxEase.backInOut});
+			FlxTween.tween(timePercentTxt, {alpha: 1}, 1, {ease: FlxEase.cubeInOut});
+			FlxTween.tween(timePercentTxt, {y: timeTxt.y + -10}, 1.5, {ease: FlxEase.backInOut});
 		}
 
 		seenCutscene = true;
@@ -3286,6 +3297,7 @@ class PlayState extends MusicBeatState
 
 		timeBar.visible = false;
 		timeTxt.visible = false;
+		timePercentTxt.visible = false;
 		canPause = false;
 		endingSong = true;
 		camZooming = false;
@@ -3331,7 +3343,7 @@ class PlayState extends MusicBeatState
 					FlxG.switchState(() -> new StoryMenuState());
 
 					// if ()
-					if(!ClientPrefs.getGameplaySetting('practice') && !ClientPrefs.getGameplaySetting('botplay')) {
+					if(!practiceMode && !cpuControlled) { // Instead of basic ClientPrefs you can use this method because it's an same thing -- Stefan2008
 						StoryMenuState.weekCompleted.set(WeekData.weeksList[storyWeek], true);
 						Highscore.saveWeekScore(WeekData.getWeekFileName(), campaignScore, storyDifficulty);
 
