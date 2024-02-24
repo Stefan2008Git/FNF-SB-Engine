@@ -59,11 +59,25 @@ class Main extends Sprite
 	public static function main():Void
 	{
 		Lib.current.addChild(new Main());
+		#if cpp
+		cpp.NativeGc.enable(true);
+		#elseif hl
+		hl.Gc.enable(true);
+		#end
 	}
 
 	public function new()
 	{
 		super();
+
+		#if windows
+		@:functionCode("
+		#include <windows.h>
+		#include <winuser.h>
+		setProcessDPIAware() // allows for more crisp visuals
+		DisableProcessWindowsGhosting() // lets you move the window and such if it's not responding
+		")
+		#end
 
 		if (stage != null)
 		{
@@ -109,6 +123,7 @@ class Main extends Sprite
 		}
 		#if android
 	    SUtil.doTheCheck();
+		FlxG.android.preventDefaultKeys = [BACK];
 		#end
 
 		#if LUA_ALLOWED Lua.set_callbacks_function(cpp.Callable.fromStaticFunction(psychlua.CallbackHandler.call)); #end
@@ -116,7 +131,7 @@ class Main extends Sprite
 		ClientPrefs.loadDefaultKeys();
 	
 		#if mobile
-		addChild(new FlxGame(1280, 720, TitleState, 60, 60, true, false));
+		addChild(new FlxGame(#if (openfl >= "9.2.0") 1280, 720 #else game.width, game.height #end, TitleState, 60, 60, true, false);
 		#else
 		addChild(new FlxGame(game.width, game.height, game.initialState, game.framerate, game.framerate, game.skipSplash, game.startFullscreen));
 		#end
