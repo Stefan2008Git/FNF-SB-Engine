@@ -1069,7 +1069,6 @@ class CharacterEditorState extends MusicBeatState
 
 		if(FlxG.keys.justPressed.F1 || helpBg.visible && FlxG.keys.justPressed.ESCAPE #if android || MusicBeatState.virtualPad.buttonF.justPressed #end)
 		{
-			#if android	MusicBeatState.virtualPad.forEachAlive(function(button:FlxButton) {if(button.tag != 'f') button.visible = !button.visible;}); #end
 			helpBg.visible = !helpBg.visible;
 			helpTexts.visible = helpBg.visible;
 		}
