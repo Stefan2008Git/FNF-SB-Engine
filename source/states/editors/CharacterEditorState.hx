@@ -19,12 +19,18 @@ import objects.Character;
 import objects.HealthIcon;
 import objects.Bar;
 
+#if android
+import android.flixel.FlxButton as MobileButton;
+#end
+
 class CharacterEditorState extends MusicBeatState
 {
 	var character:Character;
 	var ghost:FlxSprite;
+	#if flxanimate
 	var animateGhost:FlxAnimate;
 	var animateGhostImage:String;
+	#end
 	var cameraFollowPointer:FlxSprite;
 	var isAnimateSprite:Bool = false;
 
@@ -1059,11 +1065,11 @@ class CharacterEditorState extends MusicBeatState
 		frameAdvanceText.color = clr;
 
 		// OTHER CONTROLS
-		if(FlxG.keys.justPressed.F12 #if android || MusicBeatState.virtualPad.buttonS.justPressed #end)
-			silhouettes.visible = !silhouettes.visible;
+		if(FlxG.keys.justPressed.F12 #if android || MusicBeatState.virtualPad.buttonS.justPressed #end)	silhouettes.visible = !silhouettes.visible;
 
 		if(FlxG.keys.justPressed.F1 || helpBg.visible && FlxG.keys.justPressed.ESCAPE #if android || MusicBeatState.virtualPad.buttonF.justPressed #end)
 		{
+			#if android	MusicBeatState.virtualPad.forEachAlive(function(button:MobileButton) {if(button.tag != 'f') button.visible = !button.visible;}); #end
 			helpBg.visible = !helpBg.visible;
 			helpTexts.visible = helpBg.visible;
 		}

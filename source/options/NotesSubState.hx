@@ -100,6 +100,7 @@ class NotesSubState extends MusicBeatSubstate
 		add(bg);
 		
 		var text:Alphabet = new Alphabet(50, 86, 'CTRL', false);
+		#if android text.set_text('TAP'); #end
 		text.alignment = CENTERED;
 		text.setScale(0.4);
 		add(text);
@@ -158,7 +159,7 @@ class NotesSubState extends MusicBeatSubstate
 		var tipY = 660;
 		var tip:FlxText = new FlxText(tipX, tipY, 0, "Press RELOAD to Reset the selected Note Part.", 16);
 		#if android
-			tipX = 200;
+			tip.x = tipX + 200;
 			tip.text ="Tap on C button to Reset the selected Note Part"; 
 		#end
 		switch (ClientPrefs.data.gameStyle) {
@@ -171,9 +172,7 @@ class NotesSubState extends MusicBeatSubstate
 		add(tip);
 
 		tipTxt = new FlxText(tipX, tipY + 24, 0, '', 16);
-		#if android
-			tipX = 200;
-		#end
+		#if android	tipX = 200;	#end
 		switch (ClientPrefs.data.gameStyle) {
 			case 'SB Engine': tipTxt.setFormat(Paths.font("bahnschrift.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 			case 'Psych Engine' | 'Kade Engine' | 'Cheeky': tipTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
