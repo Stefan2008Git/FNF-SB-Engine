@@ -33,6 +33,7 @@ class FlxButton extends FlxTypedButton<FlxText>
 	/**
 	 * Shortcut to setting label.text
 	 */
+	public var tag:String;
 	public var text(get, set):String;
 
 	/**

@@ -7,7 +7,11 @@ import flixel.animation.FlxAnimation;
 import flixel.system.debug.interaction.tools.Pointer.GraphicCursorCross;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.addons.ui.*;
+#if android
+import android.flixel.FlxButton;
+#else
 import flixel.ui.FlxButton;
+#end
 import flixel.util.FlxDestroyUtil;
 
 import openfl.net.FileReference;
@@ -18,10 +22,6 @@ import lime.system.Clipboard;
 import objects.Character;
 import objects.HealthIcon;
 import objects.Bar;
-
-#if android
-import android.flixel.FlxButton as MobileButton;
-#end
 
 class CharacterEditorState extends MusicBeatState
 {
@@ -1069,7 +1069,7 @@ class CharacterEditorState extends MusicBeatState
 
 		if(FlxG.keys.justPressed.F1 || helpBg.visible && FlxG.keys.justPressed.ESCAPE #if android || MusicBeatState.virtualPad.buttonF.justPressed #end)
 		{
-			#if android	MusicBeatState.virtualPad.forEachAlive(function(button:MobileButton) {if(button.tag != 'f') button.visible = !button.visible;}); #end
+			#if android	MusicBeatState.virtualPad.forEachAlive(function(button:FlxButton) {if(button.tag != 'f') button.visible = !button.visible;}); #end
 			helpBg.visible = !helpBg.visible;
 			helpTexts.visible = helpBg.visible;
 		}
