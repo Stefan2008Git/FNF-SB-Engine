@@ -223,11 +223,12 @@ class ClientPrefs {
 
 		//Placing this in a separate save so that it can be manually deleted without removing your Score and stuff
 		var save:FlxSave = new FlxSave();
-		save.bind('controls_v3', CoolUtil.getSavePath());
+		save.bind('dataSaver', CoolUtil.getSavePath());
 		save.data.keyboard = keyBinds;
 		save.data.gamepad = gamepadBinds;
 		save.flush();
 		FlxG.log.add("Settings saved!");
+		TraceText.makeTheTraceText('Settings saved!');
 	}
 
 	public static function loadPrefs() {

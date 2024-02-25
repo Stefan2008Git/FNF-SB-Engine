@@ -62,11 +62,6 @@ class TitleState extends MusicBeatState {
 	override public function create():Void
 	{
 		Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion +" - Title screen";
-		#if android
-		FlxG.android.preventDefaultKeys = [BACK];
-		removeVirtualPad();
-		noCheckPress();
-        #end
 
 		Paths.clearStoredMemory();
 
@@ -74,6 +69,11 @@ class TitleState extends MusicBeatState {
 		Mods.pushGlobalMods();
 		#end
 		Mods.loadTopMod();
+
+		#if android
+		removeVirtualPad();
+		noCheckPress();
+		#end
 
 		FlxG.fixedTimestep = false;
 		FlxG.game.focusLostFramerate = 60;
@@ -83,7 +83,7 @@ class TitleState extends MusicBeatState {
 
 		super.create();
 
-		FlxG.save.bind('stefan2008', CoolUtil.getSavePath());
+		FlxG.save.bind('sbFunkin', CoolUtil.getSavePath());
 
 		ClientPrefs.loadPrefs();
 		Highscore.load();

@@ -2,7 +2,6 @@ package;
 
 import openfl.events.KeyboardEvent;
 import flixel.graphics.FlxGraphic;
-
 import openfl.Assets;
 import openfl.Lib;
 import openfl.display.Sprite;
@@ -121,6 +120,7 @@ class Main extends Sprite
 			game.width = Math.ceil(stageWidth / game.zoom);
 			game.height = Math.ceil(stageHeight / game.zoom);
 		}
+
 		#if android
 	    SUtil.doTheCheck();
 		FlxG.android.preventDefaultKeys = [BACK];
@@ -131,7 +131,7 @@ class Main extends Sprite
 		ClientPrefs.loadDefaultKeys();
 	
 		#if mobile
-		addChild(new FlxGame(#if (openfl >= "9.2.0") 1280, 720 #else game.width, game.height #end, TitleState, 60, 60, true, false);
+		addChild(new FlxGame(#if (openfl >= "9.2.0") 1280, 720 #else game.width, game.height #end, TitleState, 60, 60, true, false));
 		#else
 		addChild(new FlxGame(game.width, game.height, game.initialState, game.framerate, game.framerate, game.skipSplash, game.startFullscreen));
 		#end
@@ -186,6 +186,10 @@ class Main extends Sprite
 		     if (FlxG.game != null)
 			 resetSpriteCache(FlxG.game);
 		});
+
+		#if debug
+		FlxG.console.registerClass(openfl.utils.Assets);
+		#end
 	}
 
 	static function resetSpriteCache(sprite:Sprite):Void {
@@ -201,7 +205,7 @@ class Main extends Sprite
 	}
 
 	// Code was entirely made by sqirra-rng for their fnf engine named "Izzy Engine", big props to them!!!
-	// very cool person for real they don't get enough credit for their work
+	// very cool person for real he is not getting enough credit for their work
 	#if CRASH_HANDLER
 	function onCrash(e:UncaughtErrorEvent):Void
 	{
