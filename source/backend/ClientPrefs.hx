@@ -4,6 +4,7 @@ import flixel.util.FlxSave;
 import flixel.input.keyboard.FlxKey;
 import flixel.input.gamepad.FlxGamepadInputID;
 
+import objects.TraceText;
 import states.TitleState;
 
 // Add a variable here and it will get automatically saved
