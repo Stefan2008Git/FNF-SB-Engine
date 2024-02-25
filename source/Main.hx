@@ -224,7 +224,7 @@ class Main extends Sprite
 			switch (stackItem)
 			{
 				case FilePos(s, file, line, column):
-					errorMessage += file + " (Line " + line + " , " + Std.string(s).replace(', ', ', ') + ")\n";
+					errorMessage += file + " (Line " + line + ", " + Std.string(s).replace(', ', ', ') + ")\n";
 				default:
 					Sys.println(stackItem);
 			}
