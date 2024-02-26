@@ -73,7 +73,7 @@ class AndroidOptionsSubState extends BaseOptionsMenu
 
 		var option:Option = new Option('Vibration', 'If unchecked, the phone will stop the vibration', 'vibration',
 			'bool');
-		onOption.onChange = onChangeVibration;
+		option.onChange = onChangeVibration;
 		addOption(option);
 		#end
 
