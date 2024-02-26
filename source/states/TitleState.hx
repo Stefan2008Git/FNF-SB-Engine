@@ -71,6 +71,7 @@ class TitleState extends MusicBeatState {
 		Mods.loadTopMod();
 
 		#if android
+		FlxG.android.preventDefaultKeys = [BACK];
 		removeVirtualPad();
 		noCheckPress();
 		#end
