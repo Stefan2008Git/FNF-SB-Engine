@@ -11,6 +11,7 @@ import lime.app.Application;
 import debug.FPS;
 import states.TitleState;
 #if android
+import android.Hardware;
 import android.backend.AndroidDialogsExtend;
 import backend.SUtil;
 import lime.system.System;
@@ -228,7 +229,7 @@ class Main extends Sprite
 			switch (stackItem)
 			{
 				case FilePos(s, file, line, column):
-					errorMessage += file + " (Line " + line + ", " + Std.string(s).replace(', ', ', ') + ")\n";
+					errorMessage += file + " (Line " + line + ", " + Std.string(s).replace('.', ' .') + ")\n";
 				default:
 					Sys.println(stackItem);
 			}
@@ -247,7 +248,8 @@ class Main extends Sprite
 		#if android
 		var toastText:String = '';
 		toastText = 'Uncaught Error happends!';
-		AndroidDialogsExtend.OpenToast(toastText, 1);
+		AndroidDialogsExtend.OpenToast(toastText, 0.5);
+		Hardware.vibrate(500);
 		#end
 
 		FlxG.sound.music.stop();
