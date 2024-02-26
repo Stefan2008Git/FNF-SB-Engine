@@ -56,6 +56,7 @@ class SaveVariables {
 	public var virtualPadSpace:Array<Float> = [FlxG.width - 44 * 3, FlxG.height - 45 * 3];
 	public var dynamicColor:Bool = false;
 	public var screenSaver:Bool = true;
+	public var vibration:Bool = true;
 
 	public var scoreZoom:Bool = true;
 	public var noReset:Bool = false;

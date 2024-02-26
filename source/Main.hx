@@ -54,6 +54,7 @@ class Main extends Sprite
 	public static var watermark:Sprite;
 	public static var toastText:String = '';
 	public static var checkingToastMessage:Bool = false;
+	public static var vibrationInt:Int = 500;
 
 	// You can pretty much ignore everything from here on - your code should go in your states.
 
@@ -124,6 +125,7 @@ class Main extends Sprite
 		}
 
 		#if android
+		System.allowScreenTimeout = ClientPrefs.data.screenSaver;
 	    SUtil.doTheCheck();
 		#end
 
@@ -131,7 +133,7 @@ class Main extends Sprite
 		Controls.instance = new Controls();
 		ClientPrefs.loadDefaultKeys();
 	
-		#if mobile
+		#if android
 		addChild(new FlxGame(1280, 720, TitleState, 60, 60, true, false));
 		#else
 		addChild(new FlxGame(game.width, game.height, game.initialState, game.framerate, game.framerate, game.skipSplash, game.startFullscreen));
@@ -172,10 +174,6 @@ class Main extends Sprite
 
 		#if DISCORD_ALLOWED
 		DiscordClient.prepare();
-		#end
-
-		#if android
-		System.allowScreenTimeout = ClientPrefs.data.screenSaver;
 		#end
 
 		// shader coords fix
@@ -249,7 +247,8 @@ class Main extends Sprite
 		var toastText:String = '';
 		toastText = 'Uncaught Error happends!';
 		AndroidDialogsExtend.OpenToast(toastText, 0.5);
-		Hardware.vibrate(500);
+		//ClientPrefs.data.vibration ? vibrationInt;
+		if (ClientPrefs.data.vibration) Hardware.vibrate(vibrationInt);
 		#end
 
 		FlxG.sound.music.stop();

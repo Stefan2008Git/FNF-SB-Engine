@@ -253,7 +253,7 @@ class FlxVirtualPad extends FlxSpriteGroup {
 				case NOTESCOLORMENU:
 					actions.add(add(buttonE = createButton(42 * 3, FlxG.height - 165 * 3, 44 * 3, 127, "e", FlxColor.BROWN)));
 					actions.add(add(buttonC = createButton(0, FlxG.height - 165 * 3, 44 * 3, 127, "c", FlxColor.BROWN)));  
-					actions.add(add(buttonB = createButton(0, FlxG.height - 205 * 3, 44 * 3, 127, "b", FlxColor.BROWN)));					
+					actions.add(add(buttonB = createButton(FlxG.width - 44 * 3, FlxG.height - 45 * 3, 44 * 3, 127, "b", FlxColor.BROWN)));					
 				case NONE:
 			}
 		} else {
@@ -416,7 +416,7 @@ class FlxVirtualPad extends FlxSpriteGroup {
 			case NOTESCOLORMENU:
 			    actions.add(add(buttonE = createButton(42 * 3, FlxG.height - 165 * 3, 44 * 3, 127, "e", 0xFF7D00)));
 				actions.add(add(buttonC = createButton(0, FlxG.height - 165 * 3, 44 * 3, 127, "c", 0x44FF00)));  
-				actions.add(add(buttonB = createButton(0, FlxG.height - 205 * 3, 44 * 3, 127, "b", 0xFFCB00)));					
+				actions.add(add(buttonB = createButton(FlxG.width - 44 * 3, FlxG.height - 45 * 3, 44 * 3, 127, "b", 0xFFCB00)));					
 			case NONE:
 			}
 		}

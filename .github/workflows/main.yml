@@ -25,7 +25,7 @@ jobs:
 
       - uses: krdlab/setup-haxe@master
         with:
-          haxe-version: latest
+          haxe-version: 4.2.5
       # Runs a set of commands using the runners shell
       - name: Install Haxelib
         run: |
@@ -46,8 +46,7 @@ jobs:
           haxelib set SScript 8.1.6
           haxelib list
       - name: Building
-        run: |
-          haxelib fixrepo
+        run:
           haxelib run lime build linux -${{ matrix.arch }}
         env:
           cert_pass: nullfunni
@@ -106,7 +105,7 @@ jobs:
 
       - uses: krdlab/setup-haxe@master
         with:
-          haxe-version: latest
+          haxe-version: 4.3.2
       # Runs a set of commands using the runners shell
       - name: Install Haxelib
         run: |
@@ -126,8 +125,7 @@ jobs:
           haxelib set SScript 8.1.6
           haxelib list
       - name: Building
-        run: |
-          haxelib fixrepo
+        run:
           haxelib run lime build linux -debug -${{ matrix.arch }}
         env:
           cert_pass: nullfunni
@@ -183,7 +181,7 @@ jobs:
 
       - uses: krdlab/setup-haxe@master
         with:
-          haxe-version: latest
+          haxe-version: 4.3.2
       # Runs a set of commands using the runners shell
       - name: Install Haxelib
         run: |
@@ -202,8 +200,7 @@ jobs:
           haxelib set SScript 8.1.6
           haxelib list
       - name: Building
-        run: |
-          haxelib fixrepo
+        run:
           haxelib run lime build windows -${{ matrix.arch }}
         env:
           cert_pass: nullfunni
@@ -260,7 +257,7 @@ jobs:
 
       - uses: krdlab/setup-haxe@master
         with:
-          haxe-version: latest
+          haxe-version: 4.3.2
       # Runs a set of commands using the runners shell
       - name: Install Haxelib
         run: |
@@ -279,8 +276,7 @@ jobs:
           haxelib set SScript 8.1.6
           haxelib list
       - name: Building
-        run: |
-          haxelib fixrepo
+        run:
           haxelib run lime build windows -debug -${{ matrix.arch }}
         env:
           cert_pass: nullfunni
@@ -337,7 +333,7 @@ jobs:
 
       - uses: krdlab/setup-haxe@master
         with:
-          haxe-version: latest
+          haxe-version: 4.3.2
       # Runs a set of commands using the runners shell
       - name: Install Haxelib
         run: |
@@ -356,8 +352,7 @@ jobs:
       - name: Create Version Tag
         run: echo "${{github.run_id}}" > VERSION
       - name: Building
-        run: |
-          haxelib fixrepo
+        run:
           haxelib run lime build macos -${{ matrix.arch }}
         env:
           cert_pass: nullfunni
@@ -428,7 +423,7 @@ jobs:
       - name: Setup Haxe
         uses: krdlab/setup-haxe@master
         with:
-          haxe-version: 4.2.5
+          haxe-version: 4.3.2
 
       - name: Restore Previous Cache
         id: cache-debug-build-android-restore

@@ -159,7 +159,8 @@ class NotesSubState extends MusicBeatSubstate
 		var tipY = 660;
 		var tip:FlxText = new FlxText(tipX, tipY, 0, "Press RELOAD to Reset the selected Note Part.", 16);
 		#if android
-			tip.x = tipX + 200;
+			// tipX = 200; Doesn't change the position on Android for some reason
+			tip.x = 200;
 			tip.text ="Tap on C button to Reset the selected Note Part"; 
 		#end
 		switch (ClientPrefs.data.gameStyle) {

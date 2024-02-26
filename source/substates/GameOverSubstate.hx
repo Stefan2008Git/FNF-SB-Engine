@@ -12,9 +12,8 @@ import states.FreeplayState;
 
 class GameOverSubstate extends MusicBeatSubstate
 {
-	var bg:FlxSprite;
 	public var boyfriend:Character;
-	// var camFollow:FlxObject;
+	var camFollow:FlxObject;
 	var updateCamera:Bool = false;
 	var playingDeathSound:Bool = false;
 
@@ -24,6 +23,7 @@ class GameOverSubstate extends MusicBeatSubstate
 	public static var deathSoundName:String = 'fnf_loss_sfx';
 	public static var loopSoundName:String = 'gameOver';
 	public static var endSoundName:String = 'gameOverEnd';
+	public static var vibrationInt:Int = 500;
 
 	public static var instance:GameOverSubstate;
 
@@ -32,6 +32,7 @@ class GameOverSubstate extends MusicBeatSubstate
 		deathSoundName = 'fnf_loss_sfx';
 		loopSoundName = 'gameOver';
 		endSoundName = 'gameOverEnd';
+		vibrationInt = 500;
 
 		var _song = PlayState.SONG;
 		if(_song != null)
@@ -59,11 +60,6 @@ class GameOverSubstate extends MusicBeatSubstate
 
 		Conductor.songPosition = 0;
 
-		bg = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
-		bg.alpha = 0.6;
-		bg.screenCenter();
-		add(bg);
-
 		boyfriend = new Character(x, y, characterName, true);
 		boyfriend.x += boyfriend.positionArray[0];
 		boyfriend.y += boyfriend.positionArray[1];
@@ -75,7 +71,14 @@ class GameOverSubstate extends MusicBeatSubstate
 
 		boyfriend.playAnim('firstDeath');
 
-    	#if mobile
+		camFollow = new FlxObject(0, 0, 1, 1);
+		camFollow.setPosition(boyfriend.getGraphicMidpoint().x, boyfriend.getGraphicMidpoint().y);
+		FlxG.camera.focusOn(new FlxPoint(FlxG.camera.scroll.x + (FlxG.camera.width / 2), FlxG.camera.scroll.y + (FlxG.camera.height / 2)));
+		add(camFollow);
+
+    	#if android
+		//ClientPrefs.data.vibration ? vibrationInt;
+		if (ClientPrefs.data.vibration) Hardware.vibrate(vibrationInt);
     	addVirtualPad(NONE, A_B);
     	addPadCamera();
     	#end
@@ -103,11 +106,7 @@ class GameOverSubstate extends MusicBeatSubstate
 			PlayState.chartingMode = false;
 
 			Mods.loadTopMod();
-			if (PlayState.isStoryMode)
-				FlxG.switchState(() -> new StoryMenuState());
-			else
-				FlxG.switchState(() -> new FreeplayState());
-			
+			if (PlayState.isStoryMode) FlxG.switchState(() -> new StoryMenuState()); else FlxG.switchState(() -> new FreeplayState());
 
 			FlxG.sound.playMusic(Paths.music('freakyMenu-' + ClientPrefs.data.mainMenuMusic));
 			PlayState.instance.callOnScripts('onGameOverConfirm', [false]);
@@ -122,6 +121,7 @@ class GameOverSubstate extends MusicBeatSubstate
 			{
 				if(boyfriend.animation.curAnim.curFrame >= 12 && !isFollowingAlready)
 				{
+					FlxG.camera.follow(camFollow, LOCKON, 0);
 					updateCamera = true;
 					isFollowingAlready = true;
 				}
@@ -178,10 +178,7 @@ class GameOverSubstate extends MusicBeatSubstate
 			{
 				FlxG.camera.fade(FlxColor.BLACK, 2, false, function()
 				{
-					if (PlayState.isStoryMode)
-						FlxG.switchState(()-> new StoryMenuState());
-					else
-						FlxG.switchState(()-> new FreeplayState());
+					FlxG.resetState();
 				});
 			});
 			PlayState.instance.callOnScripts('onGameOverConfirm', [true]);
