@@ -247,8 +247,6 @@ class Main extends Sprite
 		var toastText:String = '';
 		toastText = 'Uncaught Error happends!';
 		AndroidDialogsExtend.OpenToast(toastText, 0.5);
-		//ClientPrefs.data.vibration ? vibrationInt;
-		if (ClientPrefs.data.vibration) Hardware.vibrate(vibrationInt);
 		#end
 
 		FlxG.sound.music.stop();

@@ -10,6 +10,10 @@ import flixel.math.FlxPoint;
 import states.StoryMenuState;
 import states.FreeplayState;
 
+#if android
+import android.Hardware;
+#end
+
 class GameOverSubstate extends MusicBeatSubstate
 {
 	public var boyfriend:Character;

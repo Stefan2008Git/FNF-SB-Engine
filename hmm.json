@@ -3,12 +3,12 @@
       {
         "name": "lime",
         "type": "haxelib",
-        "version": "8.0.2"
+        "version": null
       },
       {
         "name": "openfl",
         "type": "haxelib",
-        "version": "9.2.2"
+        "version": null
       },
       {
         "name": "flixel",

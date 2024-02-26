@@ -106,7 +106,7 @@ class VisualsUISubState extends BaseOptionsMenu
 			"What song do you prefer for the main menu?",
 			'mainMenuMusic',
 			'string',
-			['None', 'SB Engine', 'FNF', 'Kade Engine', 'Checky', 'Flixel']);
+			['SB Engine', 'FNF', 'Kade Engine', 'Checky', 'Flixel']);
 		addOption(option);
 		option.onChange = onChangeMainMenuMusic;
 

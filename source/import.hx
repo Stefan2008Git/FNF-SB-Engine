@@ -23,11 +23,7 @@ import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
 import flixel.math.FlxRandom;
 import flixel.math.FlxRect;
-#if (flixel < "5.3.0")
 import flixel.sound.FlxSound;
-#else
-import flixel.system.FlxSound;
-#end
 import flixel.util.FlxColor;
 import flixel.util.FlxGradient;
 import flixel.util.FlxDestroyUtil;

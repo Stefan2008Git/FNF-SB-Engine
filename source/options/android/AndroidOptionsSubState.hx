@@ -1,6 +1,9 @@
 package options.android;
 
 import lime.system.System;
+#if android
+import android.Hardware;
+#end
 
 class AndroidOptionsSubState extends BaseOptionsMenu
 {
