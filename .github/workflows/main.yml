@@ -314,8 +314,7 @@ jobs:
           ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
 
       - name: Building
-        run: |
-          haxelib fixrepo
+        run:
           haxelib run lime build android -${{ matrix.arch }}
         env:
           cert_pass: nullfunni
