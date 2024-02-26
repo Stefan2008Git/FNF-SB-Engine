@@ -124,7 +124,6 @@ class Main extends Sprite
 
 		#if android
 	    SUtil.doTheCheck();
-		FlxG.android.preventDefaultKeys = [BACK];
 		#end
 
 		#if LUA_ALLOWED Lua.set_callbacks_function(cpp.Callable.fromStaticFunction(psychlua.CallbackHandler.call)); #end
