@@ -46,7 +46,9 @@ jobs:
           haxelib set SScript 8.1.6
           haxelib list
       - name: Building
-        run: haxelib run lime build linux -${{ matrix.arch }}
+        run: |
+          haxelib fixrepo
+          haxelib run lime build linux -${{ matrix.arch }}
         env:
           cert_pass: nullfunni
           cert_alias_pass: nullfunni
@@ -124,7 +126,9 @@ jobs:
           haxelib set SScript 8.1.6
           haxelib list
       - name: Building
-        run: haxelib run lime build linux -debug -${{ matrix.arch }}
+        run: |
+          haxelib fixrepo
+          haxelib run lime build linux -debug -${{ matrix.arch }}
         env:
           cert_pass: nullfunni
           cert_alias_pass: nullfunni
