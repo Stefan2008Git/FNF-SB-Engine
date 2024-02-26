@@ -246,7 +246,7 @@ class Main extends Sprite
 		#if android
 		var toastText:String = '';
 		toastText = 'Uncaught Error happends!';
-		AndroidDialogsExtend.OpenToast(toastText, 0.5);
+		AndroidDialogsExtend.OpenToast(toastText, 1);
 		#end
 
 		FlxG.sound.music.stop();
