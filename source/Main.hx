@@ -13,6 +13,7 @@ import states.TitleState;
 #if android
 import android.backend.AndroidDialogsExtend;
 import backend.SUtil;
+import lime.system.System;
 #end
 
 #if linux
@@ -131,7 +132,7 @@ class Main extends Sprite
 		ClientPrefs.loadDefaultKeys();
 	
 		#if mobile
-		addChild(new FlxGame(#if (openfl >= "9.2.0") 1280, 720 #else game.width, game.height #end, TitleState, 60, 60, true, false));
+		addChild(new FlxGame(1280, 720, TitleState, 60, 60, true, false));
 		#else
 		addChild(new FlxGame(game.width, game.height, game.initialState, game.framerate, game.framerate, game.skipSplash, game.startFullscreen));
 		#end
@@ -171,6 +172,10 @@ class Main extends Sprite
 
 		#if DISCORD_ALLOWED
 		DiscordClient.prepare();
+		#end
+
+		#if android
+		System.allowScreenTimeout = ClientPrefs.data.screenSaver;
 		#end
 
 		// shader coords fix
