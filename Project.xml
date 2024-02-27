@@ -134,9 +134,8 @@
 	<!-- __________________________ Mobile Stuff _______________________________ -->
 	<config:android permission="android.permission.READ_EXTERNAL_STORAGE" if="android"/>
 	<config:android permission="android.permission.WRITE_EXTERNAL_STORAGE" if="android"/>
-	<certificate path="key.keystore" password="nullfunni" alias="null" alias-password="nullfunni" unless="debug" />
-    <config:android gradle-version="7.5.1" />
-    <config:android gradle-plugin="7.3.1" />
+   	<config:android gradle-version="7.5.1" />
+    	<config:android gradle-plugin="7.3.1" />
 
 	<!--Avoid memory leaks with for loops in HScript-->
 	<haxedef name="loop_unroll_max_cost" value="25" />
