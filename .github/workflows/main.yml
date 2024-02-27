@@ -359,7 +359,9 @@ jobs:
           key: cache-android-build
 
       - name: Upload Artifact
+        if: ${{ success() }}
         uses: actions/upload-artifact@main
         with:
           name: sbEngineAndroidBuild
-          path: export/release/android/bin/app/build/outputs/apk/debug
+          path: export/release/android/bin/app/build/outputs/apk/release/*.apk
+          if-no-files-found: error
