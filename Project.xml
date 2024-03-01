@@ -131,9 +131,6 @@
 	<!--Used to ignore no deprecreationed warning shits for TJSON and PlayState-->
 	<haxedef name='no-deprecation-warnings' />
 
-	<!-- This seems to be occuring only on linux, so I'm gonna do this -->
-	<template path="source/ManifestResources.hx" rename="../haxe/ManifestResources.hx" if="linux" />
-
 	<!-- __________________________ Mobile Stuff _______________________________ -->
 	<config:android permission="android.permission.READ_EXTERNAL_STORAGE" if="android"/>
 	<config:android permission="android.permission.WRITE_EXTERNAL_STORAGE" if="android"/>

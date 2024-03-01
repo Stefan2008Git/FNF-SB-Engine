@@ -11,7 +11,6 @@ import lime.app.Application;
 import debug.FPS;
 import states.TitleState;
 #if android
-import android.Hardware;
 import android.backend.AndroidDialogsExtend;
 import backend.SUtil;
 import lime.system.System;
@@ -125,7 +124,6 @@ class Main extends Sprite
 		}
 
 		#if android
-		System.allowScreenTimeout = ClientPrefs.data.screenSaver;
 	    SUtil.doTheCheck();
 		#end
 
@@ -174,6 +172,10 @@ class Main extends Sprite
 
 		#if DISCORD_ALLOWED
 		DiscordClient.prepare();
+		#end
+
+		#if android
+		System.allowScreenTimeout = ClientPrefs.data.screenSaver;
 		#end
 
 		// shader coords fix
