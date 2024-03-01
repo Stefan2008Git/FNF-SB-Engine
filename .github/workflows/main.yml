@@ -282,7 +282,7 @@ jobs:
         run: |
           haxelib setup ~/haxelib
           haxelib --global update haxelib
-          haxelib --quiet install hxcpp > 4.2.1 /dev/null
+          haxelib --quiet install hxcpp 4.2.1 > /dev/null
           haxelib --quiet install lime 8.0.2
           haxelib --quiet install openfl 9.2.2
           haxelib --quiet install flixel
