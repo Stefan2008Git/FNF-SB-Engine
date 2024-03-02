@@ -11,6 +11,7 @@ import lime.app.Application;
 import debug.FPS;
 import states.TitleState;
 #if android
+import android.Hardware;
 import android.backend.AndroidDialogsExtend;
 import backend.SUtil;
 import lime.system.System;
@@ -249,6 +250,7 @@ class Main extends Sprite
 		var toastText:String = '';
 		toastText = 'Uncaught Error happends!';
 		AndroidDialogsExtend.OpenToast(toastText, 1);
+		if (ClientPrefs.data.vibration) Hardware.vibrate(vibrationInt);
 		#end
 
 		FlxG.sound.music.stop();
