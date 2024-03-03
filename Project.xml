@@ -132,10 +132,18 @@
 	<haxedef name='no-deprecation-warnings' />
 
 	<!-- __________________________ Mobile Stuff _______________________________ -->
-	<config:android permission="android.permission.READ_EXTERNAL_STORAGE" if="android"/>
-	<config:android permission="android.permission.WRITE_EXTERNAL_STORAGE" if="android"/>
-   	<config:android gradle-version="7.5.1" />
+	<section if="android">
+		<!-- Do whatever you want I'm tired uninstall and install everytime -->
+		<certificate path="key.keystore" password="nullfunni" alias="null" alias-password="nullfunni" unless="debug" />
+
+		<!--Target SDK-->
+		<android target-sdk-version="29" if="android"/>
+		<config:android permission="android.permission.READ_EXTERNAL_STORAGE" if="android"/>
+        <config:android permission="android.permission.MANAGE_EXTERNAL_STORAGE" if="android"/>
+
+		<config:android gradle-version="7.5.1" />
     	<config:android gradle-plugin="7.3.1" />
+	</section>
 
 	<!--Avoid memory leaks with for loops in HScript-->
 	<haxedef name="loop_unroll_max_cost" value="25" />
