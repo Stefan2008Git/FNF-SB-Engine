@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=SB Engine
+Comment=A modified psych engine 0.7.1h fork with some changes and additions'
+Icon=io.github.stefan2008.fnf-sb-engine
+Exec=SB Engine
+Categories=Game

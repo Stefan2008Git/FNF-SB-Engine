@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.stefan2008git.fnf-sb-engine</id>
+  <launchable type="desktop-id">io.github.stefan2008git.fnf-sb-engine.desktop</launchable>
+  <name>SB Engine</name>
+  <developer id="github.com/stefan2008git">
+    <name>Stefan2008</name>
+    <contact>https://github.com/Stefan2008Git/</contact>
+  </developer>
+  <summary>A modified psych engine 0.7.1h fork with some changes and additions'</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>Apache-2.0</project_license>
+  <url type="homepage">https://github.com/Stefan2008Git/FNF-SB-Engine</url>
+  <description>
+      <p>Modified Psych Engine fork with some changes and additions, but on 0.7.1h. Creator: Stefan2008.</p>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <image type="source">https://images.gamebanana.com/img/ss/mods/610497c7928f9.jpg</image>
+      <caption>Story Mode menu</caption>
+    </screenshot>
+    <screenshot>
+      <image type="source">https://images.gamebanana.com/img/ss/mods/6585f00466cb5.jpg</image>
+      <caption>Achievements</caption>
+    </screenshot>
+    <screenshot>
+      <image type="source">https://images.gamebanana.com/img/ss/mods/6585f0032d39e.jpg</image>
+      <caption>Character editor</caption>
+    </screenshot>
+    <screenshot>
+      <image type="source">https://images.gamebanana.com/img/ss/mods/6144e1f277ae7.jpg</image>
+      <caption>Chart editor</caption>
+    </screenshot>
+    <screenshot>
+      <image type="source">https://images.gamebanana.com/img/ss/mods/6144ddeb8fa54.jpg</image>
+      <caption>Week editor</caption>
+    </screenshot>
+    <screenshot>
+      <image type="source">https://images.gamebanana.com/img/ss/mods/6144ddeb3cc52.jpg</image>
+      <caption>Dialogue editor</caption>
+    </screenshot>
+    <screenshot>
+      <image type="source">https://images.gamebanana.com/img/ss/mods/6585f003b63c0.jpg</image>
+      <caption>Configurable controls</caption>
+    </screenshot>
+    <screenshot>
+      <image type="source">https://images.gamebanana.com/img/ss/mods/6585f0044beb0.jpg</image>
+      <caption>Configurable note designs</caption>
+    </screenshot>
+  </screenshots>
+  <categories>
+    <category>Game</category>
+  </categories>
+  <releases>
+    <release version="3.0.0" date="2024-02-05"><url>https://github.com/Stefan2008Git/FNF-SB-Engine/releases/tag/v3.0.0</url></release>
+  </releases>
+  <content_rating type="oars-1.1">
+    <content_attribute id="violence-cartoon">intense</content_attribute>
+    <content_attribute id="violence-bloodshed">mild</content_attribute>
+    <content_attribute id="sex-themes">mild</content_attribute>
+    <content_attribute id="language-profanity">moderate</content_attribute>
+    <content_attribute id="language-humor">intense</content_attribute>
+  </content_rating>
+  <update_contact>https://github.com/Stefan2008Git/FNF-SB-Engine</update_contact>
+</component>

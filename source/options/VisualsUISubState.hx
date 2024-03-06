@@ -1,9 +1,5 @@
 package options;
 
-import objects.Note;
-import objects.StrumNote;
-import objects.Alphabet;
-
 class VisualsUISubState extends BaseOptionsMenu
 {
 	public function new()
@@ -67,7 +63,7 @@ class VisualsUISubState extends BaseOptionsMenu
 
 		#if DISCORD_ALLOWED
 		var option:Option = new Option('Discord Rich Presence',
-			"Uncheck this to prevent accidental leaks, it will hide the Application from your \"Playing\" box on Discord",
+			"Uncheck this to prevent accidental leaks, it will hide the Application from your \"Playing\" box on Discord\nNOTE: Required the game restart to apply changes!",
 			'discordRPC',
 			'bool');
 		addOption(option);
@@ -83,6 +79,7 @@ class VisualsUISubState extends BaseOptionsMenu
 		var option:Option = new Option('Velocity background', 
 		    'If unchecked, this option is disabling velocity background for optimization.', 'velocityBackground', 'bool');
 		addOption(option);
+		option.onChange = onChangeChecker;
 
 		#if PSYCH_WATERMARKS
 		var option:Option = new Option('0.7.3 Loading screen', 
@@ -137,5 +134,10 @@ class VisualsUISubState extends BaseOptionsMenu
 		if (ClientPrefs.data.mainMenuMusic == 'FNF') FlxG.sound.playMusic(Paths.music('freakyMenu'));
 		if(ClientPrefs.data.mainMenuMusic == 'None') FlxG.sound.music.volume = 0;
 		changedMainMusic = true;
+	}
+
+	function onChangeChecker() {
+		if (ClientPrefs.data.velocityBackground == true) BaseOptionsMenu.velocityBackground.visible = true;
+		else if (ClientPrefs.data.velocityBackground == false) BaseOptionsMenu.velocityBackground.visible = false;
 	}
 }

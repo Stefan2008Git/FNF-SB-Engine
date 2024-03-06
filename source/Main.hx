@@ -17,10 +17,6 @@ import backend.SUtil;
 import lime.system.System;
 #end
 
-#if linux
-import lime.graphics.Image;
-#end
-
 //crash handler stuff
 #if CRASH_HANDLER
 import openfl.events.UncaughtErrorEvent;
@@ -32,10 +28,10 @@ import sys.io.Process;
 #end
 
 #if linux
+import lime.graphics.Image;
+
 @:cppInclude('./external/gamemode_client.h')
-@:cppFileCode('
-	#define GAMEMODE_AUTO
-')
+@:cppFileCode('#define GAMEMODE_AUTO')
 #end
 
 class Main extends Sprite

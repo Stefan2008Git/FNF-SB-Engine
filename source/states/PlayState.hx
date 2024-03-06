@@ -2278,11 +2278,12 @@ class PlayState extends MusicBeatState
 				if (ClientPrefs.data.gameStyle == 'Cheeky') {
 					babyArrow.y -= 115;
 					FlxTween.tween(babyArrow, {y: babyArrow.y + 115}, 1, {ease: FlxEase.backInOut});
-				}
-				else if (ClientPrefs.data.gameStyle == 'Psych Engine' || ClientPrefs.data.gameStyle == 'TGT Engine' || ClientPrefs.data.gameStyle == 'Kade Engine' || ClientPrefs.data.gameStyle == 'Dave and Bambi') {
+				} else if (ClientPrefs.data.gameStyle == 'SB Engine') {
+					stefansArrowStartsTween(babyArrow);
+				} else {
 					//babyArrow.y -= 10;
 					babyArrow.alpha = 0;
-					FlxTween.tween(babyArrow, {/*y: babyArrow.y + 10,*/ alpha: targetAlpha}, 1, {ease: FlxEase.circOut, startDelay: 0.5 + (0.2 * i)});
+					FlxTween.tween(babyArrow, {alpha: targetAlpha}, 1, {ease: FlxEase.circOut, startDelay: 0.5 + (0.2 * i)});
 					babyArrow.alpha = targetAlpha;
 				}
 			}
@@ -2303,7 +2304,6 @@ class PlayState extends MusicBeatState
 
 			strumLineNotes.add(babyArrow);
 			babyArrow.postAddedToGroup();
-			if (ClientPrefs.data.gameStyle == 'SB Engine') stefansArrowStartsTween(babyArrow);
 		}
 	}
 

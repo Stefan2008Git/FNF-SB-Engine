@@ -17,7 +17,7 @@ class BaseOptionsMenu extends MusicBeatSubstate
 	private var grpTexts:FlxTypedGroup<AttachedText>;
 
 	private var background:FlxSprite;
-	private var velocityBackground:FlxBackdrop;
+	static var velocityBackground:FlxBackdrop;
 	private var descBox:FlxSprite;
 	private var descText:FlxText;
 

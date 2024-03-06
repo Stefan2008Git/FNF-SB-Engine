@@ -84,6 +84,7 @@ class ControlsSubState extends MusicBeatSubstate
 		grid.velocity.set(40, 40);
 		grid.alpha = 0;
 		FlxTween.tween(grid, {alpha: 1}, 0.5, {ease: FlxEase.quadOut});
+		grid.visible = ClientPrefs.data.velocityBackground;
 		add(grid);
 
 		grpDisplay = new FlxTypedGroup<Alphabet>();
