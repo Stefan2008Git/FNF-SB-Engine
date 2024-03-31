@@ -18,6 +18,7 @@ class SaveVariables {
 	public var debugInfo:Bool = false;
 	public var rainbowFPS:Bool = false;
 	public var redText:Bool = true;
+	public var inGameLogs:Bool = false;
 	public var watermarkIcon:Bool = true;
 	public var flashing:Bool = true;
 	public var autoPause:Bool = true;
@@ -245,13 +246,9 @@ class ClientPrefs {
 			}
 		}
 		
-		if(Main.fpsVar != null) {
-			Main.fpsVar.visible = data.showFPS;
-		}
-
-		if(Main.watermark != null) {
-			Main.watermark.visible = data.watermarkIcon;
-		}
+		if (Main.fpsVar != null) Main.fpsVar.visible = data.showFPS;
+		if (Main.gameLogs != null) Main.gameLogs.visible = data.inGameLogs;
+		if (Main.watermark != null) Main.watermark.visible = data.watermarkIcon;
 
 		#if (!html5 && !switch)
 		FlxG.autoPause = ClientPrefs.data.autoPause;

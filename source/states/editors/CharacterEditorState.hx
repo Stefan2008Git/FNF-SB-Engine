@@ -74,7 +74,6 @@ class CharacterEditorState extends MusicBeatState
 		if(ClientPrefs.data.cacheOnGPU) Paths.clearStoredMemory();
 		FlxG.sound.playMusic(Paths.music('offsetSong'), 1, true);
 		Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Mod Editors menu (Character Editor)";
-		Main.fpsVar.differentPosition = true;
 
 		camEditor = new FlxCamera();
 
@@ -1074,7 +1073,6 @@ class CharacterEditorState extends MusicBeatState
 		}
 		else if (FlxG.keys.justPressed.ESCAPE #if android || MusicBeatState.virtualPad.buttonB.justPressed #end)
 		{
-			Main.fpsVar.differentPosition = false;
 			FlxG.mouse.visible = false;
 			if(!_goToPlayState)
 			{

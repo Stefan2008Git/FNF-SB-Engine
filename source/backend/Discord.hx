@@ -73,7 +73,7 @@ class DiscordClient
 				Discord.RunCallbacks();
 
 				// Wait 0.5 seconds until the next loop...
-				Sys.sleep(0.5);
+				Sys.sleep(2);
 			}
 		});
 		isInitialized = true;
@@ -89,7 +89,7 @@ class DiscordClient
 		presence.state = state;
 		presence.largeImageKey = 'icon';
 		presence.largeImageText = "Engine Version: " + MainMenuState.sbEngineVersion + " (Modified Psych Engine v" + MainMenuState.psychEngineVersion + ")";
-		presence.smallImageKey = smallImageKey;
+		presence.smallImageKey = 'miniStefan';
 		// Obtained times are in milliseconds so they are divided so Discord can use it
 		presence.startTimestamp = Std.int(startTimestamp / 1000);
 		presence.endTimestamp = Std.int(endTimestamp / 1000);

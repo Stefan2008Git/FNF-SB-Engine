@@ -236,7 +236,6 @@ class ChartingState extends MusicBeatState
 		DiscordClient.changePresence("Chart Editor", StringTools.replace(_song.song, '-', ' '));
 		#end
 		Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Mod Editors menu (Chart Editor)";
-		Main.fpsVar.differentPosition = true;
 
 		vortex = FlxG.save.data.chart_vortex;
 		ignoreWarnings = FlxG.save.data.ignoreWarnings;
@@ -1921,16 +1920,12 @@ class ChartingState extends MusicBeatState
 				playtesting = true;
 				playtestingTime = Conductor.songPosition;
 				playtestingOnComplete = FlxG.sound.music.onComplete;
-				//#if android
-				/*warningStateTxt.visible = true;
-				warningStateTxt.text = "Chart playtesting is currently broken on Android build because of\nNull Object Refrence for controls, so it will be fixed on v3.1.0 update!\nTouch the screen to continue";
-				warningStateBG.visible = true;
-				warningStateChecker.visible = true;*/
-				// FlxG.camera.shake(0.05, 0.6);
-				// FlxG.sound.play(Paths.sound('error'));
-				// #else
+				#if android
+				FlxG.camera.shake(0.05, 0.6);
+				FlxG.sound.play(Paths.sound('error'));
+				#else
 				openSubState(new states.editors.EditorPlayState(playbackSpeed));
-				// #end
+				#end
 			}
 
 			if (FlxG.keys.justPressed.ENTER #if mobile || MusicBeatState.virtualPad.buttonA.justPressed #end)
@@ -1948,7 +1943,6 @@ class ChartingState extends MusicBeatState
 					Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Freeplay Menu (Loading current song: " + PlayState.SONG.song + " (" + Difficulty.getString() + ") )... ";
 				}
 				LoadingState.loadAndSwitchState(() -> new PlayState());
-				Main.fpsVar.differentPosition = false;
 			}
 
 			/* #if android
@@ -1982,7 +1976,6 @@ class ChartingState extends MusicBeatState
 				PlayState.chartingMode = false;
 				autosaveSong();
 				FlxG.switchState(() -> new states.editors.MasterEditorMenu());
-				Main.fpsVar.differentPosition = false;
 				FlxG.sound.playMusic(Paths.music('freakyMenu-' + ClientPrefs.data.mainMenuMusic));
 				FlxG.mouse.visible = false;
 				return;

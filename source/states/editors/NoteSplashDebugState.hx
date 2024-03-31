@@ -38,7 +38,6 @@ class NoteSplashDebugState extends MusicBeatState
 	{
 		FlxG.sound.playMusic(Paths.music('offsetSong'), 1, true);
 		Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Mod Editors menu (Note splash debug)";
-		Main.fpsVar.differentPosition = true;
 
 		switch (ClientPrefs.data.themes) {
 			case 'SB Engine':
@@ -222,7 +221,6 @@ class NoteSplashDebugState extends MusicBeatState
 		if(FlxG.keys.justPressed.ESCAPE #if android || FlxG.android.justReleased.BACK #end && notTyping)
 		{
 			FlxG.switchState(() -> new MasterEditorMenu());
-			Main.fpsVar.differentPosition = false;
 			FlxG.sound.playMusic(Paths.music('freakyMenu-' + ClientPrefs.data.mainMenuMusic));
 			FlxG.mouse.visible = false;
 		}

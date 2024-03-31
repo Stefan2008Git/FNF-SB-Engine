@@ -1,5 +1,6 @@
 package;
 
+import openfl.display.StageQuality;
 import openfl.events.KeyboardEvent;
 import flixel.graphics.FlxGraphic;
 import openfl.Assets;
@@ -8,6 +9,7 @@ import openfl.display.Sprite;
 import openfl.events.Event;
 import openfl.display.StageScaleMode;
 import lime.app.Application;
+import debug.GameLog;
 import debug.FPS;
 import states.TitleState;
 #if android
@@ -46,6 +48,7 @@ class Main extends Sprite
 		startFullscreen: false
 	};
 
+	public static var gameLogs:GameLog;
 	public static var fpsVar:FPS;
 	public static var watermark:Sprite;
 	public static var toastText:String = '';
@@ -134,13 +137,16 @@ class Main extends Sprite
 		addChild(new FlxGame(game.width, game.height, game.initialState, game.framerate, game.framerate, game.skipSplash, game.startFullscreen));
 		#end
 
+		gameLogs = new GameLog();
+		GameLog.startInit();
+		addChild(gameLogs);
+		if (gameLogs != null) gameLogs.visible = ClientPrefs.data.inGameLogs;
+
 		fpsVar = new FPS(10, 3);
 		addChild(fpsVar);
 		Lib.current.stage.align = "tl";
 		Lib.current.stage.scaleMode = StageScaleMode.NO_SCALE;
-		if (fpsVar != null) {
-			fpsVar.visible = ClientPrefs.data.showFPS;
-		}
+		if (fpsVar != null) fpsVar.visible = ClientPrefs.data.showFPS;
 
 		// Mic'd Up SC code :D
 		var bitmapData = Assets.getBitmapData("assets/images/sbIcon.png");

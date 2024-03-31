@@ -40,7 +40,6 @@ class MenuCharacterEditorState extends MusicBeatState
 		#end
 		FlxG.sound.playMusic(Paths.music('offsetSong'), 1, true);
 		Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Mod Editors menu (Menu Character)";
-		Main.fpsVar.differentPosition = true;
 
 		grpWeekCharacters = new FlxTypedGroup<MenuCharacter>();
 		for (char in 0...3)
@@ -289,7 +288,6 @@ class MenuCharacterEditorState extends MusicBeatState
 			ClientPrefs.toggleVolumeKeys(true);
 			if(FlxG.keys.justPressed.ESCAPE #if android || FlxG.android.justReleased.BACK #end) {
 				FlxG.switchState(() -> new MasterEditorMenu());
-				Main.fpsVar.differentPosition = false;
 				FlxG.sound.playMusic(Paths.music('freakyMenu-' + ClientPrefs.data.mainMenuMusic));
 			}
 

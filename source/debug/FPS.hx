@@ -10,6 +10,8 @@ import openfl.Lib;
 import openfl.system.System;
 #end
 
+import haxe.macro.Compiler;
+
 import states.MainMenuState;
 
 /**
@@ -44,7 +46,6 @@ class FPS extends TextField
 		if (!v) textColor = 0xffffffff;
 		return rainbowEnabled = v;
 	}
-	public var differentPosition:Bool = false;
 
 	public function new(x:Float = 10, y:Float = 10)
 	{
@@ -130,7 +131,7 @@ class FPS extends TextField
 			}
 
 			if (ClientPrefs.data.engineVersion) {
-				text += "\nEngine version: " + MainMenuState.sbEngineVersion + " (PE " + MainMenuState.psychEngineVersion + ")";
+				text += "\nEngine version: " + MainMenuState.sbEngineVersion + " (Modified Psych Engine " + MainMenuState.psychEngineVersion + ")";
 			}
 
 			#if debug
@@ -142,18 +143,22 @@ class FPS extends TextField
 				text += "\nOS: " + '${lime.system.System.platformLabel} ${lime.system.System.platformVersion}';
 				text += "\nGL Render: " + '${getGLInfo(RENDERER)}';
 				text += "\nGL Shading version: " + '${getGLInfo(SHADING_LANGUAGE_VERSION)})';
-				text += "\nFlixel: " + FlxG.VERSION;
-				text += "\nLime: ?????";
-				text += "\nOpenFL: ?????";
+				text += "\nHaxe " + Compiler.getDefine("haxe");
+				text += "\n" + FlxG.VERSION;
+				text += "\nLime" + Compiler.getDefine("lime");
+				text += "\nOpenFL " + Compiler.getDefine("openfl");
 			}
+			#end
+
+			#if android
+			text += "\nGo to options to enable/disable in-game logs";
+			#else
+			text += "\nPress F5 to see in-game logs";
 			#end
 
 			switch (ClientPrefs.data.gameStyle) {
 				case 'SB Engine':
 					Main.fpsVar.defaultTextFormat = new TextFormat('Bahnschrift', 14, color);
-
-				case 'Psych Engine' | 'Cheeky':
-					Main.fpsVar.defaultTextFormat = new TextFormat('_sans', 14, color);
 				
 				case 'Kade Engine':
 					Main.fpsVar.defaultTextFormat = new TextFormat('VCR OSD Mono', 14, color);
@@ -163,6 +168,9 @@ class FPS extends TextField
 				
 				case 'TGT Engine':
 					Main.fpsVar.defaultTextFormat = new TextFormat('Calibri', 14, color);
+				
+				default:
+					Main.fpsVar.defaultTextFormat = new TextFormat('_sans', 14, color);
 			}
 
 			if (ClientPrefs.data.redText) {
@@ -178,20 +186,6 @@ class FPS extends TextField
 
 		cacheCount = currentCount;
 		set_rainbowEnabled(ClientPrefs.data.rainbowFPS);
-
-		#if desktop
-		#if !debug 
-		if (differentPosition)
-			y = (Lib.current.stage.stageHeight - 3) - (75);
-		else
-			y = 3;
-		#else
-		if (differentPosition)
-			y = (Lib.current.stage.stageHeight - 3) - (150);
-		else
-			y = 3;
-		#end
-		#end
 	}
 
 	function obtainMemory():Dynamic {

@@ -52,7 +52,6 @@ class WeekEditorState extends MusicBeatState
 
 	override function create() {
 		Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Mod Editors menu (Week Editor)";
-		Main.fpsVar.differentPosition = true;
 		FlxG.sound.playMusic(Paths.music('offsetSong'), 1, true);
 
 		txtWeekTitle = new FlxText(FlxG.width * 0.7, 10, 0, "", 32);
@@ -453,7 +452,6 @@ class WeekEditorState extends MusicBeatState
 			ClientPrefs.toggleVolumeKeys(true);
 			if(FlxG.keys.justPressed.ESCAPE #if android || FlxG.android.justReleased.BACK #end) {
 				FlxG.switchState(() -> new MasterEditorMenu());
-				Main.fpsVar.differentPosition = false;
 				FlxG.sound.playMusic(Paths.music('freakyMenu-' + ClientPrefs.data.mainMenuMusic));
 			}
 		}
@@ -608,7 +606,6 @@ class WeekEditorFreeplayState extends MusicBeatState
 	override function create() {
 		Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Mod Editors menu (Week Editor - Freeplay week editor)";
 		bg = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
-		Main.fpsVar.differentPosition = true;
 
 		bg.antialiasing = ClientPrefs.data.antialiasing;
 		bg.color = FlxColor.WHITE;
@@ -826,7 +823,6 @@ class WeekEditorFreeplayState extends MusicBeatState
 			ClientPrefs.toggleVolumeKeys(true);
 			if(FlxG.keys.justPressed.ESCAPE #if android || FlxG.android.justReleased.BACK #end) {
 				FlxG.switchState(() -> new MasterEditorMenu());
-				Main.fpsVar.differentPosition = false;
 				FlxG.sound.playMusic(Paths.music('freakyMenu-' + ClientPrefs.data.mainMenuMusic));
 			}
 
