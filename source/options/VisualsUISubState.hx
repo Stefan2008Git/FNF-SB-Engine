@@ -51,7 +51,6 @@ class VisualsUISubState extends BaseOptionsMenu
 			"inGameLogs",
 			"bool");
 		addOption(option);
-		option.onChange = onChangeInGameLogs;
 
 		var option:Option = new Option('Watermark on right down corner',
 			"Uncheck this if you dont want to see watermark icon",
@@ -130,11 +129,6 @@ class VisualsUISubState extends BaseOptionsMenu
 	function onChangeFPSCounter()
 	{
 		if(Main.fpsVar != null) Main.fpsVar.visible = ClientPrefs.data.showFPS;
-	}
-
-	function onChangeInGameLogs() 
-	{
-		if (Main.gameLogs != null) Main.gameLogs.visible = ClientPrefs.data.inGameLogs;
 	}
 
 	function onWatermarkIcon()
