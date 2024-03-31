@@ -193,7 +193,9 @@ class VisualsUISubState extends BaseOptionsMenu
 
 	function onChangeDiscordRichPresence() 
 	{
+		#if DISCORD_ALLOWED
 		if (ClientPrefs.data.discordRPC == true) DiscordClient.initialize();
 		else if (ClientPrefs.data.discordRPC == false) DiscordClient.shutdown();
+		#end
 	}
 }
