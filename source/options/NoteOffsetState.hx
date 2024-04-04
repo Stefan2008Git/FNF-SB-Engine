@@ -418,8 +418,7 @@ class NoteOffsetState extends MusicBeatState
 			if(beatTween != null) beatTween.cancel();
 
 			persistentUpdate = false;
-			CustomFadeTransition.nextCamera = camOther;
-			FlxG.switchState(() -> new options.OptionsState());
+			MusicBeatState.switchState(new options.OptionsState());
 			Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Options Menu (Closing the state)";
 			if(OptionsState.onPlayState)
 			{
