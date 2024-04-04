@@ -444,8 +444,7 @@ class PlayState extends MusicBeatState
 		grpNoteSplashes = new FlxTypedGroup<NoteSplash>();
 
 		FlxG.cameras.setDefaultDrawTarget(camGame, true);
-		CustomFadeTransition.nextCamera = camOther;
-
+		
 		#if android
 		addAndroidControls();
 		MusicBeatState.androidControls.visible = false;
@@ -3333,10 +3332,8 @@ class PlayState extends MusicBeatState
 					#if DISCORD_ALLOWED DiscordClient.resetClientID(); #end
 
 					cancelMusicFadeTween();
-					if(FlxTransitionableState.skipNextTransIn) {
-						CustomFadeTransition.nextCamera = null;
-					}
-					FlxG.switchState(() -> new StoryMenuState());
+					
+					MusicBeatState.switchState(new StoryMenuState());
 
 					// if ()
 					if(!practiceMode && !cpuControlled) { // Instead of basic ClientPrefs you can use this method because it's an same thing -- Stefan2008
@@ -3372,9 +3369,7 @@ class PlayState extends MusicBeatState
 				#if DISCORD_ALLOWED DiscordClient.resetClientID(); #end
 
 				cancelMusicFadeTween();
-				if(FlxTransitionableState.skipNextTransIn) {
-					CustomFadeTransition.nextCamera = null;
-				}
+		
 				if (ClientPrefs.data.resultsScreen) {
 					if (!cpuControlled) {
 						resultsScreenSicks = ratingsData[0].hits;
@@ -3403,7 +3398,7 @@ class PlayState extends MusicBeatState
 				
 				} else {
 				Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Freeplay Menu (Closing the state)";
-				FlxG.switchState(() -> new FreeplayState());
+				MusicBeatState.switchState(new FreeplayState());
 				FlxG.sound.playMusic(Paths.music('freakyMenu-' + ClientPrefs.data.mainMenuMusic));
 				changedDifficulty = false;
 				}
