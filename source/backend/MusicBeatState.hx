@@ -253,27 +253,6 @@ class MusicBeatState extends FlxUIState
 		curStep = lastChange.stepTime + Math.floor(shit);
 	}
 
-	override function startOutro(onOutroComplete:()-> Void):Void
-	{
-		if (!FlxTransitionableState.skipNextTransIn || !ClientPrefs.data.fadeTransition)
-		{
-			FlxG.state.openSubState(new CustomFadeTransition(0.6, false));
-
-			CustomFadeTransition.finishCallback = onOutroComplete;
-
-			return;
-		}
-
-		FlxTransitionableState.skipNextTransIn = false;
-
-		onOutroComplete();
-	}
-
-	public static function getState():MusicBeatState
-	{
-		return cast (FlxG.state, MusicBeatState);
-	}
-
 	public function stepHit():Void
 	{
 		stagesFunc(function(stage:BaseStage) {
