@@ -348,6 +348,7 @@ class PauseSubState extends MusicBeatSubstate
 					PlayState.instance.notes.clear();
 					PlayState.instance.unspawnNotes = [];
 					PlayState.instance.finishSong(true);
+
 					FlxTween.tween(bgGrid.velocity, {x: 175, y: 175}, 0.05, {ease: FlxEase.quadIn});
 					FlxTween.tween(levelInfo, {alpha: 0}, 0.25, {ease: FlxEase.quadOut});
 					FlxTween.tween(levelDifficulty, {alpha: 0}, 0.25, {ease: FlxEase.quadOut});
@@ -363,7 +364,7 @@ class PauseSubState extends MusicBeatSubstate
 				case 'Options':
 					PlayState.instance.paused = true; // For lua
 					PlayState.instance.vocals.volume = 0;
-					FlxG.switchState(() -> new options.OptionsState());
+					MusicBeatState.switchState(new OptionsState());
 					if(ClientPrefs.data.pauseMusic != 'None')
 					{
 						FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath(ClientPrefs.data.pauseMusic)), pauseMusic.volume);
@@ -371,6 +372,7 @@ class PauseSubState extends MusicBeatSubstate
 						FlxG.sound.music.time = pauseMusic.time;
 					}
 					OptionsState.onPlayState = true;
+
 					FlxTween.tween(bgGrid.velocity, {x: 175, y: 175}, 0.05, {ease: FlxEase.quadIn});
 					FlxTween.tween(levelInfo, {alpha: 0}, 0.25, {ease: FlxEase.quadOut});
 					FlxTween.tween(levelDifficulty, {alpha: 0}, 0.25, {ease: FlxEase.quadOut});
@@ -383,12 +385,12 @@ class PauseSubState extends MusicBeatSubstate
 					PlayState.seenCutscene = false;
 
 					Mods.loadTopMod();
-					if(PlayState.isStoryMode) {
-						FlxG.switchState(() -> new StoryMenuState());
-					} else {
-						FlxG.switchState(() -> new FreeplayState());
-					}
-					PlayState.cancelMusicFadeTween();
+
+					if(PlayState.isStoryMode)
+						MusicBeatState.switchState(new StoryMenuState());
+					else 
+					        MusicBeatState.switchState(new FreeplayState());
+
 					FlxG.sound.playMusic(Paths.music('freakyMenu-' + ClientPrefs.data.mainMenuMusic));
 					PlayState.changedDifficulty = false;
 					PlayState.chartingMode = false;
@@ -398,8 +400,8 @@ class PauseSubState extends MusicBeatSubstate
 					FlxTween.tween(levelInfo, {alpha: 0}, 0.25, {ease: FlxEase.quadOut});
 					FlxTween.tween(levelDifficulty, {alpha: 0}, 0.25, {ease: FlxEase.quadOut});
 					FlxTween.tween(blueballedTxt, {alpha: 0}, 0.25, {ease: FlxEase.quadOut});
-				FlxTween.tween(bgGrid, {alpha: 0}, 0.25, {ease: FlxEase.quadOut});
-			FlxTween.tween(fadeOutSpr, {alpha: 1}, 0.25, {ease: FlxEase.quadOut});
+				        FlxTween.tween(bgGrid, {alpha: 0}, 0.25, {ease: FlxEase.quadOut});
+			                FlxTween.tween(fadeOutSpr, {alpha: 1}, 0.25, {ease: FlxEase.quadOut});
 			}
 		}
 	}
@@ -427,7 +429,7 @@ class PauseSubState extends MusicBeatSubstate
 			FlxTransitionableState.skipNextTransIn = true;
 			FlxTransitionableState.skipNextTransOut = true;
 		}
-		FlxG.resetState;
+		MusicBeatState.resetState();
 	}
 
 	override function destroy()
