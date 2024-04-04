@@ -817,14 +817,11 @@ class FunkinLua {
 			}
 
 			PlayState.cancelMusicFadeTween();
-			CustomFadeTransition.nextCamera = game.camOther;
-			if(FlxTransitionableState.skipNextTransIn)
-				CustomFadeTransition.nextCamera = null;
 
 			if(PlayState.isStoryMode)
-				FlxG.switchState(() -> new StoryMenuState());
+				MusicBeatState.switchState(new StoryMenuState());
 			else
-				FlxG.switchState(() -> new FreeplayState());
+				MusicBeatState.switchState(new FreeplayState());
 			
 			#if DISCORD_ALLOWED DiscordClient.resetClientID(); #end
 
