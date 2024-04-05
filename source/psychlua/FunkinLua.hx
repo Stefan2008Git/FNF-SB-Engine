@@ -818,10 +818,7 @@ class FunkinLua {
 
 			PlayState.cancelMusicFadeTween();
 
-			if(PlayState.isStoryMode)
-				MusicBeatState.switchState(new StoryMenuState());
-			else
-				MusicBeatState.switchState(new FreeplayState());
+			if(PlayState.isStoryMode) FlxG.switchState(() -> new StoryMenuState()); else FlxG.switchState(() -> new FreeplayState());
 			
 			#if DISCORD_ALLOWED DiscordClient.resetClientID(); #end
 

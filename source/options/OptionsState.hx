@@ -127,6 +127,7 @@ class OptionsState extends MusicBeatState
 
 	override function update(elapsed:Float) {
 		super.update(elapsed);
+
 		#if android
 		if (MusicBeatState.virtualPad.buttonX.justPressed) {
 			FlxTransitionableState.skipNextTransIn = true;

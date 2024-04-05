@@ -2276,10 +2276,8 @@ class PlayState extends MusicBeatState
 				if (ClientPrefs.data.gameStyle == 'Cheeky') {
 					babyArrow.y -= 115;
 					FlxTween.tween(babyArrow, {y: babyArrow.y + 115}, 1, {ease: FlxEase.backInOut});
-				} else if (ClientPrefs.data.gameStyle == 'SB Engine') {
-					stefansArrowStartsTween(babyArrow);
 				} else {
-					//babyArrow.y -= 10;
+					babyArrow.y -= 10;
 					babyArrow.alpha = 0;
 					FlxTween.tween(babyArrow, {alpha: targetAlpha}, 1, {ease: FlxEase.circOut, startDelay: 0.5 + (0.2 * i)});
 					babyArrow.alpha = targetAlpha;
@@ -2304,42 +2302,6 @@ class PlayState extends MusicBeatState
 			babyArrow.postAddedToGroup();
 		}
 	}
-
-	public function stefansArrowStartsTween(spriteName) {
-
-		// FlxTween.angle(spriteName, 0, 360, 1.3, {type: FlxTween.ONESHOT, ease: FlxEase.sineInOut, startDelay: 0, loopDelay: 0});
-
-		if(!ClientPrefs.data.middleScroll)
-		{
-		for(i in 0...strumLineNotes.length)
-		{
-		strumLineNotes.members[i].x = - 1200;		
-		if (i < 4)
-		FlxTween.tween(spriteName, {x: 40 + (120 * i)}, 1.3, {ease: FlxEase.sineInOut, startDelay: 0.5 + (0.2 * i)});
-		else
-		FlxTween.tween(spriteName, {x: 300 + (120 * i)}, 1.3, {ease: FlxEase.sineInOut, startDelay: 0.5 + (0.2 * i)});
-		}
-		}
-		else
-		{
-			for(i in 0...strumLineNotes.length)
-			{
-			strumLineNotes.members[i].x = -1200;
-				if(i == 0 || i == 1)
-				FlxTween.tween(spriteName, {x: 40 + (120 * i)}, 1.3, {ease: FlxEase.sineInOut, startDelay: 0.5 + (0.2 * i)});
-
-				if(i == 2 || i == 3)
-				FlxTween.tween(spriteName, {x: 750 + (120 * i)}, 1.3, {ease: FlxEase.sineInOut, startDelay: 0.5 + (0.2 * i)});
-
-				if(i > 3)
-				FlxTween.tween(spriteName, {x: -70 + (120 * i)}, 1.3, {ease: FlxEase.sineInOut, startDelay: 0.5 + (0.2 * i)});
-			}
-		}
-	}
-
-	/* public static function startArrowTweenStart(object){
-		
-	}*/ //Nothing :/.
 
 	override function openSubState(SubState:FlxSubState)
 	{
@@ -3332,7 +3294,7 @@ class PlayState extends MusicBeatState
 
 					cancelMusicFadeTween();
 					
-					MusicBeatState.switchState(new StoryMenuState());
+					FlxG.switchState(() -> new StoryMenuState());
 
 					// if ()
 					if(!practiceMode && !cpuControlled) { // Instead of basic ClientPrefs you can use this method because it's an same thing -- Stefan2008
@@ -3397,7 +3359,7 @@ class PlayState extends MusicBeatState
 				
 				} else {
 				Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Freeplay Menu (Closing the state)";
-				MusicBeatState.switchState(new FreeplayState());
+				FlxG.switchState(() -> new FreeplayState());
 				FlxG.sound.playMusic(Paths.music('freakyMenu-' + ClientPrefs.data.mainMenuMusic));
 				changedDifficulty = false;
 				}

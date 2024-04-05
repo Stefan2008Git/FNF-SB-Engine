@@ -297,6 +297,7 @@ class StoryMenuState extends MusicBeatState
 			else if (controls.ACCEPT)
 			{
 				selectWeek();
+				if (FlxG.sound.music != null) FlxTween.tween(FlxG.sound.music, {pitch: 0, volume: 0}, 2.5, {ease: FlxEase.sineInOut});
 			}
 		}
 
@@ -369,9 +370,9 @@ class StoryMenuState extends MusicBeatState
 				stopspamming = true;
 			}
 
-			new FlxTimer().start(1, function(tmr:FlxTimer)
+			Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Story Mode (Loading current song: " + PlayState.SONG.song + " (" + Difficulty.getString() + ") )... ";
+			new FlxTimer().start(2.5, function(tmr:FlxTimer)
 			{
-				Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Story Mode (Loading current song: " + PlayState.SONG.song + " (" + Difficulty.getString() + ") )... ";
 				LoadingState.loadAndSwitchState(() -> new PlayState(), true);
 				FreeplayState.destroyFreeplayVocals();
 			});

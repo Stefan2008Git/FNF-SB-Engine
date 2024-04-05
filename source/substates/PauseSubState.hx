@@ -36,34 +36,6 @@ class PauseSubState extends MusicBeatSubstate
 	var missingTextBG:FlxSprite;
 	var missingText:FlxText;
 
-	var settings = {
-		bgColour: 'default',
-	
-		backdropSpeedX: 50,
-		backdropSpeedY: 50,
-		
-		optionTweenTime: 0.1,
-		selectTweenTime: 0.25,
-		
-		openMenuTweenTime: 0.25
-	};
-	
-	var colours = [
-		'default' => 0xFF000000,
-		'pink' => 0xFFFA86C4,
-		'crimson' => 0xFF870007,
-		'turquoise' => 0xFF30D5C8,
-		'red' => 0xFFBB0000,
-		'green' => 0xFF00AA00,
-		'blue' => 0xFF0000BB,
-		'purple' => 0xFF592693,
-		'yellow' => 0xFFC8B003,
-		'brown' => 0xFF664229,
-		'orange' => 0xFFFFA500,
-	
-		'custom' => 0xFF000000
-	];
-
 	public static var songName:String = '';
 
 	public function new(x:Float, y:Float)
@@ -93,7 +65,6 @@ class PauseSubState extends MusicBeatSubstate
 		}
 		difficultyChoices.push('BACK');
 
-
 		pauseMusic = new FlxSound();
 		if(songName != null) {
 			pauseMusic.loadEmbedded(Paths.music(songName), true, true);
@@ -105,41 +76,85 @@ class PauseSubState extends MusicBeatSubstate
 
 		FlxG.sound.list.add(pauseMusic);
 
-		bg = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, colours[settings.bgColour.toLowerCase()]);
-		bg.alpha = 0;
+		bg = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		bg.scrollFactor.set();
+		bg.alpha = 0.6;
 		add(bg);
 
 		bgGrid = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0x11FFFFFF, 0x0));
-		bgGrid.alpha = 0;
-		bgGrid.velocity.set(175, 175);
+		bgGrid.velocity.set(FlxG.random.bool(50) ? 90 : -90, FlxG.random.bool(50) ? 90 : -90);
 		add(bgGrid);
 
 		levelInfo = new FlxText(20, 15, 0, "Song: " + PlayState.SONG.song, 32);
 		levelInfo.scrollFactor.set();
 		levelInfo.setFormat(Paths.font("vcr.ttf"), 32);
+		switch (ClientPrefs.data.gameStyle) {
+			case 'SB Engine':
+				levelInfo.setFormat(Paths.font("bahnschrift.ttf"), 32);
+			
+			case 'Dave and Bambi':
+				levelInfo.setFormat(Paths.font("comic.ttf"), 32);
+			
+			case 'TGT Engine':
+				levelInfo.setFormat(Paths.font("calibri.ttf"), 32);
+			
+			default:
+				levelInfo.setFormat(Paths.font("vcr.ttf"), 32);
+		}
 		levelInfo.updateHitbox();
 		add(levelInfo);
 
 		levelDifficulty = new FlxText(20, 15 + 32, 0, "Difficulty: " + Difficulty.getString().toUpperCase(), 32);
 		levelDifficulty.scrollFactor.set();
-		levelDifficulty.setFormat(Paths.font('vcr.ttf'), 32);
+		switch (ClientPrefs.data.gameStyle) {
+			case 'SB Engine':
+				levelDifficulty.setFormat(Paths.font("bahnschrift.ttf"), 32);
+			
+			case 'Dave and Bambi':
+				levelDifficulty.setFormat(Paths.font("comic.ttf"), 32);
+			
+			case 'TGT Engine':
+				levelDifficulty.setFormat(Paths.font("calibri.ttf"), 32);
+			
+			default:
+				levelDifficulty.setFormat(Paths.font("vcr.ttf"), 32);
+		}
 		levelDifficulty.updateHitbox();
 		add(levelDifficulty);
 
 		blueballedTxt = new FlxText(20, 15 + 64, 0, "Blueballed: " + PlayState.deathCounter, 32);
 		blueballedTxt.scrollFactor.set();
-		blueballedTxt.setFormat(Paths.font('vcr.ttf'), 32);
+		switch (ClientPrefs.data.gameStyle) {
+			case 'SB Engine':
+				blueballedTxt.setFormat(Paths.font("bahnschrift.ttf"), 32);
+			
+			case 'Dave and Bambi':
+				blueballedTxt.setFormat(Paths.font("comic.ttf"), 32);
+			
+			case 'TGT Engine':
+				blueballedTxt.setFormat(Paths.font("calibri.ttf"), 32);
+			
+			default:
+				blueballedTxt.setFormat(Paths.font("vcr.ttf"), 32);
+		}
 		blueballedTxt.updateHitbox();
 		add(blueballedTxt);
 
-		fadeOutSpr = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, 0xFF000000);
-		fadeOutSpr.alpha = 0;
-		add(fadeOutSpr);
-
 		practiceText = new FlxText(20, 15 + 101, 0, "PRACTICE MODE", 32);
 		practiceText.scrollFactor.set();
-		practiceText.setFormat(Paths.font('vcr.ttf'), 32);
+		switch (ClientPrefs.data.gameStyle) {
+			case 'SB Engine':
+				practiceText.setFormat(Paths.font("bahnschrift.ttf"), 32);
+			
+			case 'Dave and Bambi':
+				practiceText.setFormat(Paths.font("comic.ttf"), 32);
+			
+			case 'TGT Engine':
+				practiceText.setFormat(Paths.font("calibri.ttf"), 32);
+			
+			default:
+				practiceText.setFormat(Paths.font("vcr.ttf"), 32);
+		}
 		practiceText.x = FlxG.width - (practiceText.width + 20);
 		practiceText.updateHitbox();
 		practiceText.visible = PlayState.instance.practiceMode;
@@ -147,24 +162,29 @@ class PauseSubState extends MusicBeatSubstate
 
 		var chartingText:FlxText = new FlxText(20, 15 + 101, 0, "CHARTING MODE", 32);
 		chartingText.scrollFactor.set();
-		chartingText.setFormat(Paths.font('vcr.ttf'), 32);
+		switch (ClientPrefs.data.gameStyle) {
+			case 'SB Engine':
+				chartingText.setFormat(Paths.font("bahnschrift.ttf"), 32);
+			
+			case 'Dave and Bambi':
+				chartingText.setFormat(Paths.font("comic.ttf"), 32);
+			
+			case 'TGT Engine':
+				chartingText.setFormat(Paths.font("calibri.ttf"), 32);
+			
+			default:
+				chartingText.setFormat(Paths.font("vcr.ttf"), 32);
+		}
 		chartingText.x = FlxG.width - (chartingText.width + 20);
 		chartingText.y = FlxG.height - (chartingText.height + 20);
 		chartingText.updateHitbox();
 		chartingText.visible = PlayState.chartingMode;
 		add(chartingText);
 
-		blueballedTxt.alpha = 0;
-		levelDifficulty.alpha = 0;
-		levelInfo.alpha = 0;
-
 		levelInfo.x = FlxG.width - (levelInfo.width + 20);
 		levelDifficulty.x = FlxG.width - (levelDifficulty.width + 20);
 		blueballedTxt.x = FlxG.width - (blueballedTxt.width + 20);
 
-		FlxTween.tween(bg, {alpha: 0.6}, 0.4, {ease: FlxEase.quartInOut});
-		FlxTween.tween(bgGrid, {alpha: 1}, settings.openMenuTweenTime, {ease: FlxEase.quadOut});
-		FlxTween.tween(bgGrid.velocity, {x: settings.backdropSpeedX, y: settings.backdropSpeedY}, settings.openMenuTweenTime + 0.25, {ease: FlxEase.quadOut});
 		FlxTween.tween(levelInfo, {alpha: 1, y: 20}, 0.4, {ease: FlxEase.quartInOut, startDelay: 0.3});
 		FlxTween.tween(levelDifficulty, {alpha: 1, y: levelDifficulty.y + 5}, 0.4, {ease: FlxEase.quartInOut, startDelay: 0.5});
 		FlxTween.tween(blueballedTxt, {alpha: 1, y: blueballedTxt.y + 5}, 0.4, {ease: FlxEase.quartInOut, startDelay: 0.7});
@@ -288,12 +308,6 @@ class PauseSubState extends MusicBeatSubstate
 			{
 				case "Resume":
 					close();
-					FlxTween.tween(bgGrid.velocity, {x: 175, y: 175}, 0.05, {ease: FlxEase.quadIn});
-					FlxTween.tween(levelInfo, {alpha: 0}, 0.25, {ease: FlxEase.quadOut});
-					FlxTween.tween(levelDifficulty, {alpha: 0}, 0.25, {ease: FlxEase.quadOut});
-					FlxTween.tween(blueballedTxt, {alpha: 0}, 0.25, {ease: FlxEase.quadOut});
-					FlxTween.tween(bgGrid, {alpha: 0}, 0.25, {ease: FlxEase.quadOut});
-					FlxTween.tween(fadeOutSpr, {alpha: 1}, 0.25, {ease: FlxEase.quadOut});
 				case 'Change Difficulty':
 					menuItems = difficultyChoices;
 					deleteSkipTimeText();
@@ -301,33 +315,14 @@ class PauseSubState extends MusicBeatSubstate
 				case 'Chart Editor':
 					FlxG.switchState(() -> new states.editors.ChartingState());
 					PlayState.chartingMode = true;
-					FlxTween.tween(bgGrid.velocity, {x: 175, y: 175}, 0.05, {ease: FlxEase.quadIn});
-					FlxTween.tween(levelInfo, {alpha: 0}, 0.25, {ease: FlxEase.quadOut});
-					FlxTween.tween(levelDifficulty, {alpha: 0}, 0.25, {ease: FlxEase.quadOut});
-					FlxTween.tween(blueballedTxt, {alpha: 0}, 0.25, {ease: FlxEase.quadOut});
-					FlxTween.tween(bgGrid, {alpha: 0}, 0.25, {ease: FlxEase.quadOut});
-					FlxTween.tween(fadeOutSpr, {alpha: 1}, 0.25, {ease: FlxEase.quadOut});
 				case 'Toggle Practice Mode':
 					PlayState.instance.practiceMode = !PlayState.instance.practiceMode;
 					PlayState.changedDifficulty = true;
 					practiceText.visible = PlayState.instance.practiceMode;
 				case "Restart Song":
 					restartSong();
-					FlxTween.tween(bgGrid.velocity, {x: 175, y: 175}, 0.05, {ease: FlxEase.quadIn});
-					FlxTween.tween(levelInfo, {alpha: 0}, 0.25, {ease: FlxEase.quadOut});
-					FlxTween.tween(levelDifficulty, {alpha: 0}, 0.25, {ease: FlxEase.quadOut});
-					FlxTween.tween(blueballedTxt, {alpha: 0}, 0.25, {ease: FlxEase.quadOut});
-					FlxTween.tween(bgGrid, {alpha: 0}, 0.25, {ease: FlxEase.quadOut});
-					FlxTween.tween(fadeOutSpr, {alpha: 1}, 0.25, {ease: FlxEase.quadOut});
 				case "Leave Charting Mode":
 					restartSong();
-					PlayState.chartingMode = false;
-					FlxTween.tween(bgGrid.velocity, {x: 175, y: 175}, 0.05, {ease: FlxEase.quadIn});
-					FlxTween.tween(levelInfo, {alpha: 0}, 0.25, {ease: FlxEase.quadOut});
-					FlxTween.tween(levelDifficulty, {alpha: 0}, 0.25, {ease: FlxEase.quadOut});
-					FlxTween.tween(blueballedTxt, {alpha: 0}, 0.25, {ease: FlxEase.quadOut});
-					FlxTween.tween(bgGrid, {alpha: 0}, 0.25, {ease: FlxEase.quadOut});
-					FlxTween.tween(fadeOutSpr, {alpha: 1}, 0.25, {ease: FlxEase.quadOut});
 				case 'Skip Time':
 					if(curTime < Conductor.songPosition)
 					{
@@ -348,13 +343,6 @@ class PauseSubState extends MusicBeatSubstate
 					PlayState.instance.notes.clear();
 					PlayState.instance.unspawnNotes = [];
 					PlayState.instance.finishSong(true);
-
-					FlxTween.tween(bgGrid.velocity, {x: 175, y: 175}, 0.05, {ease: FlxEase.quadIn});
-					FlxTween.tween(levelInfo, {alpha: 0}, 0.25, {ease: FlxEase.quadOut});
-					FlxTween.tween(levelDifficulty, {alpha: 0}, 0.25, {ease: FlxEase.quadOut});
-					FlxTween.tween(blueballedTxt, {alpha: 0}, 0.25, {ease: FlxEase.quadOut});
-					FlxTween.tween(bgGrid, {alpha: 0}, 0.25, {ease: FlxEase.quadOut});
-					FlxTween.tween(fadeOutSpr, {alpha: 1}, 0.25, {ease: FlxEase.quadOut});
 				case 'Toggle Botplay':
 					PlayState.instance.cpuControlled = !PlayState.instance.cpuControlled;
 					PlayState.changedDifficulty = true;
@@ -364,7 +352,7 @@ class PauseSubState extends MusicBeatSubstate
 				case 'Options':
 					PlayState.instance.paused = true; // For lua
 					PlayState.instance.vocals.volume = 0;
-					MusicBeatState.switchState(new OptionsState());
+					FlxG.switchState(() -> new options.OptionsState());
 					if(ClientPrefs.data.pauseMusic != 'None')
 					{
 						FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath(ClientPrefs.data.pauseMusic)), pauseMusic.volume);
@@ -372,36 +360,16 @@ class PauseSubState extends MusicBeatSubstate
 						FlxG.sound.music.time = pauseMusic.time;
 					}
 					OptionsState.onPlayState = true;
-
-					FlxTween.tween(bgGrid.velocity, {x: 175, y: 175}, 0.05, {ease: FlxEase.quadIn});
-					FlxTween.tween(levelInfo, {alpha: 0}, 0.25, {ease: FlxEase.quadOut});
-					FlxTween.tween(levelDifficulty, {alpha: 0}, 0.25, {ease: FlxEase.quadOut});
-					FlxTween.tween(blueballedTxt, {alpha: 0}, 0.25, {ease: FlxEase.quadOut});
-					FlxTween.tween(bgGrid, {alpha: 0}, 0.25, {ease: FlxEase.quadOut});
-					FlxTween.tween(fadeOutSpr, {alpha: 1}, 0.25, {ease: FlxEase.quadOut});
 				case "Exit to menu":
 					#if DISCORD_ALLOWED DiscordClient.resetClientID(); #end
 					PlayState.deathCounter = 0;
 					PlayState.seenCutscene = false;
-
 					Mods.loadTopMod();
-
-					if(PlayState.isStoryMode)
-						MusicBeatState.switchState(new StoryMenuState());
-					else 
-					        MusicBeatState.switchState(new FreeplayState());
-
+					if(PlayState.isStoryMode) FlxG.switchState(() -> new StoryMenuState()); else FlxG.switchState(() -> new FreeplayState());
 					FlxG.sound.playMusic(Paths.music('freakyMenu-' + ClientPrefs.data.mainMenuMusic));
 					PlayState.changedDifficulty = false;
 					PlayState.chartingMode = false;
 					FlxG.camera.followLerp = 0;
-					FlxTween.tween(bg, {alpha: 0}, 0.25, {ease: FlxEase.quadOut});
-					FlxTween.tween(bgGrid.velocity, {x: 175, y: 175}, 0.05, {ease: FlxEase.quadIn});
-					FlxTween.tween(levelInfo, {alpha: 0}, 0.25, {ease: FlxEase.quadOut});
-					FlxTween.tween(levelDifficulty, {alpha: 0}, 0.25, {ease: FlxEase.quadOut});
-					FlxTween.tween(blueballedTxt, {alpha: 0}, 0.25, {ease: FlxEase.quadOut});
-				        FlxTween.tween(bgGrid, {alpha: 0}, 0.25, {ease: FlxEase.quadOut});
-			                FlxTween.tween(fadeOutSpr, {alpha: 1}, 0.25, {ease: FlxEase.quadOut});
 			}
 		}
 	}
@@ -429,7 +397,7 @@ class PauseSubState extends MusicBeatSubstate
 			FlxTransitionableState.skipNextTransIn = true;
 			FlxTransitionableState.skipNextTransOut = true;
 		}
-		MusicBeatState.resetState();
+		FlxG.resetState();
 	}
 
 	override function destroy()
