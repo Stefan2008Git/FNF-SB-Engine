@@ -268,6 +268,13 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			['Time Left', 'Time Elapsed', 'Song Name', 'Song Name + Time Left', 'Song Name + Time Elapsed', 'Song Name + Difficulty', 'Modern Time', 'Modern Time Elapsed', 'Disabled']);
 		addOption(option);
 
+		var option:Option = new Option('Accuracy type: ',
+		"The way accuracy is calculated. \nNote = Depending on if a note is hit or not.\nJudgement = Depending on Judgement.\nMillisecond = Depending on milliseconds.",
+			'accuraryStyle',
+			'string',
+			['Note', 'Judgement', 'Millisecond']);
+		addOption(option);
+
 		var option:Option = new Option('Health Bar Opacity',
 			'How much transparent should the health bar and icons be.',
 			'healthBarAlpha',

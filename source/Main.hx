@@ -123,6 +123,15 @@ class Main extends Sprite
 			game.height = Math.ceil(stageHeight / game.zoom);
 		}
 
+		Application.current.onExit.add(function(exitCode)
+		{
+			ClientPrefs.onExitFunction();
+			#if DISCORD_ALLOWED
+			DiscordClient.shutdown();
+			#end
+			ClientPrefs.saveSettings();
+		});
+
 		#if android
 	    SUtil.doTheCheck();
 		#end

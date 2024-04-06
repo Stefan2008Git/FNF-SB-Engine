@@ -1,5 +1,6 @@
 package backend;
 
+import haxe.Constraints.Function;
 import flixel.util.FlxSave;
 import flixel.input.keyboard.FlxKey;
 import flixel.input.gamepad.FlxGamepadInputID;
@@ -100,6 +101,7 @@ class SaveVariables {
 	public var songPercentage:Bool = false;
 	public var fadeTransition:Bool = true;
 	public var timeTxt:Bool = true;
+	public var accuraryStyle:String = 'Judgement';
 	public var gameplaySettings:Map<String, Dynamic> = [
 		'scrollspeed' => 1.0,
 		'scrolltype' => 'multiplicative', 
@@ -302,6 +304,30 @@ class ClientPrefs {
 			}
 			reloadVolumeKeys();
 		}
+	}
+
+	// what to do before application get closed?
+	public static var onExitFunction:Function = function()
+	{
+	};
+
+	public static function setExitHandler(func:Function):Void
+	{
+		trace("exit handler change: " + func);
+		#if openfl_legacy
+		openfl.Lib.current.stage.onQuit = function()
+		{
+			func();
+			openfl.Lib.close();
+		};
+		#else
+		openfl.Lib.current.stage.application.onExit.add(function(code)
+		{
+			func();
+		});
+		#end
+
+		onExitFunction = func;
 	}
 
 	inline public static function getGameplaySetting(name:String, defaultValue:Dynamic = null, ?customDefaultValue:Bool = false):Dynamic {

@@ -1214,7 +1214,7 @@ class PlayState extends MusicBeatState
 		#end
 
 		startCallback();
-		RecalculateRating();
+		recalculateRating();
 
 		//PRECACHING MISS SOUNDS BECAUSE I THINK THEY CAN LAG PEOPLE AND FUCK THEM UP IDK HOW HAXE WORKS
 		if(ClientPrefs.data.hitsoundVolume > 0) precacheList.set('hitsound', 'sound');
@@ -3465,7 +3465,15 @@ class PlayState extends MusicBeatState
 		//tryna do MS based judgment due to popular demand
 		var daRating:Rating = Conductor.judgeNote(ratingsData, noteDiff / playbackRate);
 
-		totalNotesHit += daRating.ratingMod;
+		switch (ClientPrefs.data.accuraryStyle) {
+			case 'Note':
+				totalNotesHit += 1;
+			case 'Millisecond': // Much like Kade's "Complex" but less broken
+				totalNotesHit += (daRating.name == 'sick' ? 1 : ratingsData[0].hitWindow / (noteDiff/playbackRate));
+			default:
+				totalNotesHit += daRating.ratingMod;
+		}
+
 		note.ratingMod = daRating.ratingMod;
 		if(!note.ratingDisabled) daRating.hits++;
 		note.rating = daRating.name;
@@ -3480,7 +3488,7 @@ class PlayState extends MusicBeatState
 			{
 				songHits++;
 				totalPlayed++;
-				RecalculateRating(false);
+				recalculateRating(false);
 			}
 		}
 
@@ -3919,11 +3927,6 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		if (!note.isSustainNote){
-		    rsNoteMs.push(167);
-		    rsNoteTime.push(note.strumTime);
-		}
-
 		if(instakillOnMiss)
 		{
 			vocals.volume = 0;
@@ -3936,13 +3939,13 @@ class PlayState extends MusicBeatState
 		if(!practiceMode) songScore -= 10;
 		if(!endingSong) songMisses++;
 		totalPlayed++;
-		RecalculateRating(true);
+		recalculateRating(true);
 
 		// play character anims
 		var char:Character = boyfriend;
 		if((note != null && note.gfNote) || (SONG.notes[curSection] != null && SONG.notes[curSection].gfSection)) char = gf;
 		
-		if(char != null && char.hasMissAnimations)
+		if(char != null && (note == null || !note.noMissAnimation)  && char.hasMissAnimations)
 		{
 			var suffix:String = '';
 			if(note != null) suffix = note.animSuffix;
@@ -4638,7 +4641,7 @@ class PlayState extends MusicBeatState
 	public var ratingName:String = '?';
 	public var ratingPercent:Float;
 	public var ratingFC:String;
-	public function RecalculateRating(badHit:Bool = false) {
+	public function recalculateRating(badHit:Bool = false) {
 		setOnScripts('score', songScore);
 		setOnScripts('misses', songMisses);
 		setOnScripts('hits', songHits);
