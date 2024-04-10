@@ -6,7 +6,7 @@ import openfl.Lib;
 import android.backend.AndroidDialogsExtend;
 #end
 
-import backend.SUtil;
+import android.backend.SUtil;
 import haxe.PosInfos;
 import lime.app.Application;
 import lime.system.System;

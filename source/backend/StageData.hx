@@ -8,7 +8,7 @@ import openfl.utils.Assets;
 #end
 import tjson.TJSON as Json;
 import backend.Song;
-import backend.SUtil;
+import android.backend.SUtil;
 
 typedef StageFile = {
 	var directory:String;

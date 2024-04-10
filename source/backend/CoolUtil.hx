@@ -1,7 +1,7 @@
 package backend;
 
 import flixel.util.FlxSave;
-import backend.SUtil;
+import android.backend.SUtil;
 
 import openfl.utils.Assets;
 import lime.utils.Assets as LimeAssets;

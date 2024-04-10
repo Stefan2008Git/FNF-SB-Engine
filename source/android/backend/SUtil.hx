@@ -50,7 +50,7 @@ class SUtil
 	#if android
 	public static function doTheCheck()
 	{
-		iif (!Permissions.getGrantedPermissions().contains(PermissionsList.READ_EXTERNAL_STORAGE) || !Permissions.getGrantedPermissions().contains(PermissionsList.WRITE_EXTERNAL_STORAGE))
+		if (!Permissions.getGrantedPermissions().contains(PermissionsList.READ_EXTERNAL_STORAGE) || !Permissions.getGrantedPermissions().contains(PermissionsList.WRITE_EXTERNAL_STORAGE))
 		{
 			if (!Permissions.getGrantedPermissions().contains(PermissionsList.READ_EXTERNAL_STORAGE)) Permissions.requestPermission(PermissionsList.READ_EXTERNAL_STORAGE);
 			if (!Permissions.getGrantedPermissions().contains(PermissionsList.WRITE_EXTERNAL_STORAGE)) Permissions.requestPermission(PermissionsList.WRITE_EXTERNAL_STORAGE);

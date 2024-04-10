@@ -6,7 +6,7 @@ import sys.FileSystem;
 #end
 import openfl.utils.Assets;
 import tjson.TJSON as Json;
-import backend.SUtil;
+import android.backend.SUtil;
 
 typedef MenuCharacterFile = {
 	var image:String;

@@ -4,7 +4,7 @@ import flixel.addons.effects.FlxTrail;
 import states.stages.objects.*;
 import substates.GameOverSubstate;
 import cutscenes.DialogueBox;
-import backend.SUtil;
+import android.backend.SUtil;
 
 #if MODS_ALLOWED
 import sys.FileSystem;

@@ -15,7 +15,7 @@ import tjson.TJSON as Json;
 import sys.io.File;
 #end
 
-import backend.SUtil;
+import android.backend.SUtil;
 import objects.MenuCharacter;
 
 class MenuCharacterEditorState extends MusicBeatState
