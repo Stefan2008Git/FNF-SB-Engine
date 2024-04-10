@@ -1,5 +1,7 @@
 package states;
 
+import android.states.CopyFilesState;
+
 import flash.system.System;
 
 import flixel.input.keyboard.FlxKey;
@@ -83,7 +85,7 @@ class TitleState extends MusicBeatState {
             #end
 		#end
 
-		#if android if(!CopyState.checkExistingFiles() && !ignoreCopy) FlxG.switchState(() -> new CopyState()); #end
+		#if android if(!CopyFilesState.checkExistingFiles() && !ignoreCopy) FlxG.switchState(() -> new android.states.CopyFilesState()); #end
 
 		Mods.loadTopMod();
 

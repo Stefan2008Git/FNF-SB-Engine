@@ -443,7 +443,10 @@ class ResultsScreenSubstate extends MusicBeatSubstate
 		+ 'Your current time: ' + Date.now().toString()
 		+ '\n';
 
-		closeTheSubstate();
+		if(FlxG.keys.justPressed.ENTER #if android || pressedTheTouchScreen #end)
+		{
+			closeTheSubstate();
+		}
 	}
 
 	override function destroy()
@@ -451,11 +454,10 @@ class ResultsScreenSubstate extends MusicBeatSubstate
 		super.destroy();
 	}
 
-	function closeTheSubstate() {
-		if(FlxG.keys.justPressed.ENTER #if android || pressedTheTouchScreen #end)
-		{
-			Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Freeplay Menu (Closing the state)";
-			if (FlxG.sound.music != null) FlxTween.tween(FlxG.sound.music, {pitch: 0, volume: 0}, 2.5, {ease: FlxEase.sineInOut});
+	function closeTheSubstate() 
+	{
+		Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Freeplay Menu (Closing the state)";
+		if (FlxG.sound.music != null) FlxTween.tween(FlxG.sound.music, {pitch: 0, volume: 0}, 2.5, {ease: FlxEase.sineInOut});
 			backText.text = "Closing the result screen for 3 seconds. Pleae what...";
 			FlxTween.tween(bgGrid, {alpha: 0}, 0.5, {ease: FlxEase.sineInOut});
 			FlxTween.tween(clearText, {alpha: 0}, 0.5, {ease: FlxEase.sineInOut}); 
@@ -482,7 +484,6 @@ class ResultsScreenSubstate extends MusicBeatSubstate
 				FlxG.switchState(() -> new FreeplayState());
 				FlxG.sound.playMusic(Paths.music('freakyMenu-' + ClientPrefs.data.mainMenuMusic));
 				FlxTween.tween(FlxG.sound.music, {pitch: 1.5, volume: 1}, {ease: FlxEase.sineInOut});
-			});
-		}
+		});
 	}
 }
