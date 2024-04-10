@@ -456,7 +456,6 @@ class CharacterEditorState extends MusicBeatState
 				healthbar_colors: [161, 161, 161],
 				camera_position: [0, 0],
 				position: [0, 0],
-				vocals_file: null
 			};
 
 			character.loadCharacterFile(_template);
@@ -630,7 +629,6 @@ class CharacterEditorState extends MusicBeatState
 
 	var imageInputText:FlxUIInputText;
 	var healthIconInputText:FlxUIInputText;
-	var vocalsInputText:FlxUIInputText;
 	var singDurationStepper:FlxUINumericStepper;
 	var scaleStepper:FlxUINumericStepper;
 	var positionXStepper:FlxUINumericStepper;
@@ -673,10 +671,7 @@ class CharacterEditorState extends MusicBeatState
 		healthIconInputText = new FlxUIInputText(15, imageInputText.y + 35, 75, healthIcon.getCharacter(), 8);
 		healthIconInputText.focusGained = () -> FlxG.stage.window.textInputEnabled = true;
 
-		vocalsInputText = new FlxUIInputText(15, healthIconInputText.y + 35, 75, character.vocalsFile != null ? character.vocalsFile : '', 8);
-		vocalsInputText.focusGained = () -> FlxG.stage.window.textInputEnabled = true;
-
-		singDurationStepper = new FlxUINumericStepper(15, vocalsInputText.y + 45, 0.1, 4, 0, 999, 1);
+		singDurationStepper = new FlxUINumericStepper(15, healthIconInputText.y + 45, 0.1, 4, 0, 999, 1);
 
 		scaleStepper = new FlxUINumericStepper(15, singDurationStepper.y + 40, 0.1, 1, 0.05, 10, 1);
 
@@ -718,7 +713,6 @@ class CharacterEditorState extends MusicBeatState
 
 		tab_group.add(new FlxText(15, imageInputText.y - 18, 0, 'Image file name:'));
 		tab_group.add(new FlxText(15, healthIconInputText.y - 18, 0, 'Health icon name:'));
-		tab_group.add(new FlxText(15, vocalsInputText.y - 18, 0, 'Vocals File Postfix:'));
 		tab_group.add(new FlxText(15, singDurationStepper.y - 18, 0, 'Sing Animation length:'));
 		tab_group.add(new FlxText(15, scaleStepper.y - 18, 0, 'Scale:'));
 		tab_group.add(new FlxText(positionXStepper.x, positionXStepper.y - 18, 0, 'Character X/Y:'));
@@ -740,7 +734,6 @@ class CharacterEditorState extends MusicBeatState
 		tab_group.add(healthColorStepperG);
 		tab_group.add(healthColorStepperB);
 		tab_group.add(saveCharacterButton);
-		tab_group.add(vocalsInputText);
 		UI_characterbox.addGroup(tab_group);
 	}
 
@@ -755,8 +748,6 @@ class CharacterEditorState extends MusicBeatState
 				character.healthIcon = healthIconInputText.text;
 				if(lastIcon != healthIcon.getCharacter()) updatePresence();
 			}
-			else if(sender == vocalsInputText)
-				character.vocalsFile = vocalsInputText.text;
 			else if(sender == imageInputText)
 				character.imageFile = imageInputText.text;
 		}
@@ -867,7 +858,6 @@ class CharacterEditorState extends MusicBeatState
 		positionYStepper.value = character.positionArray[1];
 		positionCameraXStepper.value = character.cameraPosition[0];
 		positionCameraYStepper.value = character.cameraPosition[1];
-		vocalsInputText.text = character.vocalsFile != null ? character.vocalsFile : '';
 		reloadAnimationDropDown();
 		updateHealthBar();
 	}
@@ -881,7 +871,7 @@ class CharacterEditorState extends MusicBeatState
 	{
 		super.update(elapsed);
 
-		if(animationInputText.hasFocus || animationNameInputText.hasFocus || animationIndicesInputText.hasFocus || imageInputText.hasFocus || healthIconInputText.hasFocus || vocalsInputText.hasFocus) return;
+		if(animationInputText.hasFocus || animationNameInputText.hasFocus || animationIndicesInputText.hasFocus || imageInputText.hasFocus || healthIconInputText.hasFocus) return;
 
 		var shiftMult:Float = 1;
 		var ctrlMult:Float = 1;
@@ -1331,7 +1321,6 @@ class CharacterEditorState extends MusicBeatState
 			"no_antialiasing": character.noAntialiasing,
 			"healthbar_colors": character.healthColorArray,
 			"_editor_isPlayer": character.isPlayer,
-			"vocals_file": character.vocalsFile
 		};
 
 		var data:String = haxe.Json.stringify(json, "\t");

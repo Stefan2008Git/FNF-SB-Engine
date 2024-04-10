@@ -241,6 +241,14 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			"If unchecked, hides rating popup.", 'ratingPopup', 'bool');
 		addOption(option);
 
+		var option:Option = new Option('Combo popup',
+			"If unchecked, hides combo popup.", 'ratingComboPopup', 'bool');
+		addOption(option);
+
+		var option:Option = new Option('Combo number popup',
+			"If unchecked, hides combo number popup.", 'ratingComboNumberPopup', 'bool');
+		addOption(option);
+
 		var option:Option = new Option('Results screen',
 			"If checked, shows results screen.", 'resultsScreen', 'bool');
 		addOption(option);

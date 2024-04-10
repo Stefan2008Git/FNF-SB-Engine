@@ -3386,8 +3386,8 @@ class PlayState extends MusicBeatState
 	public var totalPlayed:Int = 0;
 	public var totalNotesHit:Float = 0.0;
 
-	public var showCombo:Bool = ClientPrefs.data.ratingPopup;
-	public var showComboNum:Bool = ClientPrefs.data.ratingPopup;
+	public var showCombo:Bool = ClientPrefs.data.ratingComboPopup;
+	public var showComboNum:Bool = ClientPrefs.data.ratingComboNumberPopup;
 	public var showRating:Bool = ClientPrefs.data.ratingPopup;
 
 	// Stores Ratings and Combo Sprites in a group
@@ -3927,6 +3927,11 @@ class PlayState extends MusicBeatState
 			}
 		}
 
+		if (!note.isSustainNote && !cpuControlled){
+		    rsNoteMs.push(167);
+		    rsNoteTime.push(note.strumTime);
+		}
+
 		if(instakillOnMiss)
 		{
 			vocals.volume = 0;
@@ -4086,8 +4091,10 @@ class PlayState extends MusicBeatState
 				notesHitArray.push(Date.now());
 
 				var noteDiff:Float = (Conductor.songPosition - note.strumTime + ClientPrefs.data.ratingOffset) / playbackRate;
-				rsNoteMs.push((noteDiff));
-				rsNoteTime.push(note.strumTime);
+				if (!cpuControlled) {
+					rsNoteMs.push((noteDiff));
+					rsNoteTime.push(note.strumTime);
+				}
 			}
 			
 			var gainHealth:Bool = true; // prevent health gain, *if* sustains are treated as a singular note

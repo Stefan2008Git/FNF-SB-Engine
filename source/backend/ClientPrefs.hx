@@ -94,6 +94,8 @@ class SaveVariables {
 	public var tweenableScoreTxt:Bool = false;
 	public var millisecondTxt:Bool = false;
 	public var ratingPopup:Bool = true;
+	public var ratingComboPopup:Bool = true;
+	public var ratingComboNumberPopup:Bool = true;
 	public var mainMenuMusic:String = 'SB Engine';
 	public var resultsScreen:Bool = false;
 	public var loadingScreen:Bool = false;

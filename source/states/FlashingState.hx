@@ -96,6 +96,7 @@ class FlashingState extends MusicBeatState {
 					FlxTween.tween(titleText, {alpha: 0}, 0.25, {startDelay: 0.25});
 					FlxTween.tween(warningText, {alpha: 0}, 0.25, {startDelay: 0.25});
 					FlxTween.tween(creditsMusic, {alpha: 0}, 0.25, {startDelay: 0.25});
+					FlxTween.tween(titleText, {alpha: 0}, 0.25, {startDelay: 0.25});
 					FlxTween.tween(warningText.scale, {x: 1.5, y: 1.5}, .5,
 						{ease: FlxEase.sineInOut, onComplete: (_) -> new FlxTimer().start(0.5, (t) -> FlxG.switchState(() -> new TitleState()))});
 					FlxTween.tween(velocityBackground, {alpha: 0}, 0.25, {startDelay: 0.25});
@@ -110,6 +111,7 @@ class FlashingState extends MusicBeatState {
 					FlxTween.tween(boyfriend, {alpha: 0}, 0.25, {startDelay: 0.25});
 					FlxTween.tween(warningText, {alpha: 0}, 0.25, {startDelay: 0.25});
 					FlxTween.tween(creditsMusic, {alpha: 0}, 0.25, {startDelay: 0.25});
+					FlxTween.tween(titleText, {alpha: 0}, 0.25, {startDelay: 0.25});
 					FlxTween.tween(warningText.scale, {x: 0, y: 0}, .5,
 						{ease: FlxEase.sineInOut, onComplete: (_) -> new FlxTimer().start(0.5, (t) -> FlxG.switchState(() -> new TitleState()))});
 					FlxTween.tween(velocityBackground, {alpha: 0}, 0.25, {startDelay: 0.25});

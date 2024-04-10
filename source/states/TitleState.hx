@@ -1,7 +1,6 @@
 package states;
 
-import backend.WeekData;
-import backend.Highscore;
+import flash.system.System;
 
 import flixel.input.keyboard.FlxKey;
 import flixel.addons.transition.FlxTransitionableState;
@@ -14,8 +13,6 @@ import tjson.TJSON as Json;
 import openfl.Assets;
 import openfl.display.Bitmap;
 import openfl.display.BitmapData;
-
-import shaders.ColorSwap;
 
 import states.StoryMenuState;
 import states.MainMenuState;
@@ -44,6 +41,7 @@ class TitleState extends MusicBeatState {
 	public static var volumeUpKeys:Array<FlxKey> = [FlxKey.NUMPADPLUS, FlxKey.PLUS];
 
 	public static var initialized:Bool = false;
+	public static var ignoreCopy:Bool = false;
 
 	var blackScreen:FlxSprite;
 	var credGroup:FlxGroup;
@@ -65,16 +63,29 @@ class TitleState extends MusicBeatState {
 
 		Paths.clearStoredMemory();
 
-		#if LUA_ALLOWED
-		Mods.pushGlobalMods();
-		#end
-		Mods.loadTopMod();
-
 		#if android
 		FlxG.android.preventDefaultKeys = [BACK];
 		removeVirtualPad();
 		noCheckPress();
 		#end
+
+		#if LUA_ALLOWED
+        	#if android
+        try {
+        	#end
+		Mods.pushGlobalMods();
+            #if android
+        } catch (e:Dynamic) {
+            SUtil.applicationAlert("Please create folder to\n" +  "/storage/emulated/0/.SB Engine" + "\nPress OK to close the game", "Error!");
+			CoolUtil.browserLoad('https://www.youtube.com/watch?v=Cm1JE_uBbYk');
+            System.exit(1);
+        }
+            #end
+		#end
+
+		#if android if(!CopyState.checkExistingFiles() && !ignoreCopy) FlxG.switchState(() -> new CopyState()); #end
+
+		Mods.loadTopMod();
 
 		FlxG.fixedTimestep = false;
 		FlxG.game.focusLostFramerate = 60;

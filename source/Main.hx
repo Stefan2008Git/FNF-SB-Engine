@@ -1,6 +1,5 @@
 package;
 
-import openfl.display.StageQuality;
 import openfl.events.KeyboardEvent;
 import flixel.graphics.FlxGraphic;
 import openfl.Assets;
@@ -15,7 +14,8 @@ import states.TitleState;
 #if android
 import android.Hardware;
 import android.backend.AndroidDialogsExtend;
-import backend.SUtil;
+import android.backend.SUtil;
+import android.states.CopyFilesState;
 import lime.system.System;
 #end
 
@@ -71,6 +71,8 @@ class Main extends Sprite
 	{
 		super();
 
+		#if android SUtil.doTheCheck(); #end
+
 		#if windows
 		@:functionCode("
 		#include <windows.h>
@@ -80,23 +82,12 @@ class Main extends Sprite
 		")
 		#end
 
-		if (stage != null)
-		{
-			init();
-		}
-		else
-		{
-			addEventListener(Event.ADDED_TO_STAGE, init);
-		}
+		if (stage != null) init(); else addEventListener(Event.ADDED_TO_STAGE, init);
 	}
 
 	private function init(?E:Event):Void
 	{
-		if (hasEventListener(Event.ADDED_TO_STAGE))
-		{
-			removeEventListener(Event.ADDED_TO_STAGE, init);
-		}
-
+		if (hasEventListener(Event.ADDED_TO_STAGE)) removeEventListener(Event.ADDED_TO_STAGE, init);
 		setupGame();
 	}
 
@@ -126,30 +117,19 @@ class Main extends Sprite
 		Application.current.onExit.add(function(exitCode)
 		{
 			ClientPrefs.onExitFunction();
-			#if DISCORD_ALLOWED
-			DiscordClient.shutdown();
-			#end
+			#if DISCORD_ALLOWED DiscordClient.shutdown(); #end
 			ClientPrefs.saveSettings();
 		});
-
-		#if android
-	    SUtil.doTheCheck();
-		#end
 
 		#if LUA_ALLOWED Lua.set_callbacks_function(cpp.Callable.fromStaticFunction(psychlua.CallbackHandler.call)); #end
 		Controls.instance = new Controls();
 		ClientPrefs.loadDefaultKeys();
 	
-		#if android
-		addChild(new FlxGame(1280, 720, TitleState, 60, 60, true, false));
-		#else
-		addChild(new FlxGame(game.width, game.height, game.initialState, game.framerate, game.framerate, game.skipSplash, game.startFullscreen));
-		#end
+		#if android addChild(new FlxGame(1280, 720, #if MODS_ALLOWED CopyFilesState.checkExistingFiles() ? game.initialState : CopyState #else TitleState #end, 60, 60, true, false)); #else addChild(new FlxGame(game.width, game.height, game.initialState, game.framerate, game.framerate, game.skipSplash, game.startFullscreen)); #end
 
 		gameLogs = new GameLog();
 		GameLog.startInit();
 		addChild(gameLogs);
-		if (gameLogs != null) gameLogs.visible = ClientPrefs.data.inGameLogs;
 
 		fpsVar = new FPS(10, 3);
 		addChild(fpsVar);
@@ -165,30 +145,17 @@ class Main extends Sprite
 		watermark.x = Lib.application.window.width - 10 - watermark.width;
 		watermark.y = Lib.application.window.height - 10 - watermark.height;
 		addChild(watermark);
-		if (watermark != null) {
-			watermark.visible = ClientPrefs.data.watermarkIcon;
-		}
+		if (watermark != null) watermark.visible = ClientPrefs.data.watermarkIcon;
 
 		#if linux
 		var icon = Image.fromFile("icon.png");
 		Lib.current.stage.window.setIcon(icon);
 		#end
 		
-		#if CRASH_HANDLER
-		Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onCrash);
-		#end
-
-		#if desktop
-		FlxG.stage.addEventListener(KeyboardEvent.KEY_UP, toggleFullScreen);
-		#end
-
-		#if DISCORD_ALLOWED
-		DiscordClient.prepare();
-		#end
-
-		#if android
-		System.allowScreenTimeout = ClientPrefs.data.screenSaver;
-		#end
+		#if CRASH_HANDLER Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onCrash); #end
+		#if desktop FlxG.stage.addEventListener(KeyboardEvent.KEY_UP, toggleFullScreen); #end
+		#if DISCORD_ALLOWED DiscordClient.prepare(); #end
+		#if android System.allowScreenTimeout = ClientPrefs.data.screenSaver; #end
 
 		// shader coords fix
 		FlxG.signals.gameResized.add(function (w, h) {

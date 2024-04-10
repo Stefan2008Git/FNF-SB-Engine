@@ -206,14 +206,14 @@ class ResultsScreenSubstate extends MusicBeatSubstate
 			case 'SB Engine':
 				clearText.font = Paths.font('bahnschrift.ttf');
 			
-			case 'Psych Engine' | 'Kade Engine' | 'Cheeky':
-				clearText.font = Paths.font('vcr.ttf');
-			
 			case 'Dave and Bambi':
 				clearText.font = Paths.font('comic.ttf');
 			
 			case 'TGT Engine':
 				clearText.font = Paths.font('calibri.ttf');
+			
+			default:
+				clearText.font = Paths.font('vcr.ttf');
 		}
 		clearText.setBorderStyle(FlxTextBorderStyle.OUTLINE, FlxColor.BLACK, 1, 1);
 		clearText.scrollFactor.set();
@@ -269,14 +269,14 @@ class ResultsScreenSubstate extends MusicBeatSubstate
 			case 'SB Engine':
 				judgeText.font = Paths.font('bahnschrift.ttf');
 			
-			case 'Psych Engine' | 'Kade Engine' | 'Cheeky':
-				judgeText.font = Paths.font('vcr.ttf');
-			
 			case 'Dave and Bambi':
 				judgeText.font = Paths.font('comic.ttf');
 			
 			case 'TGT Engine':
 				judgeText.font = Paths.font('calibri.ttf');
+			
+			default:
+				judgeText.font = Paths.font('vcr.ttf');
 		}
 		judgeText.setBorderStyle(FlxTextBorderStyle.OUTLINE, FlxColor.BLACK, 1, 1);
 		judgeText.scrollFactor.set();
@@ -307,14 +307,14 @@ class ResultsScreenSubstate extends MusicBeatSubstate
 			case 'SB Engine':
 				setGameText.font = Paths.font('bahnschrift.ttf');
 			
-			case 'Psych Engine' | 'Kade Engine' | 'Cheeky':
-				setGameText.font = Paths.font('vcr.ttf');
-			
 			case 'Dave and Bambi':
 				setGameText.font = Paths.font('comic.ttf');
 			
 			case 'TGT Engine':
 				setGameText.font = Paths.font('calibri.ttf');
+			
+			default:
+				setGameText.font = Paths.font('vcr.ttf');
 		}
 		setGameText.setBorderStyle(FlxTextBorderStyle.OUTLINE, FlxColor.BLACK, 1, 1);
 		setGameText.scrollFactor.set();
@@ -333,14 +333,14 @@ class ResultsScreenSubstate extends MusicBeatSubstate
 			case 'SB Engine':
 				setMsText.font = Paths.font('bahnschrift.ttf');
 			
-			case 'Psych Engine' | 'Kade Engine' | 'Cheeky':
-				setMsText.font = Paths.font('vcr.ttf');
-			
 			case 'Dave and Bambi':
 				setMsText.font = Paths.font('comic.ttf');
 			
 			case 'TGT Engine':
 				setMsText.font = Paths.font('calibri.ttf');
+			
+			default:
+				setMsText.font = Paths.font('vcr.ttf');
 		}
 		setMsText.setBorderStyle(FlxTextBorderStyle.OUTLINE, FlxColor.BLACK, 1, 1);
 		setMsText.scrollFactor.set();
@@ -355,14 +355,14 @@ class ResultsScreenSubstate extends MusicBeatSubstate
 			case 'SB Engine':
 				backText.font = Paths.font('bahnschrift.ttf');
 			
-			case 'Psych Engine' | 'Kade Engine' | 'Cheeky':
-				backText.font = Paths.font('vcr.ttf');
-			
 			case 'Dave and Bambi':
 				backText.font = Paths.font('comic.ttf');
 			
 			case 'TGT Engine':
 				backText.font = Paths.font('calibri.ttf');
+			
+			default:
+				backText.font = Paths.font('vcr.ttf');
 		}
 		backText.setBorderStyle(FlxTextBorderStyle.OUTLINE, FlxColor.BLACK, 1, 1);
 		backText.scrollFactor.set();
@@ -372,9 +372,6 @@ class ResultsScreenSubstate extends MusicBeatSubstate
 		backText.alpha = 0;
 		backText.x = FlxG.width - backText.width - 20;
 
-		//--------------text
-		
-		//time = 0
 		FlxTween.tween(background, {alpha: 0.5}, 0.5, {ease: FlxEase.sineInOut});
 		FlxTween.tween(bgGrid, {alpha: 0.5}, 0.5, {ease: FlxEase.sineInOut});		
 		new FlxTimer().start(0.5, function(tmr:FlxTimer) { 
@@ -446,16 +443,46 @@ class ResultsScreenSubstate extends MusicBeatSubstate
 		+ 'Your current time: ' + Date.now().toString()
 		+ '\n';
 
-		if(FlxG.keys.justPressed.ENTER #if android || pressedTheTouchScreen #end)
-		{
-            Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Freeplay Menu (Closing the state)";
-		    FlxG.switchState(() -> new FreeplayState());
-            FlxG.sound.playMusic(Paths.music('freakyMenu-' + ClientPrefs.data.mainMenuMusic));
-		}
+		closeTheSubstate();
 	}
 
 	override function destroy()
 	{
 		super.destroy();
+	}
+
+	function closeTheSubstate() {
+		if(FlxG.keys.justPressed.ENTER #if android || pressedTheTouchScreen #end)
+		{
+			Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Freeplay Menu (Closing the state)";
+			if (FlxG.sound.music != null) FlxTween.tween(FlxG.sound.music, {pitch: 0, volume: 0}, 2.5, {ease: FlxEase.sineInOut});
+			backText.text = "Closing the result screen for 3 seconds. Pleae what...";
+			FlxTween.tween(bgGrid, {alpha: 0}, 0.5, {ease: FlxEase.sineInOut});
+			FlxTween.tween(clearText, {alpha: 0}, 0.5, {ease: FlxEase.sineInOut}); 
+			FlxTween.tween(setMsText, {alpha: 0}, 0.5, {ease: FlxEase.sineInOut});
+			FlxTween.tween(judgeText, {alpha: 0}, 0.5, {ease: FlxEase.sineInOut});		
+		    FlxTween.tween(setGameText, {alpha: 0}, 0.5, {ease: FlxEase.sineInOut});
+			FlxTween.tween(graphBG, {alpha: 0}, 0.5, {ease: FlxEase.sineInOut});
+			FlxTween.tween(graphJudgeCenter, {alpha: 0}, 0.5, {ease: FlxEase.sineInOut});	
+			FlxTween.tween(graphSickUp, {alpha: 0}, 0.5, {ease: FlxEase.sineInOut});	
+			FlxTween.tween(graphSickDown, {alpha: 0}, 0.5, {ease: FlxEase.sineInOut});	
+			FlxTween.tween(graphGoodUp, {alpha: 0}, 0.5, {ease: FlxEase.sineInOut});	
+			FlxTween.tween(graphGoodDown, {alpha: 0}, 0.5, {ease: FlxEase.sineInOut});	
+			FlxTween.tween(graphBadUp, {alpha: 0}, 0.5, {ease: FlxEase.sineInOut});	
+			FlxTween.tween(graphBadDown, {alpha: 0}, 0.5, {ease: FlxEase.sineInOut});	
+			FlxTween.tween(graphShitUp, {alpha: 0}, 0.5, {ease: FlxEase.sineInOut});
+			FlxTween.tween(graphShitDown, {alpha: 0}, 0.5, {ease: FlxEase.sineInOut});	
+			FlxTween.tween(graphMiss, {alpha: 0}, 0.5, {ease: FlxEase.sineInOut});	
+		    FlxTween.tween(graphSizeUp, {alpha: 0}, 0.5, {ease: FlxEase.sineInOut});
+		    FlxTween.tween(graphSizeDown, {alpha: 0}, 0.5, {ease: FlxEase.sineInOut});
+		    FlxTween.tween(graphSizeLeft, {alpha: 0}, 0.5, {ease: FlxEase.sineInOut});
+		    FlxTween.tween(graphSizeRight, {alpha: 0}, 0.5, {ease: FlxEase.sineInOut});	
+
+			new FlxTimer().start(3, function(tmr:FlxTimer) {
+				FlxG.switchState(() -> new FreeplayState());
+				FlxG.sound.playMusic(Paths.music('freakyMenu-' + ClientPrefs.data.mainMenuMusic));
+				FlxTween.tween(FlxG.sound.music, {pitch: 1.5, volume: 1}, {ease: FlxEase.sineInOut});
+			});
+		}
 	}
 }
