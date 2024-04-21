@@ -1829,7 +1829,7 @@ class PlayState extends MusicBeatState
 			if (instakillOnMiss) {
 				switch (ClientPrefs.data.gameStyle) {
 					case 'SB Engine':
-						scoreTxt.text = '<< Score: ' +  songScore + ' // Combo: ' + combo + ' (Max Combo: ' + maxCombo + ')' + ' // Percent: ' + CoolUtil.floorDecimal(ratingPercent * 100, 2) + '%' + ' // Rank: ' + ratingName + ' {' + ratingFC + '} >>';
+						scoreTxt.text = '<< Score: ' +  Std.parseInt(lerpScore) + ' // Combo: ' + combo + ' (Max Combo: ' + maxCombo + ')' + ' // Percent: ' + CoolUtil.floorDecimal(ratingPercent * 100, 2) + '%' + ' // Rank: ' + ratingName + ' {' + ratingFC + '} >>';
 		
 					case 'Psych Engine' | 'TGT Engine':
 						scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + str;
@@ -1881,7 +1881,7 @@ class PlayState extends MusicBeatState
 			} else if (!instakillOnMiss) {
 				switch (ClientPrefs.data.gameStyle) {
 					case 'SB Engine':
-						scoreTxt.text = '<< Score: ' +  lerpScore + ' // Combo: ' + combo + ' (Max Combo: ' + maxCombo + ')' + ' // Missed notes: ' + songMisses + '  Percent: ' + CoolUtil.floorDecimal(ratingPercent * 100, 2) + '%' + ' // Rank: ' + ratingName + ' {' + ratingFC + '} >>';
+						scoreTxt.text = '<< Score: ' +  Std.parseInt(lerpScore) + ' // Combo: ' + combo + ' (Max Combo: ' + maxCombo + ')' + ' // Missed notes: ' + songMisses + '  Percent: ' + CoolUtil.floorDecimal(ratingPercent * 100, 2) + '%' + ' // Rank: ' + ratingName + ' {' + ratingFC + '} >>';
 		
 					case 'Psych Engine' | 'TGT Engine':
 						scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + str;
