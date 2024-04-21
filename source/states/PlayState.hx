@@ -239,8 +239,8 @@ class PlayState extends MusicBeatState
 	var notesHitArray:Array<Date> = [];
 	var currentFrames:Int = 0;
 
+	public var lerpScore:Float = 0;
 	public var songScore:Int = 0;
-	public var scoreLerp:Float;
 	public var songHits:Int = 0;
 	public var songMisses:Int = 0;
 	public var nps:Int = 0;
@@ -1817,7 +1817,8 @@ class PlayState extends MusicBeatState
 
 	public function updateScore(miss:Bool = false)
 	{
-		var str:String = ratingName;
+		var str:String = ratingName;    
+		
 		if(totalPlayed != 0)
 		{
 			var percent:Float = CoolUtil.floorDecimal(ratingPercent * 100, 2);
@@ -1880,7 +1881,7 @@ class PlayState extends MusicBeatState
 			} else if (!instakillOnMiss) {
 				switch (ClientPrefs.data.gameStyle) {
 					case 'SB Engine':
-						scoreTxt.text = '<< Score: ' +  songScore + ' // Combo: ' + combo + ' (Max Combo: ' + maxCombo + ')' + ' // Missed notes: ' + songMisses + '  Percent: ' + CoolUtil.floorDecimal(ratingPercent * 100, 2) + '%' + ' // Rank: ' + ratingName + ' {' + ratingFC + '} >>';
+						scoreTxt.text = '<< Score: ' +  lerpScore + ' // Combo: ' + combo + ' (Max Combo: ' + maxCombo + ')' + ' // Missed notes: ' + songMisses + '  Percent: ' + CoolUtil.floorDecimal(ratingPercent * 100, 2) + '%' + ' // Rank: ' + ratingName + ' {' + ratingFC + '} >>';
 		
 					case 'Psych Engine' | 'TGT Engine':
 						scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + str;
@@ -2437,6 +2438,8 @@ class PlayState extends MusicBeatState
 
 		var mult:Float = FlxMath.lerp(smoothHealth, health, ((health / smoothHealth) * (elapsed * 8)) * playbackRate);
 		smoothHealth = mult;
+
+		lerpScore = FlxMath.lerp(lerpScore, PlayState.instance.songScore, 0.2);
 
 		super.update(elapsed);
 		updateScore();
