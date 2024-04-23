@@ -1,7 +1,5 @@
 package states;
 
-import android.states.CopyFilesState;
-
 import flash.system.System;
 
 import flixel.input.keyboard.FlxKey;
@@ -71,21 +69,7 @@ class TitleState extends MusicBeatState {
 		noCheckPress();
 		#end
 
-		#if LUA_ALLOWED
-        	#if android
-        try {
-        	#end
-		Mods.pushGlobalMods();
-            #if android
-        } catch (e:Dynamic) {
-            SUtil.applicationAlert("Please create folder to\n" +  "/storage/emulated/0/.SB Engine" + "\nPress OK to close the game", "Error!");
-			CoolUtil.browserLoad('https://www.youtube.com/watch?v=Cm1JE_uBbYk');
-            System.exit(1);
-        }
-            #end
-		#end
-
-		#if android if(!CopyFilesState.checkExistingFiles() && !ignoreCopy) FlxG.switchState(() -> new android.states.CopyFilesState()); #end
+		#if LUA_ALLOWED Mods.pushGlobalMods(); #end
 
 		Mods.loadTopMod();
 

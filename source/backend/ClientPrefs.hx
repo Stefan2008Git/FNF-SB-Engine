@@ -90,6 +90,7 @@ class SaveVariables {
 	public var guitarHeroSustains:Bool = true;
 	public var originalHPBar:Bool = false;
 	public var smoothHealth:Bool = true;
+	public var smoothScore:Bool = true;
 	public var tweenableTimeTxt:Bool = false;
 	public var tweenableScoreTxt:Bool = false;
 	public var millisecondTxt:Bool = false;

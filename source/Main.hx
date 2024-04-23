@@ -15,7 +15,6 @@ import states.TitleState;
 import android.Hardware;
 import android.backend.AndroidDialogsExtend;
 import android.backend.SUtil;
-import android.states.CopyFilesState;
 import lime.system.System;
 #end
 
@@ -125,7 +124,7 @@ class Main extends Sprite
 		Controls.instance = new Controls();
 		ClientPrefs.loadDefaultKeys();
 	
-		#if android addChild(new FlxGame(1280, 720, #if MODS_ALLOWED CopyFilesState.checkExistingFiles() ? game.initialState : CopyFilesState #else TitleState #end, 60, 60, true, false)); #else addChild(new FlxGame(game.width, game.height, game.initialState, game.framerate, game.framerate, game.skipSplash, game.startFullscreen)); #end
+		#if android addChild(new FlxGame(1280, 720, TitleState, 60, 60, true, false)); #else addChild(new FlxGame(game.width, game.height, game.initialState, game.framerate, game.framerate, game.skipSplash, game.startFullscreen)); #end
 
 		gameLogs = new GameLog();
 		GameLog.startInit();

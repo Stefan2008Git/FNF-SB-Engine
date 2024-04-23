@@ -239,7 +239,7 @@ class PlayState extends MusicBeatState
 	var notesHitArray:Array<Date> = [];
 	var currentFrames:Int = 0;
 
-	public var lerpScore:Float = 0;
+	public var smoothScore:Float = 0;
 	public var songScore:Int = 0;
 	public var songHits:Int = 0;
 	public var songMisses:Int = 0;
@@ -1829,19 +1829,19 @@ class PlayState extends MusicBeatState
 			if (instakillOnMiss) {
 				switch (ClientPrefs.data.gameStyle) {
 					case 'SB Engine':
-						scoreTxt.text = '<< Score: ' +  Std.parseInt(lerpScore) + ' // Combo: ' + combo + ' (Max Combo: ' + maxCombo + ')' + ' // Percent: ' + CoolUtil.floorDecimal(ratingPercent * 100, 2) + '%' + ' // Rank: ' + ratingName + ' {' + ratingFC + '} >>';
+						scoreTxt.text = '<< Score: ${(ClientPrefs.data.smoothScore) ? smoothScore : songScore} // Combo: ${combo} (Max Combo: ${maxCombo}) // Percent: ${CoolUtil.floorDecimal(ratingPercent * 100, 2)} // Rank: ${ratingName} [${ratingFC}] >>';
 		
 					case 'Psych Engine' | 'TGT Engine':
-						scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + str;
+						scoreTxt.text = 'Score: ${(ClientPrefs.data.smoothScore) ? smoothScore : songScore} | Rating: ${str}';
 		
 					case 'Kade Engine':
-						scoreTxt.text = 'NPS: ' + nps + ' (Max: ' + maxNPS + ')' + ' | Score: ' + songScore + ' | Accurarcy: ' + CoolUtil.floorDecimal(ratingPercent * 100, 2) + '%' + ' | ' + ratingName + ' [' + ratingFC + ']';
+						scoreTxt.text = 'NPS: ${nps} (Max: ${maxNPS}) | Score: ${(ClientPrefs.data.smoothScore) ? smoothScore : songScore} | Accurarcy: ${CoolUtil.floorDecimal(ratingPercent * 100, 2)} % | ${ratingName} [${ratingFC}]';
 		
 					case 'Dave and Bambi':
-						scoreTxt.text = 'Score: ' + songScore + ' | Accurarcy: ' + CoolUtil.floorDecimal(ratingPercent * 100, 2) + '%';
+						scoreTxt.text = 'Score: ${(ClientPrefs.data.smoothScore) ? smoothScore : songScore} | Accurarcy: ${CoolUtil.floorDecimal(ratingPercent * 100, 2)} %';
 					
 					case 'Cheeky':
-						scoreTxt.text = 'Score: ' + songScore + ' | Accurarcy: ' + CoolUtil.floorDecimal(ratingPercent * 100, 2) + '%' + ' | ' + ratingName + ' [' + ratingFC + ']';
+						scoreTxt.text = 'Score: ${(ClientPrefs.data.smoothScore) ? smoothScore : songScore} | Accurarcy: ${CoolUtil.floorDecimal(ratingPercent * 100, 2)}% | ${ratingName} [${ratingFC}]';
 				}
 	
 				if (ClientPrefs.data.gameStyle == 'SB Engine') {
@@ -1881,19 +1881,19 @@ class PlayState extends MusicBeatState
 			} else if (!instakillOnMiss) {
 				switch (ClientPrefs.data.gameStyle) {
 					case 'SB Engine':
-						scoreTxt.text = '<< Score: ' +  Std.parseInt(lerpScore) + ' // Combo: ' + combo + ' (Max Combo: ' + maxCombo + ')' + ' // Missed notes: ' + songMisses + '  Percent: ' + CoolUtil.floorDecimal(ratingPercent * 100, 2) + '%' + ' // Rank: ' + ratingName + ' {' + ratingFC + '} >>';
+						scoreTxt.text = '<< Score: ${(ClientPrefs.data.smoothScore) ? smoothScore : songScore} // Combo: ${combo} (Max Combo: ${maxCombo}) // Missed Note: ${songMisses} // Percent: ${CoolUtil.floorDecimal(ratingPercent * 100, 2)} // Rank: ${ratingName} [${ratingFC}] >>';
 		
 					case 'Psych Engine' | 'TGT Engine':
-						scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + str;
+						scoreTxt.text = 'Score: ${(ClientPrefs.data.smoothScore) ? smoothScore : songScore} | Misses: ${songMisses} | Rating: ${str}';
 		
 					case 'Kade Engine':
-						scoreTxt.text = 'NPS: ' + nps + ' (Max: ' + maxNPS + ')' + ' | Score: ' + songScore + ' | Combo Breaks: ' + songMisses + ' | Accurarcy: ' + CoolUtil.floorDecimal(ratingPercent * 100, 2) + '%' + ' | ' + ratingName + ' [' + ratingFC + ']';
-	
+						scoreTxt.text = 'NPS: ${nps} (Max: ${maxNPS}) | Score: ${(ClientPrefs.data.smoothScore) ? smoothScore : songScore} | Combo Breaks: ${songMisses} | Accurarcy: ${CoolUtil.floorDecimal(ratingPercent * 100, 2)} % | ${ratingName} [${ratingFC}]';
+		
 					case 'Dave and Bambi':
-						scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Accurarcy: ' + CoolUtil.floorDecimal(ratingPercent * 100, 2) + '%';
-				
+						scoreTxt.text = 'Score: ${(ClientPrefs.data.smoothScore) ? smoothScore : songScore} | Misses: ${songMisses} | Accurarcy: ${CoolUtil.floorDecimal(ratingPercent * 100, 2)}%';
+					
 					case 'Cheeky':
-						scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Accurarcy: ' + CoolUtil.floorDecimal(ratingPercent * 100, 2) + '%' + ' | ' + ratingName + ' [' + ratingFC + ']';
+						scoreTxt.text = 'Score: ${(ClientPrefs.data.smoothScore) ? smoothScore : songScore} | Misses: ${songMisses} | Accurarcy: ${CoolUtil.floorDecimal(ratingPercent * 100, 2)}% | ${ratingName} [${ratingFC}]';
 				}
 	
 				if (ClientPrefs.data.gameStyle == 'SB Engine') {
@@ -2398,10 +2398,6 @@ class PlayState extends MusicBeatState
 
 	override public function update(elapsed:Float)
 	{
-		/*if (FlxG.keys.justPressed.NINE)
-		{
-			iconP1.swapOldIcon();
-		}*/
 		callOnScripts('onUpdate', [elapsed]);
 
 		FlxG.camera.followLerp = 0;
@@ -2438,11 +2434,12 @@ class PlayState extends MusicBeatState
 
 		var mult:Float = FlxMath.lerp(smoothHealth, health, ((health / smoothHealth) * (elapsed * 8)) * playbackRate);
 		smoothHealth = mult;
+		
+		var scoreMult:Float = FlxMath.lerp(smoothScore, songScore, 0.108);
+		smoothScore = scoreMult;
 
-		lerpScore = FlxMath.lerp(lerpScore, PlayState.instance.songScore, 0.2);
-
-		super.update(elapsed);
 		updateScore();
+		super.update(elapsed);
 
 		setOnScripts('curDecStep', curDecStep);
 		setOnScripts('curDecBeat', curDecBeat);

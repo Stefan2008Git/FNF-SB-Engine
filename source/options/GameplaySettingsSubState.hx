@@ -225,6 +225,10 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			"If unchecked, disables smooth health.", 'smoothHealth', 'bool');
 		addOption(option);
 
+		var option:Option = new Option('Smooth score',
+			"If unchecked, disables smooth score.", 'smoothScore', 'bool');
+		addOption(option);
+
 		var option:Option = new Option('Tweenable timer text',
 			"If checked, enables tween text for timer text.", 'tweenableTimeTxt', 'bool');
 		addOption(option);
