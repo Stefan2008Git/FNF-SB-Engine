@@ -58,6 +58,7 @@ import backend.Conductor.BPMChangeEvent;
 import backend.Conductor;
 import backend.Controls;
 import backend.CoolUtil;
+import backend.MathUtil;
 import backend.CustomFadeTransition;
 #if DISCORD_ALLOWED
 import backend.Discord.DiscordClient;
