@@ -4,7 +4,6 @@ import flixel.FlxObject;
 import flixel.graphics.FlxGraphic;
 
 import flixel.animation.FlxAnimation;
-import flixel.system.debug.interaction.tools.Pointer.GraphicCursorCross;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.addons.ui.*;
 #if android
@@ -22,6 +21,14 @@ import lime.system.Clipboard;
 import objects.Character;
 import objects.HealthIcon;
 import objects.Bar;
+
+// Flixel 5.7.0+ main black camera bug fix
+#if (FLX_DEBUG || flixel < version("5.7.0"))
+typedef PointerGraphic = flixel.system.debug.interaction.tools.Pointer.GraphicCursorCross;
+#else
+@:bitmap("assets/shared/images/editors/cursorCross.png")
+class PointerGraphic extends openfl.display.BitmapData {}
+#end
 
 class CharacterEditorState extends MusicBeatState
 {
@@ -76,8 +83,6 @@ class CharacterEditorState extends MusicBeatState
 		Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Mod Editors menu (Character Editor)";
 
 		camEditor = new FlxCamera();
-                camEditor.bgColor.alpha = 0;
-		FlxG.cameras.add(camEditor, false);
 		
 		camHUD = new FlxCamera();
 		camHUD.bgColor.alpha = 0;
@@ -110,8 +115,8 @@ class CharacterEditorState extends MusicBeatState
 
 		addCharacter();
 
-		cameraFollowPointer = new FlxSprite().loadGraphic(FlxGraphic.fromClass(GraphicCursorCross));
-		cameraFollowPointer.setGraphicSize(40, 40);
+		cameraFollowPointer = new FlxSprite(FlxGraphic.fromClass(PointerGraphic));
+		cameraFollowPointer.setGraphicSize(50, 50);
 		cameraFollowPointer.updateHitbox();
 		add(cameraFollowPointer);
 

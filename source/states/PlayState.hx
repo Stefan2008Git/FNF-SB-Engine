@@ -1829,19 +1829,19 @@ class PlayState extends MusicBeatState
 			if (instakillOnMiss) {
 				switch (ClientPrefs.data.gameStyle) {
 					case 'SB Engine':
-						scoreTxt.text = '<< Score: ${(ClientPrefs.data.smoothScore) ? MathUtil.truncateFloat(smoothScore, 0) : songScore} // Combo: ${combo} (Max Combo: ${maxCombo}) // Percent: ${CoolUtil.floorDecimal(ratingPercent * 100, 2)} // Rank: ${ratingName} [${ratingFC}] >>';
+						scoreTxt.text = '<< Score: ${(ClientPrefs.data.smoothScore) ? truncateFloat(smoothScore, 0) : songScore} // Combo: ${combo} (Max Combo: ${maxCombo}) // Percent: ${CoolUtil.floorDecimal(ratingPercent * 100, 2)} // Rank: ${ratingName} [${ratingFC}] >>';
 		
 					case 'Psych Engine' | 'TGT Engine':
-						scoreTxt.text = 'Score: ${(ClientPrefs.data.smoothScore) ? MathUtil.truncateFloat(smoothScore, 0) : songScore} | Rating: ${str}';
+						scoreTxt.text = 'Score: ${(ClientPrefs.data.smoothScore) ? truncateFloat(smoothScore, 0) : songScore} | Rating: ${str}';
 		
 					case 'Kade Engine':
-						scoreTxt.text = 'NPS: ${nps} (Max: ${maxNPS}) | Score: ${(ClientPrefs.data.smoothScore) ? MathUtil.truncateFloat(smoothScore, 0) : songScore} | Accurarcy: ${CoolUtil.floorDecimal(ratingPercent * 100, 2)} % | ${ratingName} [${ratingFC}]';
+						scoreTxt.text = 'NPS: ${nps} (Max: ${maxNPS}) | Score: ${(ClientPrefs.data.smoothScore) ? truncateFloat(smoothScore, 0) : songScore} | Accurarcy: ${CoolUtil.floorDecimal(ratingPercent * 100, 2)} % | ${ratingName} [${ratingFC}]';
 		
 					case 'Dave and Bambi':
-						scoreTxt.text = 'Score: ${(ClientPrefs.data.smoothScore) ? MathUtil.truncateFloat(smoothScore, 0) : songScore} | Accurarcy: ${CoolUtil.floorDecimal(ratingPercent * 100, 2)} %';
+						scoreTxt.text = 'Score: ${(ClientPrefs.data.smoothScore) ? truncateFloat(smoothScore, 0) : songScore} | Accurarcy: ${CoolUtil.floorDecimal(ratingPercent * 100, 2)} %';
 					
 					case 'Cheeky':
-						scoreTxt.text = 'Score: ${(ClientPrefs.data.smoothScore) ? MathUtil.truncateFloat(smoothScore, 0) : songScore} | Accurarcy: ${CoolUtil.floorDecimal(ratingPercent * 100, 2)}% | ${ratingName} [${ratingFC}]';
+						scoreTxt.text = 'Score: ${(ClientPrefs.data.smoothScore) ? truncateFloat(smoothScore, 0) : songScore} | Accurarcy: ${CoolUtil.floorDecimal(ratingPercent * 100, 2)}% | ${ratingName} [${ratingFC}]';
 				}
 	
 				if (ClientPrefs.data.gameStyle == 'SB Engine') {
@@ -1881,19 +1881,19 @@ class PlayState extends MusicBeatState
 			} else if (!instakillOnMiss) {
 				switch (ClientPrefs.data.gameStyle) {
 					case 'SB Engine':
-						scoreTxt.text = '<< Score: ${(ClientPrefs.data.smoothScore) ? MathUtil.truncateFloat(smoothScore, 0) : songScore} // Combo: ${combo} (Max Combo: ${maxCombo}) // Missed Note: ${songMisses} // Percent: ${CoolUtil.floorDecimal(ratingPercent * 100, 2)} // Rank: ${ratingName} [${ratingFC}] >>';
+						scoreTxt.text = '<< Score: ${(ClientPrefs.data.smoothScore) ? truncateFloat(smoothScore, 0) : songScore} // Combo: ${combo} (Max Combo: ${maxCombo}) // Missed Note: ${songMisses} // Percent: ${CoolUtil.floorDecimal(ratingPercent * 100, 2)} // Rank: ${ratingName} [${ratingFC}] >>';
 		
 					case 'Psych Engine' | 'TGT Engine':
-						scoreTxt.text = 'Score: ${(ClientPrefs.data.smoothScore) ? MathUtil.truncateFloat(smoothScore, 0) : songScore} | Misses: ${songMisses} | Rating: ${str}';
+						scoreTxt.text = 'Score: ${(ClientPrefs.data.smoothScore) ? truncateFloat(smoothScore, 0) : songScore} | Misses: ${songMisses} | Rating: ${str}';
 		
 					case 'Kade Engine':
-						scoreTxt.text = 'NPS: ${nps} (Max: ${maxNPS}) | Score: ${(ClientPrefs.data.smoothScore) ? MathUtil.truncateFloat(smoothScore, 0) : songScore} | Combo Breaks: ${songMisses} | Accurarcy: ${CoolUtil.floorDecimal(ratingPercent * 100, 2)} % | ${ratingName} [${ratingFC}]';
+						scoreTxt.text = 'NPS: ${nps} (Max: ${maxNPS}) | Score: ${(ClientPrefs.data.smoothScore) ? truncateFloat(smoothScore, 0) : songScore} | Combo Breaks: ${songMisses} | Accurarcy: ${CoolUtil.floorDecimal(ratingPercent * 100, 2)} % | ${ratingName} [${ratingFC}]';
 		
 					case 'Dave and Bambi':
-						scoreTxt.text = 'Score: ${(ClientPrefs.data.smoothScore) ? MathUtil.truncateFloat(smoothScore, 0) : songScore} | Misses: ${songMisses} | Accurarcy: ${CoolUtil.floorDecimal(ratingPercent * 100, 2)}%';
+						scoreTxt.text = 'Score: ${(ClientPrefs.data.smoothScore) ? truncateFloat(smoothScore, 0) : songScore} | Misses: ${songMisses} | Accurarcy: ${CoolUtil.floorDecimal(ratingPercent * 100, 2)}%';
 					
 					case 'Cheeky':
-						scoreTxt.text = 'Score: ${(ClientPrefs.data.smoothScore) ? MathUtil.truncateFloat(smoothScore, 0) : songScore} | Misses: ${songMisses} | Accurarcy: ${CoolUtil.floorDecimal(ratingPercent * 100, 2)}% | ${ratingName} [${ratingFC}]';
+						scoreTxt.text = 'Score: ${(ClientPrefs.data.smoothScore) ? truncateFloat(smoothScore, 0) : songScore} | Misses: ${songMisses} | Accurarcy: ${CoolUtil.floorDecimal(ratingPercent * 100, 2)}% | ${ratingName} [${ratingFC}]';
 				}
 	
 				if (ClientPrefs.data.gameStyle == 'SB Engine') {
