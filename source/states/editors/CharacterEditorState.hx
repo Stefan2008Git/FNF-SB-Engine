@@ -76,7 +76,9 @@ class CharacterEditorState extends MusicBeatState
 		Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Mod Editors menu (Character Editor)";
 
 		camEditor = new FlxCamera();
-
+                camEditor.bgColor.alpha = 0;
+		FlxG.cameras.add(camEditor, false);
+		
 		camHUD = new FlxCamera();
 		camHUD.bgColor.alpha = 0;
 		FlxG.cameras.add(camHUD, false);
