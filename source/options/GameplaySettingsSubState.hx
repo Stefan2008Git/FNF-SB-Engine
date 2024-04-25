@@ -225,8 +225,8 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			"If unchecked, disables smooth health.", 'smoothHealth', 'bool');
 		addOption(option);
 
-		var option:Option = new Option('Smooth score',
-			"If unchecked, disables smooth score.", 'smoothScore', 'bool');
+		var option:Option = new Option('Smooth score (ALPHA!)',
+			"If unchecked, disables smooth score.\nNOTE: Smooth score is on alpha state, so it will be broken sometimes!", 'smoothScore', 'bool');
 		addOption(option);
 
 		var option:Option = new Option('Tweenable timer text',

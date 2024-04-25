@@ -34,8 +34,6 @@ class DialogueCharacterEditorState extends MusicBeatState
 	\nR - Reset Camera
 	\nH - Toggle Speech Bubble
 	\nSpace - Reset text';
-	
-	
 
 	private static var TIP_TEXT_OFFSET:String =
 	'JKLI - Move camera (Hold Shift to move 4x faster)
@@ -45,8 +43,6 @@ class DialogueCharacterEditorState extends MusicBeatState
 	\nWASD - Move Looping animation offset (Red)
 	\nArrow Keys - Move Idle/Finished animation offset (Blue)
 	\nHold Shift to move offsets 10x faster';
-	
-	
 
 	var tipText:FlxText;
 	var offsetLoopText:FlxText;
@@ -439,7 +435,7 @@ class DialogueCharacterEditorState extends MusicBeatState
 		updateTextBox();
 	}
 
-	private static var DEFAULT_TEXT:String = 'Lorem ipsum dolor sit amet';
+	private static var DEFAULT_TEXT:String = 'Ovo je decko sa igre...';
 
 	function reloadCharacter() {
 		var charsArray:Array<DialogueCharacter> = [character, ghostLoop, ghostIdle];

@@ -232,7 +232,7 @@ class DialogueEditorState extends MusicBeatState
 		}
 	}
 
-	private static var DEFAULT_TEXT:String = "coolswag";
+	private static var DEFAULT_TEXT:String = "Sjajno...";
 	private static var DEFAULT_SPEED:Float = 0.05;
 	private static var DEFAULT_BUBBLETYPE:String = "normal";
 	function reloadText(skipDialogue:Bool) {

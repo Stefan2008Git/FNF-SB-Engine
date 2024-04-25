@@ -134,21 +134,17 @@ class FPS extends TextField
 				text += "\nEngine version: " + MainMenuState.sbEngineVersion + " (Modified Psych Engine " + MainMenuState.psychEngineVersion + ")";
 			}
 
-			#if debug
 			if (ClientPrefs.data.debugInfo) {
 				text += '\nState: ${Type.getClassName(Type.getClass(FlxG.state))}';
 				if (FlxG.state.subState != null)
 					text += '\nSubstate: ${Type.getClassName(Type.getClass(FlxG.state.subState))}';
-				text += "\nDevice: " + '${lime.system.System.deviceModel} ${lime.system.System.deviceVendor}';
-				text += "\nOS: " + '${lime.system.System.platformLabel} ${lime.system.System.platformVersion}';
 				text += "\nGL Render: " + '${getGLInfo(RENDERER)}';
 				text += "\nGL Shading version: " + '${getGLInfo(SHADING_LANGUAGE_VERSION)})';
-				text += "\nHaxe " + Compiler.getDefine("haxe");
+				text += "\nHaxe: " + Compiler.getDefine("haxe");
 				text += "\n" + FlxG.VERSION;
-				text += "\nLime" + Compiler.getDefine("lime");
+				text += "\nLime: " + Compiler.getDefine("lime");
 				text += "\nOpenFL " + Compiler.getDefine("openfl");
 			}
-			#end
 
 			#if android
 			text += "\nGo to options to enable/disable in-game logs";

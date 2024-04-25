@@ -32,11 +32,9 @@ class VisualsUISubState extends BaseOptionsMenu
 			'If checked, shows engine version on FPS Counter.', 'engineVersion', 'bool');
 		addOption(option);
 
-		#if debug
 		var option:Option = new Option('Debug Info',
 			'If checked, shows debug info on FPS Counter.', 'debugInfo', 'bool');
 		addOption(option);
-		#end
 
 		var option:Option = new Option('Rainbow FPS',
 			'If checked, enables rainbow FPS.', 'rainbowFPS', 'bool');

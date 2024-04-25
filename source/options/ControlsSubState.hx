@@ -57,7 +57,7 @@ class ControlsSubState extends MusicBeatSubstate
 	var grpBinds:FlxTypedGroup<Alphabet>;
 	var selectSpr:AttachedSprite;
 
-	var gamepadColor:FlxColor = 0xFF800080;
+	var gamepadColor:FlxColor = FlxColor.PURPLE;
 	var keyboardColor:FlxColor = FlxColor.BROWN;
 	var onKeyboardMode:Bool = true;
 	
@@ -210,7 +210,7 @@ class ControlsSubState extends MusicBeatSubstate
 			// spawn black bars at the right of the key name
 			var black:AttachedSprite = new AttachedSprite();
 			black.makeGraphic(250, 78, FlxColor.TRANSPARENT);
-			FlxSpriteUtil.drawRoundRect(black, 0, 0, 250, 78, 65, 65, FlxColor.WHITE);
+			FlxSpriteUtil.drawRoundRect(black, 0, 0, 250, 78, 65, 65, FlxColor.BROWN);
 			black.alphaMult = 0.4;
 			black.sprTracker = text;
 			black.yAdd = -6;
@@ -282,6 +282,9 @@ class ControlsSubState extends MusicBeatSubstate
 		{
 			if(controls.BACK || FlxG.gamepads.anyJustPressed(B))
 			{
+				FlxTransitionableState.skipNextTransOut = true;
+				FlxG.resetState();
+				ClientPrefs.saveSettings();
 				close();
 				Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Options Menu";
 				FlxTween.tween(FlxG.sound.music, {volume: 1}, 0.8);

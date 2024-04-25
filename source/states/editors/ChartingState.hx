@@ -1926,7 +1926,7 @@ class ChartingState extends MusicBeatState
 				FlxG.camera.shake(0.05, 0.6);
 				FlxG.sound.play(Paths.sound('error'));
 				#else
-				openSubState(new states.editors.EditorPlayState(playbackSpeed));
+				openSubState(new substates.editors.PlaytestingSubstate(playbackSpeed));
 				#end
 			}
 
@@ -1946,23 +1946,6 @@ class ChartingState extends MusicBeatState
 				}
 				LoadingState.loadAndSwitchState(() -> new PlayState());
 			}
-
-			/* #if android
-			var touchedTheScreen:Bool = false;
-	
-			for (touch in FlxG.touches.list) {
-				if (touch.justPressed) {
-					touchedTheScreen = true;
-				}
-			}
-			#end
-
-			if (FlxG.keys.pressed.SHIFT #if android || touchedTheScreen #end) {
-				warningStateTxt.visible = false;
-				warningStateBG.visible = false;
-				warningStateChecker.visible = false;
-				FlxG.sound.music.stop();
-			}*/
 
 			if(currentlySelectedNote != null && currentlySelectedNote[1] > -1)
 			{
@@ -2386,45 +2369,6 @@ class ChartingState extends MusicBeatState
 		backend.NoteTypesConfig.clearNoteTypesData();
 		super.destroy();
 	}
-
-	/*function loadAudioBuffer() {
-		if(audioBuffers[0] != null) {
-			audioBuffers[0].dispose();
-		}
-		audioBuffers[0] = null;
-		#if MODS_ALLOWED
-		if(FileSystem.exists(Paths.modFolders('songs/' + currentSongName + '/Inst.ogg'))) {
-			audioBuffers[0] = AudioBuffer.fromFile(Paths.modFolders('songs/' + currentSongName + '/Inst.ogg'));
-			//TraceText.makeTheTraceText('Custom vocals found');
-		}
-		else { #end
-			var leVocals:String = Paths.getPath(currentSongName + '/Inst.' + Paths.SOUND_EXT, SOUND, 'songs');
-			if (OpenFlAssets.exists(leVocals)) { //Vanilla inst
-				audioBuffers[0] = AudioBuffer.fromFile('./' + leVocals.substr(6));
-				//TraceText.makeTheTraceText('Inst found');
-			}
-		#if MODS_ALLOWED
-		}
-		#end
-
-		if(audioBuffers[1] != null) {
-			audioBuffers[1].dispose();
-		}
-		audioBuffers[1] = null;
-		#if MODS_ALLOWED
-		if(FileSystem.exists(Paths.modFolders('songs/' + currentSongName + '/Voices.ogg'))) {
-			audioBuffers[1] = AudioBuffer.fromFile(Paths.modFolders('songs/' + currentSongName + '/Voices.ogg'));
-			//TraceText.makeTheTraceText('Custom vocals found');
-		} else { #end
-			var leVocals:String = Paths.getPath(currentSongName + '/Voices.' + Paths.SOUND_EXT, SOUND, 'songs');
-			if (OpenFlAssets.exists(leVocals)) { //Vanilla voices
-				audioBuffers[1] = AudioBuffer.fromFile('./' + leVocals.substr(6));
-				//TraceText.makeTheTraceText('Voices found, LETS FUCKING GOOOO');
-			}
-		#if MODS_ALLOWED
-		}
-		#end
-	}*/
 
 	var lastSecBeats:Float = 0;
 	var lastSecBeatsNext:Float = 0;

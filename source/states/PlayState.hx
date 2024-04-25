@@ -2278,7 +2278,6 @@ class PlayState extends MusicBeatState
 					babyArrow.y -= 115;
 					FlxTween.tween(babyArrow, {y: babyArrow.y + 115}, 1, {ease: FlxEase.backInOut});
 				} else {
-					babyArrow.y -= 10;
 					babyArrow.alpha = 0;
 					FlxTween.tween(babyArrow, {alpha: targetAlpha}, 1, {ease: FlxEase.circOut, startDelay: 0.5 + (0.2 * i)});
 					babyArrow.alpha = targetAlpha;
@@ -2673,7 +2672,7 @@ class PlayState extends MusicBeatState
 		#if debug
 		if(!endingSong && !startingSong) {
 			if (FlxG.keys.justPressed.ONE) {
-				KillNotes();
+				killNotes();
 				FlxG.sound.music.onComplete();
 			}
 			if(FlxG.keys.justPressed.TWO) { //Go 10 seconds into the future :O
@@ -2685,7 +2684,7 @@ class PlayState extends MusicBeatState
 
 		setOnScripts('cameraX', camFollow.x);
 		setOnScripts('cameraY', camFollow.y);
-		setOnScripts('botPlay', cpuControlled);
+		setOnScripts('botplay', cpuControlled);
 		callOnScripts('onUpdatePost', [elapsed]);
 	}
 
@@ -2872,10 +2871,7 @@ class PlayState extends MusicBeatState
 					noteGroup.kill();
 					comboGroup.kill();
 				} else {
-					if (isStoryMode) 
-						FlxG.switchState(()-> new StoryMenuState());
-					else 
-						FlxG.switchState(()-> new FreeplayState());
+					if (isStoryMode) FlxG.switchState(()-> new StoryMenuState()); else FlxG.switchState(()-> new FreeplayState());
 				}
 
 				#if DISCORD_ALLOWED
@@ -3369,7 +3365,7 @@ class PlayState extends MusicBeatState
 		return true;
 	}
 
-	public function KillNotes() {
+	public function killNotes() {
 		while(notes.length > 0) {
 			var daNote:Note = notes.members[0];
 			daNote.active = false;
@@ -3503,7 +3499,6 @@ class PlayState extends MusicBeatState
 			antialias = !isPixelStage;
 		}
 
-		// let's not make this disabled by default
 		if (!cpuControlled) {
 		rating.loadGraphic(Paths.image(uiPrefix + daRating.image + uiSuffix));
 		rating.screenCenter();

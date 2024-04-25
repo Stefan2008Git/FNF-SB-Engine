@@ -1,5 +1,6 @@
-package states.editors;
+package substates.editors;
 
+import states.editors.ChartingState;
 import objects.Bar;
 import backend.Song;
 import backend.Section;
@@ -15,7 +16,7 @@ import flixel.animation.FlxAnimationController;
 import flixel.input.keyboard.FlxKey;
 import openfl.events.KeyboardEvent;
 
-class EditorPlayState extends MusicBeatSubstate
+class PlaytestingSubstate extends MusicBeatSubstate
 {
 	// Borrowed from original PlayState
 	var finishTimer:FlxTimer = null;
@@ -212,13 +213,11 @@ class EditorPlayState extends MusicBeatSubstate
 		
 		generateStaticArrows(0);
 		generateStaticArrows(1);
-		/***************/
 
 		var tipText:FlxText = new FlxText(10, FlxG.height - 24, 0, 'Press ESC to Go Back to Chart Editor', 16);
 		#if android
         tipText.text = 'Press BACK to Go Back to Chart Editor';
 		#end
-		tipText.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		switch (ClientPrefs.data.gameStyle) {
 			case 'SB Engine':
 				tipText.setFormat(Paths.font("bahnschrift.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -272,6 +271,7 @@ class EditorPlayState extends MusicBeatSubstate
 			
 			endSong();
 			super.update(elapsed);
+			close();
 			return;
 		}
 		
@@ -583,7 +583,6 @@ class EditorPlayState extends MusicBeatSubstate
 		var strumLineY:Float = ClientPrefs.data.downScroll ? (FlxG.height - 150) : 50;
 		for (i in 0...4)
 		{
-			// FlxG.log.add(i);
 			var targetAlpha:Float = 1;
 			if (player < 1)
 			{
@@ -593,7 +592,9 @@ class EditorPlayState extends MusicBeatSubstate
 
 			var babyArrow:StrumNote = new StrumNote(strumLineX, strumLineY, i, player);
 			babyArrow.downScroll = ClientPrefs.data.downScroll;
+			babyArrow.alpha = 0;
 			babyArrow.alpha = targetAlpha;
+			FlxTween.tween(babyArrow, {alpha: targetAlpha}, 1, {ease: FlxEase.circOut, startDelay: 0.5 + (0.2 * i)});
 
 			if (player == 1)
 				playerStrums.add(babyArrow);
@@ -623,6 +624,7 @@ class EditorPlayState extends MusicBeatSubstate
 				endSong();
 			});
 		}
+		close();
 	}
 
 	public function endSong()
@@ -634,7 +636,6 @@ class EditorPlayState extends MusicBeatSubstate
 			finishTimer.cancel();
 			finishTimer.destroy();
 		}
-		close();
 	}
 
 	// Stores HUD Objects in a Group
