@@ -195,8 +195,7 @@ jobs:
         run: echo "${{github.run_id}}" > VERSION
       - name: Building
         run:
-          haxelib run lime build macos -${{ matrix.arch }}
-        env:
+          haxelib run lime build macos:
           cert_pass: nullfunni
           cert_alias_pass: nullfunni
 
