@@ -16,7 +16,7 @@ jobs:
   # This workflow contains a single job called "build"
   Linux:
     # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -29,8 +29,7 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Install Haxelib
         run: |
-          sudo apt-get install libvlc-dev
-          sudo apt-get install libvlccore-dev
+          DEBIAN_FRONTEND=noninteractive sudo apt-get -qq install -o Dpkg::Progress-Fancy="0" -o APT::Color="0" -o Dpkg::Use-Pty="0" libvlc-dev libvlccore-dev < /dev/null > /dev/null
           haxelib setup ~/haxelib
           haxelib --global update haxelib
           haxelib install hxcpp > /dev/null
@@ -45,7 +44,7 @@ jobs:
           haxelib list
       - name: Building
         run:
-          haxelib run lime build linux -${{ matrix.arch }}
+          haxelib run lime build linux
         env:
           cert_pass: nullfunni
           cert_alias_pass: nullfunni
@@ -120,7 +119,7 @@ jobs:
           haxelib list
       - name: Building
         run:
-          haxelib run lime build windows -${{ matrix.arch }}
+          haxelib run lime build windows
         env:
           cert_pass: nullfunni
           cert_alias_pass: nullfunni
@@ -168,7 +167,10 @@ jobs:
           name: sbEngineWindowsBuild
           path: export/release/windows/bin
   Mac:
-    runs-on: macos-latest
+    runs-on: macos-${{matrix.version}}
+    strategy:
+      matrix:
+        version: [11, 12, 13]
 
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -193,13 +195,8 @@ jobs:
           haxelib list
       - name: Create Version Tag
         run: echo "${{github.run_id}}" > VERSION
-      - name: Building
-        run:
-          haxelib run lime build macos -${{ matrix.arch }}
-        env:
-          cert_pass: nullfunni
-          cert_alias_pass: nullfunni
-
+      - name: Compile
+        run: haxelib run lime build mac
 
       - name: Clear Previous Cache
         uses: actions/github-script@main
@@ -320,7 +317,7 @@ jobs:
 
       - name: Building
         run:
-          haxelib run lime build android -${{ matrix.arch }}
+          haxelib run lime build android
         env:
           cert_pass: nullfunni
           cert_alias_pass: nullfunni
