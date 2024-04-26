@@ -73,7 +73,6 @@ class VisualsUISubState extends BaseOptionsMenu
 			'discordRPC',
 			'bool');
 		addOption(option);
-		option.onChange = onChangeDiscordRichPresence;
 		#end
 
 		var option:Option = new Option('Auto Pause',
@@ -181,13 +180,5 @@ class VisualsUISubState extends BaseOptionsMenu
 			case 'Psych Engine':
 				BaseOptionsMenu.background.color = 0xFFea71fd;
 		}
-	}
-
-	function onChangeDiscordRichPresence() 
-	{
-		#if DISCORD_ALLOWED
-		if (ClientPrefs.data.discordRPC == true) DiscordClient.initialize();
-		else if (ClientPrefs.data.discordRPC == false) DiscordClient.shutdown();
-		#end
 	}
 }
