@@ -47,38 +47,39 @@ class SUtil
 		Application.current.window.alert(description, title);
 	}
 
+	
 	#if android
-	public static function doTheCheck()
+	if (!Permissions.getGrantedPermissions().contains(PermissionsList.READ_EXTERNAL_STORAGE) || !Permissions.getGrantedPermissions().contains(PermissionsList.WRITE_EXTERNAL_STORAGE))
 	{
-		if (!Permissions.getGrantedPermissions().contains(PermissionsList.READ_EXTERNAL_STORAGE) || !Permissions.getGrantedPermissions().contains(PermissionsList.WRITE_EXTERNAL_STORAGE))
-		{
-			if (!Permissions.getGrantedPermissions().contains(PermissionsList.READ_EXTERNAL_STORAGE)) Permissions.requestPermission(PermissionsList.READ_EXTERNAL_STORAGE);
-			if (!Permissions.getGrantedPermissions().contains(PermissionsList.WRITE_EXTERNAL_STORAGE)) Permissions.requestPermission(PermissionsList.WRITE_EXTERNAL_STORAGE);
-			applicationAlert('Permissions', "if you acceptd the permissions all good if not expect a crash" + '\n' + 'Press Ok to see what happens');
-		}
+		Permissions.requestPermissions([PermissionsList.READ_EXTERNAL_STORAGE, PermissionsList.WRITE_EXTERNAL_STORAGE]);
+		SUtil.applicationAlert('Permissions', "if you acceptd the permissions all good if not expect a crash" + '\n' + 'Press Ok to see what happens');
 	}
 
-	public static function mkDirs(directory:String):Void
+	if (Permissions.getGrantedPermissions().contains(PermissionsList.READ_EXTERNAL_STORAGE) || Permissions.getGrantedPermissions().contains(PermissionsList.WRITE_EXTERNAL_STORAGE))
 	{
-		var total:String = '';
-		if (directory.substr(0, 1) == '/')
-			total = '/';
+		if (!FileSystem.exists(Tools.getExternalStorageDirectory() + '/' + '.' + Application.current.meta.get('file')))
+			FileSystem.createDirectory(Tools.getExternalStorageDirectory() + '/' + '.' + Application.current.meta.get('file'));
 
-		var parts:Array<String> = directory.split('/');
-		if (parts.length > 0 && parts[0].indexOf(':') > -1)
-			parts.shift();
-
-		for (part in parts)
+		if (!FileSystem.exists(SUtil.getPath() + 'assets') && !FileSystem.exists(SUtil.getPath() + 'mods'))
 		{
-			if (part != '.' && part != '')
+			SUtil.applicationAlert('Uncaught Error!', "Whoops, seems you didn't extract the files from the .APK!\nPlease watch the tutorial by pressing OK.");
+			CoolUtil.browserLoad('https://www.youtube.com/watch?v=Cm1JE_uBbYk');
+			System.exit(0);
+		}
+		else
+		{
+			if (!FileSystem.exists(SUtil.getPath() + 'assets'))
 			{
-				if (total != '' && total != '/')
-					total += '/';
+				SUtil.applicationAlert('Uncaught Error!', "Whoops, seems you didn't extract the assets/assets folder from the .APK!\nPlease watch the tutorial by pressing OK.");
+				CoolUtil.browserLoad('https://www.youtube.com/watch?v=Cm1JE_uBbYk');
+				System.exit(0);
+			}
 
-				total += part;
-
-				if (!FileSystem.exists(total))
-					FileSystem.createDirectory(total);
+			if (!FileSystem.exists(SUtil.getPath() + 'mods'))
+			{
+				SUtil.applicationAlert('Uncaught Error!', "Whoops, seems you didn't extract the assets/mods folder from the .APK!\nPlease watch the tutorial by pressing OK.");
+				CoolUtil.browserLoad('https://www.youtube.com/watch?v=Cm1JE_uBbYk');
+				System.exit(0);
 			}
 		}
 	}

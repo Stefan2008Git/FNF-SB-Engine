@@ -379,14 +379,6 @@ class CharacterEditorState extends MusicBeatState
 			}
 		});
 
-		/*hideGhostButton = new FlxButton(20 + makeGhostButton.width, makeGhostButton.y, "Hide Ghost", function() {
-			ghost.visible = false;
-			hideGhostButton.active = false;
-			hideGhostButton.alpha = 0.6;
-		});
-		hideGhostButton.active = false;
-		hideGhostButton.alpha = 0.6;*/
-
 		var highlightGhost:FlxUICheckBox = new FlxUICheckBox(20 + makeGhostButton.x + makeGhostButton.width, makeGhostButton.y, null, null, "Highlight Ghost", 100);
 		highlightGhost.callback = function()
 		{
@@ -1274,11 +1266,9 @@ class CharacterEditorState extends MusicBeatState
 		animationDropDown.setData(FlxUIDropDownMenu.makeStrIdLabelArray(animList, true));
 	}
 
-	// save
 	var _file:FileReference;
 	function onSaveComplete(_):Void
 	{
-		if(_file == null) return;
 		_file.removeEventListener(Event.COMPLETE, onSaveComplete);
 		_file.removeEventListener(Event.CANCEL, onSaveCancel);
 		_file.removeEventListener(IOErrorEvent.IO_ERROR, onSaveError);
@@ -1291,7 +1281,6 @@ class CharacterEditorState extends MusicBeatState
 		*/
 	function onSaveCancel(_):Void
 	{
-		if(_file == null) return;
 		_file.removeEventListener(Event.COMPLETE, onSaveComplete);
 		_file.removeEventListener(Event.CANCEL, onSaveCancel);
 		_file.removeEventListener(IOErrorEvent.IO_ERROR, onSaveError);
@@ -1303,7 +1292,6 @@ class CharacterEditorState extends MusicBeatState
 		*/
 	function onSaveError(_):Void
 	{
-		if(_file == null) return;
 		_file.removeEventListener(Event.COMPLETE, onSaveComplete);
 		_file.removeEventListener(Event.CANCEL, onSaveCancel);
 		_file.removeEventListener(IOErrorEvent.IO_ERROR, onSaveError);
@@ -1312,8 +1300,6 @@ class CharacterEditorState extends MusicBeatState
 	}
 
 	function saveCharacter() {
-		if(_file != null) return;
-
 		var json = {
 			"animations": character.animationsArray,
 			"image": character.imageFile,
@@ -1335,7 +1321,7 @@ class CharacterEditorState extends MusicBeatState
 		if (data.length > 0)
 		{
 			#if android
-			SUtil.saveContent(data, '$_char.json');
+			SUtil.saveContent(character.isPlayer, '$_char.json', data);
 			#else
 			_file = new FileReference();
 			_file.addEventListener(Event.COMPLETE, onSaveComplete);
