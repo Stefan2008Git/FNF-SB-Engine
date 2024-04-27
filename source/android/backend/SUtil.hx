@@ -49,6 +49,8 @@ class SUtil
 
 	
 	#if android
+	public static function checkPermissions():Void
+	{
 	if (!Permissions.getGrantedPermissions().contains(PermissionsList.READ_EXTERNAL_STORAGE) || !Permissions.getGrantedPermissions().contains(PermissionsList.WRITE_EXTERNAL_STORAGE))
 	{
 		Permissions.requestPermissions([PermissionsList.READ_EXTERNAL_STORAGE, PermissionsList.WRITE_EXTERNAL_STORAGE]);
@@ -82,6 +84,7 @@ class SUtil
 				System.exit(0);
 			}
 		}
+	}
 	}
 
 	public static function saveContent(fileName:String = 'file', fileExtension:String = '.json', fileData:String = 'You forgot something to add in your code')
