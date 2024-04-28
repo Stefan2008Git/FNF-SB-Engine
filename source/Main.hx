@@ -70,6 +70,8 @@ class Main extends Sprite
 	{
 		super();
 
+		#if android SUtil.doTheCheck(); #end
+
 		#if windows
 		@:functionCode("
 		#include <windows.h>
@@ -120,10 +122,9 @@ class Main extends Sprite
 		Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion;
 		#if android
 		toastText = "Welcome to: FNF': SB Engine v" + MainMenuState.sbEngineVersion;
-		if(!checkingToastMessage) {		
+		if(!checkingToastMessage)	
 		    checkingToastMessage = true;
-		    if (ClientPrefs.data.toastText) AndroidDialogsExtend.openToastBox(toastText, 1);
-		}
+			AndroidDialogsExtend.openToastBox(toastText, 1);
 		#end
 
 		var stageWidth:Int = Lib.current.stage.stageWidth;
@@ -144,8 +145,6 @@ class Main extends Sprite
 			#if DISCORD_ALLOWED DiscordClient.shutdown(); #end
 			ClientPrefs.saveSettings();
 		});
-
-		#if android SUtil.doTheCheck(); #end
 
 		#if LUA_ALLOWED Lua.set_callbacks_function(cpp.Callable.fromStaticFunction(psychlua.CallbackHandler.call)); #end
 		Controls.instance = new Controls();
@@ -252,8 +251,8 @@ class Main extends Sprite
 
 		#if android
 		var toastText:String = '';
-		if (ClientPrefs.data.toastText) toastText = 'Uncaught Error happends!';
-		AndroidDialogsExtend.openToastBox(toastText, 1);
+		toastText = 'Uncaught Error happends!';
+		if (ClientPrefs.data.toastText) AndroidDialogsExtend.openToastBox(toastText, 1);
 		if (ClientPrefs.data.vibration) Hardware.vibrate(vibrationInt);
 		#end
 
