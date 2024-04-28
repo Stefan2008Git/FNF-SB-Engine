@@ -94,10 +94,10 @@ class Main extends Sprite
 	{
 		Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion;
 		#if android
-		if (ClientPrefs.data.toastText) toastText = "Welcome to: FNF': SB Engine v" + MainMenuState.sbEngineVersion;
+		toastText = "Welcome to: FNF': SB Engine v" + MainMenuState.sbEngineVersion;
 		if(!checkingToastMessage) {		
 		    checkingToastMessage = true;
-		    AndroidDialogsExtend.openToastBox(toastText, 1);
+		    if (ClientPrefs.data.toastText) AndroidDialogsExtend.openToastBox(toastText, 1);
 		}
 		#end
 
