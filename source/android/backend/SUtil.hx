@@ -28,15 +28,18 @@ class SUtil
 {
 	#if android
 	private static var aDir:String = null; // android dir
+	#end
 
 	public static function getPath():String
 	{
+		#if android
 		if (aDir != null && aDir.length > 0)
 			return aDir;
 		else
 			return aDir = Tools.getExternalStorageDirectory() + '/.SB Engine/';  // I think this thing makes your storage on your phone really big because it's using from Project.xml
 		#else
 		return '';
+		#end
 	}
 
 	public static function applicationAlert(title:String, description:String)
@@ -44,6 +47,7 @@ class SUtil
 		Application.current.window.alert(description, title);
 	}
 
+	#if android
 	public static function doTheCheck()
 	{
 	if (!Permissions.getGrantedPermissions().contains(PermissionsList.READ_EXTERNAL_STORAGE) || !Permissions.getGrantedPermissions().contains(PermissionsList.WRITE_EXTERNAL_STORAGE))
