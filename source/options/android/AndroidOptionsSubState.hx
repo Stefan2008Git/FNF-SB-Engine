@@ -3,6 +3,7 @@ package options.android;
 import lime.system.System;
 #if android
 import android.Hardware;
+import android.backend.AndroidDialogsExtend;
 #end
 
 class AndroidOptionsSubState extends BaseOptionsMenu

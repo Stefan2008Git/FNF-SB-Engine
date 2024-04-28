@@ -99,19 +99,19 @@ class Main extends Sprite
 		trace("Init: Device Window - Fullscreen");
         var targetAspectRatio:Float = width / height;
         trace("Init: Device Window - Target Aspect Ratio: " + targetAspectRatio);
-        var gameAspectRatio:Float = game.gameWidth / game.gameHeight;
+        var gameAspectRatio:Float = game.width / game.height;
 		trace("Init: Device Window - Game Aspect Ratio: " + targetAspectRatio);
         if (targetAspectRatio > gameAspectRatio) {
 			trace("Init: Device Window - Target Aspect Ratio is bigger than Game's");
-			trace("Init: Device Window - Old GameRes Width: " + game.gameWidth);
-            game.gameWidth = Math.round(game.gameHeight * targetAspectRatio);
-			trace("Init: Device Window - New GameRes Width: " + game.gameWidth);
+			trace("Init: Device Window - Old GameRes Width: " + game.width);
+            game.width = Math.round(game.height * targetAspectRatio);
+			trace("Init: Device Window - New GameRes Width: " + game.width);
 			
         } else {
 			trace("Init: Device Window - Game Aspect Ratio is bigger than Target's");
-			trace("Init: Device Window - Old GameRes Height: " + game.gameHeight);
-            game.gameHeight = Math.round(game.gameWidth / targetAspectRatio);
-			trace("Init: Device Window - New GameRes Height: " + game.gameHeight);
+			trace("Init: Device Window - Old GameRes Height: " + game.height);
+            game.height = Math.round(game.width / targetAspectRatio);
+			trace("Init: Device Window - New GameRes Height: " + game.height);
         }
 		trace("Init: Device Window - Finished.");
 		#end
