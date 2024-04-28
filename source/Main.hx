@@ -88,34 +88,7 @@ class Main extends Sprite
 	{
 		if (hasEventListener(Event.ADDED_TO_STAGE)) removeEventListener(Event.ADDED_TO_STAGE, init);
 		setupGame();
-		#if mobile initDeviceWindow(FlxG.stage.application.window.width, FlxG.stage.application.window.height); #end
 	}
-
-	// CDEV Engine fixable resolution for Android target made by CoreCat OFC
-	public function initDeviceWindow(width:Int, height:Int):Void {
-		#if mobile
-		trace("Init: Device Window - Mobile");
-		FlxG.fullscreen = true;
-		trace("Init: Device Window - Fullscreen");
-        var targetAspectRatio:Float = width / height;
-        trace("Init: Device Window - Target Aspect Ratio: " + targetAspectRatio);
-        var gameAspectRatio:Float = game.width / game.height;
-		trace("Init: Device Window - Game Aspect Ratio: " + targetAspectRatio);
-        if (targetAspectRatio > gameAspectRatio) {
-			trace("Init: Device Window - Target Aspect Ratio is bigger than Game's");
-			trace("Init: Device Window - Old GameRes Width: " + game.width);
-            game.width = Math.round(game.height * targetAspectRatio);
-			trace("Init: Device Window - New GameRes Width: " + game.width);
-			
-        } else {
-			trace("Init: Device Window - Game Aspect Ratio is bigger than Target's");
-			trace("Init: Device Window - Old GameRes Height: " + game.height);
-            game.height = Math.round(game.width / targetAspectRatio);
-			trace("Init: Device Window - New GameRes Height: " + game.height);
-        }
-		trace("Init: Device Window - Finished.");
-		#end
-    }
 
 	private function setupGame():Void
 	{
