@@ -59,6 +59,7 @@ class SaveVariables {
 	public var dynamicColor:Bool = false;
 	public var screenSaver:Bool = true;
 	public var vibration:Bool = true;
+	public var toastText:Bool = true;
 
 	public var scoreZoom:Bool = true;
 	public var noReset:Bool = false;

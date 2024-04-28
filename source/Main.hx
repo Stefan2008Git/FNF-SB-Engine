@@ -87,17 +87,44 @@ class Main extends Sprite
 	private function init(?E:Event):Void
 	{
 		if (hasEventListener(Event.ADDED_TO_STAGE)) removeEventListener(Event.ADDED_TO_STAGE, init);
+		initDeviceWindow(FlxG.stage.application.window.width, FlxG.stage.application.window.height);
 		setupGame();
 	}
+
+	// CDEV Engine fixable resolution for Android target made by CoreCat OFC
+	public function initDeviceWindow(width:Int, height:Int):Void {
+		#if mobile
+		trace("Init: Device Window - Mobile");
+		FlxG.fullscreen = true;
+		trace("Init: Device Window - Fullscreen");
+        var targetAspectRatio:Float = width / height;
+        trace("Init: Device Window - Target Aspect Ratio: " + targetAspectRatio);
+        var gameAspectRatio:Float = game.gameWidth / game.gameHeight;
+		trace("Init: Device Window - Game Aspect Ratio: " + targetAspectRatio);
+        if (targetAspectRatio > gameAspectRatio) {
+			trace("Init: Device Window - Target Aspect Ratio is bigger than Game's");
+			trace("Init: Device Window - Old GameRes Width: " + game.gameWidth);
+            game.gameWidth = Math.round(game.gameHeight * targetAspectRatio);
+			trace("Init: Device Window - New GameRes Width: " + game.gameWidth);
+			
+        } else {
+			trace("Init: Device Window - Game Aspect Ratio is bigger than Target's");
+			trace("Init: Device Window - Old GameRes Height: " + game.gameHeight);
+            game.gameHeight = Math.round(game.gameWidth / targetAspectRatio);
+			trace("Init: Device Window - New GameRes Height: " + game.gameHeight);
+        }
+		trace("Init: Device Window - Finished.");
+		#end
+    }
 
 	private function setupGame():Void
 	{
 		Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion;
 		#if android
-		toastText = "Welcome to: FNF': SB Engine v" + MainMenuState.sbEngineVersion;
+		if (ClientPrefs.data.toastText) toastText = "Welcome to: FNF': SB Engine v" + MainMenuState.sbEngineVersion;
 		if(!checkingToastMessage) {		
 		    checkingToastMessage = true;
-		    AndroidDialogsExtend.OpenToast(toastText, 1);
+		    AndroidDialogsExtend.openToastBox(toastText, 1);
 		}
 		#end
 
@@ -225,8 +252,8 @@ class Main extends Sprite
 
 		#if android
 		var toastText:String = '';
-		toastText = 'Uncaught Error happends!';
-		AndroidDialogsExtend.OpenToast(toastText, 1);
+		if (ClientPrefs.data.toastText) toastText = 'Uncaught Error happends!';
+		AndroidDialogsExtend.openToastBox(toastText, 1);
 		if (ClientPrefs.data.vibration) Hardware.vibrate(vibrationInt);
 		#end
 

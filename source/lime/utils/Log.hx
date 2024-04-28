@@ -79,7 +79,7 @@ class Log
 				{
 					#if (android && debug)
 					var shaderErrorMessage:String = "Error!\nClouldn't save the crash log because:\n";
-					AndroidDialogsExtend.OpenToast(shaderErrorMessage + e, 1);
+					AndroidDialogsExtend.openToastBox(shaderErrorMessage + e, 1);
 					#else
 					println("Error!\nClouldn't save the crash log because:\n" + e);
 					#end

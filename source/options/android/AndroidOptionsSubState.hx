@@ -71,6 +71,15 @@ class AndroidOptionsSubState extends BaseOptionsMenu
 		};
 		addOption(option);
 
+		var option:Option = new Option('Toast Message box', 'If checked, the phone will show the toast core box.', 'toastText', // Credits for mcgabe19's and KarimAkra's FNF Psych Engine 0.7+ Android and iOS port!
+			'bool');
+		option.onChange = () ->
+		{
+			if (ClientPrefs.data.toastText) AndroidDialogsExtend.openToastBox("Enabled.", 1);
+			else AndroidDialogsExtend.openToastBox("Disabled", 1);
+		};
+		addOption(option);
+
 		var option:Option = new Option('Vibration', 'If unchecked, the phone will stop the vibration', 'vibration',
 			'bool');
 		option.onChange = onChangeVibration;

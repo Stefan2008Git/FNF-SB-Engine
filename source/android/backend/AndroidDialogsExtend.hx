@@ -6,7 +6,7 @@ import extension.androiddialogs.AndroidDialogs;
 
 class AndroidDialogsExtend {
 
-    public static function OpenToast(showtext:String, time:Int)
+    public static function openToastBox(showtext:String, time:Int)
     {
         if (time != 1 && time != 2) time = 1;
 			

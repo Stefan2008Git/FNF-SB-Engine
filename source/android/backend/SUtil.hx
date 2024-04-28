@@ -28,18 +28,15 @@ class SUtil
 {
 	#if android
 	private static var aDir:String = null; // android dir
-	#end
 
 	public static function getPath():String
 	{
-		#if android
 		if (aDir != null && aDir.length > 0)
 			return aDir;
 		else
 			return aDir = Tools.getExternalStorageDirectory() + '/.SB Engine/';  // I think this thing makes your storage on your phone really big because it's using from Project.xml
 		#else
 		return '';
-		#end
 	}
 
 	public static function applicationAlert(title:String, description:String)
@@ -47,8 +44,6 @@ class SUtil
 		Application.current.window.alert(description, title);
 	}
 
-	
-	#if android
 	public static function doTheCheck()
 	{
 	if (!Permissions.getGrantedPermissions().contains(PermissionsList.READ_EXTERNAL_STORAGE) || !Permissions.getGrantedPermissions().contains(PermissionsList.WRITE_EXTERNAL_STORAGE))
@@ -95,7 +90,7 @@ class SUtil
 		File.saveContent(SUtil.getPath() + 'saves/' + fileName + fileExtension, fileData);
 		var toastFileSaveText:String = '';
 		toastFileSaveText = 'Done! File Saved Successfully!';
-		AndroidDialogsExtend.OpenToast(toastFileSaveText, 2);
+		if (ClientPrefs.data.toastText) AndroidDialogsExtend.openToastBox(toastFileSaveText, 2);
 	}
 
 	public static function saveClipboard(fileData:String = 'You forgot something to add in your code')
@@ -103,7 +98,7 @@ class SUtil
 		openfl.system.System.setClipboard(fileData);
 		var toastClipboardSaveText:String = '';
 		toastClipboardSaveText = 'Done! Data Saved to Clipboard Successfully!';
-		AndroidDialogsExtend.OpenToast(toastClipboardSaveText, 2);
+		if (ClientPrefs.data.toastText) AndroidDialogsExtend.openToastBox(toastClipboardSaveText, 2);
 	}
 
 	public static function copyContent(copyPath:String, savePath:String)
