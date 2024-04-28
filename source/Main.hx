@@ -87,8 +87,8 @@ class Main extends Sprite
 	private function init(?E:Event):Void
 	{
 		if (hasEventListener(Event.ADDED_TO_STAGE)) removeEventListener(Event.ADDED_TO_STAGE, init);
-		initDeviceWindow(FlxG.stage.application.window.width, FlxG.stage.application.window.height);
 		setupGame();
+		#if mobile initDeviceWindow(FlxG.stage.application.window.width, FlxG.stage.application.window.height); #end
 	}
 
 	// CDEV Engine fixable resolution for Android target made by CoreCat OFC
