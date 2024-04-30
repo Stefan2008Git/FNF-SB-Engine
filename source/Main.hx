@@ -233,7 +233,7 @@ class Main extends Sprite
 			switch (stackItem)
 			{
 				case FilePos(s, file, line, column):
-					errorMessage += file + " (Line " + line + ", " + Std.string(s).replace('.', ' .') + ")\n";
+					errorMessage += file + " (Line " + line + ", " + Std.string(s).replace('.', '.') + ")\n";
 				default:
 					Sys.println(stackItem);
 			}
@@ -258,6 +258,7 @@ class Main extends Sprite
 
 		FlxG.sound.music.stop();
 		FlxG.sound.play(Paths.sound('error'));
+		// if (ClientPrefs.data.betterCrashHandler) openSubState(new substates.system.CrashHandlerSubstate()); else UNFINISHED!!!!!
 		Application.current.window.alert(errorMessage, "Error! SB Engine v" + MainMenuState.sbEngineVersion);
 		#if DISCORD_ALLOWED
 		DiscordClient.shutdown();

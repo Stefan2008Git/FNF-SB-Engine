@@ -3,10 +3,13 @@ package options;
 import states.MainMenuState;
 import backend.StageData;
 import flixel.addons.transition.FlxTransitionableState;
+#if android
+import android.backend.Touch;
+#end
 
 class OptionsState extends MusicBeatState
 {
-	var options:Array<String> = ['Note Colors', #if desktop 'Controls', #end 'Adjust Delay and Combo', 'Graphics', 'Visuals and UI', 'Gameplay'];
+	public static final options:Array<String> = ['Note Colors', #if desktop 'Controls', #end 'Adjust Delay and Combo', 'Graphics', 'Visuals and UI', 'Gameplay'];
 	private var grpOptions:FlxTypedGroup<Alphabet>;
 	private static var currentlySelected:Int = 0;
 	public static var menuBG:FlxSprite;
@@ -114,7 +117,6 @@ class OptionsState extends MusicBeatState
 		customizeAndroidControlsTipText.scrollFactor.set();
 		add(androidControlsStyleTipText);
 		add(customizeAndroidControlsTipText);
-		addVirtualPad(UP_DOWN, A_B_X_Y);
 	  	#end
 
 		super.create();
@@ -139,6 +141,21 @@ class OptionsState extends MusicBeatState
 			removeVirtualPad();
 			openSubState(new options.android.AndroidOptionsSubState());
 		}
+
+		grpOptions.forEach(function(spr:Alphabet)
+		{
+			Touch.touchJustPressed(spr, function()
+			{
+			if (spr.ID != curSelected)
+				{
+					changeSelection(spr.ID, true);
+				}
+					else
+				{
+					openSelectedSubstate(options[currentlySelected]);
+				}
+			});
+		});
 		#end
 
 		if (controls.UI_UP_P) {
@@ -154,6 +171,7 @@ class OptionsState extends MusicBeatState
 			{
 				StageData.loadDirectory(PlayState.SONG);
 				LoadingState.loadAndSwitchState(() -> new PlayState());
+				
 				FlxG.sound.music.volume = 0;
 			}
 			else FlxG.switchState(() -> new MainMenuState());

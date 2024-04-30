@@ -106,6 +106,8 @@ class SaveVariables {
 	public var fadeTransition:Bool = true;
 	public var timeTxt:Bool = true;
 	public var accuraryStyle:String = 'Judgement';
+	public var zeroPercentHealth:Bool = false;
+	public var leftToRightBar:Bool = true;
 	public var gameplaySettings:Map<String, Dynamic> = [
 		'scrollspeed' => 1.0,
 		'scrolltype' => 'multiplicative', 
@@ -126,6 +128,7 @@ class SaveVariables {
 	public var badWindow:Int = 135;
 	public var safeFrames:Float = 10;
 	public var discordRPC:Bool = true;
+	// public var betterCrashHandler:Bool = true;
 
 	public function new() {
 		// Really :/?

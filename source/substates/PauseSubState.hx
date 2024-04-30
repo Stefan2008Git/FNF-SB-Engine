@@ -25,9 +25,11 @@ class PauseSubState extends MusicBeatSubstate
 	var menuItems:Array<String> = [];
 	var menuItemsOG:Array<String> = ['Resume', 'Restart Song', 'Change Difficulty', 'Chart Editor', 'Options', 'Exit to menu'];
 	var difficultyChoices = [];
+	var optionChoice = [];
 	var currentlySelected:Int = 0;
 
 	var pauseMusic:FlxSound;
+	var optionsText:FlxText;
 	var practiceText:FlxText;
 	var skipTimeText:FlxText;
 	var skipTimeTracker:Alphabet;
@@ -64,6 +66,11 @@ class PauseSubState extends MusicBeatSubstate
 			difficultyChoices.push(diff);
 		}
 		difficultyChoices.push('BACK');
+
+		for (i in OptionsState.options) {
+			optionChoice.push(i);
+		}
+		optionChoice.push('BACK');
 
 		pauseMusic = new FlxSound();
 		if(songName != null) {
@@ -185,6 +192,25 @@ class PauseSubState extends MusicBeatSubstate
 		levelDifficulty.x = FlxG.width - (levelDifficulty.width + 20);
 		blueballedTxt.x = FlxG.width - (blueballedTxt.width + 20);
 
+		optionsText = new FlxText(20, 15 + 101, 0, "WARNING: Not all options are supported!\nSome options may not update until you restart.", 32);
+		optionsText.scrollFactor.set();
+		switch (ClientPrefs.data.gameStyle) {
+			case 'SB Engine':
+				optionsText.setFormat(Paths.font('bahnschrift.ttf'), 32, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			
+			case 'Dave and Bambi':
+				optionsText.setFormat(Paths.font('comic.ttf'), 32, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			
+			case 'TGT Engine':
+				optionsText.setFormat(Paths.font('calibri.ttf'), 32, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			
+			default:
+				optionsText.setFormat(Paths.font('vcr.ttf'), 32, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		}
+		optionsText.borderSize = 4;
+		optionsText.y = FlxG.height - (optionsText.height + 20);
+		optionsText.updateHitbox();
+
 		FlxTween.tween(levelInfo, {alpha: 1, y: 20}, 0.4, {ease: FlxEase.quartInOut, startDelay: 0.3});
 		FlxTween.tween(levelDifficulty, {alpha: 1, y: levelDifficulty.y + 5}, 0.4, {ease: FlxEase.quartInOut, startDelay: 0.5});
 		FlxTween.tween(blueballedTxt, {alpha: 1, y: blueballedTxt.y + 5}, 0.4, {ease: FlxEase.quartInOut, startDelay: 0.7});
@@ -304,6 +330,36 @@ class PauseSubState extends MusicBeatSubstate
 				regenMenu();
 			}
 
+			if (menuItems == optionChoice) {
+				switch(daSelected)
+				{
+					case 'Note Colors':
+						openSubState(new options.NotesSubState());
+
+					case 'Controls':
+						openSubState(new options.ControlsSubState());
+
+					case 'Graphics':
+						openSubState(new options.GraphicsSettingsSubState());
+
+					case 'Visuals and UI':
+						openSubState(new options.VisualsUISubState());
+
+					case 'Gameplay':
+						openSubState(new options.GameplaySettingsSubState());
+
+					case 'Adjust Delay and Combo':
+						OptionsState.onPlayState = true;
+						FlxG.switchState(() -> new options.NoteOffsetState());
+
+					default:
+						menuItems = menuItemsOG;
+						regenMenu();
+						remove(optionsText);
+				}
+				return;
+			}
+
 			switch (daSelected)
 			{
 				case "Resume":
@@ -350,16 +406,10 @@ class PauseSubState extends MusicBeatSubstate
 					PlayState.instance.botplayTxt.alpha = 1;
 					PlayState.instance.botplaySine = 0;
 				case 'Options':
-					PlayState.instance.paused = true; // For lua
-					PlayState.instance.vocals.volume = 0;
-					FlxG.switchState(() -> new options.OptionsState());
-					if(ClientPrefs.data.pauseMusic != 'None')
-					{
-						FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath(ClientPrefs.data.pauseMusic)), pauseMusic.volume);
-						FlxTween.tween(FlxG.sound.music, {volume: 1}, 0.8);
-						FlxG.sound.music.time = pauseMusic.time;
-					}
-					OptionsState.onPlayState = true;
+					menuItems = optionChoice;
+					deleteSkipTimeText();
+					regenMenu();
+					add(optionsText);
 				case "Exit to menu":
 					#if DISCORD_ALLOWED DiscordClient.resetClientID(); #end
 					PlayState.deathCounter = 0;

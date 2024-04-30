@@ -129,6 +129,7 @@ class BaseOptionsMenu extends MusicBeatSubstate
 
 		changeSelection();
 		reloadCheckboxes();
+		cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
 	}
 
 	public function addOption(option:Option) {
@@ -152,7 +153,6 @@ class BaseOptionsMenu extends MusicBeatSubstate
 
 		if (controls.BACK) {
 			FlxTransitionableState.skipNextTransOut = true;
-			FlxG.resetState();
 			ClientPrefs.saveSettings();
 			close();
 			Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Options Menu";

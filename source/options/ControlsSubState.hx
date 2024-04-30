@@ -114,6 +114,7 @@ class ControlsSubState extends MusicBeatSubstate
 		add(text);
 
 		createTexts();
+		cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
 	}
 
 	var lastID:Int = 0;
@@ -283,7 +284,6 @@ class ControlsSubState extends MusicBeatSubstate
 			if(controls.BACK || FlxG.gamepads.anyJustPressed(B))
 			{
 				FlxTransitionableState.skipNextTransOut = true;
-				FlxG.resetState();
 				ClientPrefs.saveSettings();
 				close();
 				Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Options Menu";

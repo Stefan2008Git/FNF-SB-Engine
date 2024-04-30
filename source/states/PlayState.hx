@@ -705,22 +705,23 @@ class PlayState extends MusicBeatState
 		timePercentTxt.visible = updatePercentTime && ClientPrefs.data.songPercentage;
 
 		switch (ClientPrefs.data.gameStyle) {
-			case 'Psych Engine' | 'TGT Engine':
-				timeBar = new Bar(0, timeTxt.y + (timeTxt.height / 4), 'timeBar', function() return songPercent, 0, 1);
-			
 			case 'SB Engine' | 'Kade Engine' | 'Cheeky' | 'Dave and Bambi':
 				timeBar = new Bar(0, timeTxt.y + (timeTxt.height / 4), 'healthBar', function() return songPercent, 0, 1);
+			
+			default:
+				timeBar = new Bar(0, timeTxt.y + (timeTxt.height / 4), 'timeBar', function() return songPercent, 0, 1);
 		}
 		timeBar.scrollFactor.set();
 		timeBar.screenCenter(X);
 		switch (ClientPrefs.data.gameStyle) {
-			case 'SB Engine' | 'Psych Engine' | 'TGT Engine' | 'Cheeky':
-				timeBar.alpha = 0;
-			
 			case 'Kade Engine' | 'Dave and Bambi':
 				timeBar.alpha = 1;
+			
+			default:
+				timeBar.alpha = 0;
 		}
 		timeBar.visible = showTime && ClientPrefs.data.timeBar;
+		timeBar.leftToRight = ClientPrefs.data.leftToRightBar;
 		reloadTimeBarColors();
 		uiGroup.add(timeBar);
 		uiGroup.add(timeTxt);
@@ -1829,19 +1830,19 @@ class PlayState extends MusicBeatState
 			if (instakillOnMiss) {
 				switch (ClientPrefs.data.gameStyle) {
 					case 'SB Engine':
-						scoreTxt.text = '<< Score: ${(ClientPrefs.data.smoothScore) ? truncateFloat(smoothScore, 0) : songScore} // Combo: ${combo} (Max Combo: ${maxCombo}) // Percent: ${CoolUtil.floorDecimal(ratingPercent * 100, 2)} // Rank: ${ratingName} [${ratingFC}] >>';
-		
-					case 'Psych Engine' | 'TGT Engine':
-						scoreTxt.text = 'Score: ${(ClientPrefs.data.smoothScore) ? truncateFloat(smoothScore, 0) : songScore} | Rating: ${str}';
+						scoreTxt.text = '<< Score: ${(ClientPrefs.data.smoothScore) ? truncateFloat(smoothScore, 0) : songScore} // Combo: ${combo} (Max Combo: ${maxCombo}) // Percent: ${CoolUtil.floorDecimal(ratingPercent * 100, 2)}% // Rank: ${ratingName} [${ratingFC}] >>';
 		
 					case 'Kade Engine':
-						scoreTxt.text = 'NPS: ${nps} (Max: ${maxNPS}) | Score: ${(ClientPrefs.data.smoothScore) ? truncateFloat(smoothScore, 0) : songScore} | Accurarcy: ${CoolUtil.floorDecimal(ratingPercent * 100, 2)} % | ${ratingName} [${ratingFC}]';
+						scoreTxt.text = 'NPS: ${nps} (Max: ${maxNPS}) | Score: ${(ClientPrefs.data.smoothScore) ? truncateFloat(smoothScore, 0) : songScore} | Accurarcy: ${CoolUtil.floorDecimal(ratingPercent * 100, 2)}% | ${ratingName} [${ratingFC}]';
 		
 					case 'Dave and Bambi':
-						scoreTxt.text = 'Score: ${(ClientPrefs.data.smoothScore) ? truncateFloat(smoothScore, 0) : songScore} | Accurarcy: ${CoolUtil.floorDecimal(ratingPercent * 100, 2)} %';
+						scoreTxt.text = 'Score: ${(ClientPrefs.data.smoothScore) ? truncateFloat(smoothScore, 0) : songScore} | Accurarcy: ${CoolUtil.floorDecimal(ratingPercent * 100, 2)}%';
 					
 					case 'Cheeky':
 						scoreTxt.text = 'Score: ${(ClientPrefs.data.smoothScore) ? truncateFloat(smoothScore, 0) : songScore} | Accurarcy: ${CoolUtil.floorDecimal(ratingPercent * 100, 2)}% | ${ratingName} [${ratingFC}]';
+					
+					default:
+						scoreTxt.text = 'Score: ${(ClientPrefs.data.smoothScore) ? truncateFloat(smoothScore, 0) : songScore} | Rating: ${str}';
 				}
 	
 				if (ClientPrefs.data.gameStyle == 'SB Engine') {
@@ -1881,19 +1882,19 @@ class PlayState extends MusicBeatState
 			} else if (!instakillOnMiss) {
 				switch (ClientPrefs.data.gameStyle) {
 					case 'SB Engine':
-						scoreTxt.text = '<< Score: ${(ClientPrefs.data.smoothScore) ? truncateFloat(smoothScore, 0) : songScore} // Combo: ${combo} (Max Combo: ${maxCombo}) // Missed Note: ${songMisses} // Percent: ${CoolUtil.floorDecimal(ratingPercent * 100, 2)} // Rank: ${ratingName} [${ratingFC}] >>';
-		
-					case 'Psych Engine' | 'TGT Engine':
-						scoreTxt.text = 'Score: ${(ClientPrefs.data.smoothScore) ? truncateFloat(smoothScore, 0) : songScore} | Misses: ${songMisses} | Rating: ${str}';
+						scoreTxt.text = '<< Score: ${(ClientPrefs.data.smoothScore) ? truncateFloat(smoothScore, 0) : songScore} // Combo: ${combo} (Max Combo: ${maxCombo}) // Missed Note: ${songMisses} // Percent: ${CoolUtil.floorDecimal(ratingPercent * 100, 2)}% // Rank: ${ratingName} [${ratingFC}] >>';
 		
 					case 'Kade Engine':
-						scoreTxt.text = 'NPS: ${nps} (Max: ${maxNPS}) | Score: ${(ClientPrefs.data.smoothScore) ? truncateFloat(smoothScore, 0) : songScore} | Combo Breaks: ${songMisses} | Accurarcy: ${CoolUtil.floorDecimal(ratingPercent * 100, 2)} % | ${ratingName} [${ratingFC}]';
+						scoreTxt.text = 'NPS: ${nps} (Max: ${maxNPS}) | Score: ${(ClientPrefs.data.smoothScore) ? truncateFloat(smoothScore, 0) : songScore} | Combo Breaks: ${songMisses} | Accurarcy: ${CoolUtil.floorDecimal(ratingPercent * 100, 2)}% | ${ratingName} [${ratingFC}]';
 		
 					case 'Dave and Bambi':
 						scoreTxt.text = 'Score: ${(ClientPrefs.data.smoothScore) ? truncateFloat(smoothScore, 0) : songScore} | Misses: ${songMisses} | Accurarcy: ${CoolUtil.floorDecimal(ratingPercent * 100, 2)}%';
 					
 					case 'Cheeky':
 						scoreTxt.text = 'Score: ${(ClientPrefs.data.smoothScore) ? truncateFloat(smoothScore, 0) : songScore} | Misses: ${songMisses} | Accurarcy: ${CoolUtil.floorDecimal(ratingPercent * 100, 2)}% | ${ratingName} [${ratingFC}]';
+					
+					default:
+						scoreTxt.text = 'Score: ${(ClientPrefs.data.smoothScore) ? truncateFloat(smoothScore, 0) : songScore} | Misses: ${songMisses} | Rating: ${str}';
 				}
 	
 				if (ClientPrefs.data.gameStyle == 'SB Engine') {
@@ -1935,22 +1936,22 @@ class PlayState extends MusicBeatState
 			switch (ClientPrefs.data.gameStyle) {
 				case 'SB Engine':
 					scoreTxt.text = '[AUTOPLAY]';
-	
-				case 'Psych Engine' | 'Kade Engine' | 'Cheeky':
-					scoreTxt.text = 'BOTPLAY';
-				
+
 				case 'TGT Engine':
 					scoreTxt.text = '[BUTTPLUG]';
 	
 				case 'Dave and Bambi':
 					scoreTxt.text = 'CHEATER!';
+				
+				default:
+					scoreTxt.text = 'BOTPLAY';
 			}
 		} else if (!cpuControlled && practiceMode) {
 			switch (ClientPrefs.data.gameStyle) {
 				case 'SB Engine':
 					scoreTxt.text = 'Practice Mode Enabled!!! // Note Missed: ' + songMisses + ' // CPS: ' + nps + ' (Max CPS: ' + maxNPS + ')' + ' // Note hitted: ' + songHits + '(Total Played: ' + totalPlayed + ')' + ' // Combo: ' + combo + ' (Maximum Combo: ' + maxCombo + ')'; 
 	
-				case 'Psych Engine' | 'Kade Engine' | 'Cheeky' | 'TGT Engine' | 'Dave and Bambi':
+				default:
 					scoreTxt.text = 'Practice Mode | Misses: ' + songMisses;
 			}
 		}
@@ -2585,7 +2586,7 @@ class PlayState extends MusicBeatState
 			health = 0;
 			TraceText.makeTheTraceText("RESET = True");
 		}
-		doDeathCheck();
+		if (ClientPrefs.data.zeroPercentHealth) doDeathCheck();
 
 		if (unspawnNotes[0] != null)
 		{
@@ -3290,6 +3291,7 @@ class PlayState extends MusicBeatState
 
 					cancelMusicFadeTween();
 					
+					Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Story Mode (Closing the state)";
 					FlxG.switchState(() -> new StoryMenuState());
 
 					// if ()
@@ -3317,6 +3319,7 @@ class PlayState extends MusicBeatState
 					FlxG.sound.music.stop();
 
 					cancelMusicFadeTween();
+					Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Story Mode (Loading current song: " + SONG.song + " (" + Difficulty.getString() + ") )... ";
 					LoadingState.loadAndSwitchState(() -> new PlayState());
 				}
 			}
@@ -3932,6 +3935,7 @@ class PlayState extends MusicBeatState
 			vocals.volume = 0;
 			doDeathCheck(true);
 		}
+
 		var lastCombo:Int = combo;
 		combo = 0;
 
@@ -3944,15 +3948,15 @@ class PlayState extends MusicBeatState
 		// play character anims
 		var char:Character = boyfriend;
 		if((note != null && note.gfNote) || (SONG.notes[curSection] != null && SONG.notes[curSection].gfSection)) char = gf;
-		
-		if(char != null && (note == null || !note.noMissAnimation)  && char.hasMissAnimations)
+
+		if(char != null && (note == null || !note.noMissAnimation) && char.hasMissAnimations)
 		{
 			var suffix:String = '';
 			if(note != null) suffix = note.animSuffix;
 
 			var animToPlay:String = singAnimations[Std.int(Math.abs(Math.min(singAnimations.length-1, direction)))] + 'miss' + suffix;
 			char.playAnim(animToPlay, true);
-			
+
 			if(char != gf && lastCombo > 5 && gf != null && gf.animOffsets.exists('sad'))
 			{
 				gf.playAnim('sad');
@@ -4655,13 +4659,14 @@ class PlayState extends MusicBeatState
 			switch (ClientPrefs.data.gameStyle) {
 				case 'SB Engine':
 					ratingName = 'Unknown';
-				
-				case 'Psych Engine' | 'TGT Engine' | 'Dave and Bambi':
-					ratingName = '?';
-				
+
 				case 'Kade Engine' | 'Cheeky':
 					ratingName = 'N/A';
+				
+				default:
+					ratingName = '?';
 			}
+
 			if(totalPlayed != 0) //Prevent divide by 0
 			{
 				// Rating Percent
@@ -4693,49 +4698,36 @@ class PlayState extends MusicBeatState
 		var bads:Int = ratingsData[2].hits;
 		var shits:Int = ratingsData[3].hits;
 
-		ratingFC = 'Clear';
-		if(songMisses < 1)
-		{
-			if (bads > 0 || shits > 0) ratingFC = 'FC';
-			else if (goods > 0) ratingFC = 'GFC';
-			else if (sicks > 0) ratingFC = 'SFC';
-		}
-		else if (songMisses < 10)
-			ratingFC = 'SDCB';
-
 		switch (ClientPrefs.data.gameStyle) {
 			case 'SB Engine':
 				ratingFC = 'Cleared';
 					if(songMisses < 1)
 					{
-					if (bads > 0 || shits > 0) ratingFC = 'Full Combo';
-					else if (goods > 0) ratingFC = 'Awesome Full Combo';
-					else if (sicks > 0) ratingFC = 'Impressive Full Combo';
+						if (bads > 0 || shits > 0) ratingFC = 'Full Combo';
+						else if (goods > 0) ratingFC = 'Awesome Full Combo';
+						else if (sicks > 0) ratingFC = 'Impressive Full Combo';
 					}
-					else if (songMisses < 10)
-						ratingFC = 'Simple Digital Combo Break';
+					else if (songMisses < 10) ratingFC = 'Simple Digital Combo Break';
 
-			case 'Psych Engine' | 'TGT Engine':
-				ratingFC = 'Clear';
-					if(songMisses < 1)
-					{
-					if (bads > 0 || shits > 0) ratingFC = 'FC';
-					else if (goods > 0) ratingFC = 'GFC';
-					else if (sicks > 0) ratingFC = 'SFC';
-					}
-					else if (songMisses < 10)
-						ratingFC = 'SDCB';
-			
 			case 'Kade Engine' | 'Cheeky':
 				ratingFC = '(Clear)';
 					if(songMisses < 1)
 					{
-					if (bads > 0 || shits > 0) ratingFC = '(FC)';
-					else if (goods > 0) ratingFC = '(GFC)';
-					else if (sicks > 0) ratingFC = '(MFC)';
+						if (bads > 0 || shits > 0) ratingFC = '(FC)';
+						else if (goods > 0) ratingFC = '(GFC)';
+						else if (sicks > 0) ratingFC = '(MFC)';
 					}
-					else if (songMisses < 10)
-						ratingFC = '(SDCB)';		
+					else if (songMisses < 10) ratingFC = '(SDCB)';
+
+			default:
+				ratingFC = 'Clear';
+					if(songMisses < 1)
+					{
+						if (bads > 0 || shits > 0) ratingFC = 'FC';
+						else if (goods > 0) ratingFC = 'GFC';
+						else if (sicks > 0) ratingFC = 'SFC';
+					}
+					else if (songMisses < 10) ratingFC = 'SDCB';
 		}
 	}
 

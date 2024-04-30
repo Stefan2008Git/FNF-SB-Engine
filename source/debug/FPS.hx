@@ -169,12 +169,10 @@ class FPS extends TextField
 					Main.fpsVar.defaultTextFormat = new TextFormat('_sans', 14, color);
 			}
 
-			if (ClientPrefs.data.redText) {
-				textColor = FlxColor.fromRGBFloat(255, 255, 255, realAlpha);
-				if (currentlyFPS <= ClientPrefs.data.framerate / 2) {
-					textColor = FlxColor.fromRGBFloat(255, 0, 0, realAlpha);
-					redText = true;
-				}
+			textColor = FlxColor.fromRGBFloat(255, 255, 255, realAlpha);
+			if (currentlyFPS <= ClientPrefs.data.framerate / 2) {
+				textColor = FlxColor.fromRGBFloat(255, 0, 0, realAlpha);
+				if (ClientPrefs.data.redText) redText = true;
 			}
 
 			text += "\n";

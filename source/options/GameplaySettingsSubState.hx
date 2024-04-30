@@ -258,11 +258,19 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		addOption(option);
 
 		var option:Option = new Option('Game over screen',
-			"If unchecked, disables the original FNF game over screen.", 'gameOverScreen', 'bool');
+			"If unchecked, disables the original FNF game over screen and switch to modes immediately.", 'gameOverScreen', 'bool');
 		addOption(option);
 
 		var option:Option = new Option('Song percentage',
 			"If checked, shows the song percent.", 'songPercentage', 'bool');
+		addOption(option);
+
+		var option:Option = new Option('Die at 0% perent of health',
+			"If unchecked, character cannot die when reachs to 0% percent of health\nNOTE: This option is literally a cheating for noobs!.", 'zeroPercentHealth', 'bool');
+		addOption(option);
+
+		var option:Option = new Option('Time bar left to right method',
+			"If unchecked, makes your bar goes right to left instead goes left to right.\nThis option can help for time left option for better experience", 'leftToRightBar', 'bool');
 		addOption(option);
 
 		var option:Option = new Option('Pause Screen Song: ',

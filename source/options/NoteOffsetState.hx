@@ -418,9 +418,15 @@ class NoteOffsetState extends MusicBeatState
 			if(beatTween != null) beatTween.cancel();
 
 			persistentUpdate = false;
-			FlxG.switchState(() -> new options.OptionsState());
+			if(OptionsState.onPlayState)
+			{
+				StageData.loadDirectory(PlayState.SONG);
+				LoadingState.loadAndSwitchState(() -> new PlayState());
+				
+				FlxG.sound.music.volume = 0;
+			}
+			else FlxG.switchState(() -> new options.OptionsState());
 
-			Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Options Menu (Closing the state)";
 			if(OptionsState.onPlayState)
 			{
 				if(ClientPrefs.data.pauseMusic != 'None')
@@ -431,6 +437,7 @@ class NoteOffsetState extends MusicBeatState
 			else FlxG.sound.playMusic(Paths.music('freakyMenu-' + ClientPrefs.data.mainMenuMusic));
 			FlxG.sound.music.resume();
 			FlxG.mouse.visible = false;
+			Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Options Menu (Closing the state)";
 		}
 
 		Conductor.songPosition = FlxG.sound.music.time;
