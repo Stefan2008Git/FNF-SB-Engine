@@ -455,6 +455,7 @@ class CharacterEditorState extends MusicBeatState
 				healthbar_colors: [161, 161, 161],
 				camera_position: [0, 0],
 				position: [0, 0],
+				vocals_file: "",
 			};
 
 			character.loadCharacterFile(_template);
