@@ -1178,6 +1178,6 @@ function loadCharacterFile(char:String):CharacterFile {
 		#else
 		var rawJson = OpenFlAssets.getText(path);
 		#end
-		return cast Json.parse(rawJson);
+		return cast haxe.Json.parse(rawJson);
 	}
 }
