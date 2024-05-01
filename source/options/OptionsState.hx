@@ -117,7 +117,7 @@ class OptionsState extends MusicBeatState
 		customizeAndroidControlsTipText.scrollFactor.set();
 		add(androidControlsStyleTipText);
 		add(customizeAndroidControlsTipText);
-                addVirtualPad(UP_DOWN, A_B_X_Y);
+                // addVirtualPad(UP_DOWN, A_B_X_Y);
 	  	#end
 
 		super.create();
@@ -143,7 +143,7 @@ class OptionsState extends MusicBeatState
 			openSubState(new options.android.AndroidOptionsSubState());
 		}
 
-		/*grpOptions.forEach(function(spr:Alphabet)
+		grpOptions.forEach(function(spr:Alphabet)
 		{
 			Touch.touchJustPressed(spr, function()
 			{
@@ -156,7 +156,7 @@ class OptionsState extends MusicBeatState
 					openSelectedSubstate(options[currentlySelected]);
 				}
 			});
-		});*/ // Useless as fuck. I will figure out how to fix this error, but for now, it will be deprecated 
+		});
 		#end
 
 		if (controls.UI_UP_P) {
