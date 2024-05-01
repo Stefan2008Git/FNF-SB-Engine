@@ -1,5 +1,7 @@
 package android.backend;
 
+import flixel.input.touch.FlxTouch;
+
 class Touch
 {
     public static function touch():FlxTouch {
