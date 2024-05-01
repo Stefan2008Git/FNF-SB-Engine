@@ -117,7 +117,7 @@ class OptionsState extends MusicBeatState
 		customizeAndroidControlsTipText.scrollFactor.set();
 		add(androidControlsStyleTipText);
 		add(customizeAndroidControlsTipText);
-                // addVirtualPad(UP_DOWN, A_B_X_Y);
+        addVirtualPad(UP_DOWN, A_B_X_Y);
 	  	#end
 
 		super.create();
@@ -142,21 +142,6 @@ class OptionsState extends MusicBeatState
 			removeVirtualPad();
 			openSubState(new options.android.AndroidOptionsSubState());
 		}
-
-		grpOptions.forEach(function(spr:Alphabet)
-		{
-			Touch.touchJustPressed(spr, function()
-			{
-			if (spr.ID != currentlySelected)
-				{
-					changeSelection(spr.ID, true);
-				}
-					else
-				{
-					openSelectedSubstate(options[currentlySelected]);
-				}
-			});
-		});
 		#end
 
 		if (controls.UI_UP_P) {
@@ -166,7 +151,7 @@ class OptionsState extends MusicBeatState
 			changeSelection(1);
 		}
 
-		if (FlxG.keys.justPressed.BACKSPACE #if android || FlxG.android.justReleased.BACK #end) {
+		if (controls.BACK) {
 			FlxG.sound.play(Paths.sound('cancelMenu'));
 			if(onPlayState)
 			{

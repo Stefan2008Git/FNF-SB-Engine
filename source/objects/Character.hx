@@ -69,6 +69,7 @@ class Character extends FlxSprite
 	public var healthColorArray:Array<Int> = [255, 0, 0];
 
 	public var hasMissAnimations:Bool = false;
+	public var vocalsFile:String = '';
 
 	//Used on Character Editor
 	public var imageFile:String = '';
@@ -179,6 +180,7 @@ class Character extends FlxSprite
 		singDuration = json.sing_duration;
 		flipX = (json.flip_x != isPlayer);
 		healthColorArray = (json.healthbar_colors != null && json.healthbar_colors.length > 2) ? json.healthbar_colors : [161, 161, 161];
+		vocalsFile = json.vocals_file != null ? json.vocals_file : '';
 		originalFlipX = (json.flip_x == true);
 		editorIsPlayer = json._editor_isPlayer;
 

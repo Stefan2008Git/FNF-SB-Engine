@@ -224,7 +224,19 @@ class PauseSubState extends MusicBeatSubstate
 		add(missingTextBG);
 		
 		missingText = new FlxText(50, 0, FlxG.width - 100, '', 24);
-		missingText.setFormat(Paths.font("vcr.ttf"), 24, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		switch (ClientPrefs.data.gameStyle) {
+			case 'SB Engine':
+				missingText.setFormat(Paths.font("bahnshrift.ttf"), 24, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			
+			case 'Dave and Bambi':
+				missingText.setFormat(Paths.font("comic.ttf"), 24, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			
+			case 'TGT Engine':
+				missingText.setFormat(Paths.font("calibri.ttf"), 24, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			
+			default:
+				missingText.setFormat(Paths.font("vcr.ttf"), 24, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		}
 		missingText.scrollFactor.set();
 		missingText.visible = false;
 		add(missingText);

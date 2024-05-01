@@ -628,6 +628,7 @@ class CharacterEditorState extends MusicBeatState
 
 	var imageInputText:FlxUIInputText;
 	var healthIconInputText:FlxUIInputText;
+	var vocalsInputText:FlxUIInputText;
 	var singDurationStepper:FlxUINumericStepper;
 	var scaleStepper:FlxUINumericStepper;
 	var positionXStepper:FlxUINumericStepper;
@@ -672,7 +673,9 @@ class CharacterEditorState extends MusicBeatState
 
 		singDurationStepper = new FlxUINumericStepper(15, healthIconInputText.y + 45, 0.1, 4, 0, 999, 1);
 
-		scaleStepper = new FlxUINumericStepper(15, singDurationStepper.y + 40, 0.1, 1, 0.05, 10, 1);
+		vocalsInputText = new FlxUIInputText(15, healthIconInputText.y + 35, 75, character.vocalsFile != null ? character.vocalsFile : '', 8);
+
+		scaleStepper = new FlxUINumericStepper(15, vocalsInputText.y + 40, 0.1, 1, 0.05, 10, 1);
 
 		flipXCheckBox = new FlxUICheckBox(singDurationStepper.x + 80, singDurationStepper.y, null, null, "Flip X", 50);
 		flipXCheckBox.checked = character.flipX;
@@ -712,6 +715,7 @@ class CharacterEditorState extends MusicBeatState
 
 		tab_group.add(new FlxText(15, imageInputText.y - 18, 0, 'Image file name:'));
 		tab_group.add(new FlxText(15, healthIconInputText.y - 18, 0, 'Health icon name:'));
+		tab_group.add(new FlxText(15, vocalsInputText.y - 18, 0, 'Vocals File Postfix:'));
 		tab_group.add(new FlxText(15, singDurationStepper.y - 18, 0, 'Sing Animation length:'));
 		tab_group.add(new FlxText(15, scaleStepper.y - 18, 0, 'Scale:'));
 		tab_group.add(new FlxText(positionXStepper.x, positionXStepper.y - 18, 0, 'Character X/Y:'));
@@ -721,6 +725,7 @@ class CharacterEditorState extends MusicBeatState
 		tab_group.add(reloadImage);
 		tab_group.add(decideIconColor);
 		tab_group.add(healthIconInputText);
+		tab_group.add(vocalsInputText);
 		tab_group.add(singDurationStepper);
 		tab_group.add(scaleStepper);
 		tab_group.add(flipXCheckBox);
@@ -749,6 +754,8 @@ class CharacterEditorState extends MusicBeatState
 			}
 			else if(sender == imageInputText)
 				character.imageFile = imageInputText.text;
+			else if(sender == vocalsInputText)
+				character.vocalsFile = vocalsInputText.text;
 		}
 		else if(sender is FlxUINumericStepper)
 		{
@@ -849,6 +856,7 @@ class CharacterEditorState extends MusicBeatState
 		check_player.checked = character.isPlayer;
 		imageInputText.text = character.imageFile;
 		healthIconInputText.text = character.healthIcon;
+		vocalsInputText.text = character.vocalsFile != null ? character.vocalsFile : '';
 		singDurationStepper.value = character.singDuration;
 		scaleStepper.value = character.jsonScale;
 		flipXCheckBox.checked = character.originalFlipX;
@@ -1313,6 +1321,7 @@ class CharacterEditorState extends MusicBeatState
 			"flip_x": character.originalFlipX,
 			"no_antialiasing": character.noAntialiasing,
 			"healthbar_colors": character.healthColorArray,
+			"vocals_file": character.vocalsFile,
 			"_editor_isPlayer": character.isPlayer,
 		};
 
