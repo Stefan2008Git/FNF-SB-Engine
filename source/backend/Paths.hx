@@ -385,7 +385,6 @@ class Paths
 	public static var currentTrackedSounds:Map<String, Sound> = [];
 	public static var currentTrackedSounds:Map<String, Sound> = [];
 	public static function returnSound(path:Null<String>, key:String, ?library:String) {
-		#if MODS_ALLOWED
 		var modLibPath:String = '';
 		if (library != null) modLibPath = '$library/';
 		if (path != null) modLibPath += '$path';
@@ -400,7 +399,6 @@ class Paths
 			localTrackedAssets.push(file);
 			return currentTrackedSounds.get(file);
 		}
-		#end
 	
 	#if MODS_ALLOWED
 	inline static public function mods(key:String = '')
