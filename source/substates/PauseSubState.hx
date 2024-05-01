@@ -336,8 +336,10 @@ class PauseSubState extends MusicBeatSubstate
 					case 'Note Colors':
 						openSubState(new options.NotesSubState());
 
+					#if desktop
 					case 'Controls':
 						openSubState(new options.ControlsSubState());
+					#end
 
 					case 'Graphics':
 						openSubState(new options.GraphicsSettingsSubState());
