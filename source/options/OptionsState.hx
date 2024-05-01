@@ -3,9 +3,6 @@ package options;
 import states.MainMenuState;
 import backend.StageData;
 import flixel.addons.transition.FlxTransitionableState;
-#if android
-import android.backend.Touch;
-#end
 
 class OptionsState extends MusicBeatState
 {
