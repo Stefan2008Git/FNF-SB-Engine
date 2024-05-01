@@ -1,6 +1,6 @@
 package android.backend;
 
-class Touch() 
+class Touch
 {
     **
      * Returns FlxTouch, shortcut to `FlxG.touches.getFirst()`.
