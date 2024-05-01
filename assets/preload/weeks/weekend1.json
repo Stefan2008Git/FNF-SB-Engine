@@ -1,0 +1,32 @@
+{
+	"songs": [
+		[
+			"darnell",
+			"darnell",
+			[
+				115,
+				94,
+				176
+			]
+		]
+	],
+	"hiddenUntilUnlocked": false,
+	"hideFreeplay": false,
+	"weekBackground": "stage",
+	"difficulties": "",
+	"weekCharacters": [
+		"darnell",
+		"pico-player",
+		"nene"
+	],
+	"storyName": "DUE  DEBTS",
+	"weekName": "weekEnd1",
+	"freeplayColor": [
+		146,
+		113,
+		253
+	],
+	"hideStoryMode": false,
+	"weekBefore": "tutorial",
+	"startUnlocked": true
+}
