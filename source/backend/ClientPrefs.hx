@@ -108,6 +108,7 @@ class SaveVariables {
 	public var accuraryStyle:String = 'Judgement';
 	public var zeroPercentHealth:Bool = false;
 	public var leftToRightBar:Bool = true;
+	public var betterCutscene:Bool = true;
 	public var gameplaySettings:Map<String, Dynamic> = [
 		'scrollspeed' => 1.0,
 		'scrolltype' => 'multiplicative', 

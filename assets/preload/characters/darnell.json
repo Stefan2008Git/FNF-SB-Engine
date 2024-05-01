@@ -1,0 +1,146 @@
+{
+	"animations": [
+		{
+			"loop": true,
+			"offsets": [
+				80,
+				-236
+			],
+			"anim": "idle-loop",
+			"fps": 24,
+			"name": "Idle",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [
+				80,
+				-230
+			],
+			"anim": "singLEFT",
+			"fps": 24,
+			"name": "Pose Left",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [
+				80,
+				-230
+			],
+			"anim": "singDOWN",
+			"fps": 24,
+			"name": "Pose Down",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [
+				80,
+				-230
+			],
+			"anim": "singUP",
+			"fps": 24,
+			"name": "Pose Up",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [
+				80,
+				-230
+			],
+			"anim": "singRIGHT",
+			"fps": 24,
+			"name": "Pose Right",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [
+				80,
+				-230
+			],
+			"anim": "laugh",
+			"fps": 24,
+			"name": "Laugh",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [
+				80,
+				-230
+			],
+			"anim": "idle",
+			"fps": 24,
+			"name": "Idle",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [
+				80,
+				-230
+			],
+			"anim": "lightCan",
+			"fps": 24,
+			"name": "Light Can",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [
+				80,
+				-230
+			],
+			"anim": "kickingUp",
+			"fps": 24,
+			"name": "Kick Up",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [
+				80,
+				-230
+			],
+			"anim": "kneeForward",
+			"fps": 24,
+			"name": "Knee Forward",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [
+				80,
+				-230
+			],
+			"anim": "pissed",
+			"fps": 24,
+			"name": "Gets Pissed",
+			"indices": []
+		}
+	],
+	"vocals_file": "",
+	"no_antialiasing": false,
+	"image": "characters/darnell",
+	"position": [
+		0,
+		0
+	],
+	"healthicon": "darnell",
+	"flip_x": false,
+	"healthbar_colors": [
+		115,
+		94,
+		176
+	],
+	"camera_position": [
+		-320,
+		230
+	],
+	"sing_duration": 6.1,
+	"scale": 1,
+	"_editor_isPlayer": false
+}

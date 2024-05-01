@@ -273,6 +273,10 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			"If unchecked, makes your bar goes right to left instead goes left to right.\nThis option can help for time left option for better experience", 'leftToRightBar', 'bool');
 		addOption(option);
 
+		var option:Option = new Option('Better cutscenes',
+			"If unchecked, enables video instead of coded one.\nThis option can be helpful for perfomance if you disable this option!", 'leftToRightBar', 'bool');
+		addOption(option);
+
 		var option:Option = new Option('Pause Screen Song: ',
 			"What song do you prefer for the Pause Screen?",
 			'pauseMusic',
