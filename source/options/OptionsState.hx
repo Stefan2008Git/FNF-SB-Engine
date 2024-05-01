@@ -147,7 +147,7 @@ class OptionsState extends MusicBeatState
 		{
 			Touch.touchJustPressed(spr, function()
 			{
-			if (spr.ID != curSelected)
+			if (spr.ID != currentlySelected)
 				{
 					changeSelection(spr.ID, true);
 				}
