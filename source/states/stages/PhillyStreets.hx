@@ -103,6 +103,6 @@ class PhillyStreets extends BaseStage
 
     function darnellIntro()
     {
-        game.startVideo('weekEnd1/darnellCutscene');
+        game.startVideo('darnellCutscene');
     }
 }

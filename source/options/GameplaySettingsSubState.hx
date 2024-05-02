@@ -274,7 +274,7 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		addOption(option);
 
 		var option:Option = new Option('Better cutscenes',
-			"If unchecked, enables video instead of coded one.\nThis option can be helpful for perfomance if you disable this option!", 'leftToRightBar', 'bool');
+			"If unchecked, enables video instead of coded one.\nThis option can be helpful for perfomance if you disable this option!", 'betterCutscene', 'bool');
 		addOption(option);
 
 		var option:Option = new Option('Pause Screen Song: ',

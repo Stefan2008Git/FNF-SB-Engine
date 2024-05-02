@@ -3,13 +3,13 @@
 	"defaultZoom": 0.75,
 	"stageUI": "",
 
-	"boyfriend": [2151, 1228],
-	"girlfriend": [1453, 900],
-	"opponent": [900, 1110],
+	"boyfriend": [1895, 670],
+	"girlfriend": [1255, 560],
+	"opponent": [1040, 680],
 	"hide_girlfriend": false,
 
-	"camera_boyfriend": [-350, -100],
-	"camera_opponent": [500, -100],
+	"camera_boyfriend": [0, 0],
+	"camera_opponent": [0, 0],
 	"camera_girlfriend": [0, 0],
 	"camera_speed": 1
 }

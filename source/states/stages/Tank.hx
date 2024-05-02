@@ -248,7 +248,7 @@ class Tank extends BaseStage
 				FlxG.sound.play(Paths.sound('killYou'));
 			});
 		} else {
-			game.startVideo('week7/ughCutscene');
+			game.startVideo('ughCutscene');
 		}
 	}
 	function gunsIntro()
@@ -285,13 +285,13 @@ class Tank extends BaseStage
 				};
 			});
 		} else {
-			game.startVideo('week7/gunsCutscene');
+			game.startVideo('gunsCutscene');
 		}
 	}
 
 	function stressIntro()
 	{
-		game.startVideo('week7/stressCutscene');
+		game.startVideo('stressCutscene');
 	}
 
 	function zoomBack()
