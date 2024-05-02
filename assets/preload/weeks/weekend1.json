@@ -1,4 +1,16 @@
 {
+	"storyName": "DUE  DEBTS",
+	"difficulties": "",
+	"hideFreeplay": false,
+	"weekBackground": "phillyStreet",
+	"weekBefore": "tutorial",
+	"freeplayColor": [
+		146,
+		113,
+		253
+	],
+	"startUnlocked": true,
+	"hideStoryMode": false,
 	"songs": [
 		[
 			"darnell",
@@ -10,23 +22,11 @@
 			]
 		]
 	],
-	"hiddenUntilUnlocked": false,
-	"hideFreeplay": false,
-	"weekBackground": "stage",
-	"difficulties": "",
 	"weekCharacters": [
 		"darnell",
 		"pico-player",
 		"nene"
 	],
-	"storyName": "DUE  DEBTS",
-	"weekName": "weekEnd1",
-	"freeplayColor": [
-		146,
-		113,
-		253
-	],
-	"hideStoryMode": false,
-	"weekBefore": "tutorial",
-	"startUnlocked": true
+	"hiddenUntilUnlocked": false,
+	"weekName": "weekEnd1"
 }

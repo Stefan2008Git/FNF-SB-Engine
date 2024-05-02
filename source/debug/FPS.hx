@@ -172,7 +172,7 @@ class FPS extends TextField
 			textColor = FlxColor.fromRGBFloat(255, 255, 255, realAlpha);
 			if (currentlyFPS <= ClientPrefs.data.framerate / 2) {
 				textColor = FlxColor.fromRGBFloat(255, 0, 0, realAlpha);
-				if (ClientPrefs.data.redText) redText = true;
+				redText = true;
 			}
 
 			text += "\n";

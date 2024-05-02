@@ -140,7 +140,7 @@ class WeekEditorState extends MusicBeatState
 		});
 		loadWeekButton.screenCenter(X);
 		loadWeekButton.x -= 120;
-		add(loadWeekButton);
+		#if !android add(loadWeekButton); #end
 		
 		var freeplayButton:FlxButton = new FlxButton(0, 650, "Freeplay", function() {
 			FlxG.switchState(() -> new WeekEditorFreeplayState(weekFile));
@@ -410,12 +410,12 @@ class WeekEditorState extends MusicBeatState
 
 				for (i in 0...splittedText.length) {
 					if(i >= weekFile.songs.length) { //Add new song
-						weekFile.songs.push([splittedText[i], 'dad', [146, 113, 253]]);
+						weekFile.songs.push([splittedText[i], 'face', [161, 161, 161]]);
 					} else { //Edit song
 						weekFile.songs[i][0] = splittedText[i];
 						if(weekFile.songs[i][1] == null || weekFile.songs[i][1]) {
-							weekFile.songs[i][1] = 'dad';
-							weekFile.songs[i][2] = [146, 113, 253];
+							weekFile.songs[i][1] = 'face';
+							weekFile.songs[i][2] = [161, 161, 161];
 						}
 					}
 				}
@@ -670,7 +670,7 @@ class WeekEditorFreeplayState extends MusicBeatState
 		});
 		loadWeekButton.screenCenter(X);
 		loadWeekButton.x -= 120;
-		add(loadWeekButton);
+		#if !android add(loadWeekButton); #end
 		
 		var storyModeButton:FlxButton = new FlxButton(0, 685, "Story Mode", function() {
 			FlxG.switchState(() -> new WeekEditorState(weekFile));

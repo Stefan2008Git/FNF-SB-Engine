@@ -12,7 +12,7 @@ class MainMenuState extends MusicBeatState
 {
 	public static var sbEngineVersion:String = '3.0.0h';
 	public static var psychEngineVersion:String = '0.7.1h';
-	public static var fnfEngineVersion:String = '0.2.8';
+	public static var fnfEngineVersion:String = '0.3.0 PROTOTYPE';
 	public static var currentlySelected:Int = 0;
 
 	var menuItems:FlxTypedGroup<FlxSprite>;
