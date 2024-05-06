@@ -113,7 +113,11 @@ class MusicBeatSubstate extends FlxSubState
 	
 	override function update(elapsed:Float)
 	{
+		Main.watermark.x = Lib.application.window.width - 10 - Main.watermark.width;
+		Main.watermark.y = Lib.application.window.height - 10 - Main.watermark.height;
+
 		//everyStep();
+
 		if (!persistentUpdate) MusicBeatState.timePassedOnState += elapsed;
 		var oldStep:Int = curStep;
 

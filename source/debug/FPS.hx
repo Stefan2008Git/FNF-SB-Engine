@@ -19,10 +19,6 @@ import states.MainMenuState;
 	the current frame rate of an OpenFL project
 **/
 
-enum GLInfo {
-	RENDERER;
-	SHADING_LANGUAGE_VERSION;
-}
 class FPS extends TextField
 {
 	/**
@@ -112,22 +108,14 @@ class FPS extends TextField
 			totalFPS = 0;
 
 		if (currentCount != cacheCount) {
-			text =  currentlyFPS + " FPS";
+			text =  currentlyFPS + "/" + totalFPS + " FPS";
 
 			currentlyMemory = obtainMemory();
 			if (currentlyMemory >= maximumMemory)
 				maximumMemory = currentlyMemory;
 
-			if (ClientPrefs.data.showTotalFPS) {
-				text += "\n" + totalFPS + " Total FPS";
-			}
-
 			if (ClientPrefs.data.memory) {
-				text += "\n" + CoolUtil.formatMemory(Std.int(currentlyMemory));
-			}
-
-			if (ClientPrefs.data.totalMemory) {
-				text += "\n" + CoolUtil.formatMemory(Std.int(maximumMemory));
+				text += "\n" + CoolUtil.formatMemory(Std.int(currentlyMemory)) + "/" + CoolUtil.formatMemory(Std.int(maximumMemory));
 			}
 
 			if (ClientPrefs.data.engineVersion) {
@@ -139,17 +127,17 @@ class FPS extends TextField
 				if (FlxG.state.subState != null)
 					text += '\nSubstate: ${Type.getClassName(Type.getClass(FlxG.state.subState))}';
 				text += "\nGL Render: " + '${getGLInfo(RENDERER)}';
-				text += "\nGL Shading version: " + '${getGLInfo(SHADING_LANGUAGE_VERSION)})';
+				text += "\nGL Shading version: " + '${getGLInfo(SHADING_LANGUAGE_VERSION)}';
 				text += "\nHaxe: " + Compiler.getDefine("haxe");
 				text += "\n" + FlxG.VERSION;
-				text += "\nLime: " + Compiler.getDefine("lime");
 				text += "\nOpenFL " + Compiler.getDefine("openfl");
+				text += "\nLime: " + Compiler.getDefine("lime");
 			}
 
 			#if android
-			text += "\nGo to options to enable/disable in-game logs";
+			if (ClientPrefs.data.debugInfo) text += "\nGo to options to enable/disable in-game logs";
 			#else
-			text += "\nPress F5 to see in-game logs";
+			if (ClientPrefs.data.debugInfo) text += "\nPress F5 to see in-game logs";
 			#end
 
 			switch (ClientPrefs.data.gameStyle) {
@@ -229,4 +217,9 @@ class FPS extends TextField
 		if (3.0 * h < 2.0) return p + (q - p) * ((2.0 / 3.0) - h) * 6.0;
 		return p;
 	}
+}
+
+enum GLInfo {
+	RENDERER;
+	SHADING_LANGUAGE_VERSION;
 }

@@ -16,16 +16,8 @@ class VisualsUISubState extends BaseOptionsMenu
 		addOption(option);
 		option.onChange = onChangeFPSCounter;
 
-		var option:Option = new Option('Total FPS',
-			'If checked, shows Total FPS Counter.', 'showTotalFPS', 'bool');
-		addOption(option);
-
 		var option:Option = new Option('Memory Counter',
 			'If unchecked, hides memory on FPS Counter.', 'memory', 'bool');
-		addOption(option);
-
-		var option:Option = new Option('Memory Peak',
-			'If checked, shows maximum memory on FPS Counter.', 'totalMemory', 'bool');
 		addOption(option);
 
 		var option:Option = new Option('Engine Version',
