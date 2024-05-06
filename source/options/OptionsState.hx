@@ -6,7 +6,7 @@ import flixel.addons.transition.FlxTransitionableState;
 
 class OptionsState extends MusicBeatState
 {
-	public static final options:Array<String> = ['Note Colors', #if desktop 'Controls', #end 'Adjust Delay and Combo', 'Graphics', 'Visuals and UI', 'Gameplay'];
+	var options:Array<String> = ['Note Colors', #if desktop 'Controls', #end 'Adjust Delay and Combo', 'Graphics', 'Visuals and UI', 'Gameplay'];
 	private var grpOptions:FlxTypedGroup<Alphabet>;
 	private static var currentlySelected:Int = 0;
 	public static var menuBG:FlxSprite;
@@ -59,7 +59,10 @@ class OptionsState extends MusicBeatState
 		DiscordClient.changePresence("In the Options Menu", null);
 		#end
 
-		Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Options Menu";
+		if (onPlayState) 
+			Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Options Menu - Paused"; 
+		else 
+			Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Options Menu";
 
 		if (ClientPrefs.data.cacheOnGPU) Paths.clearStoredMemory();
 

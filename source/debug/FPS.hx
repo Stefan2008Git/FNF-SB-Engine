@@ -108,14 +108,14 @@ class FPS extends TextField
 			totalFPS = 0;
 
 		if (currentCount != cacheCount) {
-			text =  currentlyFPS + "/" + totalFPS + " FPS";
+			text =  currentlyFPS + " / " + totalFPS + " FPS";
 
 			currentlyMemory = obtainMemory();
 			if (currentlyMemory >= maximumMemory)
 				maximumMemory = currentlyMemory;
 
 			if (ClientPrefs.data.memory) {
-				text += "\n" + CoolUtil.formatMemory(Std.int(currentlyMemory)) + "/" + CoolUtil.formatMemory(Std.int(maximumMemory));
+				text += "\n" + CoolUtil.formatMemory(Std.int(currentlyMemory)) + " / " + CoolUtil.formatMemory(Std.int(maximumMemory));
 			}
 
 			if (ClientPrefs.data.engineVersion) {

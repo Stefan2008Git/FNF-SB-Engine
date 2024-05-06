@@ -2298,15 +2298,12 @@ class PlayState extends MusicBeatState
 			babyArrow.downScroll = ClientPrefs.data.downScroll;
 			if (!isStoryMode && !skipArrowStartTween)
 			{
-				if (ClientPrefs.data.gameStyle == 'Cheeky') {
-					babyArrow.y -= 115;
-					FlxTween.tween(babyArrow, {y: babyArrow.y + 115}, 1, {ease: FlxEase.backInOut});
-				} else {
-					babyArrow.alpha = 0;
-					FlxTween.tween(babyArrow, {alpha: targetAlpha}, 1, {ease: FlxEase.circOut, startDelay: 0.5 + (0.2 * i)});
-					babyArrow.alpha = targetAlpha;
-				}
+				babyArrow.y -= 10;
+				babyArrow.alpha = 0;
+				FlxTween.tween(babyArrow, {y: babyArrow.y + 10, alpha: targetAlpha}, 1, {ease: FlxEase.circOut, startDelay: 0.5 + (0.2 * i)});
 			}
+			else
+				babyArrow.alpha = targetAlpha;
 
 			if (player == 1)
 				playerStrums.add(babyArrow);

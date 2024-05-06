@@ -67,9 +67,8 @@ class CreditsState extends MusicBeatState
 			['Special credits'],
 			['Sussy Sam', 'sam', 'Maked new icons and new music for SB Engine, but he is not on team', 'https://www.youtube.com/@sussysam6789', '964B00'],
 			['JustXale', 'xale', 'Main Programmer of Grafex Engine', 'https://github.com/JustXale', 'f7a300'],
-			['SquidBowl', 'tinki', 'For gallery stuff', 'https://www.youtube.com/@squidbowl', '964B00'],
 			['Sayofthelor', 'bean', 'Main Programmer of Lore Engine', 'https://twitter.com/sayofthelor', '663399'],
-			['Remi', 'ran', 'Used the code for pause menu options no longer forces a song restart from Psych Engine pull request', 'https://www.youtube.com/c/kaipkai', 'AFFF6B'],
+			['CoreCat', 'core', 'Used a lot of stuff from CDEV Engine. Thank you CoreCat.', 'https://twitter.com/core5570r', '005FAD'],
 			#if android
 			['MarioMaster', 'mario', 'Created hitbox selector and virtual pad opacity', 'https://www.youtube.com/channel/UC65m-_5tbYFJ7oRqZzpFBJw', 'fc0000'],
 			['NF | Beihu', 'beihu', 'Created hitbox space for dodge mechanic system and used the working Kade Engine for PE on NF Engine.', 'https://www.youtube.com/@beihu235', '964B00'],

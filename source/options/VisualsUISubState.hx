@@ -1,12 +1,13 @@
 package options;
 
-import openfl.display.StageQuality;
-
 class VisualsUISubState extends BaseOptionsMenu
 {
 	public function new()
 	{
-		Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Options Menu (In Visuals & UI Settings Menu)";
+		if (options.OptionsState.onPlayState) 
+			Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Options Menu - Paused (In Visuals & UI Settings Menu)"; 
+		else 
+			Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Options Menu (In Visuals & UI Settings Menu)";
 
 		title = 'Visuals and UI';
 		rpcTitle = 'Visuals & UI Settings Menu'; //for Discord Rich Presence

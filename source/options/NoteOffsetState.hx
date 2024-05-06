@@ -40,7 +40,10 @@ class NoteOffsetState extends MusicBeatState
 
 	override public function create()
 	{
-		Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Options Menu (In Note Offset Menu)";
+		if (options.OptionsState.onPlayState) 
+			Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Options Menu - Paused (In Note Offset Menu)"; 
+		else 
+			Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Options Menu (In Note Offset Menu)";
 		if (ClientPrefs.data.cacheOnGPU) Paths.clearStoredMemory();
 		// Cameras
 		camGame = new FlxCamera();
@@ -418,14 +421,7 @@ class NoteOffsetState extends MusicBeatState
 			if(beatTween != null) beatTween.cancel();
 
 			persistentUpdate = false;
-			if(OptionsState.onPlayState)
-			{
-				StageData.loadDirectory(PlayState.SONG);
-				LoadingState.loadAndSwitchState(() -> new PlayState());
-				
-				FlxG.sound.music.volume = 0;
-			}
-			else FlxG.switchState(() -> new options.OptionsState());
+			FlxG.switchState(() -> new options.OptionsState());
 
 			if(OptionsState.onPlayState)
 			{

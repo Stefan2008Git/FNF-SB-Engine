@@ -52,7 +52,10 @@ class NotesSubState extends MusicBeatSubstate
 	public function new() {
 		super();
 
-		Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Options Menu (In Note Color Menu)";
+		if (options.OptionsState.onPlayState) 
+			Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Options Menu - Paused (In Note Color Menu)"; 
+		else 
+			Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Options Menu (In Note Color Menu)";
 		FlxTween.tween(FlxG.sound.music, {volume: 0.4}, 0.8);
 
 		bg = new FlxSprite().loadGraphic(Paths.image('menuDesat'));

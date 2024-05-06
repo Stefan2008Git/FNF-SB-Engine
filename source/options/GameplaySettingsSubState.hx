@@ -15,7 +15,10 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 
 	public function new()
 	{
-		Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Options Menu (In Gameplay Settings Menu)";
+		if (options.OptionsState.onPlayState) 
+			Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Options Menu - Paused (In Gameplay Settings Menu)"; 
+		else 
+			Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Options Menu (In Gameplay Settings Menu)";
 
 		title = 'Gameplay Settings';
 		rpcTitle = 'Gameplay Settings Menu'; //for Discord Rich Presence
