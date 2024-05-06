@@ -901,7 +901,7 @@ class PlayState extends MusicBeatState
 						judgementCounterTxt.text = 'Sicks: 0' + '\n' + 'Goods: 0' + '\n' + 'Bads: 0' + '\n' + 'Shits: 0';
 					
 					case 'Better Judge':
-						judgementCounterTxt.text = 'Total Notes Hit: 0\n' + 'CPS: 0 (Max CPS: 0)\n' + 'Combo: 0 (Max Combo: 0)' + 'Sicks: 0\n' + 'Goods: 0\n' + 'Bads: 0\n' + 'Shits: 0';
+						judgementCounterTxt.text = 'Total Notes Hit: 0\n' + 'CPS: 0 (Max CPS: 0)\n' + 'Combo: 0 (Max Combo: 0)' + 'Sicks: 0\n' + 'Goods: 0\n' + 'Bads: 0\n' + 'Shits: 0\n' + 'Perfect Percent: 0';
 				}
 			} else if (ClientPrefs.data.gameStyle == 'Psych Engine' || ClientPrefs.data.gameStyle == 'TGT Engine') {
 				switch (ClientPrefs.data.judgementCounterStyle) {
@@ -912,7 +912,7 @@ class PlayState extends MusicBeatState
 						judgementCounterTxt.text = 'Sicks: 0' + '\n' + 'Goods: 0' + '\n' + 'Bads: 0' + '\n' + 'Shits: 0';
 					
 					case 'Better Judge':
-						judgementCounterTxt.text = 'Total Notes Hit: 0\n' + 'NPS: 0 (Max NPS: 0)\n' + 'Combo: 0 (Max Combo: 0)' + 'Sicks: 0\n' + 'Goods: 0\n' + 'Bads: 0\n' + 'Shits: 0';
+						judgementCounterTxt.text = 'Total Notes Hit: 0\n' + 'NPS: 0 (Max NPS: 0)\n' + 'Combo: 0 (Max Combo: 0)' + 'Sicks: 0\n' + 'Goods: 0\n' + 'Bads: 0\n' + 'Shits: 0\n' + 'Perfect Rating: 0';
 				}
 			} else if (ClientPrefs.data.gameStyle == 'Kade Engine' || ClientPrefs.data.gameStyle == 'Dave and Bambi' || ClientPrefs.data.gameStyle == 'Cheeky') {
 				switch (ClientPrefs.data.judgementCounterStyle) {
@@ -923,7 +923,7 @@ class PlayState extends MusicBeatState
 						judgementCounterTxt.text = 'Sicks: 0' + '\n' + 'Goods: 0' + '\n' + 'Bads: 0' + '\n' + 'Shits: 0';
 					
 					case 'Better Judge':
-						judgementCounterTxt.text = 'Total Notes Hit: 0\n' + 'NPS: 0 (Max NPS: 0)\n' + 'Combo: 0 (Max Combo: 0)' + 'Sicks: 0\n' + 'Goods: 0\n' + 'Bads: 0\n' + 'Shits: 0';
+						judgementCounterTxt.text = 'Total Notes Hit: 0\n' + 'NPS: 0 (Max NPS: 0)\n' + 'Combo: 0 (Max Combo: 0)' + 'Sicks: 0\n' + 'Goods: 0\n' + 'Bads: 0\n' + 'Shits: 0\n' + 'PA: 0';
 				}
 			}
 		} else {
@@ -936,7 +936,7 @@ class PlayState extends MusicBeatState
 						judgementCounterTxt.text = 'Sicks: 0' + '\n' + 'Goods: 0' + '\n' + 'Bads: 0' + '\n' + 'Shits: 0' + '\n' + 'Note Missed: 0';
 					
 					case 'Better Judge':
-						judgementCounterTxt.text = 'Total Notes Hit: 0\n' + 'CPS: 0 (Max CPS: 0)\n' + 'Combo: 0 (Max Combo: 0)' + 'Sicks: 0\n' + 'Goods: 0\n' + 'Bads: 0\n' + 'Shits: 0\n' + 'Note Missed: 0';
+						judgementCounterTxt.text = 'Total Notes Hit: 0\n' + 'CPS: 0 (Max CPS: 0)\n' + 'Combo: 0 (Max Combo: 0)' + 'Sicks: 0\n' + 'Goods: 0\n' + 'Bads: 0\n' + 'Shits: 0\n' + 'Note Missed: 0\n' + 'Perfect Percent: 0';
 				}
 			} else if (ClientPrefs.data.gameStyle == 'Psych Engine' || ClientPrefs.data.gameStyle == 'TGT Engine') {
 				switch (ClientPrefs.data.judgementCounterStyle) {
@@ -947,7 +947,7 @@ class PlayState extends MusicBeatState
 						judgementCounterTxt.text = 'Sicks: 0' + '\n' + 'Goods: 0' + '\n' + 'Bads: 0' + '\n' + 'Shits: 0' + '\n' + 'Misses: 0';
 					
 					case 'Better Judge':
-						judgementCounterTxt.text = 'Total Notes Hit: 0\n' + 'NPS: 0 (Max NPS: 0)\n' + 'Combo: 0 (Max Combo: 0)' + 'Sicks: 0\n' + 'Goods: 0\n' + 'Bads: 0\n' + 'Shits: 0\n' + 'Misses: 0';
+						judgementCounterTxt.text = 'Total Notes Hit: 0\n' + 'NPS: 0 (Max NPS: 0)\n' + 'Combo: 0 (Max Combo: 0)' + 'Sicks: 0\n' + 'Goods: 0\n' + 'Bads: 0\n' + 'Shits: 0\n' + 'Misses: 0\n' + 'Perfect Rating: 0';
 				}
 			} else if (ClientPrefs.data.gameStyle == 'Kade Engine' || ClientPrefs.data.gameStyle == 'Dave and Bambi' || ClientPrefs.data.gameStyle == 'Cheeky') {
 				switch (ClientPrefs.data.judgementCounterStyle) {
@@ -958,7 +958,7 @@ class PlayState extends MusicBeatState
 						judgementCounterTxt.text = 'Sicks: 0' + '\n' + 'Goods: 0' + '\n' + 'Bads: 0' + '\n' + 'Shits: 0' + '\n' + 'Combo Breaks: 0';
 					
 					case 'Better Judge':
-						judgementCounterTxt.text = 'Total Notes Hit: 0\n' + 'NPS: 0 (Max NPS: 0)\n' + 'Combo: 0 (Max Combo: 0)' + 'Sicks: 0\n' + 'Goods: 0\n' + 'Bads: 0\n' + 'Shits: 0\n' + 'Combo Breaks: 0';
+						judgementCounterTxt.text = 'Total Notes Hit: 0\n' + 'NPS: 0 (Max NPS: 0)\n' + 'Combo: 0 (Max Combo: 0)' + 'Sicks: 0\n' + 'Goods: 0\n' + 'Bads: 0\n' + 'Shits: 0\n' + 'Combo Breaks: 0\n' + 'PA: 0';
 				}
 			}
 		}
@@ -1821,7 +1821,8 @@ class PlayState extends MusicBeatState
 
 	public function updateScore(miss:Bool = false)
 	{
-		var str:String = ratingName;    
+		var str:String = ratingName;  
+		var perfectAccuracy = ratingsData[0].hits + ratingsData[1].hits + ratingsData[2].hits;
 		
 		if(totalPlayed != 0)
 		{
@@ -1857,7 +1858,7 @@ class PlayState extends MusicBeatState
 							judgementCounterTxt.text = 'Sicks: ${ratingsData[0].hits}' + '\n' + 'Goods: ${ratingsData[1].hits}' + '\n' + 'Bads: ${ratingsData[2].hits}' + '\n' + 'Shits: ${ratingsData[3].hits}';
 						
 						case 'Better Judge':
-							judgementCounterTxt.text = 'Notes hitted: ${songHits} (Total Played: ${totalPlayed})' + '\n' + 'CPS: ${nps} (Max CPS: ${maxNPS})\n' + 'Combo: ${combo} (Max Combo: ${maxCombo})' + '\n' + 'Sicks: ${ratingsData[0].hits}\n' + 'Goods: ${ratingsData[1].hits}\n' + 'Bads: ${ratingsData[2].hits}\n' + 'Shits: ${ratingsData[3].hits}';
+							judgementCounterTxt.text = 'Notes hitted: ${songHits} (Total Played: ${totalPlayed})' + '\n' + 'CPS: ${nps} (Max CPS: ${maxNPS})\n' + 'Combo: ${combo} (Max Combo: ${maxCombo})' + '\n' + 'Sicks: ${ratingsData[0].hits}\n' + 'Goods: ${ratingsData[1].hits}\n' + 'Bads: ${ratingsData[2].hits}\n' + 'Shits: ${ratingsData[3].hits}\n' + 'Perfect Percent: ${Std.string(FlxMath.roundDecimal((ratingsData[0].hits) / perfectAccuracy, 2))}';
 					}
 				} else if (ClientPrefs.data.gameStyle == 'Psych Engine' || ClientPrefs.data.gameStyle == 'TGT Engine') {
 					switch (ClientPrefs.data.judgementCounterStyle) {
@@ -1868,7 +1869,7 @@ class PlayState extends MusicBeatState
 							judgementCounterTxt.text = 'Sicks: ${ratingsData[0].hits}' + '\n' + 'Goods: ${ratingsData[1].hits}' + '\n' + 'Bads: ${ratingsData[2].hits}' + '\n' + 'Shits: ${ratingsData[3].hits}';
 						
 						case 'Better Judge':
-							judgementCounterTxt.text = 'Song Note Hits: ${songHits} (Total Song Note Hits: ${totalPlayed})' + '\n' + 'NPS: ${nps} (Max NPS: ${maxNPS})' + '\n' + 'Combo: ${combo} (Max Combo: ${maxCombo})' + '\n' + 'Sicks: ${ratingsData[0].hits}\n' + 'Goods: ${ratingsData[1].hits}\n' + 'Bads: ${ratingsData[2].hits}\n' + 'Shits: ${ratingsData[3].hits}';
+							judgementCounterTxt.text = 'Song Note Hits: ${songHits} (Total Song Note Hits: ${totalPlayed})' + '\n' + 'NPS: ${nps} (Max NPS: ${maxNPS})' + '\n' + 'Combo: ${combo} (Max Combo: ${maxCombo})' + '\n' + 'Sicks: ${ratingsData[0].hits}\n' + 'Goods: ${ratingsData[1].hits}\n' + 'Bads: ${ratingsData[2].hits}\n' + 'Shits: ${ratingsData[3].hits}\n' + 'Perfect Rating: ${Std.string(FlxMath.roundDecimal((ratingsData[0].hits) / perfectAccuracy, 2))}';
 					}
 				} else if (ClientPrefs.data.gameStyle == 'Kade Engine' || ClientPrefs.data.gameStyle == 'Dave and Bambi' || ClientPrefs.data.gameStyle == 'Cheeky') {
 					switch (ClientPrefs.data.judgementCounterStyle) {
@@ -1879,7 +1880,7 @@ class PlayState extends MusicBeatState
 							judgementCounterTxt.text = 'Sicks: ${ratingsData[0].hits}' + '\n' + 'Goods: ${ratingsData[1].hits}' + '\n' + 'Bads: ${ratingsData[2].hits}' + '\n' + 'Shits: ${ratingsData[3].hits}';
 						
 						case 'Better Judge':
-							judgementCounterTxt.text = 'Notes Hits: ${songHits} (Total Notes Hits: ${totalPlayed})' + '\n' + 'NPS: ${nps} (Max NPS: ${maxNPS})' + '\n' + 'Combo: ${combo} (Max Combo: ${maxCombo})' + '\n' + 'Sicks: ${ratingsData[0].hits}' + '\n' + 'Goods: ${ratingsData[1].hits}' + '\n' + 'Bads: ${ratingsData[2].hits}' + '\n' + 'Shits: ${ratingsData[3].hits}';
+							judgementCounterTxt.text = 'Notes Hits: ${songHits} (Total Notes Hits: ${totalPlayed})' + '\n' + 'NPS: ${nps} (Max NPS: ${maxNPS})' + '\n' + 'Combo: ${combo} (Max Combo: ${maxCombo})' + '\n' + 'Sicks: ${ratingsData[0].hits}' + '\n' + 'Goods: ${ratingsData[1].hits}' + '\n' + 'Bads: ${ratingsData[2].hits}' + '\n' + 'Shits: ${ratingsData[3].hits}\n' + 'PA: ${Std.string(FlxMath.roundDecimal((ratingsData[0].hits) / perfectAccuracy, 2))}';
 					}
 				}
 			} else if (!instakillOnMiss) {
@@ -1909,7 +1910,7 @@ class PlayState extends MusicBeatState
 							judgementCounterTxt.text = 'Sicks: ${ratingsData[0].hits}' + '\n' + 'Goods: ${ratingsData[1].hits}' + '\n' + 'Bads: ${ratingsData[2].hits}' + '\n' + 'Shits: ${ratingsData[3].hits}' + '\n' + 'Note Missed: ${songMisses}';
 						
 						case 'Better Judge':
-							judgementCounterTxt.text = 'Notes hitted: ${songHits} (Total Played: ${totalPlayed})' + '\n' + 'CPS: ${nps} (Max CPS: ${maxNPS})' + '\n' + 'Combo: ${combo} (Max Combo: ${maxCombo})' + '\n' + 'Sicks: ${ratingsData[0].hits}' + '\n' + 'Goods: ${ratingsData[1].hits}' + '\n' + 'Bads: ${ratingsData[2].hits}' + '\n' + 'Shits: ${ratingsData[3].hits}' + '\n' + 'Note Missed: ${songMisses}';
+							judgementCounterTxt.text = 'Notes hitted: ${songHits} (Total Played: ${totalPlayed})' + '\n' + 'CPS: ${nps} (Max CPS: ${maxNPS})' + '\n' + 'Combo: ${combo} (Max Combo: ${maxCombo})' + '\n' + 'Sicks: ${ratingsData[0].hits}' + '\n' + 'Goods: ${ratingsData[1].hits}' + '\n' + 'Bads: ${ratingsData[2].hits}' + '\n' + 'Shits: ${ratingsData[3].hits}' + '\n' + 'Note Missed: ${songMisses}\n' + 'Perfect Percent: ${Std.string(FlxMath.roundDecimal((ratingsData[0].hits) / perfectAccuracy, 2))}';
 					}
 				} else if (ClientPrefs.data.gameStyle == 'Psych Engine' || ClientPrefs.data.gameStyle == 'TGT Engine') {
 					switch (ClientPrefs.data.judgementCounterStyle) {
@@ -1920,7 +1921,7 @@ class PlayState extends MusicBeatState
 							judgementCounterTxt.text = 'Sicks: ${ratingsData[0].hits}' + '\n' + 'Goods: ${ratingsData[1].hits}' + '\n' + 'Bads: ${ratingsData[2].hits}' + '\n' + 'Shits: ${ratingsData[3].hits}' + '\n' + 'Misses: ${songMisses}';
 						
 						case 'Better Judge':
-							judgementCounterTxt.text = 'Song Note Hits: ${songHits} (Total Song Note Hits: ${totalPlayed})' + '\n' + 'NPS: ${nps} (Max NPS: ${maxNPS})' + '\n' + 'Combo: ${combo} (Max Combo: ${maxCombo})' + '\n' + 'Sicks: ${ratingsData[0].hits}' + '\n' + 'Goods: ${ratingsData[1].hits}' + '\n' + 'Bads: ${ratingsData[2].hits}' + '\n' + 'Shits: ${ratingsData[3].hits}' + '\n' + 'Misses: ${songMisses}';
+							judgementCounterTxt.text = 'Song Note Hits: ${songHits} (Total Song Note Hits: ${totalPlayed})' + '\n' + 'NPS: ${nps} (Max NPS: ${maxNPS})' + '\n' + 'Combo: ${combo} (Max Combo: ${maxCombo})' + '\n' + 'Sicks: ${ratingsData[0].hits}' + '\n' + 'Goods: ${ratingsData[1].hits}' + '\n' + 'Bads: ${ratingsData[2].hits}' + '\n' + 'Shits: ${ratingsData[3].hits}' + '\n' + 'Misses: ${songMisses}\n' + 'Perfect Rating: ${Std.string(FlxMath.roundDecimal((ratingsData[0].hits) / perfectAccuracy, 2))}';
 					}
 				} else if (ClientPrefs.data.gameStyle == 'Kade Engine' || ClientPrefs.data.gameStyle == 'Dave and Bambi' || ClientPrefs.data.gameStyle == 'Cheeky') {
 					switch (ClientPrefs.data.judgementCounterStyle) {
@@ -1931,7 +1932,7 @@ class PlayState extends MusicBeatState
 							judgementCounterTxt.text = 'Sicks: ${ratingsData[0].hits}' + '\n' + 'Goods: ${ratingsData[1].hits}' + '\n' + 'Bads: ${ratingsData[2].hits}' + '\n' + 'Shits: ${ratingsData[3].hits}' + '\n' + 'Combo Breaks: ${songMisses}';
 						
 						case 'Better Judge':
-							judgementCounterTxt.text = 'Notes Hits: ${songHits} (Total Notes Hits: ${totalPlayed})' + '\n' + 'NPS: ${nps} (Max NPS: ${maxNPS})' + '\n' + 'Combo: ${combo} (Max Combo: ${maxCombo})' + '\n' + 'Sicks: ${ratingsData[0].hits}' + '\n' + 'Goods: ${ratingsData[1].hits}' + '\n' + 'Bads: ${ratingsData[2].hits}' + '\n' + 'Shits: ${ratingsData[3].hits}' + '\n' + 'Combo Breaks: ${songMisses}';
+							judgementCounterTxt.text = 'Notes Hits: ${songHits} (Total Notes Hits: ${totalPlayed})' + '\n' + 'NPS: ${nps} (Max NPS: ${maxNPS})' + '\n' + 'Combo: ${combo} (Max Combo: ${maxCombo})' + '\n' + 'Sicks: ${ratingsData[0].hits}' + '\n' + 'Goods: ${ratingsData[1].hits}' + '\n' + 'Bads: ${ratingsData[2].hits}' + '\n' + 'Shits: ${ratingsData[3].hits}' + '\n' + 'Combo Breaks: ${songMisses}\n' + 'PA: ${Std.string(FlxMath.roundDecimal((ratingsData[0].hits) / perfectAccuracy, 2))}';
 					}
 				}
 			}
