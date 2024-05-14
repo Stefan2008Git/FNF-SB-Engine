@@ -109,10 +109,8 @@ class PhillyStreets extends BaseStage
 			{
 				case 'darnell':
 					setStartCallback(darnellIntro);
-				/*case 'guns':
-					setStartCallback(gunsIntro);
-				case 'stress':
-					setStartCallback(stressIntro);*/
+				case '2hot':
+					setStartCallback(twoHotIntro);
 			}
 		}
     }
@@ -120,5 +118,10 @@ class PhillyStreets extends BaseStage
     function darnellIntro()
     {
         game.startVideo('darnellCutscene');
+    }
+
+    function twoHotIntro()
+    {
+	game.startVideo('2hotCutscene');
     }
 }
