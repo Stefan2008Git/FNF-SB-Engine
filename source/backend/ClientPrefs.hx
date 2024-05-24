@@ -98,7 +98,7 @@ class SaveVariables {
 	public var ratingComboNumberPopup:Bool = true;
 	public var mainMenuMusic:String = 'SB Engine';
 	public var resultsScreen:Bool = false;
-	public var loadingScreen:Bool = false;
+	public var loadingScreen:Bool = true;
 	public var gameOverScreen:Bool = true;
 	public var songPercentage:Bool = false;
 	public var fadeTransition:Bool = true;
