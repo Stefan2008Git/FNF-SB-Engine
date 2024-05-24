@@ -152,11 +152,15 @@ class BaseOptionsMenu extends MusicBeatSubstate
 		}
 
 		if (controls.BACK) {
+			#if android
 			FlxTransitionableState.skipNextTransOut = true;
+			FlxG.resetState();
 			ClientPrefs.saveSettings();
+			#else
 			close();
+			#end
+			ClientPrefs.saveSettings();
 			Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Options Menu";
-			FlxTween.tween(FlxG.sound.music, {volume: 1}, 0.8);
 			FlxG.sound.play(Paths.sound('cancelMenu'));
 		}
 

@@ -104,7 +104,7 @@ class SaveVariables {
 	public var fadeTransition:Bool = true;
 	public var timeTxt:Bool = true;
 	public var accuraryStyle:String = 'Judgement';
-	public var zeroPercentHealth:Bool = false;
+	public var zeroPercentHealth:Bool = true;
 	public var leftToRightBar:Bool = true;
 	public var betterCutscene:Bool = true;
 	public var gameplaySettings:Map<String, Dynamic> = [
@@ -299,6 +299,28 @@ class ClientPrefs {
 			}
 			reloadVolumeKeys();
 		}
+	}
+
+	public static function keybindSaveLoad() {
+		// controls on a separate save file
+		var save:FlxSave = new FlxSave();
+		save.bind('controls_v3', CoolUtil.getSavePath());
+		if(save != null)
+		{
+			if(save.data.keyboard != null) {
+				var loadedControls:Map<String, Array<FlxKey>> = save.data.keyboard;
+				for (control => keys in loadedControls) {
+					if(keyBinds.exists(control)) keyBinds.set(control, keys);
+				}
+			}
+			if(save.data.gamepad != null) {
+				var loadedControls:Map<String, Array<FlxGamepadInputID>> = save.data.gamepad;
+				for (control => keys in loadedControls) {
+					if(gamepadBinds.exists(control)) gamepadBinds.set(control, keys);
+				}
+			}
+			reloadVolumeKeys();
+		}	
 	}
 
 	// what to do before application get closed?

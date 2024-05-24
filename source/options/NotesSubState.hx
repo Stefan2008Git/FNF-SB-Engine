@@ -232,11 +232,13 @@ class NotesSubState extends MusicBeatSubstate
 		if (FlxG.keys.justPressed.ESCAPE #if android || MusicBeatSubstate.virtualPad.buttonB.justPressed #end ) {
 			FlxG.mouse.visible = false;
 			FlxG.sound.play(Paths.sound('cancelMenu'));
+			#if android
 			FlxTransitionableState.skipNextTransOut = true;
+			FlxG.resetState();
+			#else
 			close();
+			#end
 			Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Options Menu";
-			FlxTween.tween(FlxG.sound.music, {volume: 1}, 0.8);
-			return;
 		}
 
 		super.update(elapsed);

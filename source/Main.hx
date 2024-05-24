@@ -10,6 +10,7 @@ import openfl.display.StageScaleMode;
 import lime.app.Application;
 import debug.GameLog;
 import debug.FPS;
+import main.Init;
 import states.TitleState;
 #if android
 import android.Hardware;
@@ -30,18 +31,16 @@ import sys.io.Process;
 #end
 
 #if linux
-import lime.graphics.Image;
-
 @:cppInclude('./external/gamemode_client.h')
 @:cppFileCode('#define GAMEMODE_AUTO')
 #end
 
 class Main extends Sprite
 {
-	var game = {
+	public static var game = {
 		width: 1280,
 		height: 720,
-		initialState: () -> new TitleState(),
+		initialState: TitleState,
 		zoom: -1.0,
 		framerate: 60,
 		skipSplash: true,
@@ -121,9 +120,7 @@ class Main extends Sprite
 	private function setupGame():Void
 	{
 		Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion;
-		#if android
-		AndroidDialogsExtend.openToastBox("Welcome to: FNF': SB Engine v" + MainMenuState.sbEngineVersion, 1); // For some wierd reason i cannot make a option to disable toast box when you open the game it crashes immediately...
-		#end
+		#if android AndroidDialogsExtend.openToastBox("Welcome to: FNF': SB Engine v" + MainMenuState.sbEngineVersion, 1); #end// For some wierd reason i cannot make a option to disable toast box when you open the game it crashes immediately...
 
 		var stageWidth:Int = Lib.current.stage.stageWidth;
 		var stageHeight:Int = Lib.current.stage.stageHeight;
@@ -144,40 +141,17 @@ class Main extends Sprite
 			ClientPrefs.saveSettings();
 		});
 
-		#if LUA_ALLOWED Lua.set_callbacks_function(cpp.Callable.fromStaticFunction(psychlua.CallbackHandler.call)); #end
-		Controls.instance = new Controls();
-		ClientPrefs.loadDefaultKeys();
-	
-		#if android addChild(new FlxGame(1280, 720, TitleState, 60, 60, true, false)); #else addChild(new FlxGame(game.width, game.height, game.initialState, game.framerate, game.framerate, game.skipSplash, game.startFullscreen)); #end
+		#if android addChild(new FlxGame(1280, 720, Init, 60, 60, true, false)); #else addChild(new FlxGame(game.width, game.height, Init, game.framerate, game.framerate, game.skipSplash, game.startFullscreen)); #end
 
 		gameLogs = new GameLog();
 		GameLog.startInit();
 		addChild(gameLogs);
 
-		fpsVar = new FPS(10, 3);
-		addChild(fpsVar);
 		Lib.current.stage.align = "tl";
 		Lib.current.stage.scaleMode = StageScaleMode.NO_SCALE;
-		if (fpsVar != null) fpsVar.visible = ClientPrefs.data.showFPS;
 
-		// Mic'd Up SC code :D
-		var bitmapData = Assets.getBitmapData("assets/images/sbinator.png");
-		watermark = new Sprite();
-		watermark.addChild(new Bitmap(bitmapData)); // Sets the graphic of the sprite to a Bitmap object, which uses our embedded BitmapData class.
-		watermark.alpha = 0.4;
-		watermark.x = Lib.application.window.width - 10 - watermark.width;
-		watermark.y = Lib.application.window.height - 10 - watermark.height;
-		addChild(watermark);
-		if (watermark != null) watermark.visible = ClientPrefs.data.watermarkIcon;
-
-		#if linux
-		var icon = Image.fromFile("icon.png");
-		Lib.current.stage.window.setIcon(icon);
-		#end
-		
 		#if CRASH_HANDLER Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onCrash); #end
 		#if desktop FlxG.stage.addEventListener(KeyboardEvent.KEY_UP, toggleFullScreen); #end
-		#if DISCORD_ALLOWED DiscordClient.prepare(); #end
 		#if android System.allowScreenTimeout = ClientPrefs.data.screenSaver; #end
 
 		// shader coords fix

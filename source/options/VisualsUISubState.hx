@@ -82,7 +82,7 @@ class VisualsUISubState extends BaseOptionsMenu
 
 		#if PSYCH_WATERMARKS
 		var option:Option = new Option('0.7.3 Loading screen', 
-		    'If checked, enables the loading screen from 0.7.3 experimental build, but it breaks the entire GPU caching.', 'loadingScreen', 'bool');
+		    'If unchecked, disables the loading screen and switch to title menu instead.\nNOTE: Re-enabling requires the game restart!', 'loadingScreen', 'bool');
 		addOption(option);
 		#end
 

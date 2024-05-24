@@ -46,9 +46,9 @@
         "version": null
       },
       {
-        "name": "hxCodec",
+        "name": "hxvlc",
         "type": "haxelib",
-        "version": "2.5.1"
+        "version": null
       },
       {
         "name": "SScript",

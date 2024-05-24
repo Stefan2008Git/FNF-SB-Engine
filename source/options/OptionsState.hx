@@ -161,7 +161,6 @@ class OptionsState extends MusicBeatState
 				FlxG.sound.music.volume = 0;
 			}
 			else FlxG.switchState(() -> new MainMenuState());
-			Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion;
 		}
 		else if (controls.ACCEPT) openSelectedSubstate(options[currentlySelected]);
 	}

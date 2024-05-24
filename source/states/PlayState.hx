@@ -58,12 +58,7 @@ import sys.FileSystem;
 import sys.io.File;
 #end
 
-#if VIDEOS_ALLOWED 
-#if (hxCodec >= "3.0.0") import hxcodec.flixel.FlxVideo as VideoHandler;
-#elseif (hxCodec >= "2.6.1") import hxcodec.VideoHandler as VideoHandler;
-#elseif (hxCodec == "2.6.0") import VideoHandler;
-#else import vlc.MP4Handler as VideoHandler; #end
-#end
+import objects.VideoSprite;
 
 import objects.Note.EventNote;
 import objects.*;
@@ -1355,26 +1350,33 @@ class PlayState extends MusicBeatState
 
 	public function reloadTimeBarColors() {
 		if (ClientPrefs.data.opponentHealthColor) {
-			if (ClientPrefs.data.gameStyle == 'SB Engine') {
-				timeBar.leftBar.color = (FlxColor.fromRGB(dad.healthColorArray[0], dad.healthColorArray[1], dad.healthColorArray[2]));
-				timeBar.rightBar.color = 0xFF1A1A1A;
-			} else if (ClientPrefs.data.gameStyle == 'Psych Engine' || ClientPrefs.data.gameStyle == 'TGT Engine') {
-				timeBar.leftBar.color = (FlxColor.fromRGB(dad.healthColorArray[0], dad.healthColorArray[1], dad.healthColorArray[2]));
-				timeBar.rightBar.color = FlxColor.BLACK;
-			} else if (ClientPrefs.data.gameStyle == 'Kade Engine' || ClientPrefs.data.gameStyle == 'Dave and Bambi' || ClientPrefs.data.gameStyle == 'Cheeky') {
-				timeBar.leftBar.color = (FlxColor.fromRGB(dad.healthColorArray[0], dad.healthColorArray[1], dad.healthColorArray[2]));
-				timeBar.rightBar.color = FlxColor.GRAY;
-		}
-
-		} else if (ClientPrefs.data.gameStyle == 'SB Engine') {
-			timeBar.leftBar.color = FlxColor.BROWN;
-			timeBar.rightBar.color = 0xFF1A1A1A;
-		} else if (ClientPrefs.data.gameStyle == 'Psych Engine' || ClientPrefs.data.gameStyle == 'TGT Engine') {
-			timeBar.leftBar.color = FlxColor.WHITE;
-			timeBar.rightBar.color = FlxColor.BLACK;
-		} else if (ClientPrefs.data.gameStyle == 'Kade Engine' || ClientPrefs.data.gameStyle == 'Dave and Bambi' || ClientPrefs.data.gameStyle == 'Cheeky') {
-			timeBar.leftBar.color = FlxColor.LIME;
-			timeBar.rightBar.color = FlxColor.GRAY;
+			switch (ClientPrefs.data.gameStyle) {
+				case 'SB Engine':
+					timeBar.leftBar.color = (FlxColor.fromRGB(dad.healthColorArray[0], dad.healthColorArray[1], dad.healthColorArray[2]));
+					timeBar.rightBar.color = 0xFF1A1A1A;
+				
+				case 'Kade Engine' | 'Dave and Bambi' | 'Cheeky':
+					timeBar.leftBar.color = (FlxColor.fromRGB(dad.healthColorArray[0], dad.healthColorArray[1], dad.healthColorArray[2]));
+					timeBar.rightBar.color = FlxColor.GRAY;
+				
+				default:
+					timeBar.leftBar.color = (FlxColor.fromRGB(dad.healthColorArray[0], dad.healthColorArray[1], dad.healthColorArray[2]));
+					timeBar.rightBar.color = FlxColor.BLACK;
+			}
+		} else if (!ClientPrefs.data.opponentHealthColor) {
+			switch (ClientPrefs.data.gameStyle) {
+				case 'SB Engine':
+					timeBar.leftBar.color = FlxColor.BROWN;
+					timeBar.rightBar.color = 0xFF1A1A1A;
+				
+				case 'Kade Engine' | 'Dave and Bambi' | 'Cheeky':
+					timeBar.leftBar.color = FlxColor.LIME;
+					timeBar.rightBar.color = FlxColor.GRAY;
+				
+				default:
+					timeBar.leftBar.color = FlxColor.WHITE;
+					timeBar.rightBar.color = FlxColor.BLACK;
+			}
 		}
 	}
 
@@ -1517,47 +1519,61 @@ class PlayState extends MusicBeatState
 		char.y += char.positionArray[1];
 	}
 
-	public function startVideo(name:String)
+	public var videoCutscene:VideoSprite = null;
+	public function startVideo(name:String, forMidSong:Bool = false, canSkip:Bool = true, loop:Bool = false, playOnLoad:Bool = true)
 	{
 		#if VIDEOS_ALLOWED
 		inCutscene = true;
 
-		var filepath:String = Paths.video(name);
-		#if sys
-		if(!FileSystem.exists(filepath))
-		#else
-		if(!OpenFlAssets.exists(filepath))
-		#end
-		{
-			FlxG.log.warn('Couldnt find video file: ' + name);
-			startAndEnd();
-			return;
-		}
+		var foundFile:Bool = false;
+		var fileName:String = Paths.video(name);
 
-		var video:VideoHandler = new VideoHandler();
-			#if (hxCodec >= "3.0.0")
-			// Recent versions
-			video.play(filepath);
-			video.onEndReached.add(function()
+		#if sys
+		if (FileSystem.exists(fileName))
+		#else
+		if (OpenFlAssets.exists(fileName))
+		#end
+		foundFile = true;
+
+		if (foundFile)
+		{
+			var cutscene:VideoSprite = new VideoSprite(fileName, forMidSong, canSkip, loop);
+
+			// Finish callback
+			if (!forMidSong)
 			{
-				video.dispose();
-				startAndEnd();
-				return;
-			}, true);
-			#else
-			// Older versions
-			video.playVideo(filepath);
-			video.finishCallback = function()
-			{
-				startAndEnd();
-				return;
+				cutscene.finishCallback = function()
+				{
+					if (generatedMusic && PlayState.SONG.notes[Std.int(curStep / 16)] != null && !endingSong && !isCameraOnForcedPos)
+					{
+						moveCameraSection();
+						FlxG.camera.snapToTarget();
+					}
+					startAndEnd();
+				};
+
+				// Skip callback
+				cutscene.onSkip = function()
+				{
+					startAndEnd();
+				};
 			}
-			#end
+			add(cutscene);
+
+			if (playOnLoad)
+				cutscene.videoSprite.play();
+			return cutscene;
+		}
+		#if (LUA_ALLOWED || HSCRIPT_ALLOWED)
+		else addTextToDebug("Video not found: " + fileName, FlxColor.RED);
+		#else
+		else FlxG.log.error("Video not found: " + fileName);
+		#end
 		#else
 		FlxG.log.warn('Platform not supported!');
 		startAndEnd();
-		return;
 		#end
+		return null;
 	}
 
 	function startAndEnd()
@@ -2023,15 +2039,15 @@ class PlayState extends MusicBeatState
 				FlxTween.tween(timeBar, {alpha: 1}, 0.8, {ease: FlxEase.sineInOut});
 				FlxTween.tween(timeTxt, {alpha: 1}, 0.8, {ease: FlxEase.sineInOut});
 				FlxTween.tween(timePercentTxt, {alpha: 1}, 0.8, {ease: FlxEase.sineInOut});
-
-			case 'Psych Engine' | 'TGT Engine':
-				FlxTween.tween(timeBar, {alpha: 1}, 0.5, {ease: FlxEase.expoInOut});
-				FlxTween.tween(timeTxt, {alpha: 1}, 0.5, {ease: FlxEase.expoInOut});
-				FlxTween.tween(timePercentTxt, {alpha: 1}, 0.5, {ease: FlxEase.expoInOut});
 			
 			case 'Kade Engine' | 'Dave and Bambi':
 				FlxTween.tween(timeTxt, {alpha: 1}, 0.5);
 				FlxTween.tween(timePercentTxt, {alpha: 1}, 0.5);
+			
+			default:
+				FlxTween.tween(timeBar, {alpha: 1}, 0.5, {ease: FlxEase.expoInOut});
+				FlxTween.tween(timeTxt, {alpha: 1}, 0.5, {ease: FlxEase.expoInOut});
+				FlxTween.tween(timePercentTxt, {alpha: 1}, 0.5, {ease: FlxEase.expoInOut});
 		}
 
 		#if DISCORD_ALLOWED

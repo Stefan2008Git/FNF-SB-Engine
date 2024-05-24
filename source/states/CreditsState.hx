@@ -13,7 +13,7 @@ class CreditsState extends MusicBeatState
 
 	private var grpOptions:FlxTypedGroup<Alphabet>;
 	private var iconArray:Array<AttachedSprite> = [];
-	private var creditsStuff:Array<Array<String>> = [];
+	public static var creditsStuff:Array<Array<String>> = [];
 
 	var background:FlxSprite;
 	var velocityBackground:FlxBackdrop;

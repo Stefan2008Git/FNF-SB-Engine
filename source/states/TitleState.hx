@@ -24,7 +24,6 @@ import sys.io.File;
 
 typedef TitleData =
 {
-
 	titlex:Float,
 	titley:Float,
 	startx:Float,
@@ -60,31 +59,12 @@ class TitleState extends MusicBeatState {
 	override public function create():Void
 	{
 		Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion +" - Title screen";
+		FlxG.mouse.visible = false;
 
 		Paths.clearStoredMemory();
-
-		#if android
-		FlxG.android.preventDefaultKeys = [BACK];
-		removeVirtualPad();
-		noCheckPress();
-		#end
-
-		#if LUA_ALLOWED Mods.pushGlobalMods(); #end
-
-		Mods.loadTopMod();
-
-		FlxG.fixedTimestep = false;
-		FlxG.game.focusLostFramerate = 60;
-		FlxG.keys.preventDefaultKeys = [TAB];
-
 		curWacky = FlxG.random.getObject(getIntroTextShit());
 
 		super.create();
-
-		FlxG.save.bind('sbFunkin', CoolUtil.getSavePath());
-
-		ClientPrefs.loadPrefs();
-		Highscore.load();
 
 		// IGNORE THIS!!!
 		titleJSON = Json.parse(Paths.getTextFromFile('images/gfDanceTitle.json'));
@@ -99,26 +79,15 @@ class TitleState extends MusicBeatState {
 			persistentDraw = true;
 		}
 
-		if (FlxG.save.data.weekCompleted != null)
-		{
-			StoryMenuState.weekCompleted = FlxG.save.data.weekCompleted;
-		}
-
 		FlxG.mouse.visible = false;
-		if(FlxG.save.data.flashing == null && !FlashingState.leftState) {
-			FlxTransitionableState.skipNextTransIn = true;
-			FlxTransitionableState.skipNextTransOut = true;
-			FlxG.switchState(() -> new FlashingState());
-		} else {
-			if (initialized)
-				startIntro();
-			else
+		if (initialized) 
+			startIntro();
+		else
+		{
+			new FlxTimer().start(1, function(tmr:FlxTimer)
 			{
-				new FlxTimer().start(1, function(tmr:FlxTimer)
-				{
-					startIntro();
-				});
-			}
+				startIntro();
+			});
 		}
 	}
 
@@ -140,6 +109,7 @@ class TitleState extends MusicBeatState {
 				FlxG.sound.playMusic(Paths.music('freakyMenu-' + ClientPrefs.data.mainMenuMusic), 0);
 			}
 		}
+		FlxTween.tween(FlxG.sound, {volume: 1}, 0.5);
 
 		Conductor.bpm = titleJSON.bpm;
 		persistentUpdate = true;
