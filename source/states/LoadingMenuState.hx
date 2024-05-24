@@ -42,9 +42,6 @@ class LoadingMenuState extends MusicBeatState
         mainLogo = new FlxSprite().loadGraphic(Paths.image("sbEngineLogo"));
 		mainLogo.screenCenter();
 		mainLogo.antialiasing = ClientPrefs.data.antialiasing;
-		mainLogo.scale.x = 0;
-		mainLogo.scale.y = 0;
-		mainLogo.alpha = 0;
 		FlxTween.angle(mainLogo, mainLogo.angle, -10, 2, {ease: FlxEase.quartInOut});
         new FlxTimer().start(2, function(tmr:FlxTimer) {
 			if (mainLogo.angle == -10)
@@ -58,8 +55,6 @@ class LoadingMenuState extends MusicBeatState
 		mainLoadingBar.screenCenter(X);
 		mainLoadingBar.leftBar.color = FlxColor.BROWN;
 		mainLoadingBar.rightBar.color = 0xFF1A1A1A;
-		mainLoadingBar.scale.x = 0.01;
-		mainLoadingBar.alpha = 0;
 		updateBarPercent();
 		add(mainLoadingBar);
 
@@ -143,7 +138,7 @@ class LoadingMenuState extends MusicBeatState
 					}
 				});
 			}
-		});FlxTween.tween(FlxG.sound, {volume: 0}, 0.2);
+		});
 	}
 
 	function switchToTitleMenu() {
