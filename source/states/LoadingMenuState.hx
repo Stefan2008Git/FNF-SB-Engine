@@ -18,7 +18,7 @@ class LoadingMenuState extends MusicBeatState
     var string:String = '';
 	var loadingTime:Float = 0;
 	public static var sillyIcons:Array<String> = ['stefan', 'hutaroz', 'mays', 'fearester'];
-	public static var sillyTexts:Array<String> = ['Stefan2008', 'Hutaro', 'MaysLastPlays', 'Fearester2008'];
+	public static var sillyTexts:Array<String> = ['Stefan2008', 'Hutaro', 'MaysLastPlay', 'Fearester2008'];
 
     override function create()
     {
@@ -144,7 +144,7 @@ class LoadingMenuState extends MusicBeatState
 
 	function switchToTitleMenu() {
 		FlxTween.tween(FlxG.sound, {volume: 0}, 0.2);
-		FlxG.camera.fade(FlxColor.BLACK, 0.33, false, function() {
+		FlxG.camera.fade(FlxColor.BLACK, 0.25, false, function() {
 			FlxG.sound.destroy();
 			FlxG.switchState(() -> new TitleState());
 		});

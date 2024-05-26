@@ -120,9 +120,9 @@ class FPS extends TextField
 			totalFPS = 0;
 
 		if (LimeSystem.platformName == LimeSystem.platformVersion || LimeSystem.platformVersion == null)
-			os = '\nSystem: ${LimeSystem.platformName}' #if cpp + ' ${getArch()}' #end;
+			os = 'Platform: ${LimeSystem.platformName}' #if cpp + ' ${getArch()}' #end;
 		else
-			os = '\nSystem: ${LimeSystem.platformName}' #if cpp + ' ${getArch()}' #end + ' - ${LimeSystem.platformVersion}';
+			os = 'Platform: ${LimeSystem.platformName}' #if cpp + ' ${getArch()}' #end + ' - ${LimeSystem.platformVersion}';
 
 		if (currentCount != cacheCount) {
 			text =  currentlyFPS + " / " + totalFPS + " FPS";
@@ -145,7 +145,7 @@ class FPS extends TextField
 					text += '\nSubstate: ${Type.getClassName(Type.getClass(FlxG.state.subState))}';
 				text += "\nGL Render: " + '${getGLInfo(RENDERER)}';
 				text += "\nGL Shading version: " + '${getGLInfo(SHADING_LANGUAGE_VERSION)}';
-				text += os;
+				text += "\n" + os;
 				text += "\nHaxe: " + Compiler.getDefine("haxe");
 				text += "\n" + FlxG.VERSION;
 				text += "\nOpenFL " + Compiler.getDefine("openfl");
@@ -192,7 +192,7 @@ class FPS extends TextField
 		return System.totalMemory;
 	}
 
-	private function getGLInfo(info:GLInfo):String {
+	public function getGLInfo(info:GLInfo):String {
 		@:privateAccess
 		var gl:Dynamic = Lib.current.stage.context3D.gl;
 
