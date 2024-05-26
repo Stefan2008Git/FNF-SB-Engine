@@ -25,6 +25,7 @@ class LoadingMenuState extends MusicBeatState
         #if DISCORD_ALLOWED DiscordClient.changePresence("In the Loading Screen Menu", null); #end
         Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Loading...";
 		FlxG.sound.playMusic(Paths.music('titleMenu/loadingMusic'), 1); // Credits: Roblox Corporation
+		FlxG.mouse.visible = false;
         super.create();
 
         mainBackground = new FlxSprite().loadGraphic(Paths.image('menuDesat'));

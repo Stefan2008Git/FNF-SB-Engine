@@ -61,6 +61,11 @@ class TitleState extends MusicBeatState {
 		Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion +" - Title screen";
 		FlxG.mouse.visible = false;
 
+		#if android
+		removeVirtualPad();
+		noCheckPress();
+        #end
+
 		Paths.clearStoredMemory();
 		curWacky = FlxG.random.getObject(getIntroTextShit());
 

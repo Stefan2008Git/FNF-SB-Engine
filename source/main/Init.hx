@@ -51,8 +51,6 @@ class Init extends FlxState
 
         #if android
 		FlxG.android.preventDefaultKeys = [BACK];
-		MusicBeatState.removeVirtualPad();
-		MusicBeatState.noCheckPress();
 		#end
 
         #if !(flixel >= "5.4.0")
