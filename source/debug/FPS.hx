@@ -11,8 +11,19 @@ import openfl.system.System;
 #end
 
 import haxe.macro.Compiler;
+import lime.system.System as LimeSystem;
 
 import states.MainMenuState;
+
+#if cpp
+#if windows
+@:cppFileCode('#include <windows.h>')
+#elseif mac
+@:cppFileCode('#include <mach-o/arch.h>')
+#else
+@:headerInclude('sys/utsname.h')
+#end
+#end
 
 /**
 	The FPS class provides an easy-to-use monitor to display
@@ -42,6 +53,7 @@ class FPS extends TextField
 		if (!v) textColor = 0xffffffff;
 		return rainbowEnabled = v;
 	}
+	public var os:String = '';
 
 	public function new(x:Float = 10, y:Float = 10)
 	{
@@ -107,6 +119,11 @@ class FPS extends TextField
 		if (totalFPS < 10)
 			totalFPS = 0;
 
+		if (LimeSystem.platformName == LimeSystem.platformVersion || LimeSystem.platformVersion == null)
+			os = '\nSystem: ${LimeSystem.platformName}' #if cpp + ' ${getArch()}' #end;
+		else
+			os = '\nSystem: ${LimeSystem.platformName}' #if cpp + ' ${getArch()}' #end + ' - ${LimeSystem.platformVersion}';
+
 		if (currentCount != cacheCount) {
 			text =  currentlyFPS + " / " + totalFPS + " FPS";
 
@@ -128,6 +145,7 @@ class FPS extends TextField
 					text += '\nSubstate: ${Type.getClassName(Type.getClass(FlxG.state.subState))}';
 				text += "\nGL Render: " + '${getGLInfo(RENDERER)}';
 				text += "\nGL Shading version: " + '${getGLInfo(SHADING_LANGUAGE_VERSION)}';
+				text += os;
 				text += "\nHaxe: " + Compiler.getDefine("haxe");
 				text += "\n" + FlxG.VERSION;
 				text += "\nOpenFL " + Compiler.getDefine("openfl");
@@ -217,6 +235,49 @@ class FPS extends TextField
 		if (3.0 * h < 2.0) return p + (q - p) * ((2.0 / 3.0) - h) * 6.0;
 		return p;
 	}
+
+	#if cpp
+	#if windows
+	@:functionCode('
+		SYSTEM_INFO osInfo;
+
+		GetSystemInfo(&osInfo);
+
+		switch(osInfo.wProcessorArchitecture)
+		{
+			case 9:
+				return ::String("x86_64");
+			case 5:
+				return ::String("ARM");
+			case 12:
+				return ::String("ARM64");
+			case 6:
+				return ::String("IA-64");
+			case 0:
+				return ::String("x86");
+			default:
+				return ::String("Unknown");
+		}
+	')
+	#elseif mac
+	@:functionCode('
+		const NXArchInfo *archInfo = NXGetLocalArchInfo();
+    	return ::String(archInfo == NULL ? "Unknown" : archInfo->name);
+	')
+	#else
+	@:functionCode('
+		struct utsname osInfo{};
+		uname(&osInfo);
+		return ::String(osInfo.machine);
+	')
+	#end
+
+	@:noCompletion
+	private function getArch():String
+	{
+		return null;
+	}
+	#end
 }
 
 enum GLInfo {

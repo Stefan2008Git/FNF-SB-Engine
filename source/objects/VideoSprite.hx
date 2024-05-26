@@ -165,7 +165,16 @@ class VideoSprite extends FlxSpriteGroup {
 		skipSprite.alpha = FlxMath.remapToRange(skipSprite.amount, 0.025, 1, 0, 1);
 	}
 
-	public function resume() videoSprite?.resume();
-	public function pause() videoSprite?.pause();
+	public function resume()
+	{
+		if(videoSprite != null)
+			videoSprite.resume();
+	}
+
+	public function pause()
+	{
+		if(videoSprite != null)
+			videoSprite.pause();
+	}
 	#end
 }

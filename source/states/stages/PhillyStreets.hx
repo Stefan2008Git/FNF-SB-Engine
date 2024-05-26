@@ -9,7 +9,6 @@ class PhillyStreets extends BaseStage
     var phillyForegroundCity:FlxSprite;
     var phillyConstruction:FlxSprite;
     var phillyHighwayLights:FlxSprite;
-    var phillyHighwayLightsLightmap:FlxSprite;
     var phillyHighway:FlxSprite;
     var phillySmog:FlxSprite;
     var phillyTraffic:FlxSprite;
@@ -53,13 +52,6 @@ class PhillyStreets extends BaseStage
         phillyHighwayLights.scale.x = 1;
         phillyHighwayLights.scale.y = 1;
         add(phillyHighwayLights);
-
-        phillyHighwayLightsLightmap = new BGSprite('phillyStreets/phillyHighwayLights_lightmap', 284, 305);
-        phillyHighwayLightsLightmap.scrollFactor.set(1, 1);
-        phillyHighwayLightsLightmap.alpha = 1;
-        phillyHighwayLightsLightmap.scale.x = 1;
-        phillyHighwayLightsLightmap.scale.y = 1;
-        add(phillyHighwayLightsLightmap);
 
         phillyHighway = new BGSprite('phillyStreets/phillyHighway', -1130, -250);
         phillyHighway.scrollFactor.set(1, 1);
@@ -122,6 +114,6 @@ class PhillyStreets extends BaseStage
 
     function twoHotIntro()
     {
-	game.startVideo('2hotCutscene');
+	    game.startVideo('2hotCutscene');
     }
 }

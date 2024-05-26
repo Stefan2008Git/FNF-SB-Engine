@@ -82,6 +82,9 @@ class Main extends Sprite
 		#end
 
 		if (stage != null) init(); else addEventListener(Event.ADDED_TO_STAGE, init);
+		#if VIDEOS_ALLOWED
+		hxvlc.util.Handle.init();
+		#end
 	}
 
 	private function init(?E:Event):Void
