@@ -144,7 +144,7 @@ class Main extends Sprite
 			ClientPrefs.saveSettings();
 		});
 
-		#if android addChild(new FlxGame(1280, 720, Init, 60, 60, true, false)); #else addChild(new FlxGame(game.width, game.height, Init, game.framerate, game.framerate, game.skipSplash, game.startFullscreen)); #end
+		addChild(new FlxGame(game.width, game.height, Init, game.framerate, game.framerate, game.skipSplash, game.startFullscreen));
 
 		gameLogs = new GameLog();
 		GameLog.startInit();
