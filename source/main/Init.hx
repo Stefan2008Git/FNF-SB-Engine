@@ -79,15 +79,9 @@ class Init extends FlxState
 
         if(FlxG.save.data != null && FlxG.save.data.fullscreen) FlxG.fullscreen = FlxG.save.data.fullscreen;
 
-        if(FlxG.save.data.flashing == null && !FlashingState.leftState) {
-			FlxTransitionableState.skipNextTransIn = true;
-			FlxTransitionableState.skipNextTransOut = true;
-			FlxG.switchState(() -> new FlashingState());
-		} else {
-            FlxTransitionableState.skipNextTransIn = true;
-            FlxTransitionableState.skipNextTransOut = true;
-			if (ClientPrefs.data.loadingScreen) FlxG.switchState(() -> new LoadingMenuState());
-			else FlxG.switchState(Type.createInstance(Main.game.initialState, []));
-		}
+        FlxTransitionableState.skipNextTransIn = true;
+        FlxTransitionableState.skipNextTransOut = true;
+        if (ClientPrefs.data.loadingScreen) FlxG.switchState(() -> new LoadingMenuState());
+        else FlxG.switchState(Type.createInstance(Main.game.initialState, []));
     }
 }

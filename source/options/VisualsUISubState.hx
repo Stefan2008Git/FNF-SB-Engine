@@ -38,7 +38,7 @@ class VisualsUISubState extends BaseOptionsMenu
 		addOption(option);
 
 		var option:Option = new Option('In-game logs',
-			"If unchecked, disables in-game logs",
+			"If checked, disables in-game logs",
 			"inGameLogs",
 			"bool");
 		addOption(option);

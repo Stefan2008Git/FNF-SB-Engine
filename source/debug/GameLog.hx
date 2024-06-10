@@ -5,7 +5,6 @@ import haxe.PosInfos;
 import haxe.Log;
 import lime.app.Application;
 import openfl.Lib;
-import flixel.FlxG;
 import openfl.events.Event;
 import openfl.text.TextFormatAlign;
 import openfl.text.TextFormat;
@@ -118,7 +117,7 @@ class GameLog extends Sprite
 		title.x = (FlxG.width / 2) - (title.width / 2);
 		addChild(title);
 
-		thing = createText(0, 2, {width: 450, height: 20}, #if !android "[R] Clear the Log // [F5] Hide / Show this log window" #else "Go to options to enable/disable in-game logs" #end, 16);
+		thing = createText(0, 2, {width: 450, height: 20}, #if android "[BACK] Hide / SHow this log window" #else "[R] Clear the Log // [F5] Hide / Show this log window" #end, 16);
 		thing.defaultTextFormat.align = LEFT;
 		thing.x = 10;
 		thing.y = Application.current.window.height - 22;
@@ -236,7 +235,7 @@ class GameLog extends Sprite
 	private function onFrameUpdate(_):Void
 	{
 		// this is pretty much acts like update() function
-		if (FlxG.keys.justPressed.F5)
+		if (FlxG.keys.justPressed.F5 #if android || FlxG.android.justReleased.BACK #end)
             changeActive(!isVisible);
 
 		if (isVisible){

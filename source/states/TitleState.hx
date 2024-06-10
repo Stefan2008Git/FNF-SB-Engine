@@ -85,14 +85,20 @@ class TitleState extends MusicBeatState {
 		}
 
 		FlxG.mouse.visible = false;
-		if (initialized) 
-			startIntro();
-		else
-		{
-			new FlxTimer().start(1, function(tmr:FlxTimer)
-			{
+		if(FlxG.save.data.flashing == null && !FlashingState.leftState) {
+			FlxTransitionableState.skipNextTransIn = true;
+			FlxTransitionableState.skipNextTransOut = true;
+			FlxG.switchState(() -> new states.FlashingState());
+		} else {
+			if (initialized)
 				startIntro();
-			});
+			else
+			{
+				new FlxTimer().start(1, function(tmr:FlxTimer)
+				{
+					startIntro();
+				});
+			}
 		}
 	}
 
@@ -114,7 +120,6 @@ class TitleState extends MusicBeatState {
 				FlxG.sound.playMusic(Paths.music('freakyMenu-' + ClientPrefs.data.mainMenuMusic), 0);
 			}
 		}
-		FlxTween.tween(FlxG.sound, {volume: 1}, 0.5);
 
 		Conductor.bpm = titleJSON.bpm;
 		persistentUpdate = true;

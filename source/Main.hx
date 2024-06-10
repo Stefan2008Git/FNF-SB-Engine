@@ -144,7 +144,7 @@ class Main extends Sprite
 			ClientPrefs.saveSettings();
 		});
 
-		addChild(new FlxGame(game.width, game.height, Init, game.framerate, game.framerate, game.skipSplash, game.startFullscreen));
+		addChild(new FlxGame(#if android 1280, 720, #else game.width, game.height, #end Init, #if android 60, 60, #else game.framerate, game.framerate, #end game.skipSplash, game.startFullscreen));
 
 		gameLogs = new GameLog();
 		GameLog.startInit();
@@ -219,7 +219,6 @@ class Main extends Sprite
 		if (!FileSystem.exists(SUtil.getPath() + "crash/")) FileSystem.createDirectory(SUtil.getPath() + "crash/");
 		File.saveContent(path, errorMessage + "\n");
 
-		Sys.println(errorMessage);
 		Sys.println("Crash dump saved in " + Path.normalize(path));
 
 		#if android
