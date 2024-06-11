@@ -80,9 +80,9 @@ class VisualsUISubState extends BaseOptionsMenu
 		addOption(option);
 		option.onChange = onChangeChecker;
 
-		#if PSYCH_WATERMARKS
-		var option:Option = new Option('0.7.3 Loading screen', 
-		    'If unchecked, disables the loading screen and switch to title menu instead.\nNOTE: Re-enabling requires the game restart!', 'loadingScreen', 'bool');
+		#if SHOW_LOADING_SCREEN
+		var option:Option = new Option('Loading screen', 
+		    'If unchecked, disables the loading screen and switch to title menu instead.\nNOTE: Enabling / disabling this options requires the game restart!', 'loadingScreen', 'bool');
 		addOption(option);
 		#end
 

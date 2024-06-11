@@ -32,6 +32,7 @@ class MasterEditorMenu extends MusicBeatState
 	private var dialogueEditor:FlxSprite;
 	private var dialoguePortraitEditor:FlxSprite;
 	private var menuCharacterEditor:FlxSprite;
+	private var noteSplashDebug:FlxSprite;
 	private var weekEditor:FlxSprite;
 	private var grpTexts:FlxTypedGroup<Alphabet>;
 	private var directories:Array<String> = [null];
@@ -127,6 +128,13 @@ class MasterEditorMenu extends MusicBeatState
 		menuCharacterEditor.antialiasing = ClientPrefs.data.antialiasing;
 		menuCharacterEditor.scale.set(0.6, 0.6);
 		add(menuCharacterEditor);
+
+		noteSplashDebug = new FlxSprite(1030, 160).loadGraphic(Paths.image('engineStuff/masterMenu/noteSplashDebug'));
+		noteSplashDebug.scrollFactor.set();
+		noteSplashDebug.visible = false;
+		noteSplashDebug.antialiasing = ClientPrefs.data.antialiasing;
+		noteSplashDebug.scale.set(1.9, 1.9);
+		add(noteSplashDebug);
 
 		weekEditor = new FlxSprite(645, -50).loadGraphic(Paths.image('engineStuff/masterMenu/weekEditor'));
 		weekEditor.scrollFactor.set();
@@ -238,12 +246,6 @@ class MasterEditorMenu extends MusicBeatState
 		super.update(elapsed);
 	}
 
-	/* private var moveCharacterEditorTween:FlxTween = null;
-	private var moveChartEditorTween:FlxTween = null;
-	private var moveDialogueEditorTween:FlxTween = null;
-	private var moveDialoguePortraitEditorTween:FlxTween = null;
-	private var moveMenuCharacterEditorTween:FlxTween = null;
-	private var moveWeekEditorTween:FlxTween = null; */
 	function changeSelection(change:Int = 0)
 	{
 		FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
@@ -263,8 +265,8 @@ class MasterEditorMenu extends MusicBeatState
 	            dialogueEditor.visible = false;
 	            dialoguePortraitEditor.visible = false;
 				menuCharacterEditor.visible = false;
+				noteSplashDebug.visible = false;
 	            weekEditor.visible = false;
-				// FlxTween.color(testSprite, 1.3, FlxColor.PURPLE, FlxColor.BLACK, {ease: FlxEase.sineInOut});
 			case 'Character Editor':
 				tipText.text = "Make a new character";
 				characterEditor.visible = true;
@@ -272,8 +274,8 @@ class MasterEditorMenu extends MusicBeatState
 	            dialogueEditor.visible = false;
 	            dialoguePortraitEditor.visible = false;
 				menuCharacterEditor.visible = false;
+				noteSplashDebug.visible = false;
 	            weekEditor.visible = false;
-				// FlxTween.color(testSprite, 1.3, FlxColor.GREEN, FlxColor.BLACK, {ease: FlxEase.sineInOut});
 			case 'Week Editor':
 				tipText.text = "Make a new week";
 				characterEditor.visible = false;
@@ -281,8 +283,9 @@ class MasterEditorMenu extends MusicBeatState
 	            dialogueEditor.visible = false;
 	            dialoguePortraitEditor.visible = false;
 				menuCharacterEditor.visible = false;
+				noteSplashDebug.visible = false;
 	            weekEditor.visible = true;
-				// FlxTween.color(testSprite, 1.3, FlxColor.CYAN, FlxColor.BLACK, {ease: FlxEase.sineInOut});
+
 			case 'Menu Character Editor':
 				tipText.text = "Make a new story mode character";
 				characterEditor.visible = false;
@@ -290,8 +293,9 @@ class MasterEditorMenu extends MusicBeatState
 	            dialogueEditor.visible = false;
 	            dialoguePortraitEditor.visible = false;
 				menuCharacterEditor.visible = true;
+				noteSplashDebug.visible = false;
 	            weekEditor.visible = false;
-				// FlxTween.color(testSprite, 1.3, FlxColor.YELLOW, FlxColor.BLACK, {ease: FlxEase.sineInOut});
+
 			case 'Dialogue Editor':
 				tipText.text = "Make a new dialogue";
 				characterEditor.visible = false;
@@ -299,8 +303,9 @@ class MasterEditorMenu extends MusicBeatState
 	            dialogueEditor.visible = true;
 	            dialoguePortraitEditor.visible = false;
 				menuCharacterEditor.visible = false;
+				noteSplashDebug.visible = false;
 	            weekEditor.visible = false;
-				// FlxTween.color(testSprite, 1.3, FlxColor.GREEN, FlxColor.BLACK, {ease: FlxEase.sineInOut});
+
 			case 'Dialogue Portrait Editor':
 				tipText.text = "Make a new dialogue character";
 				characterEditor.visible = false;
@@ -308,35 +313,19 @@ class MasterEditorMenu extends MusicBeatState
 	            dialogueEditor.visible = false;
 	            dialoguePortraitEditor.visible = true;
 				menuCharacterEditor.visible = false;
+				noteSplashDebug.visible = false;
 	            weekEditor.visible = false;
-				// FlxTween.color(testSprite, 1.3, FlxColor.YELLOW, FlxColor.BLACK, {ease: FlxEase.sineInOut});
+
 			case 'Note Splash Debug':
-				tipText.text = "Edit the note slpash position\nERROR: Image doesn't exist";
+				tipText.text = "Edit the note slpash position";
 				characterEditor.visible = false;
 	            chartEditor.visible = false;
 	            dialogueEditor.visible = false;
 	            dialoguePortraitEditor.visible = false;
 				menuCharacterEditor.visible = false;
+				noteSplashDebug.visible = true;
 	            weekEditor.visible = false;
-				// FlxTween.color(testSprite, 1.3, FlxColor.RED, FlxColor.BLACK, {ease: FlxEase.sineInOut});
 		}
-		/* if(moveCharacterEditorTween != null) moveCharacterEditorTween.cancel();
-		moveCharacterEditorTween = FlxTween.tween(characterEditor, {y : characterEditor.y + 20}, 0.25, {ease: FlxEase.sineOut});
-
-		if(moveChartEditorTween != null) moveChartEditorTween.cancel();
-		moveChartEditorTween = FlxTween.tween(chartEditor, {y : chartEditor.y + 20}, 0.25, {ease: FlxEase.sineOut});
-
-		if(moveDialogueEditorTween != null) moveDialogueEditorTween.cancel();
-		moveDialogueEditorTween = FlxTween.tween(dialogueEditor, {y : dialogueEditor.y + 20}, 0.25, {ease: FlxEase.sineOut});
-	
-		if(moveDialoguePortraitEditorTween != null) moveDialoguePortraitEditorTween.cancel();
-		moveDialoguePortraitEditorTween = FlxTween.tween(dialoguePortraitEditor, {y : dialoguePortraitEditor.y + 20}, 0.25, {ease: FlxEase.sineOut});
-
-		if(moveMenuCharacterEditorTween != null) moveMenuCharacterEditorTween.cancel();
-		moveMenuCharacterEditorTween = FlxTween.tween(menuCharacterEditor, {y : menuCharacterEditor.y + 20}, 0.25, {ease: FlxEase.sineOut});
-
-		if(moveWeekEditorTween != null) moveWeekEditorTween.cancel();
-		moveWeekEditorTween = FlxTween.tween(weekEditor, {y : weekEditor.y + 20}, 0.25, {ease: FlxEase.sineOut});*/ // Nope, we are not adding this shit on game
 	}
 
 	#if MODS_ALLOWED
@@ -362,11 +351,4 @@ class MasterEditorMenu extends MusicBeatState
 		directoryTxt.text = directoryTxt.text.toUpperCase();
 	}
 	#end
-
-	/* private function makeTipTextLong() {
-		tipText.x = FlxG.width - tipText.width - 6;
-
-		testSprite.scale.x = FlxG.width - tipText.x + 6;
-		testSprite.x = FlxG.width - (testSprite.scale.x / 2);
-	} */ // Broken shit because of FlxSpriteUtil
 }

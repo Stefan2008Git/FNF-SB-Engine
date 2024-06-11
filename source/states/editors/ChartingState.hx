@@ -1534,7 +1534,7 @@ class ChartingState extends MusicBeatState
 		//trace(_song.notes.length);
 		if(_song.notes.length <= 1) //First load ever
 		{
-			trace('first load ever!!');
+			debug.TraceText.makeTheTraceText('first load ever!!');
 			while(curTime < FlxG.sound.music.length)
 			{
 				addSection();
