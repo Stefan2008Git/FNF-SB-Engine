@@ -290,7 +290,7 @@ jobs:
           haxelib --quiet install tjson
           haxelib --quiet install hxjsonast
           haxelib --quiet install SScript 8.1.6
-          haxelib --quiet install hxvlc
+          haxelib --quiet git hxCodec https://github.com/SPLCoding/hxCodec-but-it-works-xd.git
           haxelib --quiet git flxanimate https://github.com/ShadowMario/flxanimate.git
           haxelib --quiet git linc_luajit https://github.com/Sirox228/linc_luajit.git
           haxelib --quiet git extension-androidtools https://github.com/MaysLastPlay77/extension-androidtools.git

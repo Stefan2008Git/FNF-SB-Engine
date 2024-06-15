@@ -92,7 +92,7 @@
 	<!--Psych stuff needed-->
 	<haxelib name="linc_luajit" if="LUA_ALLOWED"/>
 	<haxelib name="SScript" if="HSCRIPT_ALLOWED"/>
-	<haxelib name="hxvlc" if="VIDEOS_ALLOWED"/>
+	<haxelib name="hxCodec" if="VIDEOS_ALLOWED"/>
     <haxelib name="extension-androidtools" if="android"/>
 	<haxelib name="AndroidDialogs" if = "android"/>
 	<haxelib name="devicelanguage" if = "android"/>

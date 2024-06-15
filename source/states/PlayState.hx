@@ -58,7 +58,12 @@ import sys.FileSystem;
 import sys.io.File;
 #end
 
-import objects.VideoSprite;
+#if VIDEOS_ALLOWED 
+#if (hxCodec >= "3.0.0") import hxcodec.flixel.FlxVideo as VideoHandler;
+#elseif (hxCodec >= "2.6.1") import hxcodec.VideoHandler as VideoHandler;
+#elseif (hxCodec == "2.6.0") import VideoHandler;
+#else import vlc.MP4Handler as VideoHandler; #end
+#end
 
 import objects.Note.EventNote;
 import objects.*;
@@ -1519,61 +1524,47 @@ class PlayState extends MusicBeatState
 		char.y += char.positionArray[1];
 	}
 
-	public var videoCutscene:VideoSprite = null;
-	public function startVideo(name:String, forMidSong:Bool = false, canSkip:Bool = true, loop:Bool = false, playOnLoad:Bool = true)
+	public function startVideo(name:String)
 	{
 		#if VIDEOS_ALLOWED
 		inCutscene = true;
 
-		var foundFile:Bool = false;
-		var fileName:String = Paths.video(name);
-
+		var filepath:String = Paths.video(name);
 		#if sys
-		if (FileSystem.exists(fileName))
+		if(!FileSystem.exists(filepath))
 		#else
-		if (OpenFlAssets.exists(fileName))
+		if(!OpenFlAssets.exists(filepath))
 		#end
-		foundFile = true;
-
-		if (foundFile)
 		{
-			var cutscene:VideoSprite = new VideoSprite(fileName, forMidSong, canSkip, loop);
-
-			// Finish callback
-			if (!forMidSong)
-			{
-				cutscene.finishCallback = function()
-				{
-					if (generatedMusic && PlayState.SONG.notes[Std.int(curStep / 16)] != null && !endingSong && !isCameraOnForcedPos)
-					{
-						moveCameraSection();
-						FlxG.camera.snapToTarget();
-					}
-					startAndEnd();
-				};
-
-				// Skip callback
-				cutscene.onSkip = function()
-				{
-					startAndEnd();
-				};
-			}
-			add(cutscene);
-
-			if (playOnLoad)
-				cutscene.videoSprite.play();
-			return cutscene;
+			FlxG.log.warn('Couldnt find video file: ' + name);
+			startAndEnd();
+			return;
 		}
-		#if (LUA_ALLOWED || HSCRIPT_ALLOWED)
-		else addTextToDebug("Video not found: " + fileName, FlxColor.RED);
-		#else
-		else FlxG.log.error("Video not found: " + fileName);
-		#end
+
+		var video:VideoHandler = new VideoHandler();
+			#if (hxCodec >= "3.0.0")
+			// Recent versions
+			video.play(filepath);
+			video.onEndReached.add(function()
+			{
+				video.dispose();
+				startAndEnd();
+				return;
+			}, true);
+			#else
+			// Older versions
+			video.playVideo(filepath);
+			video.finishCallback = function()
+			{
+				startAndEnd();
+				return;
+			}
+			#end
 		#else
 		FlxG.log.warn('Platform not supported!');
 		startAndEnd();
+		return;
 		#end
-		return null;
 	}
 
 	function startAndEnd()
@@ -4069,6 +4060,12 @@ class PlayState extends MusicBeatState
 
 			if(char != null)
 			{
+				if(note.isSustainNote)
+				{
+					var holdAnim:String = animToPlay + '-hold';
+					if(char.animation.exists(holdAnim)) animToPlay = holdAnim;
+				}
+
 				char.playAnim(animToPlay, true);
 				char.holdTimer = 0;
 			}
@@ -4148,7 +4145,7 @@ class PlayState extends MusicBeatState
 			if (gainHealth) health += note.hitHealth * healthGain;
 
 			if(!note.noAnimation) {
-				var animToPlay:String = singAnimations[Std.int(Math.abs(Math.min(singAnimations.length-1, note.noteData)))];
+				var animToPlay:String = singAnimations[Std.int(Math.abs(Math.min(singAnimations.length-1, note.noteData)))] + note.animSuffix;
 
 				var char:Character = boyfriend;
 				var animCheck:String = 'hey';
@@ -4181,6 +4178,12 @@ class PlayState extends MusicBeatState
 				
 				if(char != null)
 				{
+					if(note.isSustainNote)
+					{
+						var holdAnim:String = animToPlay + '-hold';
+						if(char.animation.exists(holdAnim)) animToPlay = holdAnim;
+					}
+					char.playAnim(animToPlay, true);
 					char.playAnim(animToPlay + note.animSuffix, true);
 					char.holdTimer = 0;
 					
