@@ -22,6 +22,8 @@ class LoadingMenuState extends MusicBeatState
 
     override function create()
     {
+		Main.tweenFPS();
+		Main.tweenWatermark();
         #if DISCORD_ALLOWED DiscordClient.changePresence("In the Loading Screen Menu", null); #end
         Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Loading...";
 		FlxG.sound.playMusic(Paths.music('titleMenu/loadingMusic'), 1); // Credits: Roblox Corporation
@@ -36,11 +38,11 @@ class LoadingMenuState extends MusicBeatState
 
         mainChecker = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0x70000000, 0x0));
 		mainChecker.velocity.set(FlxG.random.bool(50) ? 90 : -90, FlxG.random.bool(50) ? 90 : -90);
-		mainChecker.visible = ClientPrefs.data.velocityBackground;
+		mainChecker.visible = ClientPrefs.data.checkerboard;
 		mainChecker.screenCenter();
 		add(mainChecker);
 
-        mainLogo = new FlxSprite().loadGraphic(Paths.image("sbEngineLogo"));
+        mainLogo = new FlxSprite().loadGraphic(Paths.image("engineStuff/main/sbEngineLogo"));
 		mainLogo.screenCenter();
 		mainLogo.antialiasing = ClientPrefs.data.antialiasing;
 		FlxTween.angle(mainLogo, mainLogo.angle, -10, 2, {ease: FlxEase.quartInOut});
@@ -52,11 +54,10 @@ class LoadingMenuState extends MusicBeatState
 		}, 0);
 		add(mainLogo);
 
-		mainLoadingBar = new Bar(0, FlxG.height * 0.94, 'loadingBar', function() return loadingTime, 0, 15);
+		mainLoadingBar = new Bar(0, FlxG.height * 0.94, 'engineStuff/main/loadingBar', function() return loadingTime, 0, 15);
 		mainLoadingBar.screenCenter(X);
 		mainLoadingBar.leftBar.color = FlxColor.BROWN;
 		mainLoadingBar.rightBar.color = 0xFF1A1A1A;
-		updateBarPercent();
 		add(mainLoadingBar);
 
         mainText = new FlxText(1120, FlxG.height - 50, 0, "Loading...", 8);
@@ -65,7 +66,7 @@ class LoadingMenuState extends MusicBeatState
 		mainText.borderSize = 1.25;
 		add(mainText);
 
-        mainLoaderSpin = new FlxSprite().loadGraphic(Paths.image("loadingSpeen"));
+        mainLoaderSpin = new FlxSprite().loadGraphic(Paths.image("engineStuff/main/loadingSpeen"));
 		mainLoaderSpin.screenCenter(X);
 		mainLoaderSpin.setGraphicSize(Std.int(mainLoaderSpin.width * 0.89));
 		mainLoaderSpin.x = FlxG.width - 130;
@@ -107,7 +108,7 @@ class LoadingMenuState extends MusicBeatState
 
 		loadingTime += elapsed;
 		if (loadingTime >= 15) {
-			switchToTitleMenu();
+			updateBarPercent();
 		}
         super.update(elapsed);
     }
@@ -155,7 +156,7 @@ class LoadingMenuState extends MusicBeatState
 	var val2:Float = 15;
 	function updateBarPercent() {
 		barTween = FlxTween.tween(mainLoadingBar, {percent: (val1 / val2) * 100}, 0.5, {ease: FlxEase.sineInOut,
-			onComplete: function(twn:FlxTween) mainLoadingBar.updateBar(),
+			onComplete: function(twn:FlxTween) switchToTitleMenu(),
 			onUpdate: function(twn:FlxTween) mainLoadingBar.updateBar()
 		});
 	}

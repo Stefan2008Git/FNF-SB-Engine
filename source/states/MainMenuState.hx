@@ -2,46 +2,45 @@ package states;
 
 import flixel.FlxObject;
 import flixel.effects.FlxFlicker;
-
+import lime.app.Application;
 import states.editors.MasterEditorMenu;
 import options.OptionsState;
 
-import substates.NoSecretScreen1Substate;
+enum MainMenuColumn {
+	LEFT;
+	RIGHT;
+}
 
 class MainMenuState extends MusicBeatState
 {
-	public static var sbEngineVersion:String = '3.0.0h';
-	public static var psychEngineVersion:String = '0.7.1h';
+	public static var sbEngineVersion:String = '3.0.0h'; // This is also used for Discord RPC
+	public static var psychEngineVersion:String = '0.7.1h'; // This is also used for Discord RPC
 	public static var fnfEngineVersion:String = '0.3.3';
+	public var versionSb:FlxText;
+	public var versionPsych:FlxText;
+	public var versionFnf:FlxText;
 	public static var currentlySelected:Int = 0;
+	public static var curSelected:Int = 0;
+	public static var curColumn:MainMenuColumn = LEFT;
+	var allowMouse:Bool = true; //Turn this off to block mouse movement in menus
 
 	var menuItems:FlxTypedGroup<FlxSprite>;
-	private var camGame:FlxCamera;
-
-	var menuBackground:FlxSprite;
-	var background:FlxSprite;
-	var velocityBackground:FlxBackdrop;
+	var menuBG:FlxSprite;
+	var brown:FlxSprite;
+	var checkerboard:FlxBackdrop;
 	var sbEngineLogo:FlxSprite;
-	var mainSide:FlxSprite;
-	var versionSb:FlxText;
-	var versionPsych:FlxText;
-	var versionFnf:FlxText;
-	var secretText1:FlxText;
-	
-	var optionSelect:Array<String> = [
+	var rightItem:FlxSprite;
+
+	//Centered/Text options
+	var optionShit:Array<String> = [
 		'story_mode',
 		'freeplay',
 		#if MODS_ALLOWED 'mods', #end
-		'credits',
-		'options'
+		'credits'
 	];
 
+	var rightOption:String = 'options';
 	var camFollow:FlxObject;
-
-	var clickCount:Int = 0;
-	var colorTag:FlxColor;
-	public static var firstStart:Bool = true;
-	public static var finishedFunnyMove:Bool = false;
 
 	override function create()
 	{
@@ -55,405 +54,323 @@ class MainMenuState extends MusicBeatState
 
 		#if DISCORD_ALLOWED
 		// Updating Discord Rich Presence
-		DiscordClient.changePresence("In the Main Menus", null);
+		DiscordClient.changePresence("In the Main Menu", null);
 		#end
-
-		camGame = new FlxCamera();
-
-		FlxG.cameras.reset(camGame);
-		FlxG.cameras.setDefaultDrawTarget(camGame, true);
 
 		persistentUpdate = persistentDraw = true;
 
-		var yScroll:Float = Math.max(0.25 - (0.05 * (optionSelect.length - 4)), 0.1);
-		menuBackground = new FlxSprite(-80).loadGraphic(Paths.image('menuDesat'));
-		menuBackground.scrollFactor.set(0, yScroll);
-		menuBackground.setGraphicSize(Std.int(menuBackground.width * 1.175));
-		menuBackground.updateHitbox();
-		menuBackground.screenCenter();
-		menuBackground.antialiasing = ClientPrefs.data.antialiasing;
-		menuBackground.color = 0xfffde871;
-		add(menuBackground);
+		var yScroll:Float = Math.max(0.25 - (0.05 * (optionShit.length - 4)), 0.1);
+		menuBG = new FlxSprite(-80).loadGraphic(Paths.image('menuDesat'));
+		menuBG.scrollFactor.set(0, yScroll);
+		menuBG.setGraphicSize(Std.int(menuBG.width * 1.175));
+		menuBG.updateHitbox();
+		menuBG.screenCenter();
+		menuBG.antialiasing = ClientPrefs.data.antialiasing;
+		menuBG.color = 0xfffde871;
+		add(menuBG);
 
 		camFollow = new FlxObject(0, 0, 1, 1);
 		add(camFollow);
 
-		background = new FlxSprite(-80).loadGraphic(Paths.image('menuDesat'));
-		background.setGraphicSize(Std.int(background.width * 1.175));
-		background.scrollFactor.x = 0;
-		background.scrollFactor.y = 0;
-		background.updateHitbox();
-		background.screenCenter();
-		background.visible = false;
-		background.antialiasing = ClientPrefs.data.antialiasing;
+		brown = new FlxSprite(-80).loadGraphic(Paths.image('menuDesat'));
+		brown.setGraphicSize(Std.int(brown.width * 1.175));
+		brown.scrollFactor.x = 0;
+		brown.scrollFactor.y = 0;
+		brown.updateHitbox();
+		brown.screenCenter();
+		brown.visible = false;
+		brown.antialiasing = ClientPrefs.data.antialiasing;
 		switch (ClientPrefs.data.themes) {
 			case 'SB Engine':
-				background.color = FlxColor.BROWN;
+				brown.color = FlxColor.BROWN;
 			
 			case 'Psych Engine':
-				background.color = 0xFFea71fd;
+				brown.color = 0xFFea71fd;
 		}
-		add(background);
+		add(brown);
 
-		velocityBackground = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0x70000000, 0x0));
-		velocityBackground.velocity.set(FlxG.random.bool(50) ? 90 : -90, FlxG.random.bool(50) ? 90 : -90);
-		velocityBackground.visible = ClientPrefs.data.velocityBackground;
-		velocityBackground.scrollFactor.x = 0;
-		velocityBackground.scrollFactor.y = 0;
-		add(velocityBackground);
-
-		mainSide = new FlxSprite(0).loadGraphic(Paths.image('mainSide'));
-		mainSide.scrollFactor.x = 0;
-		mainSide.scrollFactor.y = 0;
-		mainSide.setGraphicSize(Std.int(mainSide.width * 0.75));
-		mainSide.updateHitbox();
-		mainSide.screenCenter();
-		mainSide.antialiasing = ClientPrefs.data.antialiasing;
-		mainSide.x = -500;
-		mainSide.y = -90;
-		add(mainSide);
-
-		sbEngineLogo = new FlxSprite(0).loadGraphic(Paths.image('sbEngineLogo'));
-		sbEngineLogo.scrollFactor.x = 0;
-		sbEngineLogo.scrollFactor.y = 0;
-		sbEngineLogo.antialiasing = ClientPrefs.data.antialiasing;
-		sbEngineLogo.setGraphicSize(Std.int(menuBackground.width * 0.32));
-		sbEngineLogo.updateHitbox();
-		sbEngineLogo.screenCenter();
-		sbEngineLogo.x = 1000;
-		sbEngineLogo.y = 90;
-		sbEngineLogo.scale.x = 1;
-		sbEngineLogo.scale.y = 1;
-		add(sbEngineLogo);
+		checkerboard = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0x70000000, 0x0));
+		checkerboard.velocity.set(FlxG.random.bool(50) ? 90 : -90, FlxG.random.bool(50) ? 90 : -90);
+		checkerboard.visible = ClientPrefs.data.checkerboard;
+		checkerboard.scrollFactor.x = 0;
+		checkerboard.scrollFactor.y = 0;
+		add(checkerboard);
 
 		menuItems = new FlxTypedGroup<FlxSprite>();
 		add(menuItems);
 
-		var scale:Float = 1;
-
-		for (i in 0...optionSelect.length)
+		for (num => option in optionShit)
 		{
-			var offset:Float = 108 - (Math.max(optionSelect.length, 4) - 4) * 80;
-			var menuItem:FlxSprite = new FlxSprite(FlxG.width * -1.5, (i * 140)  + offset);
-			menuItem.frames = Paths.getSparrowAtlas('mainmenu/menu_' + optionSelect[i]);
-			menuItem.animation.addByPrefix('idle', optionSelect[i] + " basic", 24);
-			menuItem.animation.addByPrefix('selected', optionSelect[i] + " white", 24);
-			menuItem.animation.play('idle');
-			menuItem.ID = i;
-			menuItem.scale.x = 0.7;
-			menuItem.scale.y = 0.7;
-			menuItem.scrollFactor.set(0, yScroll);
-			FlxTween.tween(menuItem, {x: menuItem.width / 4 + (i * 60) - 75}, 1.3, {ease: FlxEase.sineInOut});
-			menuItems.add(menuItem);
-			var scr:Float = (optionSelect.length - 4) * 0.135;
-			if(optionSelect.length < 6) scr = 0;
-			menuItem.antialiasing = ClientPrefs.data.antialiasing;
-			menuItem.updateHitbox();
-            if (firstStart)
-				FlxTween.tween(menuItem, {x: 50}, 1 + (i * 0.25), {
-					ease: FlxEase.expoInOut,
-					onComplete: function(flxTween:FlxTween)
-					{
-					finishedFunnyMove = true;
-					changeItem();
-				}
-			});
-			else
-			menuItem.x= 50;
+			var item:FlxSprite = createMenuItem(option, 35, (num * 140) + 90);
+			item.y += (4 - optionShit.length) * 70; // Offsets for when you have anything other than 4 items
+			// item.screenCenter(X);
+			item.scale.x = 0.85;
+			item.scale.y = 0.85;
 		}
-        firstStart = false;
 
-		FlxG.camera.follow(camFollow, null, 0);
+		if (rightOption != null)
+		{
+			rightItem = createMenuItem(rightOption, FlxG.width - 30, 490);
+			rightItem.x -= rightItem.width;
+		}
 
-		FlxTween.tween(mainSide, {x: -80}, 0.9, {ease: FlxEase.quartInOut});
-		FlxTween.tween(sbEngineLogo, {x: 725}, 0.9, {ease: FlxEase.quartInOut});
-		FlxTween.angle(sbEngineLogo, sbEngineLogo.angle, -10, 2, {ease: FlxEase.quartInOut});
-		new FlxTimer().start(2, function(tmr:FlxTimer) {
-			if (sbEngineLogo.angle == -10)
-				FlxTween.angle(sbEngineLogo, sbEngineLogo.angle, 10, 2, {ease: FlxEase.quartInOut});
-			else
-				FlxTween.angle(sbEngineLogo, sbEngineLogo.angle, -10, 2, {ease: FlxEase.quartInOut});
-		}, 0);
+		sbEngineLogo = new FlxSprite(580, -50).loadGraphic(Paths.image("engineStuff/main/sbEngineLogo"));
+		sbEngineLogo.antialiasing = ClientPrefs.data.antialiasing;
+		sbEngineLogo.scale.x = 0.75;
+		sbEngineLogo.scale.y = 0.75;
+		sbEngineLogo.scrollFactor.x = 0;
+		sbEngineLogo.scrollFactor.y = 0;
+		add(sbEngineLogo);
 
 		versionSb = new FlxText(12, FlxG.height - 64, 0, "SB Engine v" + sbEngineVersion + " (Modified Psych Engine)" #if debug + " (Running currently on Debug build) " #end, 16);
 		versionPsych = new FlxText(12, FlxG.height - 44, 0, "Psych Engine v" + psychEngineVersion #if debug + " (Running currently on Debug build) " #end, 16);
 		versionFnf = new FlxText(12, FlxG.height - 24, 0, "Friday Night Funkin' v" + fnfEngineVersion #if debug + " (Running currently on Debug build) " #end, 16);
-		secretText1 = new FlxText(515, FlxG.height - 24, 0, "Press S For the secret screen!", 16);
-		#if android secretText1.text = "Press BACK On your navigation bar for the secret screen!"; #end
 		switch (ClientPrefs.data.gameStyle) {
 			case 'SB Engine':
 				versionSb.setFormat("Bahnschrift", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 				versionPsych.setFormat("Bahnschrift", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 				versionFnf.setFormat("Bahnschrift", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-				secretText1.setFormat("Bahnschrift", 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-
-			case 'Psych Engine' | 'Kade Engine' | 'Cheeky':
-				versionSb.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-				versionPsych.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-				versionFnf.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-				secretText1.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 			
 			case 'Dave and Bambi':
 				versionSb.setFormat("Comic Sans MS Bold", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 				versionPsych.setFormat("Comic Sans MS Bold", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 				versionFnf.setFormat("Comic Sans MS Bold", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-				secretText1.setFormat("Comic Sans MS Bold", 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 			
 			case 'TGT Engine':
 				versionSb.setFormat("Calibri", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 				versionPsych.setFormat("Calibri", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 				versionFnf.setFormat("Calibri", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-				secretText1.setFormat("Calibri", 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			
+			default:
+				versionSb.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+				versionPsych.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+				versionFnf.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		}
 		versionSb.scrollFactor.set();
 		versionPsych.scrollFactor.set();
 		versionFnf.scrollFactor.set();
-		secretText1.scrollFactor.set();
 		add(versionSb);
 		add(versionPsych);
 		add(versionFnf);
-		add(secretText1);
+		changeItem();
+
+		FlxTween.tween(sbEngineLogo, {y: 20}, 2.4, {ease: FlxEase.sineInOut, type: PINGPONG, startDelay: 0.1});
 
 		if (ClientPrefs.data.cacheOnGPU) Paths.clearUnusedMemory();
 
-		changeItem();
-
-   	 	#if mobile
-    	addVirtualPad(UP_DOWN, A_B_C);
-   		#end
-
 		super.create();
+
+		#if mobile addVirtualPad(NONE, E); #end
+
+		FlxG.camera.follow(camFollow, null, 0.15);
 	}
 
-	override function closeSubState() {
-		changeItem(0, false);
-		persistentUpdate = true;
-		super.closeSubState();
+	function createMenuItem(name:String, x:Float, y:Float):FlxSprite
+	{
+		var menuItem:FlxSprite = new FlxSprite(x, y);
+		menuItem.frames = Paths.getSparrowAtlas('mainmenu/menu_$name');
+		menuItem.animation.addByPrefix('idle', '$name idle', 24, true);
+		menuItem.animation.addByPrefix('selected', '$name selected', 24, true);
+		menuItem.animation.play('idle');
+		menuItem.updateHitbox();
+		
+		menuItem.antialiasing = ClientPrefs.data.antialiasing;
+		menuItem.scrollFactor.set();
+		menuItems.add(menuItem);
+		return menuItem;
 	}
 
-	var selectedSomething:Bool = false;
+	var selectedSomethin:Bool = false;
 
+	var timeNotMoving:Float = 0;
 	override function update(elapsed:Float)
 	{
 		if (FlxG.sound.music.volume < 0.8)
-		{
-			FlxG.sound.music.volume += 0.5 * elapsed;
-			if(FreeplayState.vocals != null) FreeplayState.vocals.volume += 0.5 * elapsed;
-		}
-		FlxG.camera.followLerp = FlxMath.bound(elapsed * 9 / (FlxG.updateFramerate / 60), 0, 1);
+			FlxG.sound.music.volume = Math.min(FlxG.sound.music.volume + 0.5 * elapsed, 0.8);
 
-		if (!selectedSomething)
+		if (!selectedSomethin)
 		{
 			if (controls.UI_UP_P)
-			{
-				FlxG.sound.play(Paths.sound('scrollMenu'));
 				changeItem(-1);
-			}
 
 			if (controls.UI_DOWN_P)
-			{
-				FlxG.sound.play(Paths.sound('scrollMenu'));
 				changeItem(1);
+
+			if (allowMouse && FlxG.mouse.deltaScreenX != 0 && FlxG.mouse.deltaScreenY != 0) //more accurate than FlxG.mouse.justMoved
+			{
+				FlxG.mouse.visible = true;
+				timeNotMoving = 0;
+
+				var selectedItem:FlxSprite;
+				switch(curColumn)
+				{
+					case LEFT:
+						selectedItem = menuItems.members[curSelected];
+					case RIGHT:
+						selectedItem = rightItem;
+				}
+
+				if(rightItem != null && FlxG.mouse.overlaps(rightItem))
+				{
+					if(selectedItem != rightItem)
+					{
+						curColumn = RIGHT;
+						changeItem();
+					}
+				}
+				else
+				{
+					var dist:Float = -1;
+					var distItem:Int = -1;
+					for (i in 0...optionShit.length)
+					{
+						var memb:FlxSprite = menuItems.members[i];
+						if(FlxG.mouse.overlaps(memb))
+						{
+							var distance:Float = Math.sqrt(Math.pow(memb.getGraphicMidpoint().x - FlxG.mouse.screenX, 2) + Math.pow(memb.getGraphicMidpoint().y - FlxG.mouse.screenY, 2));
+							if (dist < 0 || distance < dist)
+							{
+								dist = distance;
+								distItem = i;
+							}
+						}
+					}
+
+					if(distItem != -1 && curSelected != distItem)
+					{
+						curColumn = LEFT;
+						curSelected = distItem;
+						changeItem();
+					}
+				}
+			}
+			else
+			{
+				timeNotMoving += elapsed;
+				if(timeNotMoving > 1) FlxG.mouse.visible = false;
+			}
+
+			switch(curColumn)
+			{
+				case LEFT:
+					if(controls.UI_RIGHT_P && rightOption != null)
+					{
+						curColumn = RIGHT;
+						changeItem();
+					}
+
+				case RIGHT:
+					if(controls.UI_LEFT_P)
+					{
+						curColumn = LEFT;
+						changeItem();
+					}
 			}
 
 			if (controls.BACK)
 			{
+				selectedSomethin = true;
 				FlxG.mouse.visible = false;
-				selectedSomething = true;
 				FlxG.sound.play(Paths.sound('cancelMenu'));
 				FlxG.switchState(() -> new TitleState());
 			}
 
-			if (controls.ACCEPT)
+			if (controls.ACCEPT || (FlxG.mouse.justPressed && allowMouse))
 			{
-				switchToState();
-			}
+				FlxG.sound.play(Paths.sound('confirmMenu'));
+					selectedSomethin = true;
+					FlxG.mouse.visible = false;
+
+					if (ClientPrefs.data.flashing)
+						FlxFlicker.flicker(brown, 1.1, 0.15, false);
+
+					var item:FlxSprite;
+					var option:String;
+					switch(curColumn)
+					{
+						case LEFT:
+							option = optionShit[curSelected];
+							item = menuItems.members[curSelected];
+
+						case RIGHT:
+							option = rightOption;
+							item = rightItem;
+					}
+
+					FlxFlicker.flicker(item, 1, 0.06, false, false, function(flick:FlxFlicker)
+					{
+						switch (option) {
+							case 'story_mode':
+								FlxG.mouse.visible = false;
+								FlxG.switchState(() -> new StoryMenuState());
+							case 'freeplay':
+								FlxG.mouse.visible = false;
+								FlxG.switchState(() -> new FreeplayState());
+							#if MODS_ALLOWED
+							case 'mods':
+								FlxG.mouse.visible = false;
+								FlxG.switchState(() -> new ModsMenuState());
+							#end
+							case 'credits':
+								FlxG.mouse.visible = false;
+								FlxG.switchState(() -> new CreditsState());
+							case 'options':
+								FlxG.mouse.visible = false;
+								FlxG.switchState(() -> new options.OptionsState());
+								OptionsState.onPlayState = false;
+								if (PlayState.SONG != null)
+								{
+									PlayState.SONG.arrowSkin = null;
+									PlayState.SONG.splashSkin = null;
+								}
+							}
+						});
+					
+					for (memb in menuItems)
+					{
+						if(memb == item)
+							continue;
+
+						FlxTween.tween(memb, {alpha: 0}, 0.4, {ease: FlxEase.sineInOut});
+						FlxTween.tween(sbEngineLogo, {alpha: 0}, 0.4, {ease: FlxEase.sineInOut});
+					}
+				}
 
 			#if (desktop || android)
-			else if (controls.justPressed('debug_1') #if android || MusicBeatState.virtualPad.buttonC.justPressed #end)
+			else if (controls.justPressed('debug_1') #if android || MusicBeatState.virtualPad.buttonE.justPressed #end)
 			{
 				FlxG.mouse.visible = false;
-				selectedSomething = true;
+				selectedSomethin = true;
 				FlxG.switchState(() -> new MasterEditorMenu());
 			}
 			#end
-
-			if (FlxG.keys.justPressed.S #if android || FlxG.android.justReleased.BACK #end) 
-			{
-				FlxG.mouse.visible = false;
-				FlxG.sound.play(Paths.sound('cancelMenu'), 1);
-				persistentUpdate = false;
-				#if android
-				removeVirtualPad();
-				#end
-				openSubState(new NoSecretScreen1Substate());
-			}
-
-			if (ClientPrefs.data.objects) {
-				if (FlxG.mouse.justPressed) backgroundColorClickChanger();
-				#if !android FlxG.mouse.visible = true; #end
-			} else {
-				FlxG.mouse.visible = false;
-			}
 		}
 
 		super.update(elapsed);
-
-		menuItems.forEach(function(spr:FlxSprite)
-		{
-			//spr.screenCenter(X);
-		});
 	}
 
-	var zoomTween:FlxTween;
-	var lastBeatHit:Int = -1;
-	override public function beatHit()
+	function changeItem(change:Int = 0)
 	{
-		super.beatHit();
+		if(change != 0) curColumn = LEFT;
+		curSelected = FlxMath.wrap(curSelected + change, 0, optionShit.length - 1);
+		FlxG.sound.play(Paths.sound('scrollMenu'));
 
-		if(lastBeatHit == curBeat)
+		for (item in menuItems)
 		{
-			return;
+			item.animation.play('idle');
+			item.centerOffsets();
 		}
 
-		if(curBeat % 4 == 2)
+		var selectedItem:FlxSprite;
+		switch(curColumn)
 		{
-			FlxG.camera.zoom = 1.15;
-
-			if(zoomTween != null) zoomTween.cancel();
-			if (ClientPrefs.data.camZooms) {
-				switch (ClientPrefs.data.gameStyle) {
-					case 'SB Engine' | 'Psych Engine' | 'TGT Engine' | 'Kade Engine':
-						zoomTween = FlxTween.tween(FlxG.camera, {zoom: 1}, 1, {ease: FlxEase.sineInOut, onComplete: function(twn:FlxTween)
-						{
-							zoomTween = null;
-						}
-					});
-				
-					case 'Cheeky':
-						zoomTween = FlxTween.tween(FlxG.camera, {zoom: 1.05}, 0.3, {ease: FlxEase.quadOut, type: BACKWARD, onComplete: function(twn:FlxTween)
-							{
-								zoomTween = null;
-							}
-					});
-				}
-			}
-
+			case LEFT:
+				selectedItem = menuItems.members[curSelected];
+			case RIGHT:
+				selectedItem = rightItem;
 		}
-		lastBeatHit = curBeat;
-	}
-
-	function changeItem(huh:Int = 0, bool:Bool = true)
-	{
-		if (finishedFunnyMove) {
-			currentlySelected += huh;
-
-			if (currentlySelected >= menuItems.length)
-				currentlySelected = 0;
-			if (currentlySelected < 0)
-				currentlySelected = menuItems.length - 1;
-		}
-
-		menuItems.forEach(function(spr:FlxSprite)
-		{
-			spr.animation.play('idle');
-			spr.updateHitbox();
-
-			if (spr.ID == currentlySelected && finishedFunnyMove)
-			{
-				spr.animation.play('selected');
-				var add:Float = 0;
-				if(menuItems.length > 4) {
-					add = menuItems.length * 8;
-				}
-				camFollow.setPosition(spr.getGraphicMidpoint().x, spr.getGraphicMidpoint().y - add);
-				spr.centerOffsets();
-			}
-		});
-	}
-
-	function switchToState() {
-		selectedSomething = true;
-		FlxG.sound.play(Paths.sound('confirmMenu'));
-
-			if (ClientPrefs.data.flashing)
-				FlxFlicker.flicker(background, 1.1, 0.15, false);
-
-			menuItems.forEach(function(spr:FlxSprite)
-			{
-				if (currentlySelected == spr.ID)
-				{
-					FlxTween.tween(spr, {y : 700}, 1.5, {ease: FlxEase.sineInOut,});	
-					FlxTween.tween(mainSide, {x:  -700}, 0.45, {ease: FlxEase.sineInOut, type: ONESHOT, startDelay: 0});
-					FlxTween.tween(sbEngineLogo, {x:  1500}, 0.45, {ease: FlxEase.sineInOut, type: ONESHOT, startDelay: 0});				
-				}
-				if (currentlySelected != spr.ID)
-				{
-					FlxTween.tween(spr, {alpha: 0}, 0.4, {ease: FlxEase.sineInOut,});
-					FlxTween.tween(sbEngineLogo, {alpha: 0}, 0.4, {ease: FlxEase.sineInOut,});
-					FlxTween.tween(mainSide, {alpha: 0}, 0.4, {ease: FlxEase.sineInOut,});
-					FlxTween.tween(spr, {x : -500}, 0.55, {ease: FlxEase.sineInOut, onComplete: function(twn:FlxTween)
-					{
-						spr.kill();
-					}
-				});					
-			} else {
-				FlxFlicker.flicker(spr, 1, 0.06, false, false, function(flick:FlxFlicker)
-				{
-					var daChoice:String = optionSelect[currentlySelected];
-
-				switch (daChoice) {
-					case 'story_mode':
-						FlxG.mouse.visible = false;
-						FlxG.switchState(() -> new StoryMenuState());
-					case 'freeplay':
-						FlxG.mouse.visible = false;
-						FlxG.switchState(() -> new FreeplayState());
-					#if MODS_ALLOWED
-					case 'mods':
-						FlxG.mouse.visible = false;
-						FlxG.switchState(() -> new ModsMenuState());
-					#end
-					case 'credits':
-						FlxG.mouse.visible = false;
-						FlxG.switchState(() -> new CreditsState());
-					case 'options':
-						FlxG.mouse.visible = false;
-						FlxG.switchState(() -> new options.OptionsState());
-						OptionsState.onPlayState = false;
-						if (PlayState.SONG != null)
-						{
-							PlayState.SONG.arrowSkin = null;
-							PlayState.SONG.splashSkin = null;
-						}
-					}
-				});
-			}
-		});
-	}
-	
-	function backgroundColorClickChanger()
-	{
-		if(clickCount > 5)
-			clickCount = 0;
-			
-		switch(clickCount)
-		{
-			case 0:
-				colorTag = FlxColor.BROWN;
-			case 1:
-				colorTag = FlxColor.ORANGE;
-			case 2:
-				colorTag = FlxColor.GREEN;
-			case 3:
-				colorTag = FlxColor.BLUE;
-			case 4:
-				colorTag = FlxColor.BROWN;
-			case 5:
-				colorTag = FlxColor.CYAN;
-		}
-
-		FlxTween.color(menuBackground, 1.3, colorTag, 0xfffde871, {ease: FlxEase.sineInOut});
-		clickCount++;	
+		selectedItem.animation.play('selected');
+		selectedItem.centerOffsets();
+		camFollow.y = selectedItem.getGraphicMidpoint().y;
 	}
 }

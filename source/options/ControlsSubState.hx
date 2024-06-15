@@ -1,8 +1,6 @@
 package options;
 
 import backend.InputFormatter;
-import flixel.addons.display.FlxBackdrop;
-import flixel.addons.display.FlxGridOverlay;
 import objects.AttachedSprite;
 import flixel.addons.transition.FlxTransitionableState;
 
@@ -43,8 +41,8 @@ class ControlsSubState extends MusicBeatSubstate
 		[false, 'DEBUG'],
 		[false, 'Key 1', 'debug_1', 'Debug Key #1'],
 		[false, 'Key 2', 'debug_2', 'Debug Key #2'],
-		[false, 'FULL SCREEN'],
-		[false, 'Key 1', 'full_screen', 'Fullscreen Key'],
+		[false, 'Key 3', 'refresh_game', 'Debug Key #3'],
+		[false, 'Key 1', 'full_screen', 'Debug Key #4']
 	];
 	var curOptions:Array<Int>;
 	var curOptionsValid:Array<Int>;
@@ -84,7 +82,7 @@ class ControlsSubState extends MusicBeatSubstate
 		grid.velocity.set(40, 40);
 		grid.alpha = 0;
 		FlxTween.tween(grid, {alpha: 1}, 0.5, {ease: FlxEase.quadOut});
-		grid.visible = ClientPrefs.data.velocityBackground;
+		grid.visible = ClientPrefs.data.checkerboard;
 		add(grid);
 
 		grpDisplay = new FlxTypedGroup<Alphabet>();

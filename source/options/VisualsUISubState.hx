@@ -76,7 +76,7 @@ class VisualsUISubState extends BaseOptionsMenu
 		option.onChange = onChangeAutoPause;
 
 		var option:Option = new Option('Velocity background', 
-		    'If unchecked, this option is disabling velocity background for optimization.', 'velocityBackground', 'bool');
+		    'If unchecked, this option is disabling velocity background for optimization.', 'checkerboard', 'bool');
 		addOption(option);
 		option.onChange = onChangeChecker;
 
@@ -118,12 +118,14 @@ class VisualsUISubState extends BaseOptionsMenu
 	
 	function onChangeFPSCounter()
 	{
-		if(Main.fpsVar != null) Main.fpsVar.visible = ClientPrefs.data.showFPS;
+		if (Main.fpsVar != null) Main.fpsVar.visible = ClientPrefs.data.showFPS;
+		if (Main.fpsVar.alpha == 0) Main.tweenFPS();
 	}
 
 	function onWatermarkIcon()
 	{
-		if(Main.watermark != null) Main.watermark.visible = ClientPrefs.data.watermarkIcon;
+		if (Main.watermark != null) Main.watermark.visible = ClientPrefs.data.watermarkIcon;
+		if (Main.watermark.alpha == 0) Main.tweenWatermark();
 	}
 
 	var changedMainMusic:Bool = false;
@@ -136,8 +138,8 @@ class VisualsUISubState extends BaseOptionsMenu
 	}
 
 	function onChangeChecker() {
-		if (ClientPrefs.data.velocityBackground == true) BaseOptionsMenu.velocityBackground.visible = true;
-		else if (ClientPrefs.data.velocityBackground == false) BaseOptionsMenu.velocityBackground.visible = false;
+		if (ClientPrefs.data.checkerboard == true) BaseOptionsMenu.checkerboard.visible = true;
+		else if (ClientPrefs.data.checkerboard == false) BaseOptionsMenu.checkerboard.visible = false;
 	}
 
 	function onChangeEngineType() 

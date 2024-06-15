@@ -23,10 +23,10 @@ class MasterEditorMenu extends MusicBeatState
 		'Week Editor'
 	];
 	private var background:FlxSprite;
-	private var velocityBackground:FlxBackdrop;
-	private var testSprite:FlxSprite;
+	private var checkerboard:FlxBackdrop;
+	private var masterInfo:FlxSprite;
 	private var tipText:FlxText;
-	private var testSpriteText:FlxSprite;
+	private var masterInfoText:FlxSprite;
 	private var characterEditor:FlxSprite;
 	private var chartEditor:FlxSprite;
 	private var dialogueEditor:FlxSprite;
@@ -64,10 +64,10 @@ class MasterEditorMenu extends MusicBeatState
 		background.updateHitbox();
 		add(background);
 
-		velocityBackground = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0x70000000, 0x0));
-		velocityBackground.velocity.set(FlxG.random.bool(50) ? 90 : -90, FlxG.random.bool(50) ? 90 : -90);
-		velocityBackground.visible = ClientPrefs.data.velocityBackground;
-		add(velocityBackground);
+		checkerboard = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0x70000000, 0x0));
+		checkerboard.velocity.set(FlxG.random.bool(50) ? 90 : -90, FlxG.random.bool(50) ? 90 : -90);
+		checkerboard.visible = ClientPrefs.data.checkerboard;
+		add(checkerboard);
 
 		grpTexts = new FlxTypedGroup<Alphabet>();
 		add(grpTexts);
@@ -89,9 +89,9 @@ class MasterEditorMenu extends MusicBeatState
 			case 'Dave and Bambi': tipText.setFormat(Paths.font("comic.ttf"), 18, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		}
 
-		testSprite = FlxSpriteUtil.drawRoundRect(new FlxSprite(930, 10).makeGraphic(340, 440, FlxColor.TRANSPARENT), 0, 0, 340, 440, 55, 55, FlxColor.BLACK);
-		testSprite.alpha = 0.5;
-		add(testSprite);
+		masterInfo = FlxSpriteUtil.drawRoundRect(new FlxSprite(930, 10).makeGraphic(340, 440, FlxColor.TRANSPARENT), 0, 0, 340, 440, 55, 55, FlxColor.BLACK);
+		masterInfo.alpha = 0.5;
+		add(masterInfo);
 		add(tipText);
 
 		characterEditor = new FlxSprite(845, 30).loadGraphic(Paths.image('engineStuff/masterMenu/characterEditor'));

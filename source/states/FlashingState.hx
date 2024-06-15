@@ -8,7 +8,7 @@ class FlashingState extends MusicBeatState {
 
 	var background:FlxSprite;
 	var boyfriend:FlxSprite;
-	var velocityBackground:FlxBackdrop;
+	var checkerboard:FlxBackdrop;
 	var titleText:Alphabet;
 	var warningText:FlxText;
 	var warningTextTween:FlxTween;
@@ -33,7 +33,7 @@ class FlashingState extends MusicBeatState {
 		background.color = 0xFF353535;
 		add(background);
 
-		boyfriend = new FlxSprite().loadGraphic(Paths.image('boyfriend'));
+		boyfriend = new FlxSprite().loadGraphic(Paths.image('engineStuff/main/boyfriend'));
 		boyfriend.scrollFactor.set(1, 1);
 		boyfriend.screenCenter();
 		boyfriend.alpha = 0.7;
@@ -41,9 +41,9 @@ class FlashingState extends MusicBeatState {
 		FlxTween.tween(boyfriend, {y: 45}, 1.5, {ease: FlxEase.sineInOut, type: PINGPONG, startDelay: 0.1});
 		add(boyfriend);
 
-		velocityBackground = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0x70000000, 0x0));
-		velocityBackground.velocity.set(FlxG.random.bool(50) ? 90 : -90, FlxG.random.bool(50) ? 90 : -90);
-		add(velocityBackground);
+		checkerboard = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0x70000000, 0x0));
+		checkerboard.velocity.set(FlxG.random.bool(50) ? 90 : -90, FlxG.random.bool(50) ? 90 : -90);
+		add(checkerboard);
 
 		titleText = new Alphabet(200, 45, "WARNING:", true);
 		titleText.setScale(0.6);
@@ -99,7 +99,7 @@ class FlashingState extends MusicBeatState {
 					FlxTween.tween(titleText, {alpha: 0}, 0.25, {startDelay: 0.25});
 					FlxTween.tween(warningText.scale, {x: 1.5, y: 1.5}, .5,
 						{ease: FlxEase.sineInOut, onComplete: (_) -> new FlxTimer().start(0.5, (t) -> FlxG.switchState(() -> new TitleState()))});
-					FlxTween.tween(velocityBackground, {alpha: 0}, 0.25, {startDelay: 0.25});
+					FlxTween.tween(checkerboard, {alpha: 0}, 0.25, {startDelay: 0.25});
 					if (FlxG.sound.music != null)
 				  		FlxTween.tween(FlxG.sound.music, {pitch: 0, volume: 0}, 1.5, {ease: FlxEase.sineInOut});
 				} else {
@@ -114,7 +114,7 @@ class FlashingState extends MusicBeatState {
 					FlxTween.tween(titleText, {alpha: 0}, 0.25, {startDelay: 0.25});
 					FlxTween.tween(warningText.scale, {x: 0, y: 0}, .5,
 						{ease: FlxEase.sineInOut, onComplete: (_) -> new FlxTimer().start(0.5, (t) -> FlxG.switchState(() -> new TitleState()))});
-					FlxTween.tween(velocityBackground, {alpha: 0}, 0.25, {startDelay: 0.25});
+					FlxTween.tween(checkerboard, {alpha: 0}, 0.25, {startDelay: 0.25});
 					if (FlxG.sound.music != null)
 						FlxTween.tween(FlxG.sound.music, {pitch: 0, volume: 0}, 2.5, {ease: FlxEase.sineInOut});
 				}

@@ -235,20 +235,7 @@ class ResultsScreenSubstate extends MusicBeatSubstate
 				+ '\nCPS: ' + PlayState.resultsScreenNPS + ' (Max CPS: ' + PlayState.resultsScreenMaxNPS + ')'
 				+ '\nScore: ' + PlayState.resultsScreenScore 
 				+ '\nPercent: ' + accurarcyCeil + '%'
-				+ '\nRank: ' + PlayState.resultsScreenRatingName + '{' + PlayState.resultsScreenFullCombo + '}';
-			
-			case 'Psych Engine' | 'TGT Engine':
-				judgeText.text = 'Judgements:
-				\nSicks: ' + PlayState.resultsScreenSicks 
-				+ '\nGoods: ' + PlayState.resultsScreenGoods 
-				+ '\nBads: ' + PlayState.resultsScreenBads 
-				+ '\nShits: ' + PlayState.resultsScreenShits 
-				+ '\n\nMisses: ' + PlayState.resultsScreenMisses 
-				+ '\nCombo: ' + PlayState.resultsScreenCombo + ' (Max Combo: ' + PlayState.resultsScreenMaxCombo + ')'
-				+ '\nSong note hits: ' + PlayState.resultsScreenHits + ' (Total Song Note Hits: ' + PlayState.resultsScreenMaxTNH + ')'
-				+ '\nNPS: ' + PlayState.resultsScreenNPS + ' (Max NPS: ' + PlayState.resultsScreenMaxNPS + ')'
-				+ '\nScore: ' + PlayState.resultsScreenScore 
-				+ '\nRating: ' + PlayState.resultsScreenRatingName + '(' + PlayState.resultsScreenFullCombo + accurarcyCeil + '%)';
+				+ '\nRank: ' + PlayState.resultsScreenRatingName + ' {' + PlayState.resultsScreenFullCombo + '}';
 			
 			case 'Kade Engine' | 'Dave and Bambi' | 'Cheeky':
 				judgeText.text = 'Judgements:
@@ -262,7 +249,20 @@ class ResultsScreenSubstate extends MusicBeatSubstate
 				+ '\nNPS: ' + PlayState.resultsScreenNPS + ' (Max NPS: ' + PlayState.resultsScreenMaxNPS + ')'
 				+ '\nScore: ' + PlayState.resultsScreenScore 
 				+ '\nAccuracy: ' + accurarcyCeil + '%'
-				+ '\nRating: ' + PlayState.resultsScreenRatingName + '[' + PlayState.resultsScreenFullCombo + ']';
+				+ '\nRating: ' + PlayState.resultsScreenRatingName + ' [' + PlayState.resultsScreenFullCombo + ']';
+			
+			default:
+				judgeText.text = 'Judgements:
+				\nSicks: ' + PlayState.resultsScreenSicks 
+				+ '\nGoods: ' + PlayState.resultsScreenGoods 
+				+ '\nBads: ' + PlayState.resultsScreenBads 
+				+ '\nShits: ' + PlayState.resultsScreenShits 
+				+ '\n\nMisses: ' + PlayState.resultsScreenMisses 
+				+ '\nCombo: ' + PlayState.resultsScreenCombo + ' (Max Combo: ' + PlayState.resultsScreenMaxCombo + ')'
+				+ '\nSong note hits: ' + PlayState.resultsScreenHits + ' (Total Song Note Hits: ' + PlayState.resultsScreenMaxTNH + ')'
+				+ '\nNPS: ' + PlayState.resultsScreenNPS + ' (Max NPS: ' + PlayState.resultsScreenMaxNPS + ')'
+				+ '\nScore: ' + PlayState.resultsScreenScore 
+				+ '\nRating: ' + PlayState.resultsScreenRatingName + ' (' + PlayState.resultsScreenFullCombo + accurarcyCeil + '%)';
 		}
 		judgeText.size = 25;
 		switch (ClientPrefs.data.gameStyle) {
@@ -283,10 +283,10 @@ class ResultsScreenSubstate extends MusicBeatSubstate
 		judgeText.antialiasing = ClientPrefs.data.antialiasing;
 		add(judgeText);
 		
-		var botplay:String = 'False';
-		if (ClientPrefs.getGameplaySetting('botplay')) botplay = 'True';
-		var practice:String = 'False';
-		if (ClientPrefs.getGameplaySetting('practice')) practice = 'True';
+		var botplay:String = 'Disabled';
+		if (ClientPrefs.getGameplaySetting('botplay')) botplay = 'Enabled';
+		var practice:String = 'Disabled';
+		if (ClientPrefs.getGameplaySetting('practice')) practice = 'Enabled';
 
 		setGameText = new FlxText(FlxG.width + 400, 420, 0, 
 		'Gained health multiplier: X' + ClientPrefs.getGameplaySetting('healthgain')
@@ -327,7 +327,7 @@ class ResultsScreenSubstate extends MusicBeatSubstate
 		}
 		main = Math.ceil(main / PlayState.rsNoteTime.length * 100) / 100;
         var safeZoneOffset:Float = Math.ceil(Conductor.safeZoneOffset * 10) / 10;
-		setMsText = new FlxText(20, FlxG.height + 150, 0, 'Main: ' + main + 'ms' + '\n' + '(' + 'SICK:' + ClientPrefs.data.sickWindow + 'ms,' + 'GOOD:' + ClientPrefs.data.goodWindow + 'ms,' + 'BAD:' + ClientPrefs.data.badWindow + 'ms,' + 'SHIT:' + safeZoneOffset + 'ms' + ')'	+ '\n');
+		setMsText = new FlxText(20, FlxG.height + 150, 0, 'Main: ' + main + 'ms' + '\n' + ' (' + 'SICK:' + ClientPrefs.data.sickWindow + 'ms,' + 'GOOD:' + ClientPrefs.data.goodWindow + 'ms,' + 'BAD:' + ClientPrefs.data.badWindow + 'ms,' + 'SHIT:' + safeZoneOffset + 'ms' + ')' + '\n');
 		setMsText.size = 16;
 		switch (ClientPrefs.data.gameStyle) {
 			case 'SB Engine':

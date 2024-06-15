@@ -32,7 +32,7 @@ class NoteSplashDebugState extends MusicBeatState
 	var savedText:FlxText;
 	var selecArr:Array<Float> = null;
 
-	var velocityBackground:FlxBackdrop;
+	var checkerboard:FlxBackdrop;
 
 	override function create()
 	{
@@ -47,10 +47,10 @@ class NoteSplashDebugState extends MusicBeatState
 				FlxG.camera.bgColor = FlxColor.fromHSL(0, 0, 0.5);
 		}
 
-		velocityBackground = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0x70000000, 0x0));
-		velocityBackground.velocity.set(FlxG.random.bool(50) ? 90 : -90, FlxG.random.bool(50) ? 90 : -90);
-		velocityBackground.visible = ClientPrefs.data.velocityBackground;
-		add(velocityBackground);
+		checkerboard = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0x70000000, 0x0));
+		checkerboard.velocity.set(FlxG.random.bool(50) ? 90 : -90, FlxG.random.bool(50) ? 90 : -90);
+		checkerboard.visible = ClientPrefs.data.checkerboard;
+		add(checkerboard);
 
 		selection = FlxSpriteUtil.drawRoundRect(new FlxSprite(0, 270).makeGraphic(150, 150, FlxColor.TRANSPARENT), 0, 0, 150, 150, 65, 65, FlxColor.BLACK);
 		selection.alpha = 0.4;

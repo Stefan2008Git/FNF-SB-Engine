@@ -90,7 +90,7 @@ class ChartingState extends MusicBeatState
 	];
 
 	var background:FlxSprite;
-	var velocityBackground:FlxBackdrop;
+	var checkerboard:FlxBackdrop;
 	var _file:FileReference;
 	
 	var postfix:String = '';
@@ -254,13 +254,13 @@ class ChartingState extends MusicBeatState
 		background.updateHitbox();
 		add(background);
 
-		velocityBackground = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0x70000000, 0x0));
-		velocityBackground.velocity.set(FlxG.random.bool(50) ? 90 : -90, FlxG.random.bool(50) ? 90 : -90);
-		velocityBackground.visible = ClientPrefs.data.velocityBackground;
-		velocityBackground.screenCenter();
-		velocityBackground.scrollFactor.x = 0;
-		velocityBackground.scrollFactor.y = 0;
-		add(velocityBackground);
+		checkerboard = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0x70000000, 0x0));
+		checkerboard.velocity.set(FlxG.random.bool(50) ? 90 : -90, FlxG.random.bool(50) ? 90 : -90);
+		checkerboard.visible = ClientPrefs.data.checkerboard;
+		checkerboard.screenCenter();
+		checkerboard.scrollFactor.x = 0;
+		checkerboard.scrollFactor.y = 0;
+		add(checkerboard);
 
 		gridLayer = new FlxTypedGroup<FlxSprite>();
 		add(gridLayer);

@@ -20,7 +20,7 @@ class AndroidControlsMenuState extends MusicBeatState
 {
 	var uiCamera:FlxCamera;
 	var background:FlxSprite;
-	var velocityBackground:FlxBackdrop;
+	var checkerboard:FlxBackdrop;
 	var virtualPadHandler:FlxVirtualPad;
 	var hitbox:FlxNewHitbox;
 	var upPosition:FlxText;
@@ -65,11 +65,11 @@ class AndroidControlsMenuState extends MusicBeatState
 		background.cameras = [uiCamera];
 		add(background);
 
-		velocityBackground = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0x70000000, 0x0));
-		velocityBackground.velocity.set(FlxG.random.bool(50) ? 90 : -90, FlxG.random.bool(50) ? 90 : -90);
-		velocityBackground.visible = ClientPrefs.data.velocityBackground;
-		velocityBackground.cameras = [uiCamera];
-		add(velocityBackground);
+		checkerboard = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0x70000000, 0x0));
+		checkerboard.velocity.set(FlxG.random.bool(50) ? 90 : -90, FlxG.random.bool(50) ? 90 : -90);
+		checkerboard.visible = ClientPrefs.data.checkerboard;
+		checkerboard.cameras = [uiCamera];
+		add(checkerboard);
 
 		virtualPadHandler = new FlxVirtualPad(RIGHT_FULL, NONE, 0.75, ClientPrefs.data.antialiasing);
 		virtualPadHandler.cameras = [uiCamera];

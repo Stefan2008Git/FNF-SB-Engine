@@ -6,11 +6,13 @@ import flixel.addons.transition.FlxTransitionableState;
 
 class OptionsState extends MusicBeatState
 {
-	var options:Array<String> = ['Note Colors', #if desktop 'Controls', #end 'Adjust Delay and Combo', 'Graphics', 'Visuals and UI', 'Gameplay'];
+	var options:Array<String> = ['Note Colors', #if desktop 'Controls', #end 'Delay and Combo', 'Graphics', 'Visuals and UI', 'Gameplay'];
 	private var grpOptions:FlxTypedGroup<Alphabet>;
 	private static var currentlySelected:Int = 0;
-	public static var menuBG:FlxSprite;
 	public static var onPlayState:Bool = false;
+	private var optionsMenu:FlxSprite;
+	private var optionsTipTxt:FlxText;
+	private var optionsTipTxtBG:FlxSprite;
 	var tipText:FlxText;
 
 	function openSelectedSubstate(label:String) {
@@ -37,7 +39,7 @@ class OptionsState extends MusicBeatState
 				removeVirtualPad();
 				#end
 				openSubState(new options.GameplaySettingsSubState());
-			case 'Adjust Delay and Combo':
+			case 'Delay and Combo':
 				Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Options Menu (Loading Adjust Delay Combo Menu)";
 				FlxG.switchState(() -> new options.NoteOffsetState());
 				FlxG.sound.music.pause();
@@ -48,7 +50,7 @@ class OptionsState extends MusicBeatState
 	}
 
 	var background:FlxSprite;
-	var velocityBackground:FlxBackdrop;
+	var checkerboard:FlxBackdrop;
 	var androidControlsStyleTipText:FlxText;
 	var customizeAndroidControlsTipText:FlxText;
 	var selectorLeft:Alphabet;
@@ -80,10 +82,12 @@ class OptionsState extends MusicBeatState
 		background.updateHitbox();
 		add(background);
 
-		velocityBackground = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0x70000000, 0x0));
-		velocityBackground.velocity.set(FlxG.random.bool(50) ? 90 : -90, FlxG.random.bool(50) ? 90 : -90);
-		velocityBackground.visible = ClientPrefs.data.velocityBackground;
-		add(velocityBackground);
+		checkerboard = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0x70000000, 0x0));
+		checkerboard.velocity.set(FlxG.random.bool(50) ? 90 : -90, FlxG.random.bool(50) ? 90 : -90);
+		checkerboard.visible = ClientPrefs.data.checkerboard;
+		add(checkerboard);
+
+		// optionsMenu = new FlxSprite Need a logo LOL
 
 		grpOptions = new FlxTypedGroup<Alphabet>();
 		add(grpOptions);
@@ -92,7 +96,8 @@ class OptionsState extends MusicBeatState
 		{
 			var optionText:Alphabet = new Alphabet(0, 0, options[i], true);
 			optionText.screenCenter();
-			optionText.y += (100 * (i - (options.length / 2))) + 50;
+			optionText.y += (85 * (i - (options.length / 2))) + 100;
+			optionText.x = 135;
 			grpOptions.add(optionText);
 		}
 
@@ -101,24 +106,54 @@ class OptionsState extends MusicBeatState
 		selectorRight = new Alphabet(0, 0, '<', true);
 		add(selectorRight);
 
-		if (ClientPrefs.data.cacheOnGPU) Paths.clearUnusedMemory();
+		optionsTipTxt = new FlxText(FlxG.width - 345, 35, 0, "", 32);
+		switch (ClientPrefs.data.gameStyle) {
+			case 'SB Engine': optionsTipTxt.setFormat(Paths.font("bahnschrift.ttf"), 18, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			case 'TGT Engine': optionsTipTxt.setFormat(Paths.font("calibri.ttf"), 18, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			case 'Dave and Bambi': optionsTipTxt.setFormat(Paths.font("comic.ttf"), 18, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			default: optionsTipTxt.setFormat(Paths.font("vcr.ttf"), 18, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		}
 
-		changeSelection();
-		ClientPrefs.saveSettings();
+		optionsTipTxtBG = FlxSpriteUtil.drawRoundRect(new FlxSprite(930, 10).makeGraphic(340, 440, FlxColor.TRANSPARENT), 0, 0, 340, 440, 55, 55, FlxColor.BLACK);
+		optionsTipTxtBG.alpha = 0.5;
+		add(optionsTipTxtBG);
+		add(optionsTipTxt);
 
 		#if android
 		androidControlsStyleTipText = new FlxText(150, FlxG.height - 44, 0, "Press Y to open the Android controls style!", 16);
 		customizeAndroidControlsTipText = new FlxText(150, FlxG.height - 24, 0, "Press X to customize the Android controls!", 16);
 		androidControlsStyleTipText.setFormat("VCR OSD Mono", 17, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		customizeAndroidControlsTipText.setFormat("VCR OSD Mono", 17, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		switch (ClientPrefs.data.gameStyle) {
+			case 'SB Engine': 
+				androidControlsStyleTipText.setFormat(Paths.font("bahnschrift.ttf"), 18, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+				customizeAndroidControlsTipText.setFormat(Paths.font("bahnschrift.ttf"), 18, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+
+			case 'TGT Engine': 
+				androidControlsStyleTipText.setFormat(Paths.font("calibri.ttf"), 18, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+				customizeAndroidControlsTipText.setFormat(Paths.font("calibri.ttf"), 18, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			case 'Dave and Bambi': 
+				androidControlsStyleTipText.setFormat(Paths.font("comic.ttf"), 18, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+				customizeAndroidControlsTipText.setFormat(Paths.font("comic.ttf"), 18, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+
+			default:
+				androidControlsStyleTipText.setFormat(Paths.font("vcr.ttf"), 18, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+				customizeAndroidControlsTipText.setFormat(Paths.font("vcr.ttf"), 18, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		}
 		androidControlsStyleTipText.borderSize = 1.25;
 		androidControlsStyleTipText.scrollFactor.set();
 		customizeAndroidControlsTipText.borderSize = 1.25;
 		customizeAndroidControlsTipText.scrollFactor.set();
 		add(androidControlsStyleTipText);
 		add(customizeAndroidControlsTipText);
-        addVirtualPad(UP_DOWN, A_B_X_Y);
-	  	#end
+		#end
+
+		if (ClientPrefs.data.cacheOnGPU) Paths.clearUnusedMemory();
+
+		changeSelection();
+		ClientPrefs.saveSettings();
+
+		#if android addVirtualPad(UP_DOWN, A_B_X_Y); #end
 
 		super.create();
 	}
@@ -132,16 +167,14 @@ class OptionsState extends MusicBeatState
 		super.update(elapsed);
 
 		#if android
-		if (MusicBeatState.virtualPad.buttonX.justPressed) {
+		if (MusicBeatState.virtualPad.buttonX.justPressed)
 			FlxTransitionableState.skipNextTransIn = true;
 			FlxTransitionableState.skipNextTransOut = true;
 			FlxG.switchState(() -> new options.android.AndroidControlsMenuState());
-		}
 
-		if (MusicBeatState.virtualPad.buttonY.justPressed) {
+		if (MusicBeatState.virtualPad.buttonY.justPressed)
 			removeVirtualPad();
 			openSubState(new options.android.AndroidOptionsSubState());
-		}
 		#end
 
 		if (controls.UI_UP_P) {
@@ -171,6 +204,29 @@ class OptionsState extends MusicBeatState
 			currentlySelected = options.length - 1;
 		if (currentlySelected >= options.length)
 			currentlySelected = 0;
+
+		switch(options[currentlySelected]) {
+			case 'Note Colors':
+				optionsTipTxt.text = "Change the note colors";
+
+			case 'Controls':
+				optionsTipTxt.text = "Change the keybinds";
+
+			case 'Graphics':
+				optionsTipTxt.text = "Edit graphic settings";
+
+			case 'Visuals and UI':
+				optionsTipTxt.text = "Edit engine gui settings";
+
+			case 'Gameplay':
+				optionsTipTxt.text = "Edit in-game settings";
+
+			case 'Delay and Combo':
+				optionsTipTxt.text = "Edit a combo note offset";
+
+			default:
+				optionsTipTxt.text = null;
+		}
 
 		var bullShit:Int = 0;
 

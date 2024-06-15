@@ -16,7 +16,7 @@ class CreditsState extends MusicBeatState
 	public static var creditsStuff:Array<Array<String>> = [];
 
 	var background:FlxSprite;
-	var velocityBackground:FlxBackdrop;
+	var checkerboard:FlxBackdrop;
 	var descText:FlxText;
 	var intendedColor:FlxColor;
 	var colorTween:FlxTween;
@@ -26,6 +26,7 @@ class CreditsState extends MusicBeatState
 
 	override function create()
 	{
+		Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Credits Menu";
 		#if DISCORD_ALLOWED
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence("In the Credits Menus", null);
@@ -42,10 +43,10 @@ class CreditsState extends MusicBeatState
 		background.antialiasing = ClientPrefs.data.antialiasing;
 		add(background);
 
-		velocityBackground = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0x70000000, 0x0));
-		velocityBackground.velocity.set(FlxG.random.bool(50) ? 90 : -90, FlxG.random.bool(50) ? 90 : -90);
-		velocityBackground.visible = ClientPrefs.data.velocityBackground;
-		add(velocityBackground);
+		checkerboard = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0x70000000, 0x0));
+		checkerboard.velocity.set(FlxG.random.bool(50) ? 90 : -90, FlxG.random.bool(50) ? 90 : -90);
+		checkerboard.visible = ClientPrefs.data.checkerboard;
+		add(checkerboard);
 		
 		grpOptions = new FlxTypedGroup<Alphabet>();
 		add(grpOptions);
@@ -56,31 +57,31 @@ class CreditsState extends MusicBeatState
 
 		var defaultList:Array<Array<String>> = [ //Name - Icon name - Description - Link - BG Color
 			['SB Engine Team'],
-			['Stefan2008', 'stefan', 'Main Programmer of SB Engine', 'https://www.youtube.com/channel/UC9Nwf21GbaEm_h0Ka9gxZjQ', '8B4513'],
-			['Hutaro', 'hutaroz', 'Main Artist for SB Engine', 'https://youtube.com/@hutaroz?si=1-qCf4MucDxMpL12', 'F8F58F'],
-			['MaysLastPlay', 'mays', 'Second Programmer of SB Engine', 'https://www.youtube.com/channel/UCjTi9Hfl1Eb5Bgk5gksmsbA', '5E99DF'],
-			['Fearester2008', 'fearester', 'Third Programmer of SB Engine', 'https://www.youtube.com/@fearester1282', '04435a'],
-			['SunBurntTails', 'sun', 'First Beta test player for SB Engine', 'https://www.youtube.com/channel/UCooFjEgVBZyTSx_hbcnqclw', 'fc0000'],
-			['Ali Alafandy', 'ali', 'Second Beta test player for SB Engine', 'https://youtube.com/channel/UClK5uzYLZDUZmbI6O56J-QA', '00008b'],
-			['Luiz Felipe Play', 'luiz', 'Third Beta test player for SB Engine', 'https://www.youtube.com/channel/UCb0odiyqDCKje8rlBZGvKBg', '59d927'],
+			['Stefan2008', 			'stefan', 			'Main Programmer of SB Engine', 								'https://www.youtube.com/@stefan2008official', 				'8B4513'],
+			['Hutaro', 				'hutaroz', 			'Main Artist for SB Engine', 									'https://www.youtube.com/@hutaroz', 						'F8F58F'],
+			['MaysLastPlay', 		'mays', 			'Second Programmer of SB Engine', 								'https://www.youtube.com/@MaysLastPlay', 					'5E99DF'],
+			['Fearester2008', 		'fearester', 		'Third Programmer of SB Engine', 								'https://www.youtube.com/@fearester1282', 					'04435a'],
+			['SunBurntTails', 		'sun', 				'First Beta test player for SB Engine', 						'https://www.youtube.com/channel/UCooFjEgVBZyTSx_hbcnqclw', 'fc0000'],
+			['Ali Alafandy', 		'ali', 				'Second Beta test player for SB Engine', 						'https://youtube.com/channel/UClK5uzYLZDUZmbI6O56J-QA', 	'00008b'],
+			['Luiz Felipe Play', 	'luiz', 			'Third Beta test player for SB Engine', 						'https://www.youtube.com/channel/UCb0odiyqDCKje8rlBZGvKBg', '59d927'],
 			[''],
 			['Special credits'],
-			['Sussy Sam', 'sam', 'Maked new icons and new music for SB Engine, but he is not on team', 'https://www.youtube.com/@sussysam6789', '964B00'],
-			['JustXale', 'xale', 'Main Programmer of Grafex Engine', 'https://github.com/JustXale', 'f7a300'],
-			['Sayofthelor', 'bean', 'Main Programmer of Lore Engine', 'https://twitter.com/sayofthelor', '663399'],
-			['CoreCat', 'core', 'Used a lot of stuff from CDEV Engine. Thank you CoreCat.', 'https://twitter.com/core5570r', '005FAD'],
+			['Sussy Sam', 			'sam', 				'Maked new icons and new music for SB Engine', 					'https://www.youtube.com/@sussysam6789','964B00'],
+			['JustXale', 			'xale', 			'Main Programmer of Grafex Engine', 							'https://github.com/JustXale', 			'f7a300'],
+			['Sayofthelor', 		'bean', 			'Main Programmer of Lore Engine', 								'https://twitter.com/sayofthelor', 		'663399'],
+			['CoreCat', 			'core', 			'Used a lot of stuff from CDEV Engine. Thank you CoreCat.', 	'https://twitter.com/core5570r', 		'005FAD'],
 			#if android
-			['MarioMaster', 'mario', 'Created hitbox selector and virtual pad opacity', 'https://www.youtube.com/channel/UC65m-_5tbYFJ7oRqZzpFBJw', 'fc0000'],
-			['NF | Beihu', 'beihu', 'Created hitbox space for dodge mechanic system and used the working Kade Engine for PE on NF Engine.', 'https://www.youtube.com/@beihu235', '964B00'],
-			['M.A. Jigsaw77', 'jigsaw', 'Main Programmer of Psych Engine\nWith Android Support', 'https://www.youtube.com/channel/UC2Sk7vtPzOvbVzdVTWrribQ', '444444'],
-			['Goldie', 'goldie', 'Old Hitbox and Virtual Pad Artist', 'https://www.youtube.com/channel/UCjTi9Hfl1Eb5Bgk5gksmsbA', '444444'],
-			['mcagabe19', 'lily', 'Head Porter of Psych Engine Mobile',	'https://www.youtube.com/@mcagabe19', 'FFE7C0'],
-			['Karim Akra', 'karim', 'Assistant Porter/Helper #1 of Psych Engine Mobile', 'https://youtube.com/@Karim0690', 'FFB4F0'],
+			['MarioMaster', 		'mario', 			'Created hitbox selector and virtual pad opacity', 				'https://www.youtube.com/channel/UC65m-_5tbYFJ7oRqZzpFBJw', 'fc0000'],
+			['NF | Beihu', 			'beihu', 			'Created the working Kade Engine for PE on NF Engine.', 		'https://www.youtube.com/@beihu235', 	'964B00'],
+			['M.A. Jigsaw77', 		'jigsaw', 			'Main Programmer of Psych Engine\nWith Android Support', 		'https://www.youtube.com/channel/UC2Sk7vtPzOvbVzdVTWrribQ', '444444'],
+			['Goldie', 				'goldie', 			'Old Hitbox and Virtual Pad Artist', 							'https://www.youtube.com/channel/UCjTi9Hfl1Eb5Bgk5gksmsbA', '444444'],
+			['mcagabe19', 			'lily', 			'Old Head Porter of Psych Engine Mobile',						'https://www.youtube.com/@mcagabe19', 	'FFE7C0'],
+			['Karim Akra', 			'karim',            'New Head Porter of Psych Engine Mobile', 						'https://youtube.com/@Karim0690',      	'FFB4F0'],
 			#end
 			[''],
 			['Psych Engine Team'],
-			['Shadow Mario', 'shadowmario',	'Main Programmer of Psych Engine', 											'https://twitter.com/Shadow_Mario_',	'444444'],
-			['Riveren',	'riveren', 'Main Artist/Animator of Psych Engine', 												'https://twitter.com/riverennn', 		'14967B'],
+			['Shadow Mario', 		'shadowmario',		'Main Programmer of Psych Engine', 								'https://twitter.com/Shadow_Mario_',	'444444'],
+			['Riveren',				'riveren', 			'Main Artist/Animator of Psych Engine', 						'https://twitter.com/riverennn', 		'14967B'],
 			[''],
 			['Former Engine Members'],
 			['shubs',				'shubs',			'Ex-Programmer of Psych Engine',								'https://twitter.com/yoshubs',			'5E99DF'],
@@ -96,10 +97,10 @@ class CreditsState extends MusicBeatState
 			['superpowers04',		'superpowers04',	'LUA JIT Fork',													'https://twitter.com/superpowers04',	'B957ED'],
 			[''],
 			["Funkin' Crew"],
-			['ninjamuffin99',		'ninjamuffin99',	"Programmer of Friday Night Funkin'", 'https://twitter.com/ninja_muffin99', 'CF2D2D'],
-			['PhantomArcade',		'phantomarcade',	"Animator of Friday Night Funkin'",	'https://twitter.com/PhantomArcade3K', 'FADC45'],
-			['evilsk8r',			'evilsk8r',			"Artist of Friday Night Funkin'", 'https://twitter.com/evilsk8r', '5ABD4B'],
-			['kawaisprite',			'kawaisprite',		"Composer of Friday Night Funkin'",	'https://twitter.com/kawaisprite', '378FC7']
+			['ninjamuffin99',		'ninjamuffin99',	"Programmer of Friday Night Funkin'", 							'https://twitter.com/ninja_muffin99',   'CF2D2D'],
+			['PhantomArcade',		'phantomarcade',	"Animator of Friday Night Funkin'",								'https://twitter.com/PhantomArcade3K',  'FADC45'],
+			['evilsk8r',			'evilsk8r',			"Artist of Friday Night Funkin'", 								'https://twitter.com/evilsk8r', 		'5ABD4B'],
+			['kawaisprite',			'kawaisprite',		"Composer of Friday Night Funkin'",								'https://twitter.com/kawaisprite', 		'378FC7']
 		];
 		
 		for(i in defaultList) {
@@ -151,15 +152,15 @@ class CreditsState extends MusicBeatState
 		switch (ClientPrefs.data.gameStyle) {
 			case 'SB Engine':
 				descText.setFormat(Paths.font("bahnschrift.ttf"), 32, FlxColor.WHITE, CENTER/*, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK*/);
-
-			case 'Psych Engine' | 'Kade Engine' | 'Cheeky':
-				descText.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER/*, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK*/);
 			
 			case 'Dave and Bambi':
 				descText.setFormat(Paths.font("comic.ttf"), 32, FlxColor.WHITE, CENTER/*, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK*/);
 			
 			case 'TGT Engine':
 				descText.setFormat(Paths.font("calibri.ttf"), 32, FlxColor.WHITE, CENTER/*, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK*/);
+			
+			default:
+				descText.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER/*, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK*/);
 		}
 		descText.scrollFactor.set();
 		//descText.borderSize = 2.4;

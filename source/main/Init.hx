@@ -47,7 +47,6 @@ class Init extends FlxState
         FlxG.save.bind('sbFunkin', CoolUtil.getSavePath());
 
         ClientPrefs.loadPrefs();
-        ClientPrefs.keybindSaveLoad();
 
         #if android
 		FlxG.android.preventDefaultKeys = [BACK];
@@ -61,8 +60,13 @@ class Init extends FlxState
 
         FlxG.updateFramerate = FlxG.drawFramerate = ClientPrefs.data.framerate;
         
-        if (Main.fpsVar != null) Main.fpsVar.visible = ClientPrefs.data.showFPS;
-        if (Main.watermark != null) Main.watermark.visible = ClientPrefs.data.watermarkIcon;
+        if (Main.fpsVar != null) 
+            Main.fpsVar.visible = ClientPrefs.data.showFPS;
+            Main.fpsVar.alpha = 0;
+
+        if (Main.watermark != null) 
+            Main.watermark.visible = ClientPrefs.data.watermarkIcon;
+            Main.watermark.alpha = 0;
 
         #if LUA_ALLOWED
         Mods.pushGlobalMods();

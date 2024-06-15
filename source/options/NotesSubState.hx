@@ -74,7 +74,7 @@ class NotesSubState extends MusicBeatSubstate
 
 		grid = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0x70000000, 0x0));
 		grid.velocity.set(FlxG.random.bool(50) ? 90 : -90, FlxG.random.bool(50) ? 90 : -90);
-		grid.visible = ClientPrefs.data.velocityBackground;
+		grid.visible = ClientPrefs.data.checkerboard;
 		grid.antialiasing = ClientPrefs.data.antialiasing;
 		FlxTween.tween(grid, {alpha: 1}, 0.5, {ease: FlxEase.quadOut});
 		add(grid);

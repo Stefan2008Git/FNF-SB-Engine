@@ -89,16 +89,17 @@ class TitleState extends MusicBeatState {
 			FlxTransitionableState.skipNextTransIn = true;
 			FlxTransitionableState.skipNextTransOut = true;
 			FlxG.switchState(() -> new states.FlashingState());
-		} else {
-			if (initialized)
+			} else if (initialized) {
 				startIntro();
-			else
+				Main.tweenFPS();
+				Main.tweenWatermark();
+			} else {
+			new FlxTimer().start(1, function(tmr:FlxTimer)
 			{
-				new FlxTimer().start(1, function(tmr:FlxTimer)
-				{
-					startIntro();
-				});
-			}
+				startIntro();
+				Main.tweenFPS();
+				Main.tweenWatermark();
+			});
 		}
 	}
 

@@ -165,7 +165,9 @@ class FlxVirtualPad extends FlxSpriteGroup {
 				case B:
 					actions.add(add(buttonB = createButton(FlxG.width - 44 * 3, FlxG.height - 45 * 3, 44 * 3, 127, "b", FlxColor.BROWN)));
 				case D:
-					actions.add(add(buttonD = createButton(FlxG.width - 44 * 3, FlxG.height - 125 * 3, 44 * 3, 127, "d", FlxColor.BROWN)));						
+					actions.add(add(buttonD = createButton(FlxG.width - 44 * 3, FlxG.height - 125 * 3, 44 * 3, 127, "d", FlxColor.BROWN)));	
+				case E:
+					actions.add(add(buttonB = createButton(FlxG.width - 44 * 3, FlxG.height - 45 * 3, 44 * 3, 127, "e", FlxColor.BROWN)));					
 				case A_B:
 					actions.add(add(buttonA = createButton(FlxG.width - 44 * 3, FlxG.height - 45 * 3, 44 * 3, 127, "a", FlxColor.BROWN)));
 					actions.add(add(buttonB = createButton(FlxG.width - 86 * 3, FlxG.height - 45 * 3, 44 * 3, 127, "b", FlxColor.BROWN)));
@@ -328,7 +330,9 @@ class FlxVirtualPad extends FlxSpriteGroup {
 			case B:
 				actions.add(add(buttonB = createButton(FlxG.width - 44 * 3, FlxG.height - 45 * 3, 44 * 3, 127, "b", 0xFFCB00)));
 			case D:
-				actions.add(add(buttonD = createButton(FlxG.width - 44 * 3, FlxG.height - 125 * 3, 44 * 3, 127, "d", 0x0078FF)));						
+				actions.add(add(buttonD = createButton(FlxG.width - 44 * 3, FlxG.height - 125 * 3, 44 * 3, 127, "d", 0x0078FF)));	
+			case E:
+				actions.add(add(buttonB = createButton(FlxG.width - 44 * 3, FlxG.height - 45 * 3, 44 * 3, 127, "e", 0x3131310)));					
 			case A_B:
 				actions.add(add(buttonA = createButton(FlxG.width - 44 * 3, FlxG.height - 45 * 3, 44 * 3, 127, "a", 0xFF0000)));
 				actions.add(add(buttonB = createButton(FlxG.width - 86 * 3, FlxG.height - 45 * 3, 44 * 3, 127, "b", 0xFFCB00)));
@@ -422,7 +426,7 @@ class FlxVirtualPad extends FlxSpriteGroup {
 		}
 	}	
 
-	public function createButton(x:Float, y:Float, width:Int, height:Int, frames:String, ColorS:Int):UIButton {
+	public function createButton(x:Float, y:Float, width:Int, height:Int, frames:String, colors:Int):UIButton {
 		var button = new UIButton(x, y);
 		button.frames = FlxTileFrames.fromFrame(getFrames().getByName(frames), FlxPoint.get(width, height));
 		button.resetSizeFromFrame();
@@ -430,7 +434,7 @@ class FlxVirtualPad extends FlxSpriteGroup {
 		button.immovable = true;
 		button.scrollFactor.set();
 		button.alpha = orgAlpha;
-		button.color = ColorS;
+		button.color = colors;
 		button.antialiasing = orgAntialiasing;
 		#if FLX_DEBUG
 		button.ignoreDrawDebug = true;
@@ -502,6 +506,7 @@ enum FlxActionMode {
 	A;
 	B;
 	D;
+	E;
 	A_B;
 	A_B_C;
 	A_B_E;

@@ -4,10 +4,11 @@ import haxe.Constraints.Function;
 import flixel.util.FlxSave;
 import flixel.input.keyboard.FlxKey;
 import flixel.input.gamepad.FlxGamepadInputID;
+
 import states.TitleState;
 
 // Add a variable here and it will get automatically saved
-class SaveVariables {
+@:structInit class SaveVariables {
 	public var downScroll:Bool = false;
 	public var middleScroll:Bool = false;
 	public var opponentStrums:Bool = true;
@@ -67,7 +68,7 @@ class SaveVariables {
 	public var checkForUpdates:Bool = true;
 	public var comboStacking:Bool = true;
 	public var themes:String = 'SB Engine';
-	public var velocityBackground:Bool = true;
+	public var checkerboard:Bool = true;
 	public var gameStyle:String = 'SB Engine';
 	public var judgementCounter:Bool = true;
 	public var judgementCounterStyle:String = 'Original';
@@ -128,15 +129,11 @@ class SaveVariables {
 	public var safeFrames:Float = 10;
 	public var discordRPC:Bool = true;
 	// public var betterCrashHandler:Bool = true;
-
-	public function new() {
-		// Really :/?
-	}
 }
 
 class ClientPrefs {
-	public static var data:SaveVariables = null;
-	public static var defaultData:SaveVariables = null;
+	public static var data:SaveVariables = {};
+	public static var defaultData:SaveVariables = {};
 
 	//Every key has two binds, add your key bind down here and then add your control on options/ControlsSubState.hx and Controls.hx
 	public static var keyBinds:Map<String, Array<FlxKey>> = [
@@ -163,7 +160,8 @@ class ClientPrefs {
 		'debug_1'		=> [SEVEN],
 		'debug_2'		=> [EIGHT],
 
-		'full_screen'   => [F11]
+		'full_screen'   => [F11],
+		'refresh_game'  => [F6],
 	];
 	public static var gamepadBinds:Map<String, Array<FlxGamepadInputID>> = [
 		'note_up'		=> [DPAD_UP, Y],
@@ -187,21 +185,14 @@ class ClientPrefs {
 	public static function resetKeys(controller:Null<Bool> = null) //Null = both, False = Keyboard, True = Controller
 	{
 		if(controller != true)
-		{
 			for (key in keyBinds.keys())
-			{
 				if(defaultKeys.exists(key))
 					keyBinds.set(key, defaultKeys.get(key).copy());
-			}
-		}
+
 		if(controller != false)
-		{
 			for (button in gamepadBinds.keys())
-			{
 				if(defaultButtons.exists(button))
 					gamepadBinds.set(button, defaultButtons.get(button).copy());
-			}
-		}
 	}
 
 	public static function clearInvalidKeys(key:String) {
@@ -234,9 +225,6 @@ class ClientPrefs {
 	}
 
 	public static function loadPrefs() {
-		if(data == null) data = new SaveVariables();
-		if(defaultData == null) defaultData = new SaveVariables();
-
 		for (key in Reflect.fields(data)) {
 			if (key != 'gameplaySettings' && Reflect.hasField(FlxG.save.data, key)) {
 				//TraceText.makeTheTraceText('loaded variable: $key');
@@ -276,9 +264,7 @@ class ClientPrefs {
 		if (FlxG.save.data.mute != null)
 			FlxG.sound.muted = FlxG.save.data.mute;
 
-		#if DISCORD_ALLOWED
-		DiscordClient.check();
-		#end
+		#if DISCORD_ALLOWED DiscordClient.check(); #end
 
 		// controls on a separate save file
 		var save:FlxSave = new FlxSave();
@@ -301,31 +287,11 @@ class ClientPrefs {
 		}
 	}
 
-	public static function keybindSaveLoad() {
-		// controls on a separate save file
-		var save:FlxSave = new FlxSave();
-		save.bind('controls_v3', CoolUtil.getSavePath());
-		if(save != null)
-		{
-			if(save.data.keyboard != null) {
-				var loadedControls:Map<String, Array<FlxKey>> = save.data.keyboard;
-				for (control => keys in loadedControls) {
-					if(keyBinds.exists(control)) keyBinds.set(control, keys);
-				}
-			}
-			if(save.data.gamepad != null) {
-				var loadedControls:Map<String, Array<FlxGamepadInputID>> = save.data.gamepad;
-				for (control => keys in loadedControls) {
-					if(gamepadBinds.exists(control)) gamepadBinds.set(control, keys);
-				}
-			}
-			reloadVolumeKeys();
-		}	
-	}
 
 	// what to do before application get closed?
 	public static var onExitFunction:Function = function()
 	{
+		// null
 	};
 
 	public static function setExitHandler(func:Function):Void
@@ -359,17 +325,9 @@ class ClientPrefs {
 		toggleVolumeKeys(true);
 	}
 	public static function toggleVolumeKeys(turnOn:Bool) {
-		if(turnOn)
-		{
-			FlxG.sound.muteKeys = TitleState.muteKeys;
-			FlxG.sound.volumeDownKeys = TitleState.volumeDownKeys;
-			FlxG.sound.volumeUpKeys = TitleState.volumeUpKeys;
-		}
-		else
-		{
-			FlxG.sound.muteKeys = [];
-			FlxG.sound.volumeDownKeys = [];
-			FlxG.sound.volumeUpKeys = [];
-		}
+		final emptyArray = [];
+		FlxG.sound.muteKeys = turnOn ? TitleState.muteKeys : emptyArray;
+		FlxG.sound.volumeDownKeys = turnOn ? TitleState.volumeDownKeys : emptyArray;
+		FlxG.sound.volumeUpKeys = turnOn ? TitleState.volumeUpKeys : emptyArray;
 	}
 }
