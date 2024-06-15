@@ -10,9 +10,6 @@ class OptionsState extends MusicBeatState
 	private var grpOptions:FlxTypedGroup<Alphabet>;
 	private static var currentlySelected:Int = 0;
 	public static var onPlayState:Bool = false;
-	private var optionsMenu:FlxSprite;
-	private var optionsTipTxt:FlxText;
-	private var optionsTipTxtBG:FlxSprite;
 	var tipText:FlxText;
 
 	function openSelectedSubstate(label:String) {
@@ -55,6 +52,10 @@ class OptionsState extends MusicBeatState
 	var customizeAndroidControlsTipText:FlxText;
 	var selectorLeft:Alphabet;
 	var selectorRight:Alphabet;
+	var gearIcon:FlxSprite;
+	var optionsMenu:FlxSprite;
+	var optionsTipTxt:FlxText;
+	var optionsTipTxtBG:FlxSprite;
 
 	override function create() {
 		#if DISCORD_ALLOWED
@@ -87,8 +88,6 @@ class OptionsState extends MusicBeatState
 		checkerboard.visible = ClientPrefs.data.checkerboard;
 		add(checkerboard);
 
-		// optionsMenu = new FlxSprite Need a logo LOL
-
 		grpOptions = new FlxTypedGroup<Alphabet>();
 		add(grpOptions);
 
@@ -105,6 +104,18 @@ class OptionsState extends MusicBeatState
 		add(selectorLeft);
 		selectorRight = new Alphabet(0, 0, '<', true);
 		add(selectorRight);
+
+		gearIcon = new FlxSprite(110, 35).loadGraphic(Paths.image('engineStuff/options/main/gearIcon'));
+		gearIcon.scale.x = 0.7;
+		gearIcon.scale.y = 0.7;
+		gearIcon.antialiasing = ClientPrefs.data.antialiasing;
+		add(gearIcon);
+
+		optionsMenu = new FlxSprite(130, 35).loadGraphic(Paths.image('engineStuff/options/main/optionsMenu'));
+		optionsMenu.scale.x = 0.6;
+		optionsMenu.scale.y = 0.6;
+		optionsMenu.antialiasing = ClientPrefs.data.antialiasing;
+		add(optionsMenu);
 
 		optionsTipTxt = new FlxText(FlxG.width - 345, 35, 0, "", 32);
 		switch (ClientPrefs.data.gameStyle) {
