@@ -17,26 +17,24 @@ import sys.FileSystem;
 
 import android.backend.SUtil;
 import objects.AttachedSprite;
-
-/*import haxe.zip.Reader;
-import haxe.zip.Entry;
-import haxe.zip.Uncompress;
-import haxe.zip.Writer;*/
+import states.editors.MasterEditorMenu;
 
 class ModsMenuState extends MusicBeatState
 {
 	var mods:Array<ModMetadata> = [];
 	static var changedAThing = false;
-	var bg:FlxSprite;
+	var background:FlxSprite;
+	var checkerboard:FlxBackdrop;
 	var intendedColor:Int;
 	var colorTween:FlxTween;
 
 	var noModsTxt:FlxText;
+	var modEditorTxt:FlxText;
 	var selector:AttachedSprite;
 	var descriptionTxt:FlxText;
 	var needaReset = false;
 	private static var currentlySelected:Int = 0;
-	public static var defaultColor:FlxColor = 0xFF665AFF;
+	public static var defaultColor:FlxColor = FlxColor.BROWN;
 
 	var buttonDown:FlxButton;
 	var buttonTop:FlxButton;
@@ -54,30 +52,46 @@ class ModsMenuState extends MusicBeatState
 	var visibleWhenNoMods:Array<FlxBasic> = [];
 	var visibleWhenHasMods:Array<FlxBasic> = [];
 
+	var control:Bool = true;
+
 	override function create()
 	{
+		Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Mods Menu";
 		Paths.clearStoredMemory();
-		Paths.clearUnusedMemory();
 		WeekData.setDirectoryFromWeek();
 
 		#if DISCORD_ALLOWED
 		// Updating Discord Rich Presence
-		DiscordClient.changePresence("In the Menus", null);
+		DiscordClient.changePresence("In the Mods Menus", null);
 		#end
 
-		bg = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
-		bg.antialiasing = ClientPrefs.data.antialiasing;
-		add(bg);
-		bg.screenCenter();
+		background = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
+		background.antialiasing = ClientPrefs.data.antialiasing;
+		add(background);
+		background.screenCenter();
+
+		checkerboard = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0x70000000, 0x0));
+		checkerboard.velocity.set(FlxG.random.bool(50) ? 90 : -90, FlxG.random.bool(50) ? 90 : -90);
+		checkerboard.visible = ClientPrefs.data.checkerboard;
+		add(checkerboard);
 
 		noModsTxt = new FlxText(0, 0, FlxG.width, "NO MODS INSTALLED\nPRESS BACK TO EXIT AND INSTALL A MOD", 48);
 		if(FlxG.random.bool(0.1)) noModsTxt.text += '\nBITCH.'; //meanie
 		noModsTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		noModsTxt.scrollFactor.set();
 		noModsTxt.borderSize = 2;
-		add(noModsTxt);
+		noModsTxt.alpha = 1;
 		noModsTxt.screenCenter();
 		visibleWhenNoMods.push(noModsTxt);
+		add(noModsTxt);
+
+		modEditorTxt = new FlxText(400, 665, FlxG.width - 800, #if android "Tap on E button to enter on master editor menu." #else "Press 7 to enter on master editor menu." #end, 32);
+		if (FlxG.random.bool(25.5)) secret();
+		modEditorTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		modEditorTxt.scrollFactor.set();
+		modEditorTxt.borderSize = 2;
+		add(modEditorTxt);
+		visibleWhenNoMods.push(modEditorTxt);
 
 		var list:ModsList = Mods.parseList();
 		for (mod in list.all) modsList.push([mod, list.enabled.contains(mod)]);
@@ -217,57 +231,6 @@ class ModsMenuState extends MusicBeatState
 		// more buttons
 		var startX:Int = 1100;
 
-		/*
-		installButton = new FlxButton(startX, 620, "Install Mod", function()
-		{
-			installMod();
-		});
-		installButton.setGraphicSize(150, 70);
-		installButton.updateHitbox();
-		installButton.color = FlxColor.GREEN;
-		installButton.label.fieldWidth = 135;
-		installButton.label.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, CENTER);
-		setAllLabelsOffset(installButton, 2, 24);
-		add(installButton);
-		startX -= 180;
-
-		removeButton = new FlxButton(startX, 620, "Delete Selected Mod", function()
-		{
-			var path = haxe.io.Path.join([Paths.mods(), modsList[currentlySelected][0]]);
-			if(FileSystem.exists(path) && FileSystem.isDirectory(path))
-			{
-				TraceText.makeTheTraceText('Trying to delete directory ' + path);
-				try
-				{
-					FileSystem.deleteFile(path); //FUCK YOU HAXE WHY DONT YOU WORK WAAAAAAAAAAAAH
-
-					var icon = mods[currentlySelected].icon;
-					var alphabet = mods[currentlySelected].alphabet;
-					remove(icon);
-					remove(alphabet);
-					icon.destroy();
-					alphabet.destroy();
-					modsList.remove(modsList[currentlySelected]);
-					mods.remove(mods[currentlySelected]);
-
-					if(currentlySelected >= mods.length) --currentlySelected;
-					changeSelection();
-				}
-				catch(e)
-				{
-					TraceText.makeTheTraceText('Error deleting directory: ' + e);
-				}
-			}
-		});
-		removeButton.setGraphicSize(150, 70);
-		removeButton.updateHitbox();
-		removeButton.color = FlxColor.RED;
-		removeButton.label.fieldWidth = 135;
-		removeButton.label.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, CENTER);
-		setAllLabelsOffset(removeButton, 2, 15);
-		add(removeButton);
-		visibleWhenHasMods.push(removeButton);*/
-
 		///////
 		descriptionTxt = new FlxText(148, 0, FlxG.width - 216, "", 32);
 		descriptionTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, LEFT);
@@ -325,20 +288,20 @@ class ModsMenuState extends MusicBeatState
 		if(currentlySelected >= mods.length) currentlySelected = 0;
 
 		if(mods.length < 1)
-			bg.color = defaultColor;
+			background.color = defaultColor;
 		else
-			bg.color = mods[currentlySelected].color;
+			background.color = mods[currentlySelected].color;
 
-		intendedColor = bg.color;
+		intendedColor = background.color;
 		changeSelection();
 		updatePosition();
 		FlxG.sound.play(Paths.sound('scrollMenu'));
 
+		Paths.clearUnusedMemory();
+
 		FlxG.mouse.visible = true;
 
-    #if mobile
-    addVirtualPad(UP_DOWN, B);
-    #end
+   		#if mobile addVirtualPad(UP_DOWN, B_E); #end
 
 		super.create();
 	}
@@ -422,7 +385,7 @@ class ModsMenuState extends MusicBeatState
 			noModsTxt.alpha = 1 - Math.sin((Math.PI * noModsSine) / 180);
 		}
 
-		if(canExit && controls.BACK)
+		if(canExit && controls.BACK && control)
 		{
 			if(colorTween != null) {
 				colorTween.cancel();
@@ -448,16 +411,26 @@ class ModsMenuState extends MusicBeatState
 			}
 		}
 
-		if(controls.UI_UP_P)
+		if(controls.UI_UP_P && control)
 		{
 			changeSelection(-1);
 			FlxG.sound.play(Paths.sound('scrollMenu'));
 		}
-		if(controls.UI_DOWN_P)
+
+		if(controls.UI_DOWN_P && control)
 		{
 			changeSelection(1);
 			FlxG.sound.play(Paths.sound('scrollMenu'));
 		}
+
+		#if (desktop || android)
+		else if (controls.justPressed('debug_1') #if android || MusicBeatState.virtualPad.buttonE.justPressed #end && control)
+		{
+			FlxG.mouse.visible = false;
+			FlxG.switchState(() -> new MasterEditorMenu());
+		}
+		#end
+
 		updatePosition(elapsed);
 		super.update(elapsed);
 	}
@@ -495,7 +468,7 @@ class ModsMenuState extends MusicBeatState
 				colorTween.cancel();
 			}
 			intendedColor = newColor;
-			colorTween = FlxTween.color(bg, 1, bg.color, intendedColor, {
+			colorTween = FlxTween.color(background, 1, background.color, intendedColor, {
 				onComplete: function(twn:FlxTween) {
 					colorTween = null;
 				}
@@ -595,66 +568,34 @@ class ModsMenuState extends MusicBeatState
 		selector.pixels.fillRect(new Rectangle((flipX ? antiX : 8), Std.int(Math.abs(antiY - 1)),  3, 1), FlxColor.BLACK);
 	}
 
-	/*var _file:FileReference = null;
-	function installMod() {
-		var zipFilter:FileFilter = new FileFilter('ZIP', 'zip');
-		_file = new FileReference();
-		_file.addEventListener(Event.SELECT, onLoadComplete);
-		_file.addEventListener(Event.CANCEL, onLoadCancel);
-		_file.addEventListener(IOErrorEvent.IO_ERROR, onLoadError);
-		_file.browse([zipFilter]);
-		canExit = false;
-	}
-
-	function onLoadComplete(_):Void
+	function secret()
 	{
-		_file.removeEventListener(Event.SELECT, onLoadComplete);
-		_file.removeEventListener(Event.CANCEL, onLoadCancel);
-		_file.removeEventListener(IOErrorEvent.IO_ERROR, onLoadError);
-
-		var fullPath:String = null;
-		@:privateAccess
-		if(_file.__path != null) fullPath = _file.__path;
-
-		if(fullPath != null)
+		#if android FlxTween.tween(MusicBeatState.virtualPad, {alpha: 0}, 1, {ease: FlxEase.sineInOut}); #end
+		noModsTxt.alpha = 0;
+		FlxTween.tween(FlxG.sound.music, {pitch: 0, volume: 0}, 1.5, {ease: FlxEase.sineInOut});
+		new FlxTimer().start(1.5, function(firstTimer:FlxTimer)
 		{
-			var rawZip:String = File.getContent(fullPath);
-			if(rawZip != null)
-			{
-				FlxG.resetState();
-				var uncompressingFile:Bytes = new Uncompress().run(File.getBytes(rawZip));
-				if (uncompressingFile.done)
-				{
-					TraceText.makeTheTraceText('test');
-					_file = null;
-					return;
-				}
-			}
-		}
-		_file = null;
-		canExit = true;
-		TraceText.makeTheTraceText("File couldn't be loaded! Wtf?");
-	}
+			FlxTween.tween(modEditorTxt, {y: 3}, 1.5, {ease: FlxEase.sineInOut});
+		});
 
-	function onLoadCancel(_):Void
-	{
-		_file.removeEventListener(Event.SELECT, onLoadComplete);
-		_file.removeEventListener(Event.CANCEL, onLoadCancel);
-		_file.removeEventListener(IOErrorEvent.IO_ERROR, onLoadError);
-		_file = null;
-		canExit = true;
-		TraceText.makeTheTraceText("Cancelled file loading.");
-	}
+		new FlxTimer().start(5, function(secondTimer:FlxTimer)
+		{
+			FlxG.sound.play(Paths.sound('epicFail'));
+			modEditorTxt.text = "GREAT, YOU GOT EPIC FAIL BUDDY";
+		});
 
-	function onLoadError(_):Void
-	{
-		_file.removeEventListener(Event.SELECT, onLoadComplete);
-		_file.removeEventListener(Event.CANCEL, onLoadCancel);
-		_file.removeEventListener(IOErrorEvent.IO_ERROR, onLoadError);
-		_file = null;
-		canExit = true;
-		TraceText.makeTheTraceText("Problem loading file");
-	}*/
+		new FlxTimer().start(14, function(lastTimer:FlxTimer)
+		{
+			modEditorTxt.text = "Closing the menu...";
+		});
+
+		new FlxTimer().start(15, function(lastTimer:FlxTimer)
+		{
+			FlxG.sound.play(Paths.sound('cancelMenu'));
+			FlxTween.tween(FlxG.sound.music, {pitch: 1.6, volume: 1}, {ease: FlxEase.sineInOut});
+			FlxG.switchState(() -> new MainMenuState());
+		});
+	}
 }
 
 class ModMetadata

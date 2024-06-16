@@ -105,13 +105,13 @@ class OptionsState extends MusicBeatState
 		selectorRight = new Alphabet(0, 0, '<', true);
 		add(selectorRight);
 
-		gearIcon = new FlxSprite(110, 35).loadGraphic(Paths.image('engineStuff/options/main/gearIcon'));
+		gearIcon = new FlxSprite(110, 26).loadGraphic(Paths.image('engineStuff/options/main/gearIcon'));
 		gearIcon.scale.x = 0.7;
 		gearIcon.scale.y = 0.7;
 		gearIcon.antialiasing = ClientPrefs.data.antialiasing;
 		add(gearIcon);
 
-		optionsMenu = new FlxSprite(130, 35).loadGraphic(Paths.image('engineStuff/options/main/optionsMenu'));
+		optionsMenu = new FlxSprite(130, 26).loadGraphic(Paths.image('engineStuff/options/main/optionsMenu'));
 		optionsMenu.scale.x = 0.6;
 		optionsMenu.scale.y = 0.6;
 		optionsMenu.antialiasing = ClientPrefs.data.antialiasing;

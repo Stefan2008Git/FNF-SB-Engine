@@ -2572,7 +2572,7 @@ class PlayState extends MusicBeatState
 			var curTime:Float = Math.max(0, Conductor.songPosition - ClientPrefs.data.noteOffset);
 			songPercent = (curTime / songLength);
 
-			var songCalc:Float = (songLength - curTime);
+			var songCalc:Float = (songLength - curTime) / playbackRate;
 			if(ClientPrefs.data.timeBarType == 'Time Elapsed') songCalc = curTime;
 
 			var secondsTotal:Int = Math.floor(songCalc / 1000);
@@ -2589,11 +2589,11 @@ class PlayState extends MusicBeatState
 					case 'SB Engine':
 						timeTxt.text += " [AUTO]";
 					
-					case 'Psych Engine' | 'TGT Engine' | 'Kade Engine' | 'Cheeky':
-						timeTxt.text += " (BOT)";
-					
 					case 'Dave and Bambi':
 						timeTxt.text = " (CHEATER!)";
+					
+					default:
+						timeTxt.text += " (BOT)";
 				}
 		}
 		else if (!paused && updatePercentTime)

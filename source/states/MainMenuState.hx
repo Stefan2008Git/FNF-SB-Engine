@@ -335,16 +335,7 @@ class MainMenuState extends MusicBeatState
 						FlxTween.tween(sbEngineLogo, {alpha: 0}, 0.4, {ease: FlxEase.sineInOut});
 					}
 				}
-
-			#if (desktop || android)
-			else if (controls.justPressed('debug_1') #if android || MusicBeatState.virtualPad.buttonE.justPressed #end)
-			{
-				FlxG.mouse.visible = false;
-				selectedSomethin = true;
-				FlxG.switchState(() -> new MasterEditorMenu());
 			}
-			#end
-		}
 
 		super.update(elapsed);
 	}

@@ -8,7 +8,7 @@ import sys.FileSystem;
 
 import objects.Character;
 
-import states.MainMenuState;
+import states.ModsMenuState;
 import states.FreeplayState;
 
 class MasterEditorMenu extends MusicBeatState
@@ -201,7 +201,7 @@ class MasterEditorMenu extends MusicBeatState
 
 		if (controls.BACK)
 		{
-			FlxG.switchState(() -> new MainMenuState());
+			FlxG.switchState(() -> new ModsMenuState());
 		}
 
 		if (controls.ACCEPT)
