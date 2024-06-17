@@ -19,7 +19,7 @@ class MainMenuState extends MusicBeatState
 	public static var currentlySelected:Int = 0;
 	public static var curSelected:Int = 0;
 	public static var curColumn:MainMenuColumn = LEFT;
-	#if desktop var allowMouse:Bool = true; #end //Turn this off to block mouse movement in menus
+	var allowMouse:Bool = #if android false #else true #end; //Turn this off to block mouse movement in menus
 
 	var menuItems:FlxTypedGroup<FlxSprite>;
 	var menuBG:FlxSprite;
@@ -193,7 +193,7 @@ class MainMenuState extends MusicBeatState
 			if (controls.UI_DOWN_P)
 				changeItem(1);
 
-			if (#if desktop allowMouse && FlxG.mouse.deltaScreenX != 0 && FlxG.mouse.deltaScreenY != 0 #end) //more accurate than FlxG.mouse.justMoved
+			if (allowMouse && FlxG.mouse.deltaScreenX != 0 && FlxG.mouse.deltaScreenY != 0) //more accurate than FlxG.mouse.justMoved
 			{
 				FlxG.mouse.visible = true;
 				timeNotMoving = 0;
@@ -272,7 +272,7 @@ class MainMenuState extends MusicBeatState
 				FlxG.switchState(() -> new TitleState());
 			}
 
-			if (controls.ACCEPT || (#if desktop FlxG.mouse.justPressed && allowMouse #end))
+			if (controls.ACCEPT || (FlxG.mouse.justPressed && allowMouse))
 			{
 				FlxG.sound.play(Paths.sound('confirmMenu'));
 					selectedSomethin = true;
