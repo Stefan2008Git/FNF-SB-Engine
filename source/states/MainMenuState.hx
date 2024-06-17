@@ -193,7 +193,7 @@ class MainMenuState extends MusicBeatState
 			if (controls.UI_DOWN_P)
 				changeItem(1);
 
-			if (allowMouse && FlxG.mouse.deltaScreenX != 0 && FlxG.mouse.deltaScreenY != 0) //more accurate than FlxG.mouse.justMoved
+			if (#if desktop allowMouse && FlxG.mouse.deltaScreenX != 0 && FlxG.mouse.deltaScreenY != 0 #end) //more accurate than FlxG.mouse.justMoved
 			{
 				FlxG.mouse.visible = true;
 				timeNotMoving = 0;
@@ -272,7 +272,7 @@ class MainMenuState extends MusicBeatState
 				FlxG.switchState(() -> new TitleState());
 			}
 
-			if (controls.ACCEPT || (FlxG.mouse.justPressed && allowMouse))
+			if (controls.ACCEPT || (#if desktop FlxG.mouse.justPressed && allowMouse #end))
 			{
 				FlxG.sound.play(Paths.sound('confirmMenu'));
 					selectedSomethin = true;
@@ -320,6 +320,9 @@ class MainMenuState extends MusicBeatState
 									PlayState.SONG.arrowSkin = null;
 									PlayState.SONG.splashSkin = null;
 								}
+								#if android
+								removeVirtualPad();
+								#end
 							}
 						});
 					

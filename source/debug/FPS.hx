@@ -40,8 +40,6 @@ class FPS extends TextField
 
 	public var currentlyMemory:Float;
 	public var maximumMemory:Float;
-	public var realAlpha:Float = 1;
-	public var redText:Bool = false;
 	public var color:Int = 0xFF000000;
 
 	@:noCompletion private var cacheCount:Int;
@@ -66,11 +64,7 @@ class FPS extends TextField
 		totalFPS = 0;
 		selectable = false;
 		mouseEnabled = false;
-		#if android
-		defaultTextFormat = new TextFormat(null, 14, color);
-		#else
-		defaultTextFormat = new TextFormat(null, 12, color);
-		#end
+	 	defaultTextFormat = new TextFormat(null, #if android 14 #else 12 #end, color);
 		autoSize = LEFT;
 		multiline = true;
 		text = "FPS: ";
@@ -100,14 +94,6 @@ class FPS extends TextField
 		{
 			times.shift();
 		}
-
-		var minAlpha:Float = 0.5;
-		var aggressor:Float = 1;
-
-		if (!redText)
-			realAlpha = CoolUtil.boundTo(realAlpha - (deltaTime / 1000) * aggressor, minAlpha, 1);
-		else
-			realAlpha = CoolUtil.boundTo(realAlpha + (deltaTime / 1000), 0.3, 1);
 
 		var currentCount = times.length;
 		currentlyFPS = Math.round((currentCount + cacheCount) / 2);
@@ -175,11 +161,11 @@ class FPS extends TextField
 					Main.fpsVar.defaultTextFormat = new TextFormat('_sans', 14, color);
 			}
 
-			textColor = FlxColor.fromRGBFloat(255, 255, 255, realAlpha);
+		if (ClientPrefs.data.redText) {
 			if (currentlyFPS <= ClientPrefs.data.framerate / 2) {
-				textColor = FlxColor.fromRGBFloat(255, 0, 0, realAlpha);
-				redText = true;
+				textColor = FlxColor.RED;
 			}
+		}
 
 			text += "\n";
 		}

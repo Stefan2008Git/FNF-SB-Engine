@@ -178,12 +178,12 @@ class OptionsState extends MusicBeatState
 		super.update(elapsed);
 
 		#if android
-		if (MusicBeatState.virtualPad.buttonX.justPressed)
+		if (MusicBeatState.virtualPad.buttonX.justReleased) // Just in case to see if will open the substate
 			FlxTransitionableState.skipNextTransIn = true;
 			FlxTransitionableState.skipNextTransOut = true;
 			FlxG.switchState(() -> new options.android.AndroidControlsMenuState());
 
-		if (MusicBeatState.virtualPad.buttonY.justPressed)
+		if (MusicBeatState.virtualPad.buttonY.justReleased) // Just in case to see if will open the substate
 			removeVirtualPad();
 			openSubState(new options.android.AndroidOptionsSubState());
 		#end
