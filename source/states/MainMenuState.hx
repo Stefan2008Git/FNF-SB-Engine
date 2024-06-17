@@ -19,7 +19,7 @@ class MainMenuState extends MusicBeatState
 	public static var currentlySelected:Int = 0;
 	public static var curSelected:Int = 0;
 	public static var curColumn:MainMenuColumn = LEFT;
-	var allowMouse:Bool = true; //Turn this off to block mouse movement in menus
+	#if desktop var allowMouse:Bool = true; #end //Turn this off to block mouse movement in menus
 
 	var menuItems:FlxTypedGroup<FlxSprite>;
 	var menuBG:FlxSprite;
