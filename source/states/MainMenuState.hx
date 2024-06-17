@@ -1,8 +1,5 @@
 package states;
 
-import flixel.FlxObject;
-import flixel.effects.FlxFlicker;
-import lime.app.Application;
 import states.editors.MasterEditorMenu;
 import options.OptionsState;
 
@@ -160,7 +157,7 @@ class MainMenuState extends MusicBeatState
 
 		super.create();
 
-		#if mobile addVirtualPad(FULL, A_B_E); #end
+		#if mobile addVirtualPad(FULL, A_B); #end
 
 		FlxG.camera.follow(camFollow, null, 0.15);
 	}
