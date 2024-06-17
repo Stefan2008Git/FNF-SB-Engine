@@ -6,7 +6,7 @@ import flixel.addons.transition.FlxTransitionableState;
 
 class OptionsState extends MusicBeatState
 {
-	var options:Array<String> = ['Note Colors', #if desktop 'Controls', #end 'Delay and Combo', 'Graphics', 'Visuals and UI', 'Gameplay'];
+	var options:Array<String> = ['Note Colors', #if desktop 'Controls', #end 'Delay and Combo', 'Graphics', 'Visuals and UI', 'Gameplay', #if android 'Android Options' #end];
 	private var grpOptions:FlxTypedGroup<Alphabet>;
 	private static var currentlySelected:Int = 0;
 	public static var onPlayState:Bool = false;
@@ -43,13 +43,17 @@ class OptionsState extends MusicBeatState
 			  	#if android
 				removeVirtualPad();
 				#end
+			case 'Android Options':
+				#if android
+				removeVirtualPad();
+				openSubState(new options.android.AndroidOptionsSubState());
+				#end
 		}
 	}
 
 	var background:FlxSprite;
 	var checkerboard:FlxBackdrop;
 	var androidControlsStyleTipText:FlxText;
-	var customizeAndroidControlsTipText:FlxText;
 	var selectorLeft:Alphabet;
 	var selectorRight:Alphabet;
 	var gearIcon:FlxSprite;
@@ -131,32 +135,22 @@ class OptionsState extends MusicBeatState
 		add(optionsTipTxt);
 
 		#if android
-		androidControlsStyleTipText = new FlxText(150, FlxG.height - 44, 0, "Press Y to open the Android controls style!", 16);
-		customizeAndroidControlsTipText = new FlxText(150, FlxG.height - 24, 0, "Press X to customize the Android controls!", 16);
-		androidControlsStyleTipText.setFormat("VCR OSD Mono", 17, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		customizeAndroidControlsTipText.setFormat("VCR OSD Mono", 17, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		androidControlsStyleTipText = new FlxText(150, FlxG.height - 24, 0, "Press C to open the Android controls style!", 16);
 		switch (ClientPrefs.data.gameStyle) {
 			case 'SB Engine': 
 				androidControlsStyleTipText.setFormat(Paths.font("bahnschrift.ttf"), 18, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-				customizeAndroidControlsTipText.setFormat(Paths.font("bahnschrift.ttf"), 18, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 
 			case 'TGT Engine': 
 				androidControlsStyleTipText.setFormat(Paths.font("calibri.ttf"), 18, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-				customizeAndroidControlsTipText.setFormat(Paths.font("calibri.ttf"), 18, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 			case 'Dave and Bambi': 
 				androidControlsStyleTipText.setFormat(Paths.font("comic.ttf"), 18, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-				customizeAndroidControlsTipText.setFormat(Paths.font("comic.ttf"), 18, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 
 			default:
 				androidControlsStyleTipText.setFormat(Paths.font("vcr.ttf"), 18, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-				customizeAndroidControlsTipText.setFormat(Paths.font("vcr.ttf"), 18, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		}
 		androidControlsStyleTipText.borderSize = 1.25;
 		androidControlsStyleTipText.scrollFactor.set();
-		customizeAndroidControlsTipText.borderSize = 1.25;
-		customizeAndroidControlsTipText.scrollFactor.set();
 		add(androidControlsStyleTipText);
-		add(customizeAndroidControlsTipText);
 		#end
 
 		if (ClientPrefs.data.cacheOnGPU) Paths.clearUnusedMemory();
@@ -164,7 +158,7 @@ class OptionsState extends MusicBeatState
 		changeSelection();
 		ClientPrefs.saveSettings();
 
-		#if android addVirtualPad(UP_DOWN, A_B_X_Y); #end
+		#if android addVirtualPad(UP_DOWN, A_B_C); #end
 
 		super.create();
 	}
@@ -178,15 +172,15 @@ class OptionsState extends MusicBeatState
 		super.update(elapsed);
 
 		#if android
-		if (MusicBeatState.virtualPad.buttonX.justReleased) // Just in case to see if will open the substate
+		if (MusicBeatState.virtualPad.buttonC.justReleased) // Just in case to see if will open the substate
 			FlxTransitionableState.skipNextTransIn = true;
 			FlxTransitionableState.skipNextTransOut = true;
 			FlxG.switchState(() -> new options.android.AndroidControlsMenuState());
 
-		if (MusicBeatState.virtualPad.buttonY.justReleased) // Just in case to see if will open the substate
+		/*if (MusicBeatState.virtualPad.buttonY.justReleased) // Archived
 			removeVirtualPad();
 			openSubState(new options.android.AndroidOptionsSubState());
-		#end
+		#end*/
 
 		if (controls.UI_UP_P) {
 			changeSelection(-1);
