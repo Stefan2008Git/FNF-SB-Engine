@@ -179,8 +179,8 @@ class OptionsState extends MusicBeatState
 
 		/*if (MusicBeatState.virtualPad.buttonY.justReleased) // Archived
 			removeVirtualPad();
-			openSubState(new options.android.AndroidOptionsSubState());
-		#end*/
+			openSubState(new options.android.AndroidOptionsSubState());*/
+		#end
 
 		if (controls.UI_UP_P) {
 			changeSelection(-1);
