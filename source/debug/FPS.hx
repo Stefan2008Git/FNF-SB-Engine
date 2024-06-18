@@ -105,10 +105,7 @@ class FPS extends TextField
 		if (totalFPS < 10)
 			totalFPS = 0;
 
-		if (LimeSystem.platformName == LimeSystem.platformVersion || LimeSystem.platformVersion == null)
-			os = 'Platform: ${LimeSystem.platformName}' #if cpp + ' ${getArch()}' #end;
-		else
-			os = 'Platform: ${LimeSystem.platformName}' #if cpp + ' ${getArch()}' #end + ' - ${LimeSystem.platformVersion}';
+		if (LimeSystem.platformName == LimeSystem.platformVersion || LimeSystem.platformVersion == null) os = 'Platform: ${LimeSystem.platformName}' #if cpp + ' ${getArch()}' #end; else os = 'Platform: ${LimeSystem.platformName}' #if cpp + ' ${getArch()}' #end + ' - ${LimeSystem.platformVersion}';
 
 		if (currentCount != cacheCount) {
 			text =  currentlyFPS + " / " + totalFPS + " FPS";
@@ -138,11 +135,9 @@ class FPS extends TextField
 				text += "\nLime: " + Compiler.getDefine("lime");
 			}
 
-			#if android
-			if (ClientPrefs.data.debugInfo) text += "\nGo to options to enable/disable in-game logs";
-			#else
-			if (ClientPrefs.data.debugInfo) text += "\nPress F5 to see in-game logs";
-			#end
+			if (ClientPrefs.data.inGameLogs) {
+				#if android text += '\n${Main.gameLogs.logData.length} traced lines. Release BACK to view.'; #else text += '\n${Main.gameLogs.logData.length} traced lines. Press F3 to view.'; #end
+			}
 
 			switch (ClientPrefs.data.gameStyle) {
 				case 'SB Engine':

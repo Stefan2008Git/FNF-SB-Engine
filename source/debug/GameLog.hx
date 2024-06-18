@@ -117,7 +117,7 @@ class GameLog extends Sprite
 		title.x = (FlxG.width / 2) - (title.width / 2);
 		addChild(title);
 
-		thing = createText(0, 2, {width: 450, height: 20}, #if android "[BACK] Hide / SHow this log window" #else "[R] Clear the Log // [F5] Hide / Show this log window" #end, 16);
+		thing = createText(0, 2, {width: 450, height: 20}, #if android "[TOUCH] Clear the Log (Nod added!!) // [BACK] Hide / Show this log window" #else "[R] Clear the Log // [F5] Hide / Show this log window" #end, 16);
 		thing.defaultTextFormat.align = LEFT;
 		thing.x = 10;
 		thing.y = Application.current.window.height - 22;
@@ -234,12 +234,23 @@ class GameLog extends Sprite
 
 	private function onFrameUpdate(_):Void
 	{
+		// Not right now...
+		#if android
+		var pressedTheTouchScreen:Bool = false;
+
+		for (touch in FlxG.touches.list) {
+			if (touch.justPressed) {
+				pressedTheTouchScreen = true;
+			}
+		}
+		#end
+
 		// this is pretty much acts like update() function
-		if (FlxG.keys.justPressed.F5 #if android || FlxG.android.justReleased.BACK #end)
+		if (FlxG.keys.justPressed.F3 #if android || FlxG.android.justReleased.BACK #end)
             changeActive(!isVisible);
 
 		if (isVisible){
-			if (FlxG.keys.justPressed.R){
+			if (FlxG.keys.justPressed.R /*#if android || pressedTheTouchScreen #end*/){
 				logData = [];
 				logText.text = "";
 				errorCounter = 0;

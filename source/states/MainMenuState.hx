@@ -12,7 +12,7 @@ class MainMenuState extends MusicBeatState
 {
 	public static var sbEngineVersion:String = '3.0.0h'; // This is also used for Discord RPC
 	public static var psychEngineVersion:String = '0.7.1h'; // This is also used for Discord RPC
-	public static var fnfEngineVersion:String = '0.3.3';
+	public static var fnfEngineVersion:String = '0.4';
 	public var versionSb:FlxText;
 	public var versionPsych:FlxText;
 	public var versionFnf:FlxText;

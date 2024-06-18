@@ -267,6 +267,7 @@ class MasterEditorMenu extends MusicBeatState
 				menuCharacterEditor.visible = false;
 				noteSplashDebug.visible = false;
 	            weekEditor.visible = false;
+
 			case 'Character Editor':
 				tipText.text = "Make a new character";
 				characterEditor.visible = true;
@@ -276,15 +277,6 @@ class MasterEditorMenu extends MusicBeatState
 				menuCharacterEditor.visible = false;
 				noteSplashDebug.visible = false;
 	            weekEditor.visible = false;
-			case 'Week Editor':
-				tipText.text = "Make a new week";
-				characterEditor.visible = false;
-	            chartEditor.visible = false;
-	            dialogueEditor.visible = false;
-	            dialoguePortraitEditor.visible = false;
-				menuCharacterEditor.visible = false;
-				noteSplashDebug.visible = false;
-	            weekEditor.visible = true;
 
 			case 'Menu Character Editor':
 				tipText.text = "Make a new story mode character";
@@ -324,6 +316,26 @@ class MasterEditorMenu extends MusicBeatState
 	            dialoguePortraitEditor.visible = false;
 				menuCharacterEditor.visible = false;
 				noteSplashDebug.visible = true;
+	            weekEditor.visible = false;
+			
+			case 'Week Editor':
+				tipText.text = "Make a new week";
+				characterEditor.visible = false;
+	            chartEditor.visible = false;
+	            dialogueEditor.visible = false;
+	            dialoguePortraitEditor.visible = false;
+				menuCharacterEditor.visible = false;
+				noteSplashDebug.visible = false;
+	            weekEditor.visible = true;
+			
+			default:
+				tipText.text = null;
+				characterEditor.visible = false;
+	            chartEditor.visible = false;
+	            dialogueEditor.visible = false;
+	            dialoguePortraitEditor.visible = false;
+				menuCharacterEditor.visible = false;
+				noteSplashDebug.visible = false;
 	            weekEditor.visible = false;
 		}
 	}

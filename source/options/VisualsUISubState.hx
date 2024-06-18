@@ -17,6 +17,17 @@ class VisualsUISubState extends BaseOptionsMenu
 		addOption(option);
 		option.onChange = onChangeFPSCounter;
 
+		var option:Option = new Option('FPS Counter size:', 
+			'Resize the FPS Counter for better experience.\nNOTE: This can be helpful for phone screen resoultion problem with OpenFL.',
+			'fpsResize',
+			'float');
+		option.scrollSpeed = 2;
+		option.minValue = 0.3;
+		option.maxValue = 3;
+		option.changeValue = 0.1;
+		addOption(option);
+		option.onChange = onChangeFPSCounterSize;
+
 		var option:Option = new Option('Memory Counter',
 			'If unchecked, hides memory on FPS Counter.', 'memory', 'bool');
 		addOption(option);
@@ -49,6 +60,17 @@ class VisualsUISubState extends BaseOptionsMenu
 			'bool');
 		addOption(option);
 		option.onChange = onWatermarkIcon;
+
+		var option:Option = new Option('Watermark size:', 
+			'Resize the watermark icon for better experience.\nNOTE: This can be helpful for phone screen resoultion problem with OpenFL.',
+			'iconResize',
+			'float');
+		option.scrollSpeed = 2;
+		option.minValue = 0.3;
+		option.maxValue = 3;
+		option.changeValue = 0.1;
+		addOption(option);
+		option.onChange = onChangeIconSize;
 
 		var option:Option = new Option('Flashing Lights',
 			"Uncheck this if you're sensitive to flashing lights!",
@@ -122,6 +144,16 @@ class VisualsUISubState extends BaseOptionsMenu
 		if (Main.fpsVar.alpha == 0) Main.tweenFPS();
 	}
 
+	function onChangeFPSCounterSize()
+	{
+		if (Main.fpsVar != null) Main.fpsVar.scaleX = Main.fpsVar.scaleY = ClientPrefs.data.fpsResize;
+	}
+
+	function onChangeIconSize()
+	{
+		if (Main.watermark != null) Main.watermark.scaleX = Main.watermark.scaleY = ClientPrefs.data.iconResize;
+	}
+
 	function onWatermarkIcon()
 	{
 		if (Main.watermark != null) Main.watermark.visible = ClientPrefs.data.watermarkIcon;
@@ -132,8 +164,8 @@ class VisualsUISubState extends BaseOptionsMenu
 	function onChangeMainMenuMusic()
 	{
 		if (ClientPrefs.data.mainMenuMusic != 'FNF') FlxG.sound.playMusic(Paths.music('freakyMenu-' + ClientPrefs.data.mainMenuMusic));
-		if (ClientPrefs.data.mainMenuMusic == 'FNF') FlxG.sound.playMusic(Paths.music('freakyMenu'));
-		if(ClientPrefs.data.mainMenuMusic == 'None') FlxG.sound.music.volume = 0;
+		else if (ClientPrefs.data.mainMenuMusic == 'FNF') FlxG.sound.playMusic(Paths.music('freakyMenu'));
+		else if (ClientPrefs.data.mainMenuMusic == 'None') FlxG.sound.music.volume = 0;
 		changedMainMusic = true;
 	}
 
@@ -147,22 +179,22 @@ class VisualsUISubState extends BaseOptionsMenu
 		switch (ClientPrefs.data.gameStyle) {
 			case 'SB Engine':
 				BaseOptionsMenu.descText.setFormat(Paths.font("bahnschrift.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-				Main.fpsVar.defaultTextFormat = new TextFormat('Bahnschrift', 14, 0xFFFFFF);
+				Main.fpsVar.defaultTextFormat = new TextFormat('Bahnschrift', #if android 14 #else 12 #end, 0xFFFFFF);
 			
 			case 'Dave and Bambi':
 				BaseOptionsMenu.descText.setFormat(Paths.font("comic.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-				Main.fpsVar.defaultTextFormat = new TextFormat('Comic Sans MS Bold', 14, 0xFFFFFF);
+				Main.fpsVar.defaultTextFormat = new TextFormat('Comic Sans MS Bold', #if android 14 #else 12 #end, 0xFFFFFF);
 			
 			case 'Kade Engine':
-				Main.fpsVar.defaultTextFormat = new TextFormat('VCR OSD Mono', 14, 0xFFFFFF);
+				Main.fpsVar.defaultTextFormat = new TextFormat('VCR OSD Mono', #if android 14 #else 12 #end, 0xFFFFFF);
 			
 			case 'TGT Engine':
 				BaseOptionsMenu.descText.setFormat(Paths.font("calibri.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-				Main.fpsVar.defaultTextFormat = new TextFormat('Calibri', 14, 0xFFFFFF);
+				Main.fpsVar.defaultTextFormat = new TextFormat('Calibri', #if android 14 #else 12 #end, 0xFFFFFF);
 			
 			default:
 				BaseOptionsMenu.descText.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-				Main.fpsVar.defaultTextFormat = new TextFormat('_sans', 14, 0xFFFFFF);
+				Main.fpsVar.defaultTextFormat = new TextFormat('_sans', #if android 14 #else 12 #end, 0xFFFFFF);
 		}
 	}
 

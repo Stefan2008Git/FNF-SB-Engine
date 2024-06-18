@@ -18,8 +18,10 @@ import states.TitleState;
 	public var debugInfo:Bool = false;
 	public var rainbowFPS:Bool = false;
 	public var redText:Bool = true;
+	public var fpsResize:Float = 1;
 	public var inGameLogs:Bool = false;
 	public var watermarkIcon:Bool = true;
+	public var iconResize:Float = 1;
 	public var flashing:Bool = true;
 	public var autoPause:Bool = true;
 	public var antialiasing:Bool = true;
@@ -161,7 +163,7 @@ class ClientPrefs {
 		'debug_2'		=> [EIGHT],
 
 		'full_screen'   => [F11],
-		'refresh_game'  => [F6],
+		'refresh_game'  => [F5],
 	];
 	public static var gamepadBinds:Map<String, Array<FlxGamepadInputID>> = [
 		'note_up'		=> [DPAD_UP, Y],

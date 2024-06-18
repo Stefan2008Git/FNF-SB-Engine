@@ -50,8 +50,8 @@ class OptionsState extends MusicBeatState
 				#end
 			case 'Android Controls':
 				FlxTransitionableState.skipNextTransIn = true;
-			        FlxTransitionableState.skipNextTransOut = true;
-			        FlxG.switchState(() -> new options.android.AndroidControlsMenuState());     
+			    FlxTransitionableState.skipNextTransOut = true;
+			    FlxG.switchState(() -> new options.android.AndroidControlsMenuState());     
 		}
 	}
 
@@ -112,19 +112,19 @@ class OptionsState extends MusicBeatState
 		selectorRight = new Alphabet(0, 0, '<', true);
 		add(selectorRight);
 
-		gearIcon = new FlxSprite(110, #if android 22 #else 26 #end).loadGraphic(Paths.image('engineStuff/options/main/gearIcon'));
+		gearIcon = new FlxSprite(110, #if android 30 #else 26 #end).loadGraphic(Paths.image('engineStuff/options/main/gearIcon'));
 		gearIcon.scale.x = 0.7;
 		gearIcon.scale.y = 0.7;
 		gearIcon.antialiasing = ClientPrefs.data.antialiasing;
 		add(gearIcon);
 
-		optionsMenu = new FlxSprite(130, #if android 22 #else 26 #end).loadGraphic(Paths.image('engineStuff/options/main/optionsMenu'));
+		optionsMenu = new FlxSprite(130, #if android 30 #else 26 #end).loadGraphic(Paths.image('engineStuff/options/main/optionsMenu'));
 		optionsMenu.scale.x = 0.6;
 		optionsMenu.scale.y = 0.6;
 		optionsMenu.antialiasing = ClientPrefs.data.antialiasing;
 		add(optionsMenu);
 
-		optionsTipTxt = new FlxText(FlxG.width - 345, 35, 0, "", 32);
+		optionsTipTxt = new FlxText(FlxG.width - 345, 35, 0, null, 32);
 		switch (ClientPrefs.data.gameStyle) {
 			case 'SB Engine': optionsTipTxt.setFormat(Paths.font("bahnschrift.ttf"), 18, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 			case 'TGT Engine': optionsTipTxt.setFormat(Paths.font("calibri.ttf"), 18, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -213,6 +213,12 @@ class OptionsState extends MusicBeatState
 
 			case 'Delay and Combo':
 				optionsTipTxt.text = "Edit a combo note offset";
+			
+			case 'Android Options':
+				optionsTipTxt.text = "Edit a Android settings";
+			
+			case 'Android Controls':
+				optionsTipTxt.text = "Configure a Android controls";
 
 			default:
 				optionsTipTxt.text = null;
