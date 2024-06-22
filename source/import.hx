@@ -1,7 +1,6 @@
 #if !macro
 package;
 
-S
 // Basic Flixel stuff for HaxeFlixel engine.
 import flixel.FlxG;
 import flixel.FlxBasic;
