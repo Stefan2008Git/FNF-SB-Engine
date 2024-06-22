@@ -86,12 +86,10 @@ class ModsMenuState extends MusicBeatState
 		add(noModsTxt);
 
 		modEditorTxt = new FlxText(400, 665, FlxG.width - 800, #if android "Tap on E button to enter on master editor menu." #else "Press 7 to enter on master editor menu." #end, 32);
-		if (FlxG.random.bool(25.5)) secret();
 		modEditorTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		modEditorTxt.scrollFactor.set();
 		modEditorTxt.borderSize = 2;
 		add(modEditorTxt);
-		visibleWhenNoMods.push(modEditorTxt);
 
 		var list:ModsList = Mods.parseList();
 		for (mod in list.all) modsList.push([mod, list.enabled.contains(mod)]);
@@ -230,8 +228,6 @@ class ModsMenuState extends MusicBeatState
 
 		// more buttons
 		var startX:Int = 1100;
-
-		///////
 		descriptionTxt = new FlxText(148, 0, FlxG.width - 216, "", 32);
 		descriptionTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, LEFT);
 		descriptionTxt.scrollFactor.set();
@@ -306,13 +302,6 @@ class ModsMenuState extends MusicBeatState
 		super.create();
 	}
 
-	/*function getIntArray(max:Int):Array<Int>{
-		var arr:Array<Int> = [];
-		for (i in 0...max) {
-			arr.push(i);
-		}
-		return arr;
-	}*/
 	function updateButtonToggle()
 	{
 		if (modsList[currentlySelected][1])
@@ -566,35 +555,6 @@ class ModsMenuState extends MusicBeatState
 		selector.pixels.fillRect(new Rectangle((flipX ? antiX : 5), Std.int(Math.abs(antiY - 3)),  6, 1), FlxColor.BLACK);
 		selector.pixels.fillRect(new Rectangle((flipX ? antiX : 6), Std.int(Math.abs(antiY - 2)),  5, 1), FlxColor.BLACK);
 		selector.pixels.fillRect(new Rectangle((flipX ? antiX : 8), Std.int(Math.abs(antiY - 1)),  3, 1), FlxColor.BLACK);
-	}
-
-	function secret()
-	{
-		#if android FlxTween.tween(MusicBeatState.virtualPad, {alpha: 0}, 1, {ease: FlxEase.sineInOut}); #end
-		noModsTxt.alpha = 0;
-		FlxTween.tween(FlxG.sound.music, {pitch: 0, volume: 0}, 1.5, {ease: FlxEase.sineInOut});
-		new FlxTimer().start(1.5, function(firstTimer:FlxTimer)
-		{
-			FlxTween.tween(modEditorTxt, {y: 3}, 1.5, {ease: FlxEase.sineInOut});
-		});
-
-		new FlxTimer().start(5, function(secondTimer:FlxTimer)
-		{
-			FlxG.sound.play(Paths.sound('epicFail'));
-			modEditorTxt.text = "GREAT, YOU GOT EPIC FAIL BUDDY";
-		});
-
-		new FlxTimer().start(14, function(lastTimer:FlxTimer)
-		{
-			modEditorTxt.text = "Closing the menu...";
-		});
-
-		new FlxTimer().start(15, function(lastTimer:FlxTimer)
-		{
-			FlxG.sound.play(Paths.sound('cancelMenu'));
-			FlxTween.tween(FlxG.sound.music, {pitch: 1.6, volume: 1}, {ease: FlxEase.sineInOut});
-			FlxG.switchState(() -> new MainMenuState());
-		});
 	}
 }
 

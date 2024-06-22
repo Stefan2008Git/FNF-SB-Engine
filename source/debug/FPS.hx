@@ -40,17 +40,12 @@ class FPS extends TextField
 
 	public var currentlyMemory:Float;
 	public var maximumMemory:Float;
-	public var color:Int = 0xFF000000;
+	public var color:Int = FlxColor.WHITE;
 
 	@:noCompletion private var cacheCount:Int;
 	@:noCompletion private var currentTime:Float;
 	@:noCompletion private var times:Array<Float>;
 
-	public var rainbowEnabled(default, set):Bool = false;
-	public function set_rainbowEnabled(v:Bool):Bool {
-		if (!v) textColor = 0xffffffff;
-		return rainbowEnabled = v;
-	}
 	public var os:String = '';
 
 	public function new(x:Float = 10, y:Float = 10)
@@ -88,7 +83,6 @@ class FPS extends TextField
 	{
 		currentTime += deltaTime;
 		times.push(currentTime);
-		if (rainbowEnabled) doRainbowThing();
 
 		while (times[0] < currentTime - 1000)
 		{
@@ -100,19 +94,15 @@ class FPS extends TextField
 		if (currentlyFPS > ClientPrefs.data.framerate) currentlyFPS = ClientPrefs.data.framerate;
 
 		totalFPS = Math.round(currentlyFPS + currentCount / 8);
-		if (currentlyFPS > ClientPrefs.data.framerate)
-			currentlyFPS = ClientPrefs.data.framerate;
-		if (totalFPS < 10)
-			totalFPS = 0;
+		if (totalFPS < 10) totalFPS = 0;
 
-		if (LimeSystem.platformName == LimeSystem.platformVersion || LimeSystem.platformVersion == null) os = 'Platform: ${LimeSystem.platformName}' #if cpp + ' ${getArch()}' #end; else os = 'Platform: ${LimeSystem.platformName}' #if cpp + ' ${getArch()}' #end + ' - ${LimeSystem.platformVersion}';
+		if (LimeSystem.platformName == LimeSystem.platformVersion || LimeSystem.platformVersion == null) os = 'Platform: ${LimeSystem.platformName}' #if cpp + ' ${getArch()}' #end; else os = 'Platform: ${LimeSystem.platformName} ${LimeSystem.platformVersion}' #if cpp + ' - ${getArch()}' #end;
 
 		if (currentCount != cacheCount) {
 			text =  currentlyFPS + " / " + totalFPS + " FPS";
 
 			currentlyMemory = obtainMemory();
-			if (currentlyMemory >= maximumMemory)
-				maximumMemory = currentlyMemory;
+			if (currentlyMemory >= maximumMemory) maximumMemory = currentlyMemory;
 
 			if (ClientPrefs.data.memory) {
 				text += "\n" + CoolUtil.formatMemory(Std.int(currentlyMemory)) + " / " + CoolUtil.formatMemory(Std.int(maximumMemory));
@@ -166,7 +156,6 @@ class FPS extends TextField
 		}
 
 		cacheCount = currentCount;
-		set_rainbowEnabled(ClientPrefs.data.rainbowFPS);
 	}
 
 	function obtainMemory():Dynamic {
@@ -184,37 +173,6 @@ class FPS extends TextField
 				return Std.string(gl.getParameter(gl.SHADING_LANGUAGE_VERSION));
 		}
 		return '';
-	}
-
-	private var hue:Float = 0;
-	private function doRainbowThing():Void {
-		textColor = fromHSL({hue = (hue + (FlxG.elapsed * 100)) % 360; hue;}, 1, 0.8);
-	}
-
-	// function named fromHSL which takes a hue, saturation, and lightness value and returns a color (0xffRRGGBB)
-	private static inline function fromHSL(h:Float, s:Float, l:Float) {
-		h /= 360;
-		var r:Float, g:Float, b:Float;
-		if (s == 0.0) {
-			r = g = b = l;
-		} else {
-			var q:Float = l < 0.5 ? l * (1.0 + s) : l + s - l * s;
-			var p:Float = 2.0 * l - q;
-			r = hueToRGB(p, q, h + 1.0 / 3.0);
-			g = hueToRGB(p, q, h);
-			b = hueToRGB(p, q, h - 1.0 / 3.0);
-		}
-		return (Math.round(r * 255) << 16) + (Math.round(g * 255) << 8) + Math.round(b * 255);
-	}
-
-	// hueToRGB function
-	private static inline function hueToRGB(p:Float, q:Float, h:Float) {
-		if (h < 0.0) h += 1.0;
-		if (h > 1.0) h -= 1.0;
-		if (6.0 * h < 1.0) return p + (q - p) * 6.0 * h;
-		if (2.0 * h < 1.0) return q;
-		if (3.0 * h < 2.0) return p + (q - p) * ((2.0 / 3.0) - h) * 6.0;
-		return p;
 	}
 
 	#if cpp

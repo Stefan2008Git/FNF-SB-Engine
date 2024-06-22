@@ -3,7 +3,6 @@ package debug;
 import flixel.system.frontEnds.LogFrontEnd;
 import haxe.PosInfos;
 import haxe.Log;
-import lime.app.Application;
 import openfl.Lib;
 import openfl.events.Event;
 import openfl.text.TextFormatAlign;
@@ -75,7 +74,7 @@ class GameLog extends Sprite
 	public static var defaultHaxeFunction:Dynamic = null;
 
 	//baseText + spacing + errorText + spacing + warningText;
-	public var baseText:String = "SB Engine v" + MainMenuState.sbEngineVersion + "(Modified Psych Engine " + MainMenuState.psychEngineVersion + ") - Game Log";
+	public var baseText:String = "SB Engine v" + MainMenuState.sbEngineVersion + " (Modified Psych Engine " + MainMenuState.psychEngineVersion + ") - Game Log";
 	public var errorCounter:Int = 0;
 	public var errorText:String = "0 Errors";
 	public var spacing:String = " // ";
