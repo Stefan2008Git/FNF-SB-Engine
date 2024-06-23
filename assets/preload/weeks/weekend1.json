@@ -13,7 +13,7 @@
 	"weekBackground": "phillyStreet",
 
 	"storyName": "Due Debts",
-	"difficulties": "Hard",
+	"difficulties": "Easy, Normal, Hard",
 	"weekBefore": "week7",
 	"weekName": "Weekend 1",
 	"startUnlocked": true,

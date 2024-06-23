@@ -3216,6 +3216,25 @@ class PlayState extends MusicBeatState
 			case 'Play Sound':
 				if(flValue2 == null) flValue2 = 1;
 				FlxG.sound.play(Paths.sound(value1), flValue2);
+			
+			case 'Focus Camera':
+				camZooming = true;
+				switch(value2.toLowerCase().trim()) {
+					case 'true' | 'True':
+						switch(value1.toLowerCase().trim()) {
+							case 'gf' | 'girlfriend':
+								//defaultCamZoom -= 0.05;
+								triggerEvent('Camera Follow Pos', Std.string(gf.getMidpoint().x+gf.cameraPosition[0]), Std.string(gf.getMidpoint().y+gf.cameraPosition[1]), Conductor.songPosition);
+							case 'dad':
+								triggerEvent('Camera Follow Pos', Std.string(dad.getMidpoint().x+dad.cameraPosition[0]), Std.string(dad.getMidpoint().y+dad.cameraPosition[1]), Conductor.songPosition);
+								//defaultCamZoom += 0.05;
+							case 'bf' | 'boyfriend':
+								triggerEvent('Camera Follow Pos', Std.string(boyfriend.getMidpoint().x+boyfriend.cameraPosition[0]), Std.string(boyfriend.getMidpoint().x+boyfriend.cameraPosition[1]), Conductor.songPosition);
+								//defaultCamZoom += 0.05;
+						}
+					case 'false' | 'False':
+						triggerEvent('Camera Follow Pos', '', '', Conductor.songPosition);
+				}
 		}
 		
 		stagesFunc(function(stage:BaseStage) stage.eventCalled(eventName, value1, value2, flValue1, flValue2, strumTime));
