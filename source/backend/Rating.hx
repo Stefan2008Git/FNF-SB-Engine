@@ -12,41 +12,29 @@ class Rating
 	public var noteSplash:Bool = true;
 	public var hits:Int = 0;
 
-	public function new(name:String)
+	public function new(name:String):Void
 	{
-		this.name = name;
-		this.image = name;
+		this.name = name = this.image = name;
 		this.hitWindow = 0;
 
-		var window:String = name + 'Window';
-		try
-		{
-			this.hitWindow = Reflect.field(ClientPrefs.data, window);
+		try {
+			this.hitWindow = Reflect.field(ClientPrefs.data, '${name}Window');
+		} catch (e:Dynamic) {
+			FlxG.log.error(e);
 		}
-		catch(e) FlxG.log.error(e);
 	}
 
 	public static function loadDefault():Array<Rating>
 	{
-		var ratingsData:Array<Rating> = [new Rating('sick')]; //highest rating goes first
-
-		var rating:Rating = new Rating('good');
-		rating.ratingMod = 0.67;
-		rating.score = 200;
-		rating.noteSplash = false;
-		ratingsData.push(rating);
-
-		var rating:Rating = new Rating('bad');
-		rating.ratingMod = 0.34;
-		rating.score = 100;
-		rating.noteSplash = false;
-		ratingsData.push(rating);
-
-		var rating:Rating = new Rating('shit');
-		rating.ratingMod = 0;
-		rating.score = 50;
-		rating.noteSplash = false;
-		ratingsData.push(rating);
+		final ratingsData:Array<Rating> = [new Rating('sick')];
+		final otherRatings:Array<String> = ['good', 'bad', 'shit'];
+		for (i in 0...otherRatings.length) {
+			final rating:Rating = new Rating(otherRatings[i]);
+			rating.ratingMod = .68 - .68 * i * .5;
+			rating.score = cast 200 * Math.pow(.5, i);
+			rating.noteSplash = false;
+			ratingsData.push(rating);
+		}
 		return ratingsData;
 	}
 }

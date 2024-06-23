@@ -1,133 +1,126 @@
 {
 	"animations": [
 		{
-			"offsets": [
-				80,
-				-236
-			],
-			"loop": true,
-			"fps": 24,
-			"anim": "idle-loop",
-			"indices": [],
-			"name": "Idle"
-		},
-		{
-			"offsets": [
-				80,
-				-230
-			],
 			"loop": false,
-			"fps": 24,
-			"anim": "singLEFT",
-			"indices": [],
-			"name": "Pose Left"
-		},
-		{
 			"offsets": [
-				80,
-				-230
+				25,
+				90
 			],
-			"loop": false,
-			"fps": 24,
-			"anim": "singDOWN",
-			"indices": [],
-			"name": "Pose Down"
-		},
-		{
-			"offsets": [
-				80,
-				-230
-			],
-			"loop": false,
-			"fps": 24,
-			"anim": "singUP",
-			"indices": [],
-			"name": "Pose Up"
-		},
-		{
-			"offsets": [
-				80,
-				-230
-			],
-			"loop": false,
-			"fps": 24,
-			"anim": "singRIGHT",
-			"indices": [],
-			"name": "Pose Right"
-		},
-		{
-			"offsets": [
-				80,
-				-230
-			],
-			"loop": false,
-			"fps": 24,
-			"anim": "laugh",
-			"indices": [],
-			"name": "Laugh"
-		},
-		{
-			"offsets": [
-				80,
-				-230
-			],
-			"loop": false,
-			"fps": 24,
 			"anim": "idle",
-			"indices": [],
-			"name": "Idle"
+			"fps": 24,
+			"name": "Idle",
+			"indices": [
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13
+			]
 		},
 		{
-			"offsets": [
-				80,
-				-230
-			],
 			"loop": false,
+			"offsets": [
+				26,
+				91
+			],
+			"anim": "singLEFT",
 			"fps": 24,
-			"anim": "lightCan",
-			"indices": [],
-			"name": "Light Can"
+			"name": "Pose Left",
+			"indices": []
 		},
 		{
-			"offsets": [
-				80,
-				-230
-			],
 			"loop": false,
+			"offsets": [
+				30,
+				89
+			],
+			"anim": "singDOWN",
 			"fps": 24,
-			"anim": "kickingUp",
-			"indices": [],
-			"name": "Kick Up"
+			"name": "Pose Down",
+			"indices": []
 		},
 		{
-			"offsets": [
-				80,
-				-230
-			],
 			"loop": false,
+			"offsets": [
+				34,
+				97
+			],
+			"anim": "singUP",
 			"fps": 24,
-			"anim": "kneeForward",
-			"indices": [],
-			"name": "Knee Forward"
+			"name": "Pose Up",
+			"indices": []
 		},
 		{
-			"offsets": [
-				80,
-				-230
-			],
 			"loop": false,
+			"offsets": [
+				26,
+				93
+			],
+			"anim": "singRIGHT",
 			"fps": 24,
+			"name": "Pose Right",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [
+				30,
+				90
+			],
+			"anim": "can",
+			"fps": 24,
+			"name": "Light Can",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [
+				40,
+				110
+			],
+			"anim": "kick",
+			"fps": 24,
+			"name": "Kick Up",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [
+				59,
+				105
+			],
+			"anim": "knee",
+			"fps": 24,
+			"name": "Knee Forward",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [
+				25,
+				90
+			],
 			"anim": "pissed",
-			"indices": [],
-			"name": "Gets Pissed"
+			"fps": 24,
+			"name": "Gets Pissed",
+			"indices": []
 		}
 	],
-	"vocals_file": "darnell",
+	"vocals_file": "",
 	"no_antialiasing": false,
 	"image": "characters/darnell",
 	"position": [
-		70,
-		-30
+		0,
+		350
 	],
 	"healthicon": "darnell",
 	"flip_x": false,
@@ -137,10 +130,10 @@
 		176
 	],
 	"camera_position": [
-		-370,
-		190
+		-100,
+		-100
 	],
-	"sing_duration": 6.1,
+	"sing_duration": 4,
 	"scale": 1,
 	"_editor_isPlayer": false
 }

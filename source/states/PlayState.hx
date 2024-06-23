@@ -313,6 +313,10 @@ class PlayState extends MusicBeatState
 	public var startCallback:Void->Void = null;
 	public var endCallback:Void->Void = null;
 
+	var abotEyess:Float = 0;
+	var abotEyes:FlxAnimate; //don't get the two mixed, one is a float while the other is the animate sprite
+	var abot:FlxAnimate; //don't get the two mixed, one is a float while the other is the animate sprite
+
 	override public function create()
 	{
 		//TraceText.makeTheTraceText('Playback Rate: ' + playbackRate);
@@ -1201,6 +1205,39 @@ class PlayState extends MusicBeatState
 		{
 			for (event in eventNotes) event.strumTime -= eventEarlyTrigger(event);
 			eventNotes.sort(sortByTime);
+		}
+
+		if(gf.curCharacter == 'nene') {
+			var stBg:BGSprite = new BGSprite('stereo/stereoBG', gf.x + 18, gf.y + 318, 1, 1);
+			stBg.scale.set(1.05, 1.05);
+			stBg.x = gf.x + 18;
+			stBg.y = gf.y + 318;
+			stBg.alpha = 1;
+			addBehindGF(stBg);
+
+			var eyesBg = new FlxSprite(0, 0).makeGraphic(110,70,FlxColor.WHITE);
+			eyesBg.x = gf.x - 80;
+			eyesBg.y = gf.y + 550;
+			addBehindGF(eyesBg);
+
+			abotEyes = new FlxAnimate();
+			Paths.loadAnimateAtlas(abotEyes, 'stereo/systemEyes');
+			abotEyes.anim.addBySymbolIndices('l', 'a bot eyes lookin', [0, 1, 2, 3, 10, 11, 12, 13], 24, false);
+			abotEyes.anim.addBySymbolIndices('r', 'a bot eyes lookin', [13, 12, 11, 10, 3, 2, 1, 0], 24, false);
+			abotEyes.x = gf.x - 640;
+			abotEyes.y = gf.y - 175;
+			addBehindGF(abotEyes);
+
+			abot = new FlxAnimate();
+			Paths.loadAnimateAtlas(abot, 'stereo/abotSystem');
+			//sprite.anim.addBySymbol('name', 'symbolName', frameRate, looped, X, Y);
+			abot.anim.addBySymbolIndices('i', 'Abot System', [0, 1, 2, 3, 4], 24, false);
+			abot.x = gf.x - 133;
+			abot.y = gf.y + 310;
+			addBehindGF(abot);
+			
+			abot.alpha = 1;
+			stBg.alpha = 1;
 		}
 
 		// SONG SPECIFIC SCRIPTS
@@ -3204,6 +3241,15 @@ class PlayState extends MusicBeatState
 		var isDad:Bool = (SONG.notes[sec].mustHitSection != true);
 		moveCamera(isDad);
 		callOnScripts('onMoveCamera', [isDad ? 'dad' : 'boyfriend']);
+		if(gf.curCharacter == 'nene') {
+			new FlxTimer().start(0.2, (tmr) -> {
+				if (abotEyess == (isDad ? 1 : 0)) {
+				  
+				  abotEyess = (isDad) ? 0 : 1;
+				  abotEyes.animation.play((isDad) ? 'l' : 'r');
+				}
+			});	
+		}
 	}
 
 	var cameraTwn:FlxTween;
@@ -4201,8 +4247,7 @@ class PlayState extends MusicBeatState
 			{
 				var spr = playerStrums.members[note.noteData];
 				if(spr != null) spr.playAnim('confirm', true);
-			}
-			else if (ClientPrefs.data.arrowGlow) {
+			} else {
 				strumPlayAnim(false, Std.int(Math.abs(note.noteData)), Conductor.stepCrochet * 1.25 / 1000 / playbackRate);
 			}
 			vocals.volume = 1;
@@ -4339,11 +4384,10 @@ class PlayState extends MusicBeatState
 		}
 
 		if (daveAndBambiIconBounce) {
-			var funny:Float = (healthBar.percent * 0.01) + 0.01;
+			var funny:Float = Math.max(Math.min(healthBar.percent,1.9),0.01);
 
-			//health icon bounce but epic
-			iconP1.setGraphicSize(Std.int(iconP1.width + (50 * funny)),Std.int(iconP2.height - (25 * funny)));
-			iconP2.setGraphicSize(Std.int(iconP2.width + (50 * (2 - funny))),Std.int(iconP2.height - (25 * (2 - funny))));
+			iconP2.setGraphicSize(Std.int(iconP2.width + (50 / funny)),Std.int(iconP2.height - (25 * funny)));
+			iconP1.setGraphicSize(Std.int(iconP1.width + (50 / ((2 - funny) + 0.1))),Std.int(iconP1.height - (25 * ((2 - funny) + 0.1))));
 
 			iconP1.updateHitbox();
 			iconP2.updateHitbox();
@@ -4369,6 +4413,10 @@ class PlayState extends MusicBeatState
 
 		if (ClientPrefs.data.tweenableScoreTxt) {
 			if (curBeat % gfSpeed == 0) scoreTextTween();
+		}
+
+		if(gf.curCharacter == 'nene') {
+			abot.animation.play("i");
 		}
 
 		characterBopper(curBeat);
@@ -4456,7 +4504,6 @@ class PlayState extends MusicBeatState
 			});
 		}
 	}
-	
 
 	#if LUA_ALLOWED
 	public function startLuasNamed(luaFile:String)
