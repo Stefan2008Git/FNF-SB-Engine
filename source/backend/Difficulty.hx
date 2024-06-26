@@ -5,10 +5,11 @@ class Difficulty
 	public static var defaultList(default, never):Array<String> = [
 		'Easy',
 		'Normal',
-		'Hard'
+		'Hard',
+		'Errect'
 	];
 	public static var list:Array<String> = [];
-	private static var defaultDifficulty(default, never):String = 'Normal'; //The chart that has no suffix and starting difficulty on Freeplay/Story Mode
+	private static var defaultDifficulty(default, never):String = 'Hard'; //The chart that has no suffix and starting difficulty on Freeplay/Story Mode
 
 	inline public static function getFilePath(num:Null<Int> = null)
 	{
