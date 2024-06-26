@@ -78,13 +78,6 @@
         "dir": null,
         "ref": "dev",
         "url": "https://github.com/ShadowMario/flxanimate"
-      },
-      {
-        "name": "funkin.vis",
-        "type": "git",
-        "dir": null,
-        "ref": "grig-test",
-        "url": "https://github.com/FNF-CNE-Devs/funkVis"
       }
     ]
 }
