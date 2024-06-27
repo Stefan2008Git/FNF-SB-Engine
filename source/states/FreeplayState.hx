@@ -448,7 +448,6 @@ class FreeplayState extends MusicBeatState
 
 			try
 			{
-				controlsActive = false;
 				PlayState.SONG = Song.loadFromJson(poop, songLowercase);
 				PlayState.isStoryMode = false;
 				PlayState.storyDifficulty = curDifficulty;
@@ -476,6 +475,7 @@ class FreeplayState extends MusicBeatState
 				return;
 			}
 
+			controlsActive = false;
 			for (item in grpSongs.members) 
 				if (item.targetY == 0) FlxFlicker.flicker(item, 1.05, 0.06, false, false);
 			FlxFlicker.flicker(iconArray[currentlySelected], 1.05, 0.06, false, false);
