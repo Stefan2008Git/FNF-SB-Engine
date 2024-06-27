@@ -106,7 +106,7 @@ class Main extends Sprite
 		#if CRASH_HANDLER Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onCrash); #end
 		#if desktop FlxG.stage.addEventListener(KeyboardEvent.KEY_UP, toggleFullScreen); #end
 		#if desktop FlxG.stage.addEventListener(KeyboardEvent.KEY_UP, refreshTheGame); #end
-		#if android System.allowScreenTimeout = ClientPrefs.data.screenSaver; #end
+		#if android lime.system.System.allowScreenTimeout = ClientPrefs.data.screenSaver; #end // It cannot recognize which class file is using becase Lime and OpenFL have the same class directory and name, so i have to add back the import!!! --Stefan2008
 
 		// shader coords fix
 		FlxG.signals.gameResized.add(function (w, h) {
