@@ -1,8 +1,6 @@
 package options;
 
 import states.MainMenuState;
-import backend.StageData;
-import flixel.addons.transition.FlxTransitionableState;
 
 class OptionsState extends MusicBeatState
 {

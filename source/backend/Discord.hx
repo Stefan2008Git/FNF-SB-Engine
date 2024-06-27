@@ -3,12 +3,8 @@ package backend;
 #if DISCORD_ALLOWED
 import Sys.sleep;
 import sys.thread.Thread;
-import lime.app.Application;
-
 import hxdiscord_rpc.Discord;
 import hxdiscord_rpc.Types;
-
-import flixel.util.FlxStringUtil;
 
 class DiscordClient
 {

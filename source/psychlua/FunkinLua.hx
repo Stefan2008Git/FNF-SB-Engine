@@ -1,34 +1,5 @@
 package psychlua;
 
-import backend.WeekData;
-import backend.Highscore;
-import backend.Song;
-import android.backend.SUtil;
-
-import openfl.Lib;
-import openfl.utils.Assets;
-import openfl.display.BitmapData;
-import flixel.FlxBasic;
-import flixel.FlxObject;
-import flixel.addons.transition.FlxTransitionableState;
-
-#if (!flash && sys)
-import flixel.addons.display.FlxRuntimeShader;
-#end
-
-#if sys
-import sys.FileSystem;
-import sys.io.File;
-#end
-
-import cutscenes.DialogueBoxPsych;
-
-import objects.StrumNote;
-import objects.Note;
-import objects.NoteSplash;
-import objects.Character;
-
-import states.MainMenuState;
 import states.StoryMenuState;
 import states.FreeplayState;
 

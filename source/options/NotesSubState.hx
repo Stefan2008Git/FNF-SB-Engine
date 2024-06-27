@@ -1,14 +1,5 @@
 package options;
 
-import flixel.addons.display.shapes.FlxShapeCircle;
-import flixel.input.keyboard.FlxKey;
-import flixel.input.gamepad.FlxGamepadInputID;
-import flixel.math.FlxPoint;
-import flixel.addons.ui.FlxUIInputText;
-import flixel.addons.transition.FlxTransitionableState;
-import lime.system.Clipboard;
-import flixel.util.FlxGradient;
-
 class NotesSubState extends MusicBeatSubstate
 {
 	var onModeColumn:Bool = true;

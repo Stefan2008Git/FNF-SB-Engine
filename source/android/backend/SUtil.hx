@@ -5,17 +5,9 @@ import android.Tools;
 import android.Permissions;
 import android.PermissionsList;
 import android.backend.AndroidDialogsExtend;
-import flash.system.System;
 #end
-import lime.app.Application;
-import openfl.events.UncaughtErrorEvent;
+
 import openfl.utils.Assets as OpenFlAssets;
-import openfl.Lib;
-import haxe.CallStack.StackItem;
-import haxe.CallStack;
-import haxe.io.Path;
-import sys.FileSystem;
-import sys.io.File;
 
 /**
  * ...

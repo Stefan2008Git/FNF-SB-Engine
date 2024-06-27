@@ -1,27 +1,9 @@
 package states;
 
-import flash.system.System;
-
-import flixel.input.keyboard.FlxKey;
-import flixel.addons.transition.FlxTransitionableState;
-import flixel.graphics.frames.FlxAtlasFrames;
-import flixel.graphics.frames.FlxFrame;
-import flixel.group.FlxGroup;
-import flixel.input.gamepad.FlxGamepad;
 import tjson.TJSON as Json;
-
-import openfl.Assets;
-import openfl.display.Bitmap;
-import openfl.display.BitmapData;
 
 import states.StoryMenuState;
 import states.MainMenuState;
-
-#if MODS_ALLOWED
-import sys.FileSystem;
-import sys.io.File;
-#end
-
 typedef TitleData =
 {
 	titlex:Float,

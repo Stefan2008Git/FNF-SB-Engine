@@ -1,16 +1,10 @@
 package backend;
 
-import flixel.addons.ui.FlxUIState;
-import flixel.addons.transition.FlxTransitionableState;
-import flixel.FlxState;
-
 #if android
 import android.AndroidControls.AndroidControls;
-import flixel.group.FlxGroup;
 import android.flixel.FlxHitbox;
 import android.flixel.FlxNewHitbox;
 import android.flixel.FlxVirtualPad;
-import flixel.ui.FlxButton;
 import android.flixel.FlxButton as FlxNewButton;
 #end
 

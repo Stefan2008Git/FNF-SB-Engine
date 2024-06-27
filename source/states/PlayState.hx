@@ -10,33 +10,12 @@ package states;
 // "function eventEarlyTrigger" - Used for making your event start a few MILLISECONDS earlier
 // "function triggerEvent" - Called when the song hits your event's timestamp, this is probably what you were looking for
 
-import backend.Highscore;
-import backend.StageData;
-import backend.WeekData;
-import backend.Song;
-import backend.Section;
-import android.backend.SUtil;
-import backend.Rating;
-
-import flixel.FlxBasic;
-import flixel.FlxObject;
-import flixel.FlxSubState;
-import flixel.addons.transition.FlxTransitionableState;
-import flixel.math.FlxPoint;
-import flixel.util.FlxSort;
-import flixel.util.FlxStringUtil;
-import flixel.util.FlxSave;
-import flixel.input.keyboard.FlxKey;
-import flixel.animation.FlxAnimationController;
-import lime.utils.Assets;
 import openfl.utils.Assets as OpenFlAssets;
-import openfl.events.KeyboardEvent;
 import tjson.TJSON as Json;
 
 import cutscenes.CutsceneHandler;
 import cutscenes.DialogueBoxPsych;
 
-import states.MainMenuState;
 import states.StoryMenuState;
 import states.FreeplayState;
 import states.editors.ChartingState;
@@ -45,25 +24,6 @@ import states.editors.CharacterEditorState;
 import substates.PauseSubState;
 import substates.GameOverSubstate;
 import substates.ResultsScreenSubstate;
-
-#if !flash 
-import flixel.addons.display.FlxRuntimeShader;
-import openfl.filters.ShaderFilter;
-import openfl.filters.BitmapFilter;
-import openfl.display.Shader;
-#end
-
-#if sys
-import sys.FileSystem;
-import sys.io.File;
-#end
-
-#if VIDEOS_ALLOWED 
-#if (hxCodec >= "3.0.0") import hxcodec.flixel.FlxVideo as VideoHandler;
-#elseif (hxCodec >= "2.6.1") import hxcodec.VideoHandler as VideoHandler;
-#elseif (hxCodec == "2.6.0") import VideoHandler;
-#else import vlc.MP4Handler as VideoHandler; #end
-#end
 
 import objects.Note.EventNote;
 import objects.*;

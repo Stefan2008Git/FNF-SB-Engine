@@ -1,13 +1,5 @@
 package;
 
-import openfl.events.KeyboardEvent;
-import flixel.graphics.FlxGraphic;
-import openfl.Assets;
-import openfl.Lib;
-import openfl.display.Sprite;
-import openfl.events.Event;
-import openfl.display.StageScaleMode;
-import lime.app.Application;
 import debug.GameLog;
 import debug.FPS;
 import main.Init;
@@ -16,18 +8,6 @@ import states.TitleState;
 import android.Hardware;
 import android.backend.AndroidDialogsExtend;
 import android.backend.SUtil;
-import lime.system.System;
-#end
-
-//crash handler stuff
-#if CRASH_HANDLER
-import openfl.events.UncaughtErrorEvent;
-import haxe.CallStack;
-import haxe.io.Path;
-import haxe.macro.Compiler;
-import sys.FileSystem;
-import sys.io.File;
-import sys.io.Process;
 #end
 
 #if linux

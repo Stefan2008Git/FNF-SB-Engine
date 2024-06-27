@@ -1,11 +1,5 @@
 package states.stages;
 
-import flixel.addons.display.FlxRuntimeShader;
-import objects.BGSprite;
-import openfl.filters.BlurFilter;
-import openfl.filters.ShaderFilter;
-import openfl.utils.Assets;
-
 class PhillyStreets extends BaseStage
 {
     var phillySkyBox:FlxSprite;

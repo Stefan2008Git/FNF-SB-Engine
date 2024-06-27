@@ -1,15 +1,5 @@
 package states;
 
-import backend.WeekData;
-import backend.Highscore;
-import backend.Song;
-
-import flixel.group.FlxGroup;
-import flixel.graphics.FlxGraphic;
-
-import objects.MenuItem;
-import objects.MenuCharacter;
-
 import substates.GameplayChangersSubstate;
 import substates.ResetScoreSubState;
 

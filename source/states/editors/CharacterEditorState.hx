@@ -1,26 +1,11 @@
 package states.editors;
 
-import flixel.FlxObject;
-import flixel.graphics.FlxGraphic;
 
-import flixel.animation.FlxAnimation;
-import flixel.addons.transition.FlxTransitionableState;
-import flixel.addons.ui.*;
 #if android
 import android.flixel.FlxButton;
 #else
 import flixel.ui.FlxButton;
 #end
-import flixel.util.FlxDestroyUtil;
-
-import openfl.net.FileReference;
-import openfl.events.Event;
-import openfl.events.IOErrorEvent;
-import lime.system.Clipboard;
-
-import objects.Character;
-import objects.HealthIcon;
-import objects.Bar;
 
 // Flixel 5.7.0+ main black camera bug fix
 #if (FLX_DEBUG || flixel < version("5.7.0"))

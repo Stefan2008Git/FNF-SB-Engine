@@ -1,12 +1,6 @@
 package android.flixel;
 
-import flixel.FlxG;
 import flixel.graphics.frames.FlxTileFrames;
-import flixel.group.FlxSpriteGroup;
-import flixel.math.FlxPoint;
-import flixel.util.FlxDestroyUtil;
-import flixel.graphics.frames.FlxAtlasFrames;
-import flixel.graphics.FlxGraphic;
 import android.flixel.FlxButton as UIButton;
 
 class FlxVirtualPad extends FlxSpriteGroup {

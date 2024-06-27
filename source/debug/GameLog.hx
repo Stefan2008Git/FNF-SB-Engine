@@ -1,21 +1,5 @@
 package debug;
 
-import flixel.system.frontEnds.LogFrontEnd;
-import haxe.PosInfos;
-import haxe.Log;
-import openfl.Lib;
-import openfl.events.Event;
-import openfl.text.TextFormatAlign;
-import openfl.text.TextFormat;
-import openfl.text.TextField;
-import openfl.display.BitmapData;
-import openfl.display.Bitmap;
-import openfl.display.Sprite;
-
-import haxe.iterators.ArrayIterator;
-
-using StringTools;
-
 class GameLogType {
     public static var LOG:String = "[LOG]";
     public static var WARNING:String = "[WARNING]";

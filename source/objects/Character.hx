@@ -1,16 +1,5 @@
 package objects;
 
-import backend.animation.PsychAnimationController;
-
-import flixel.util.FlxSort;
-import flixel.util.FlxDestroyUtil;
-
-import openfl.utils.AssetType;
-import openfl.utils.Assets;
-import haxe.Json;
-
-import backend.Song;
-import backend.Section;
 import states.stages.objects.TankmenBG;
 typedef CharacterFile = {
 	var animations:Array<AnimArray>;

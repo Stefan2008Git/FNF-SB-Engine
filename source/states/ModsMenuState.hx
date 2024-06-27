@@ -1,22 +1,8 @@
 package states;
 
-import backend.WeekData;
-import backend.Mods;
-
 import flixel.ui.FlxButton;
-import flixel.FlxBasic;
-import openfl.display.BitmapData;
-import flash.geom.Rectangle;
-import lime.utils.Assets;
 import tjson.TJSON as Json;
 
-#if sys
-import sys.io.File;
-import sys.FileSystem;
-#end
-
-import android.backend.SUtil;
-import objects.AttachedSprite;
 import states.editors.MasterEditorMenu;
 
 class ModsMenuState extends MusicBeatState

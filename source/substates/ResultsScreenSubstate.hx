@@ -14,20 +14,7 @@ package substates;
     By the way dont move this to the HScript, I dont allow it! --NF | Beihu
 */
 
-import flixel.addons.transition.FlxTransitionableState;
-
 import states.FreeplayState;
-
-import backend.Conductor;
-
-import flixel.util.FlxSpriteUtil;
-import openfl.display.Sprite;
-import openfl.geom.Rectangle;
-
-#if sys
-import sys.io.File;
-import sys.FileSystem;
-#end
 import tjson.TJSON as Json;
 
 typedef NoteTypeColorData =

@@ -1,9 +1,5 @@
 package psychlua;
 
-#if (!flash && sys)
-import flixel.addons.display.FlxRuntimeShader;
-#end
-
 class ShaderFunctions
 {
 	public static function implement(funk:FunkinLua)

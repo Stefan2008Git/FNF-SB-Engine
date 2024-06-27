@@ -1,17 +1,7 @@
 package states;
 
-import sys.FileSystem;
-import sys.io.File;
-import haxe.Json;
 import sys.thread.Thread;
-import lime.utils.Assets;
-import openfl.utils.AssetType;
-import flixel.addons.transition.FlxTransitionableState;
-import flixel.FlxState;
 import flixel.util.typeLimit.NextState;
-
-import backend.StageData;
-import objects.Character;
 
 class LoadingState extends MusicBeatState
 {

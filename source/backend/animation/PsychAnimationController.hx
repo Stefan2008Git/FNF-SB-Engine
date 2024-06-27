@@ -1,7 +1,5 @@
 package backend.animation;
 
-import flixel.animation.FlxAnimationController;
-
 class PsychAnimationController extends FlxAnimationController {
     public var followGlobalSpeed:Bool = true;
 

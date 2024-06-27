@@ -1,12 +1,7 @@
 package states.stages;
 
-import flixel.math.FlxPoint;
-
-import states.stages.objects.*;
 import cutscenes.CutsceneHandler;
 import substates.GameOverSubstate;
-import states.PlayState;
-import objects.Character;
 
 class Tank extends BaseStage
 {

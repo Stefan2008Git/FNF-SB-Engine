@@ -1,8 +1,5 @@
 package states;
 
-import states.MainMenuState;
-import flixel.addons.transition.FlxTransitionableState;
-
 class FlashingState extends MusicBeatState {
 	public static var leftState:Bool = false;
 

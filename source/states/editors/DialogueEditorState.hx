@@ -1,25 +1,8 @@
 package states.editors;
 
-import flixel.addons.ui.FlxUI;
-import flixel.addons.ui.FlxUICheckBox;
-import flixel.addons.ui.FlxUIInputText;
-import flixel.addons.ui.FlxUINumericStepper;
-import flixel.addons.ui.FlxUITabMenu;
 import flixel.ui.FlxButton;
-import openfl.net.FileReference;
-import openfl.events.Event;
-import openfl.events.IOErrorEvent;
-import flash.net.FileFilter;
 import tjson.TJSON as Json;
-#if sys
-import sys.io.File;
-#end
 
-import android.backend.SUtil;
-import objects.TypedAlphabet;
-
-import cutscenes.DialogueBoxPsych;
-import cutscenes.DialogueCharacter;
 
 class DialogueEditorState extends MusicBeatState
 {

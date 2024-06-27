@@ -1,17 +1,8 @@
 package states;
 
 import states.editors.ChartingState;
-import backend.WeekData;
-import backend.Highscore;
-import backend.Song;
-
-import objects.HealthIcon;
-import objects.MusicPlayer;
-
 import substates.GameplayChangersSubstate;
 import substates.ResetScoreSubState;
-
-import flixel.math.FlxMath;
 
 class FreeplayState extends MusicBeatState
 {

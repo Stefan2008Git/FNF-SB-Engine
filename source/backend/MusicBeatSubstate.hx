@@ -1,10 +1,7 @@
 package backend;
 
-import flixel.FlxSubState;
-
 #if android
 import android.AndroidControls.AndroidControls;
-import flixel.group.FlxGroup;
 import android.flixel.FlxHitbox;
 import android.flixel.FlxNewHitbox;
 import android.flixel.FlxVirtualPad;

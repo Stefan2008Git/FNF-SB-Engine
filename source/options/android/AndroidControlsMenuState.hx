@@ -1,12 +1,6 @@
 package options.android;
 
-import flixel.util.FlxColor;
-import flixel.math.FlxPoint;
 import android.flixel.FlxButton;
-import flixel.text.FlxText;
-import flixel.FlxG;
-import flixel.FlxSprite;
-import flixel.addons.transition.FlxTransitionableState;
 import android.flixel.FlxHitbox;
 import android.flixel.FlxNewHitbox;
 import android.AndroidControls.Config;
@@ -14,7 +8,6 @@ import android.flixel.FlxVirtualPad;
 import android.flixel.FlxButton as UIButton;
 import android.objects.PsychAlphabet;
 
-using StringTools;
 
 class AndroidControlsMenuState extends MusicBeatState
 {

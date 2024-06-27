@@ -1,10 +1,5 @@
 package substates;
 
-import objects.AttachedText;
-import objects.CheckboxThingie;
-import flixel.addons.transition.FlxTransitionableState;
-import objects.GameplayOption;
-
 class GameplayChangersSubstate extends MusicBeatSubstate
 {
 	private var curOption:GameplayOption = null;

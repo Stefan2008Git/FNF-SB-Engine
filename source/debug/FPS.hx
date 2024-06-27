@@ -1,19 +1,11 @@
 package debug;
 
-import openfl.text.TextField;
-import openfl.text.TextFormat;
-#if flash
-import openfl.Lib;
-#end
+
+import lime.system.System as LimeSystem;
 
 #if openfl
 import openfl.system.System;
 #end
-
-import haxe.macro.Compiler;
-import lime.system.System as LimeSystem;
-
-import states.MainMenuState;
 
 #if cpp
 #if windows

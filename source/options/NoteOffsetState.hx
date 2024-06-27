@@ -1,12 +1,5 @@
 package options;
 
-import flixel.math.FlxPoint;
-
-import backend.StageData;
-import objects.Character;
-import objects.Bar;
-import flixel.addons.display.shapes.FlxShapeCircle;
-
 import states.stages.StageWeek1 as BackgroundStage;
 import states.MainMenuState;
 

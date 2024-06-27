@@ -1,12 +1,5 @@
 package substates;
 
-import backend.WeekData;
-import backend.Highscore;
-
-import flixel.FlxSubState;
-import flixel.effects.FlxFlicker;
-import objects.HealthIcon;
-
 class ResetScoreSubState extends MusicBeatSubstate
 {
 	var bg:FlxSprite;

@@ -1,8 +1,5 @@
 package cutscenes;
 
-import flixel.FlxBasic;
-import flixel.util.FlxSort;
-
 class CutsceneHandler extends FlxBasic
 {
 	public var timedEvents:Array<Dynamic> = [];

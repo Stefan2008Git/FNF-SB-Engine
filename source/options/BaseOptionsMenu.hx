@@ -1,11 +1,6 @@
 package options;
 
-import objects.CheckboxThingie;
-import objects.AttachedText;
-import flixel.addons.transition.FlxTransitionableState;
 import options.Option;
-import states.MainMenuState;
-
 class BaseOptionsMenu extends MusicBeatSubstate
 {
 	private var curOption:Option = null;

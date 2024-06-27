@@ -1,8 +1,5 @@
 package main;
 
-import flixel.FlxState;
-import debug.FPS;
-import openfl.Assets;
 import states.FlashingState;
 import states.LoadingMenuState;
 import states.StoryMenuState;

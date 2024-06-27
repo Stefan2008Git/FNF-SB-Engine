@@ -1,16 +1,5 @@
 package states.editors;
 
-import objects.Note;
-import objects.StrumNote;
-import objects.NoteSplash;
-import flixel.addons.ui.FlxInputText;
-import flixel.addons.ui.FlxUINumericStepper;
-
-#if sys
-import sys.io.File;
-import sys.FileSystem;
-#end
-
 class NoteSplashDebugState extends MusicBeatState
 {
 	var config:NoteSplashConfig;

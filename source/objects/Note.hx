@@ -3,13 +3,6 @@ package objects;
 // If you want to make a custom note type, you should search for:
 // "function set_noteType"
 
-import backend.NoteTypesConfig;
-import shaders.RGBPalette;
-import shaders.RGBPalette.RGBShaderReference;
-import objects.StrumNote;
-
-import flixel.math.FlxRect;
-
 typedef EventNote = {
 	strumTime:Float,
 	event:String,

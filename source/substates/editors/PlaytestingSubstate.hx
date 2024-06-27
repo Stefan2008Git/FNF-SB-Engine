@@ -1,20 +1,6 @@
 package substates.editors;
 
 import states.editors.ChartingState;
-import objects.Bar;
-import backend.Song;
-import backend.Section;
-import backend.Rating;
-
-import objects.Note;
-import objects.NoteSplash;
-import objects.StrumNote;
-
-import flixel.util.FlxSort;
-import flixel.util.FlxStringUtil;
-import flixel.animation.FlxAnimationController;
-import flixel.input.keyboard.FlxKey;
-import openfl.events.KeyboardEvent;
 
 class PlaytestingSubstate extends MusicBeatSubstate
 {

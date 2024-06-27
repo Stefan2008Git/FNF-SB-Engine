@@ -1,14 +1,5 @@
 package options;
 
-import backend.InputFormatter;
-import objects.AttachedSprite;
-import flixel.addons.transition.FlxTransitionableState;
-
-import flixel.input.keyboard.FlxKey;
-import flixel.input.gamepad.FlxGamepad;
-import flixel.input.gamepad.FlxGamepadInputID;
-import flixel.input.gamepad.FlxGamepadManager;
-
 class ControlsSubState extends MusicBeatSubstate
 {
 	var currentlySelected:Int = 0;

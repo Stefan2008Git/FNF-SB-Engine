@@ -1,10 +1,7 @@
 package psychlua;
 
-import flixel.FlxBasic;
-import objects.Character;
 import psychlua.FunkinLua;
 import psychlua.CustomSubstate;
-import android.backend.SUtil;
 
 #if HSCRIPT_ALLOWED
 import tea.SScript;
