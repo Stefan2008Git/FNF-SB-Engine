@@ -69,28 +69,21 @@ class PhillyStreets extends BaseStage
         phillySmog.alpha = 1;
         add(phillySmog);
 
-        phillyCars = new BGSprite('phillyStreets/phillyCars', 1748, 818, 1, 1);
-		phillyCars.animation.addByPrefix('car1', "car1", 24);
-		phillyCars.animation.addByPrefix('car2', "car2", 24);
-		phillyCars.animation.addByPrefix('car3', "car3", 24);
-		phillyCars.animation.addByPrefix('car4', "car4", 24);
+        phillyCars = new BGSprite('phillyStreets/phillyCars', 1748, 818, 1, 1, ['phillyCars', 'car1', 'car2', 'car3', 'car4']);
 		phillyCars.scale.set(1, 1);
 		phillyCars.alpha = 1;
 		add(phillyCars);
 
-		phillyCars2 = new BGSprite('phillyStreets/phillyCars', 1748, 818, 1, 1);
-		phillyCars2.animation.addByPrefix('car1', "car1", 24);
-		phillyCars2.animation.addByPrefix('car2', "car2", 24);
-		phillyCars2.animation.addByPrefix('car3', "car3", 24);
-		phillyCars2.animation.addByPrefix('car4', "car4", 24);
+		phillyCars2 = new BGSprite('phillyStreets/phillyCars', 1748, 818, 1, 1, ['phillyCars2', 'car1', 'car2', 'car3', 'car4']);
 		phillyCars2.scale.set(1, 1);
 		phillyCars2.alpha = 1;
 		add(phillyCars2);
 
-		phillyTraffic = new BGSprite('phillyStreets/phillyTraffic', 1840, 608, 0.9, 1);
-		phillyTraffic.animation.addByPrefix('greentored', "greentored", 24);
-		phillyTraffic.animation.addByPrefix('redtogreen', "redtogreen", 24);
-		phillyTraffic.scale.set(1, 1);
+        phillyTraffic = new FlxSprite();
+        phillyTraffic.frames = Paths.getSparrowAtlas('phillyStreets/phillyTraffic');
+        phillyTraffic.animation.addByPrefix('tored', 'redtogreen', 24);
+        phillyTraffic.animation.addByPrefix('togreen', 'greentored', 24);
+        phillyTraffic.scale.set(1, 1);
 		phillyTraffic.alpha = 1;
 		add(phillyTraffic);
 
@@ -120,6 +113,12 @@ class PhillyStreets extends BaseStage
 			}
 		}
 
+        resetCar(true, true);
+        resetStageValues();
+    }
+
+    override function createPost()
+    {
         rainShader.setFloat('uTime', 0);
         rainShader.setFloatArray('uScreenResolution', [FlxG.width, FlxG.height]);
 
@@ -134,17 +133,14 @@ class PhillyStreets extends BaseStage
                 rainShaderEndIntensity = 0.4;
             
             default:
-                rainShaderStartIntensity = 0.0;
-                rainShaderEndIntensity = 0.1;
+                rainShaderStartIntensity = 0;
+                rainShaderEndIntensity = 0;
         }
 
         rainShader.setFloat("uIntensity", 0.5);
         rainShaderFilter = new ShaderFilter(rainShader);
 
-        if (ClientPrefs.data.shaders) FlxG.camera.filters = [rainShaderFilter];
-
-        resetCar(true, true);
-        resetStageValues();
+        if (ClientPrefs.data.shaders) game.camGame = [rainShaderFilter];
     }
 
     function darnellIntro()
@@ -163,10 +159,10 @@ class PhillyStreets extends BaseStage
         lightsStop = !lightsStop;
     
         if(lightsStop){
-            phillyTraffic.animation.play('greentored');
+            phillyTraffic.animation.play('tored');
             changeInterval = 20;
         } else {
-            phillyTraffic.animation.play('redtogreen');
+            phillyTraffic.animation.play('togreen');
             changeInterval = 30;
     
             if(carWaiting == true) finishCarLights(phillyCars);
@@ -357,7 +353,7 @@ class PhillyStreets extends BaseStage
         changeInterval = 8;
         var traffic = phillyTraffic;
         if (traffic != null) {
-            traffic.animation.play('redtogreen');
+            traffic.animation.play('togreen');
         }
         lightsStop = false;
     }
@@ -367,6 +363,21 @@ class PhillyStreets extends BaseStage
         rainShader.setFloat("uIntensity", remappedIntensityValue);
         rainShader.setFloat("uTime", rainShader.getFloat("uTime") +  elapsed);
         rainShader.setFloatArray("uCameraBounds", [FlxG.camera.scroll.x + FlxG.camera.viewMarginX, FlxG.camera.scroll.y + FlxG.camera.viewMarginY, FlxG.camera.scroll.x + FlxG.camera.width, FlxG.camera.scroll.y + FlxG.camera.height]);
+
+        switch (songName)
+        {
+            case 'lit-up':
+                rainShaderStartIntensity = 0.1;
+                rainShaderEndIntensity = 0.2;
+            
+            case '2hot':
+                rainShaderStartIntensity = 0.2;
+                rainShaderEndIntensity = 0.4;
+            
+            default:
+                rainShaderStartIntensity = 0;
+                rainShaderEndIntensity = 0;
+        }
     }
 
     var beat:Int;
