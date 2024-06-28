@@ -1,7 +1,5 @@
 package options;
 
-import objects.Character;
-
 class GraphicsSettingsSubState extends BaseOptionsMenu
 {
 	var antialiasingOption:Int;

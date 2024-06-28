@@ -1,7 +1,5 @@
 package options;
 
-import states.MainMenuState;
-
 class OptionsState extends MusicBeatState
 {
 	var options:Array<String> = ['Note Colors', #if desktop 'Controls', #end 'Delay and Combo', 'Graphics', 'Visuals and UI', 'Gameplay', #if android 'Android Options', 'Android Controls' #end];

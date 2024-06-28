@@ -1,11 +1,5 @@
 package options;
 
-import sys.FileSystem;
-#if android
-import android.backend.AndroidDialogsExtend;
-import android.backend.SUtil;
-#end
-
 class GameplaySettingsSubState extends BaseOptionsMenu
 {
 	var noteOptionID:Int = -1;

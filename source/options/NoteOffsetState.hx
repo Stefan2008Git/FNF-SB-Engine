@@ -1,7 +1,6 @@
 package options;
 
 import states.stages.StageWeek1 as BackgroundStage;
-import states.MainMenuState;
 
 class NoteOffsetState extends MusicBeatState
 {

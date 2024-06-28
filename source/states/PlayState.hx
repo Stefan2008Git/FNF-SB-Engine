@@ -579,10 +579,10 @@ class PlayState extends MusicBeatState
 
 		noteGroup = new FlxTypedGroup<FlxBasic>();
 		add(noteGroup);
-		uiGroup = new FlxSpriteGroup();
-		add(uiGroup);
 		comboGroup = new FlxSpriteGroup();
 		add(comboGroup);
+		uiGroup = new FlxSpriteGroup();
+		add(uiGroup);
 
 		Conductor.songPosition = -5000 / Conductor.songPosition;
 		var showTime:Bool = (ClientPrefs.data.timeBarType != 'Disabled');
@@ -933,35 +933,23 @@ class PlayState extends MusicBeatState
 
 		// Used from Bambi Purgatory repository :D (Please don't kill me WhatsDown :(. If you want me to remove the code, i will remove it and never use it)
 		var randomName:Int = FlxG.random.int(0, 13);
-		var engineName:String = '???? ';
+		var engineName:String = '';
 		switch (randomName)
 	    {
-			case 0:
-				engineName = 'SB ';
-			case 1:
-				engineName = 'StefanBETA Engine ';
-			case 2:
-				engineName = 'Stefan2008 Engine ';
-			case 3:
-				engineName = 'Stefan Engine ';
-			case 5:
-				engineName = 'Hutaro Engine ';
-			case 6:
-				engineName = 'MaysLastPlay Engine ';
-			case 7:
-				engineName = 'Fearester Engine ';
-			case 8:
-				engineName = 'Play Engine ';
-			case 9:
-				engineName = 'SunBurntTails Engine '; 
-			case 10:
-				engineName = 'Ali Alafandy Engine ';
-			case 11:
-				engineName = 'Luiz Engine ';
-			case 12:
-				engineName = 'MemeHoovy Engine '; // Added because he is helpful and best dude who want to help :)
-			case 13:
-				engineName = 'Boris2014 Engine '; // My little brother engine :).
+			case 0: engineName = 'Stefan Engine ';
+			case 1: engineName = 'StefanBETA Engine ';
+			case 2: engineName = 'Stefan2008 Engine ';
+			case 3: engineName = 'Unknown Engine ';
+			case 5: engineName = 'Hutaro Engine ';
+			case 6: engineName = 'MaysLastPlay Engine ';
+			case 7: engineName = 'Fearester Engine ';
+			case 8:	engineName = 'Play Engine ';
+			case 9:	engineName = 'SunBurntTails Engine '; 
+			case 10: engineName = 'Ali Alafandy Engine ';
+			case 11: engineName = 'Luiz Engine ';
+			case 12: engineName = 'MemeHoovy Engine '; // Added because he is helpful and best dude who want to help :)
+			case 13: engineName = 'Boris2014 Engine '; // My little brother engine :).
+			default: engineName = 'SB ';
 		}
 		if (ClientPrefs.data.watermarkStyle == 'SB Engine') {
 		    engineVersionTxt = new FlxText(12, FlxG.height - 44, 0, "", 8);
@@ -969,10 +957,6 @@ class PlayState extends MusicBeatState
 				case 'SB Engine':
 					engineVersionTxt.setFormat(Paths.font("bahnschrift.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 					engineVersionTxt.borderSize = 1.5;
-
-				case 'Psych Engine':
-					engineVersionTxt.setFormat(Paths.font("vcr.ttf"), 15, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-					engineVersionTxt.borderSize = 1.25;
 				
 				case 'Kade Engine':
 					songAndDifficultyNameTxt = new FlxText(4, healthBar.y + 70, 0, 16);
@@ -983,15 +967,14 @@ class PlayState extends MusicBeatState
 					engineVersionTxt.setFormat(Paths.font("comic.ttf"), 15, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 					engineVersionTxt.borderSize = 1.25;
 				
-				case 'TGT Engine':
-					engineVersionTxt.setFormat(Paths.font("calibri.ttf"), 15, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-					engineVersionTxt.borderSize = 1.25;
-				
 				case 'Cheeky':
 					engineVersionTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 					engineVersionTxt.borderSize = 1;
+				
+				default:
+					engineVersionTxt.setFormat(Paths.font("vcr.ttf"), 15, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+					engineVersionTxt.borderSize = 1.25;
 			}
-		    engineVersionTxt.scrollFactor.set();
 		    engineVersionTxt.visible = ClientPrefs.data.watermark && !ClientPrefs.data.hideHud;
 		    if (ClientPrefs.data.randomEngineNames) {
 				engineVersionTxt.text = engineName + MainMenuState.sbEngineVersion + " (PE " + MainMenuState.psychEngineVersion + ")";
@@ -1003,10 +986,6 @@ class PlayState extends MusicBeatState
 				case 'SB Engine':
 					songAndDifficultyNameTxt.setFormat(Paths.font("bahnschrift.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 					songAndDifficultyNameTxt.borderSize = 1.5;
-
-				case 'Psych Engine':
-					songAndDifficultyNameTxt.setFormat(Paths.font("vcr.ttf"), 15, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-					songAndDifficultyNameTxt.borderSize = 1.25;
 				
 				case 'Kade Engine':
 					songAndDifficultyNameTxt = new FlxText(11, healthBar.y + 50, 0, 16);
@@ -1017,15 +996,14 @@ class PlayState extends MusicBeatState
 					songAndDifficultyNameTxt.setFormat(Paths.font("comic.ttf"), 15, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 					songAndDifficultyNameTxt.borderSize = 1.25;
 				
-				case 'TGT Engine':
-					songAndDifficultyNameTxt.setFormat(Paths.font("calibri.ttf"), 15, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-					songAndDifficultyNameTxt.borderSize = 1.25;
-				
 				case 'Cheeky':
 					engineVersionTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 					songAndDifficultyNameTxt.borderSize = 1;
+				
+				default:
+					songAndDifficultyNameTxt.setFormat(Paths.font("vcr.ttf"), 15, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+					songAndDifficultyNameTxt.borderSize = 1.25;
 			}
-		    songAndDifficultyNameTxt.scrollFactor.set();
 		    songAndDifficultyNameTxt.visible = ClientPrefs.data.watermark && !ClientPrefs.data.hideHud;
 			songAndDifficultyNameTxt.text =  currentlySong + " (" + Difficulty.getString() + ") ";
 		}
@@ -1036,10 +1014,6 @@ class PlayState extends MusicBeatState
 				case 'SB Engine':
 					engineVersionTxt.setFormat(Paths.font("bahnschrift.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 					engineVersionTxt.borderSize = 1.5;
-
-				case 'Psych Engine':
-					engineVersionTxt.setFormat(Paths.font("vcr.ttf"), 15, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-					engineVersionTxt.borderSize = 1.25;
 				
 				case 'Kade Engine':
 					songAndDifficultyNameTxt = new FlxText(4, healthBar.y + 70, 0, 16);
@@ -1050,12 +1024,12 @@ class PlayState extends MusicBeatState
 					engineVersionTxt.setFormat(Paths.font("comic.ttf"), 15, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 					engineVersionTxt.borderSize = 1.25;
 				
-				case 'TGT Engine':
-					engineVersionTxt.setFormat(Paths.font("calibri.ttf"), 15, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-					engineVersionTxt.borderSize = 1.25;
-				
 				case 'Cheeky':
 					engineVersionTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+				
+				default:
+					engineVersionTxt.setFormat(Paths.font("calibri.ttf"), 15, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+					engineVersionTxt.borderSize = 1.25;
 			}
 		    engineVersionTxt.scrollFactor.set();
 		    engineVersionTxt.visible = false;
@@ -1069,10 +1043,6 @@ class PlayState extends MusicBeatState
 				case 'SB Engine':
 					songAndDifficultyNameTxt.setFormat(Paths.font("bahnschrift.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 					songAndDifficultyNameTxt.borderSize = 1.5;
-
-				case 'Psych Engine':
-					songAndDifficultyNameTxt.setFormat(Paths.font("vcr.ttf"), 15, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-					songAndDifficultyNameTxt.borderSize = 1.25;
 				
 				case 'Kade Engine':
 					songAndDifficultyNameTxt = new FlxText(11, healthBar.y + 50, 0, 16);
@@ -1083,12 +1053,12 @@ class PlayState extends MusicBeatState
 					songAndDifficultyNameTxt.setFormat(Paths.font("comic.ttf"), 15, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 					songAndDifficultyNameTxt.borderSize = 1.25;
 				
-				case 'TGT Engine':
-					songAndDifficultyNameTxt.setFormat(Paths.font("calibri.ttf"), 15, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-					songAndDifficultyNameTxt.borderSize = 1.25;
-				
 				case 'Cheeky':
 					engineVersionTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+				
+				default:
+					songAndDifficultyNameTxt.setFormat(Paths.font("vcr.ttf"), 15, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+					songAndDifficultyNameTxt.borderSize = 1.25;
 			}
 		    songAndDifficultyNameTxt.scrollFactor.set();
 		    songAndDifficultyNameTxt.visible = ClientPrefs.data.watermark && !ClientPrefs.data.hideHud;
@@ -1134,8 +1104,10 @@ class PlayState extends MusicBeatState
 				}
 		}
 
-		uiGroup.add(engineVersionTxt);
-		uiGroup.add(songAndDifficultyNameTxt);
+		engineVersionTxt.cameras = [camOther];
+		songAndDifficultyNameTxt.cameras = [camOther];
+		add(engineVersionTxt);
+		add(songAndDifficultyNameTxt);
 
 		uiGroup.cameras = [camHUD];
 		noteGroup.cameras = [camHUD];
@@ -4097,9 +4069,7 @@ class PlayState extends MusicBeatState
 		}
 
 		if (opponentVocals.length <= 0) vocals.volume = 1;
-		if (ClientPrefs.data.opponentArrowGlow) {
-			strumPlayAnim(true, Std.int(Math.abs(note.noteData)), Conductor.stepCrochet * 1.25 / 1000 / playbackRate);
-		}
+		strumPlayAnim(true, Std.int(Math.abs(note.noteData)), Conductor.stepCrochet * 1.25 / 1000 / playbackRate);
 		note.hitByOpponent = true;
 
 		var result:Dynamic = callOnLuas('opponentNoteHit', [notes.members.indexOf(note), Math.abs(note.noteData), note.noteType, note.isSustainNote]);
@@ -4708,9 +4678,9 @@ class PlayState extends MusicBeatState
 
 	function strumPlayAnim(isDad:Bool, id:Int, time:Float) {
 		var spr:StrumNote = null;
-		if(isDad) {
+		if(isDad && ClientPrefs.data.opponentArrowGlow) {
 			spr = opponentStrums.members[id];
-		} else {
+		} else if (ClientPrefs.data.arrowGlow) {
 			spr = playerStrums.members[id];
 		}
 
