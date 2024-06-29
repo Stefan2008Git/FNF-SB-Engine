@@ -71,10 +71,10 @@ class PhillyStreets extends BaseStage
 
         phillyCars = new FlxSprite(1748, 818);
         phillyCars.frames = Paths.getSparrowAtlas('phillyStreets/phillyCars');
-        phillyCars.animation.addByPrefix('phillyCars', 'car1', 24);
-        phillyCars.animation.addByPrefix('phillyCars', 'car2', 24);
-        phillyCars.animation.addByPrefix('phillyCars', 'car3', 24);
-        phillyCars.animation.addByPrefix('phillyCars', 'car4', 24);
+        phillyCars.animation.addByPrefix('phillyCars', 'car1', 24, false);
+        phillyCars.animation.addByPrefix('phillyCars', 'car2', 24, false);
+        phillyCars.animation.addByPrefix('phillyCars', 'car3', 24, false);
+        phillyCars.animation.addByPrefix('phillyCars', 'car4', 24, false);
         phillyCars.flipX = false;
 		phillyCars.scale.set(1, 1);
 		phillyCars.alpha = 1;
@@ -82,10 +82,10 @@ class PhillyStreets extends BaseStage
 
 		phillyCars2 = new FlxSprite(1748, 818);
         phillyCars2.frames = Paths.getSparrowAtlas('phillyStreets/phillyCars');
-        phillyCars2.animation.addByPrefix('phillyCars2', 'car1', 24);
-        phillyCars2.animation.addByPrefix('phillyCars2', 'car2', 24);
-        phillyCars2.animation.addByPrefix('phillyCars2', 'car3', 24);
-        phillyCars2.animation.addByPrefix('phillyCars2', 'car4', 24);
+        phillyCars2.animation.addByPrefix('phillyCars2', 'car1', 24, false);
+        phillyCars2.animation.addByPrefix('phillyCars2', 'car2', 24, false);
+        phillyCars2.animation.addByPrefix('phillyCars2', 'car3', 24, false);
+        phillyCars2.animation.addByPrefix('phillyCars2', 'car4', 24, false);
         phillyCars2.flipX = true;
 		phillyCars2.scale.set(1, 1);
 		phillyCars2.alpha = 1;
@@ -93,8 +93,8 @@ class PhillyStreets extends BaseStage
 
         phillyTraffic = new FlxSprite(1840, 608);
         phillyTraffic.frames = Paths.getSparrowAtlas('phillyStreets/phillyTraffic');
-        phillyTraffic.animation.addByPrefix('tored', 'redtogreen', 24);
-        phillyTraffic.animation.addByPrefix('togreen', 'greentored', 24);
+        phillyTraffic.animation.addByPrefix('tored', 'redtogreen', 24, false);
+        phillyTraffic.animation.addByPrefix('togreen', 'greentored', 24, false);
         phillyTraffic.scale.set(0.9, 1);
 		phillyTraffic.alpha = 1;
 		add(phillyTraffic);
@@ -122,6 +122,8 @@ class PhillyStreets extends BaseStage
 					setStartCallback(darnellIntro);
 				case '2hot':
 					setStartCallback(twoHotIntro);
+                case 'blazin':
+                    setEndCallback(blazinOutro);
 			}
 		}
 
@@ -153,6 +155,7 @@ class PhillyStreets extends BaseStage
         rainShaderFilter = new ShaderFilter(rainShader);
 
         if (ClientPrefs.data.shaders) game.camGame = [rainShaderFilter];
+        addBehindDad(spraycanPile);
     }
 
     function darnellIntro()
@@ -163,6 +166,11 @@ class PhillyStreets extends BaseStage
     function twoHotIntro()
     {
 	    game.startVideo('2hotCutscene');
+    }
+
+    function blazinOutro()
+    {
+        game.startVideo('blazinCutscene');
     }
 
     function changeLights(beat:Int):Void{
