@@ -3,6 +3,7 @@ package;
 import debug.GameLog;
 import debug.FPS;
 import main.Init;
+import objects.VolumeTray;
 import states.TitleState;
 #if android
 import android.Hardware;
@@ -94,7 +95,9 @@ class Main extends Sprite
 			ClientPrefs.saveSettings();
 		});
 
-		addChild(new FlxGame(#if android 1280, 720, #else game.width, game.height, #end Init, #if android 60, 60, #else game.framerate, game.framerate, #end game.skipSplash, game.startFullscreen));
+		var mainGame:FlxGame = new FlxGame(#if android 1280, 720, #else game.width, game.height, #end Init, #if android 60, 60, #else game.framerate, game.framerate, #end game.skipSplash, game.startFullscreen);
+		@:privateAccess mainGame._customSoundTray = VolumeTray;
+		addChild(mainGame);
 
 		gameLogs = new GameLog();
 		GameLog.startInit();

@@ -74,6 +74,7 @@ import flixel.sound.FlxSound;
 import flixel.system.FlxAssets;
 import flixel.system.FlxAssets.FlxShader;
 import flixel.system.frontEnds.LogFrontEnd;
+import flixel.system.ui.FlxSoundTray;
 import flixel.util.FlxColor;
 import flixel.util.FlxGradient;
 import flixel.util.FlxDestroyUtil;
