@@ -63,7 +63,7 @@ class VolumeTray extends FlxSoundTray
     volumeDownSound = "assets/sounds/soundtray/Voldown.ogg";
     volumeMaxSound = "assets/sounds/soundtray/VolMAX.ogg";
 
-    trace("Custom tray added!");
+    TraceText.makeTheTraceText("Custom tray added!");
   }
 
   override public function update(MS:Float):Void
