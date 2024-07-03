@@ -96,7 +96,7 @@ class Main extends Sprite
 		});
 
 		var mainGame:FlxGame = new FlxGame(#if android 1280, 720, #else game.width, game.height, #end Init, #if android 60, 60, #else game.framerate, game.framerate, #end game.skipSplash, game.startFullscreen);
-		@:privateAccess mainGame._customSoundTray = VolumeTray;
+		#if desktop @:privateAccess mainGame._customSoundTray = VolumeTray; #end
 		addChild(mainGame);
 
 		gameLogs = new GameLog();

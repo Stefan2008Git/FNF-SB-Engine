@@ -1,6 +1,5 @@
 package objects;
 
-import openfl.media.Sound;
 /**
  *  Extends the default flixel soundtray, but with some art
  *  and lil polish!
