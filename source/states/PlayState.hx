@@ -3451,7 +3451,7 @@ class PlayState extends MusicBeatState
 	var hits:Array<Float> = [];
 	var offsetTest:Float = 0;
 	var timeShown = 0;
-	var msTxt:FlxText = null;
+	var currentTimingShown:FlxText = null;
 	private function popUpScore(note:Note = null, miss:Bool = false):Void
 	{
 		var noteDiff:Float = Math.abs(note.strumTime - Conductor.songPosition + ClientPrefs.data.ratingOffset);
@@ -3552,54 +3552,35 @@ class PlayState extends MusicBeatState
 		rating.y -= ClientPrefs.data.comboOffset[1];
 		rating.antialiasing = antialias;
 
-		var comboSpr:FlxSprite = new FlxSprite().loadGraphic(Paths.image(uiPrefix + 'combo' + uiSuffix));
-		comboSpr.screenCenter();
-		comboSpr.x = placement;
-		comboSpr.acceleration.y = FlxG.random.int(200, 300) * playbackRate * playbackRate;
-		comboSpr.velocity.y -= FlxG.random.int(140, 160) * playbackRate;
-		comboSpr.visible = (!ClientPrefs.data.hideHud && showCombo);
-		comboSpr.x += ClientPrefs.data.comboOffset[0];
-		comboSpr.y -= ClientPrefs.data.comboOffset[1];
-		comboSpr.antialiasing = antialias;
-		comboSpr.y += 60;
-		comboSpr.velocity.x += FlxG.random.int(1, 10) * playbackRate;
-
-		comboGroup.add(rating);
-
-		if (!PlayState.isPixelStage)
-		{
-			rating.setGraphicSize(Std.int(rating.width * 0.7));
-			comboSpr.setGraphicSize(Std.int(comboSpr.width * 0.7));
-		}
-		else
-		{
-			rating.setGraphicSize(Std.int(rating.width * daPixelZoom * 0.85));
-			comboSpr.setGraphicSize(Std.int(comboSpr.width * daPixelZoom * 0.85));
-		}
-
-		comboSpr.updateHitbox();
-		rating.updateHitbox();
-
 		var msTiming = truncateFloat(noteDiff, 3);
-		if (cpuControlled) msTiming = 0;							   
-		if (msTxt != null) remove(msTxt);
-		msTxt = new FlxText(0, 0, 0, "0ms");
+		if(cpuControlled) msTiming = 0;		
+
+		if (currentTimingShown != null) remove(currentTimingShown);
+
+		currentTimingShown = new FlxText(500,500,500,"0ms");
 		timeShown = 0;
-		msTxt.text = msTiming + "ms";
-		msTxt.visible = ClientPrefs.data.millisecondTxt;
+
+		currentTimingShown.borderSize = 2;
 		switch (ClientPrefs.data.gameStyle) {
 			case 'SB Engine':
-				msTxt.setFormat(Paths.font('bahnschrift.ttf'), 20, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-			
-			case 'Psych Engine' | 'Kade Engine' | 'Cheeky':
-				msTxt.setFormat(Paths.font('vcr.ttf'), 20, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+				currentTimingShown.setFormat(Paths.font('bahnschrift.ttf'), 20, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 			
 			case 'TGT Engine':
-				msTxt.setFormat(Paths.font('calibri.ttf'), 20, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+				currentTimingShown.setFormat(Paths.font('calibri.ttf'), 20, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 			
 			case 'Dave and Bambi':
-				msTxt.setFormat(Paths.font('comic.ttf'), 20, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+				currentTimingShown.setFormat(Paths.font('comic.ttf'), 20, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			
+			default:
+				currentTimingShown.setFormat(Paths.font('vcr.ttf'), 20, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		}
+		currentTimingShown.text = msTiming + "ms";
+		currentTimingShown.size = 20;
+		currentTimingShown.visible = ClientPrefs.data.millisecondTxt;
+		currentTimingShown.active = ClientPrefs.data.millisecondTxt;
+
+		if (currentTimingShown.alpha != 1) currentTimingShown.alpha = 1;
+		if (!ClientPrefs.data.millisecondTxt) insert(members.indexOf(strumLineNotes), currentTimingShown);
 
 		if (msTiming >= 0.03)
 		{
@@ -3619,15 +3600,44 @@ class PlayState extends MusicBeatState
 
 			offsetTest = truncateFloat(total / hits.length, 2);
 		}
-		if (msTxt.alpha != 1) msTxt.alpha = 1;
-		msTxt.screenCenter();
-		msTxt.x = comboSpr.x + 100;
-		msTxt.y = rating.y + 100;
-		msTxt.acceleration.y = 600;
-		msTxt.velocity.y -= 150;
-		msTxt.velocity.x += comboSpr.velocity.x;
-		msTxt.updateHitbox();
-		if(!cpuControlled) comboGroup.add(msTxt);
+
+		var comboSpr:FlxSprite = new FlxSprite().loadGraphic(Paths.image(uiPrefix + 'combo' + uiSuffix));
+		comboSpr.screenCenter();
+		comboSpr.x = placement;
+		comboSpr.acceleration.y = FlxG.random.int(200, 300) * playbackRate * playbackRate;
+		comboSpr.velocity.y -= FlxG.random.int(140, 160) * playbackRate;
+		comboSpr.visible = (!ClientPrefs.data.hideHud && showCombo);
+		comboSpr.x += ClientPrefs.data.comboOffset[0];
+		comboSpr.y -= ClientPrefs.data.comboOffset[1];
+		comboSpr.antialiasing = antialias;
+		comboSpr.y += 60;
+		comboSpr.velocity.x += FlxG.random.int(1, 10) * playbackRate;
+
+		currentTimingShown.screenCenter();
+		currentTimingShown.acceleration.y = 600;
+		currentTimingShown.velocity.y -= 150;
+		currentTimingShown.cameras = [camHUD];
+		currentTimingShown.velocity.x += comboSpr.velocity.x;
+		currentTimingShown.updateHitbox();
+		currentTimingShown.x += ClientPrefs.data.comboOffset[0] + 290;
+		currentTimingShown.y -= ClientPrefs.data.comboOffset[1] + 100;
+		currentTimingShown.y -= 100;
+		if(!cpuControlled) comboGroup.add(currentTimingShown);
+		comboGroup.add(rating);
+
+		if (!PlayState.isPixelStage)
+		{
+			rating.setGraphicSize(Std.int(rating.width * 0.7));
+			comboSpr.setGraphicSize(Std.int(comboSpr.width * 0.7));
+		}
+		else
+		{
+			rating.setGraphicSize(Std.int(rating.width * daPixelZoom * 0.85));
+			comboSpr.setGraphicSize(Std.int(comboSpr.width * daPixelZoom * 0.85));
+		}
+
+		comboSpr.updateHitbox();
+		rating.updateHitbox();
 
 		var seperatedScore:Array<Int> = [];
 
@@ -3677,28 +3687,23 @@ class PlayState extends MusicBeatState
 			}
 			comboSpr.x = xThing + 50;
 
-			FlxTween.tween(rating, {alpha: 0}, 0.2 / playbackRate, {
-				startDelay: Conductor.crochet * 0.001 / playbackRate,
-				onUpdate: function(tween:FlxTween)
-				{
-					if (msTxt != null)
-						msTxt.alpha = 0;
-					timeShown++;
-				}
+			FlxTween.tween(rating, {alpha: 0}, 0.2, {
+				startDelay: Conductor.crochet * 0.001
 			});
-
-			FlxTween.tween(comboSpr, {alpha: 0}, 0.2 / playbackRate, {
+	
+			FlxTween.tween(currentTimingShown, {alpha:0}, 0.5);
+	
+			FlxTween.tween(comboSpr, {alpha: 0}, 0.2, {
 				onComplete: function(tween:FlxTween)
 				{
 					comboSpr.destroy();
-					if (msTxt != null && timeShown >= 20)
+					if (currentTimingShown != null && timeShown >= 20)
 					{
-						remove(msTxt);
-						msTxt = null;
+						currentTimingShown = null;
 					}
 					rating.destroy();
 				},
-				startDelay: Conductor.crochet * 0.002 / playbackRate
+				startDelay: Conductor.crochet * 0.002
 			});
 		}
 	}
