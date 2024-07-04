@@ -4,7 +4,7 @@
 
 [![GitHub Releases](https://img.shields.io/github/downloads/Stefan2008Git/FNF-SB-Engine/total?style=flat)](https://github.com/Stefan2008Git/FNF-SB-Engine/releases)
 [![Discord](https://img.shields.io/discord/1088890563396382720?label=discord)](https://discord.gg/dEf8aK8ygG)
-![Supported platforms](https://img.shields.io/badge/Supported%20platforms-Windows%2C%20MacOS%2C%20Linux%2C%20Android-brown)
+![Supported platforms](https://img.shields.io/badge/Supported%20platforms-Windows%2C%20MacOS%2C%20Linux%2C%20Android-5b2600)
 
 Used and coded on: [Psych Engine](https://gamebanana.com/mods/309789).
 </details>
