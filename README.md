@@ -148,4 +148,23 @@ Used and coded on: [Psych Engine](https://gamebanana.com/mods/309789).
 * You can enable "Combo Stacking" in Gameplay Options. This causes the combo sprites to just be one sprite with an animation rather than sprites spawning each note hit.
 </details>
 </details>
+<details>
+  <summary><h2>Wanna compile my Psych fork?</h2></summary>
 
+> **Click on 3 tabs to open it**
+<details>
+    <summary>Linux</summary>
+
+Soon...
+</details>
+<details>
+    <summary>MacOS</summary>
+
+Soon..
+</details>
+<details>
+  <summary>Windows</summary>
+
+Soon...
+</details>
+</details>
