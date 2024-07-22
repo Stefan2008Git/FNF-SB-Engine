@@ -27,11 +27,11 @@ class FPS extends TextField
 	/**
 		The current frame rate, expressed using frames-per-second
 	**/
-	public var currentlyFPS(default, null):Int;
+	public var currentFPS(default, null):Int;
 	public var totalFPS(default, null):Int;
 
-	public var currentlyMemory:Float;
-	public var maximumMemory:Float;
+	public var currentMemory:Float;
+	public var maxMemory:Float;
 	public var color:Int = FlxColor.WHITE;
 
 	@:noCompletion private var cacheCount:Int;
@@ -47,7 +47,7 @@ class FPS extends TextField
 		this.x = x;
 		this.y = y;
 
-		currentlyFPS = 0;
+		currentFPS = 0;
 		totalFPS = 0;
 		selectable = false;
 		mouseEnabled = false;
@@ -82,22 +82,22 @@ class FPS extends TextField
 		}
 
 		var currentCount = times.length;
-		currentlyFPS = Math.round((currentCount + cacheCount) / 2);
-		if (currentlyFPS > ClientPrefs.data.framerate) currentlyFPS = ClientPrefs.data.framerate;
+		currentFPS = Math.round((currentCount + cacheCount) / 2);
+		if (currentFPS > ClientPrefs.data.framerate) currentFPS = ClientPrefs.data.framerate;
 
-		totalFPS = Math.round(currentlyFPS + currentCount / 8);
+		totalFPS = Math.round(currentFPS + currentCount / 8);
 		if (totalFPS < 10) totalFPS = 0;
 
 		if (LimeSystem.platformName == LimeSystem.platformVersion || LimeSystem.platformVersion == null) os = 'Platform: ${LimeSystem.platformName}' #if cpp + ' ${getArch()}' #end; else os = 'Platform: ${LimeSystem.platformName} ${LimeSystem.platformVersion}' #if cpp + ' - ${getArch()}' #end;
 
 		if (currentCount != cacheCount) {
-			text =  currentlyFPS + " / " + totalFPS + " FPS";
+			text = '$currentFPS / $totalFPS FPS';
 
-			currentlyMemory = obtainMemory();
-			if (currentlyMemory >= maximumMemory) maximumMemory = currentlyMemory;
+			currentMemory = obtainMemory();
+			if (currentMemory >= maxMemory) maxMemory = currentMemory;
 
 			if (ClientPrefs.data.memory) {
-				text += "\n" + CoolUtil.formatMemory(Std.int(currentlyMemory)) + " / " + CoolUtil.formatMemory(Std.int(maximumMemory));
+				text += "\n" + CoolUtil.formatMemory(Std.int(currentMemory)) + " / " + CoolUtil.formatMemory(Std.int(maxMemory));
 			}
 
 			if (ClientPrefs.data.engineVersion) {
@@ -139,7 +139,7 @@ class FPS extends TextField
 			}
 
 		if (ClientPrefs.data.redText) {
-			if (currentlyFPS <= ClientPrefs.data.framerate / 2) {
+			if (currentFPS <= ClientPrefs.data.framerate / 2) {
 				textColor = FlxColor.RED;
 			}
 		}

@@ -222,8 +222,8 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			"If unchecked, disables smooth health.", 'smoothHealth', 'bool');
 		addOption(option);
 
-		var option:Option = new Option('Smooth score (ALPHA!)',
-			"If unchecked, disables smooth score.\nNOTE: Smooth score is on alpha state, so it will be broken sometimes!", 'smoothScore', 'bool');
+		var option:Option = new Option('Smooth score',
+			"If unchecked, disables smooth score.", 'smoothScore', 'bool');
 		addOption(option);
 
 		var option:Option = new Option('Tweenable timer text',
@@ -260,10 +260,6 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 
 		var option:Option = new Option('Song percentage',
 			"If checked, shows the song percent.", 'songPercentage', 'bool');
-		addOption(option);
-
-		var option:Option = new Option('Die at 0% perent of health',
-			"If unchecked, character cannot die when reachs to 0% percent of health\nNOTE: This option is literally a cheating for noobs!.", 'zeroPercentHealth', 'bool');
 		addOption(option);
 
 		var option:Option = new Option('Time bar left to right method',

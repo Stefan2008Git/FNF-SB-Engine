@@ -28,7 +28,7 @@ class VisualsUISubState extends BaseOptionsMenu
 		addOption(option);
 		option.onChange = onChangeFPSCounterSize;
 
-		var option:Option = new Option('Memory Counter',
+		var option:Option = new Option('Memory text',
 			'If unchecked, hides memory on FPS Counter.', 'memory', 'bool');
 		addOption(option);
 
@@ -149,23 +149,23 @@ class VisualsUISubState extends BaseOptionsMenu
 		if (Main.fpsVar != null) Main.fpsVar.scaleX = Main.fpsVar.scaleY = ClientPrefs.data.fpsResize;
 	}
 
-	function onChangeIconSize()
-	{
-		if (Main.watermark != null) Main.watermark.scaleX = Main.watermark.scaleY = ClientPrefs.data.iconResize;
-	}
-
 	function onWatermarkIcon()
 	{
 		if (Main.watermark != null) Main.watermark.visible = ClientPrefs.data.watermarkIcon;
 		if (Main.watermark.alpha == 0) Main.tweenWatermark();
 	}
 
+	function onChangeIconSize()
+	{
+		if (Main.watermark != null) Main.watermark.scaleX = Main.watermark.scaleY = ClientPrefs.data.iconResize;
+	}
+
 	var changedMainMusic:Bool = false;
 	function onChangeMainMenuMusic()
 	{
 		if (ClientPrefs.data.mainMenuMusic != 'FNF') FlxG.sound.playMusic(Paths.music('freakyMenu-' + ClientPrefs.data.mainMenuMusic));
-		else if (ClientPrefs.data.mainMenuMusic == 'FNF') FlxG.sound.playMusic(Paths.music('freakyMenu'));
-		else if (ClientPrefs.data.mainMenuMusic == 'None') FlxG.sound.music.volume = 0;
+		if (ClientPrefs.data.mainMenuMusic == 'FNF') FlxG.sound.playMusic(Paths.music('freakyMenu'));
+		if (ClientPrefs.data.mainMenuMusic == 'None') FlxG.sound.music.volume = 0;
 		changedMainMusic = true;
 	}
 
