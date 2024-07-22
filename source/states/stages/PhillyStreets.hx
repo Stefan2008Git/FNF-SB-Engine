@@ -163,7 +163,7 @@ class PhillyStreets extends BaseStage
 	var lightCanSnd:FlxSound;
 	var kickCanSnd:FlxSound;
 	var kneeCanSnd:FlxSound;
-	public function precache()
+	override function precache()
 	{
 		for (noteType in noteTypes)
 		{
