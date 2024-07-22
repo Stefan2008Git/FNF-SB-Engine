@@ -309,9 +309,9 @@ jobs:
           haxelib run lime config ANDROID_NDK_ROOT $ANDROID_NDK_HOME
           haxelib run lime config JAVA_HOME $JAVA_HOME
           haxelib run lime config ANDROID_SETUP true
-          haxelib set hxcpp 4.2.1
-          haxelib set lime 8.0.2
-          haxelib set openfl 9.2.2
+          haxelib set hxcpp 4.3.2
+          haxelib set lime 8.1.2
+          haxelib set openfl 9.3.3
           haxelib set SScript 8.1.6
           haxelib list
         env:
