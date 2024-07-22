@@ -101,6 +101,8 @@
 	<haxedef name="openflPos" if="desktop"/>
 	<haxedef name="hscriptPos" />
 	<haxelib name="flxanimate"/>
+	<haxelib name="funkin.vis"/>
+	<haxelib name="grig.audio" />
 
 	<!-- Disable Discord IO Thread -->
 	<haxedef name="DISCORD_DISABLE_IO_THREAD" if="hxdiscord_rpc" />

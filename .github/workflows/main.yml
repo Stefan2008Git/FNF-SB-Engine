@@ -296,6 +296,8 @@ jobs:
           haxelib --quiet git extension-androidtools https://github.com/MaysLastPlay77/extension-androidtools.git
           haxelib --quiet git AndroidDialogs https://github.com/beihu235/AndroidDialogs.git
           haxelib --quiet git devicelanguage https://github.com/beihu235/devicelanguage.git
+          haxelib --quiet git funkin.vis https://github.com/FunkinCrew/funkVis.git
+          haxelib --quiet git grig.audio https://gitlab.com/haxe-grig/grig.audio.git
 
       - name: Create Version Tag
         run: echo "${{github.run_id}}" > VERSION

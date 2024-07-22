@@ -112,6 +112,10 @@ class MusicBeatState extends FlxUIState
 	}
 	#end
 
+	public var variables:Map<String, Dynamic> = new Map<String, Dynamic>();
+	inline public static function getVariables()
+		return getState().variables;
+
 	public static var camBeat:FlxCamera;
 	override function create() {
 		camBeat = FlxG.camera;
@@ -211,6 +215,10 @@ class MusicBeatState extends FlxUIState
 		curStep = lastChange.stepTime + Math.floor(shit);
 	}
 
+	public static function getState():MusicBeatState {
+		return cast (FlxG.state, MusicBeatState);
+	}
+
 	public function stepHit():Void
 	{
 		stagesFunc(function(stage:BaseStage) {
@@ -237,11 +245,6 @@ class MusicBeatState extends FlxUIState
 		FlxTransitionableState.skipNextTransIn = false;
 
 		onOutroComplete();
-	}
-
-	public static function getState():MusicBeatState
-	{
-		return cast (FlxG.state, MusicBeatState);
 	}
 
 	public var stages:Array<BaseStage> = [];

@@ -78,6 +78,20 @@
         "dir": null,
         "ref": "dev",
         "url": "https://github.com/ShadowMario/flxanimate"
+      },
+      {
+        "name": "funkin.vis",
+        "type": "git",
+        "dir": null,
+        "ref": "38261833590773cb1de34ac5d11e0825696fc340",
+        "url": "https://github.com/FunkinCrew/funkVis"
+      },
+      {
+        "name": "grig.audio",
+        "type": "git",
+        "dir": "src",
+        "ref": "57f5d47f2533fd0c3dcd025a86cb86c0dfa0b6d2",
+        "url": "https://gitlab.com/haxe-grig/grig.audio.git"
       }
     ]
 }

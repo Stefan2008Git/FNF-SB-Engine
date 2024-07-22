@@ -39,9 +39,9 @@ class LuaUtils
 		if(splitProps.length > 1)
 		{
 			var target:Dynamic = null;
-			if(PlayState.instance.variables.exists(splitProps[0]))
+			if(MusicBeatState.getVariables().exists(splitProps[0]))
 			{
-				var retVal:Dynamic = PlayState.instance.variables.get(splitProps[0]);
+				var retVal:Dynamic = MusicBeatState.getVariables().get(splitProps[0]);
 				if(retVal != null)
 					target = retVal;
 			}
@@ -65,9 +65,9 @@ class LuaUtils
 			return value;
 		}
 
-		if(PlayState.instance.variables.exists(variable))
+		if(MusicBeatState.getVariables().exists(variable))
 		{
-			PlayState.instance.variables.set(variable, value);
+			MusicBeatState.getVariables().set(variable, value);
 			return value;
 		}
 		Reflect.setProperty(instance, variable, value);
@@ -79,9 +79,9 @@ class LuaUtils
 		if(splitProps.length > 1)
 		{
 			var target:Dynamic = null;
-			if(PlayState.instance.variables.exists(splitProps[0]))
+			if(MusicBeatState.getVariables().exists(splitProps[0]))
 			{
-				var retVal:Dynamic = PlayState.instance.variables.get(splitProps[0]);
+				var retVal:Dynamic = MusicBeatState.getVariables().get(splitProps[0]);
 				if(retVal != null)
 					target = retVal;
 			}
@@ -102,9 +102,9 @@ class LuaUtils
 			return instance.get(variable);
 		}
 
-		if(PlayState.instance.variables.exists(variable))
+		if(MusicBeatState.getVariables().exists(variable))
 		{
-			var retVal:Dynamic = PlayState.instance.variables.get(variable);
+			var retVal:Dynamic = MusicBeatState.getVariables().get(variable);
 			if(retVal != null)
 				return retVal;
 		}

@@ -112,6 +112,8 @@ import openfl.events.IOErrorEvent;
 import openfl.events.UncaughtErrorEvent;
 import openfl.geom.Rectangle;
 import openfl.display.DisplayObject;
+import openfl.display.ShaderParameter;
+import openfl.display.ShaderParameterType;
 import openfl.display.StageScaleMode;
 import openfl.display.Bitmap;
 import openfl.display.BitmapData;
@@ -199,9 +201,10 @@ import states.MainMenuState;
 import states.LoadingState;
 import states.PlayState;
 import states.stages.objects.*;
+import substates.*;
 
 #if flxanimate
-import flxanimate.*;
+import flxanimate.PsychFlxAnimate as FlxAnimate;
 #end
 
 // Lua stuff
