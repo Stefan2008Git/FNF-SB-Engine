@@ -1,6 +1,6 @@
 {
 	"song": {
-		"player1": "pico-player",
+		"player1": "pico-blazin",
 		"events": [],
 		"gfVersion": "nene",
 		"notes": [
@@ -2909,11 +2909,11 @@
 				"bpm": 0
 			}
 		],
-		"player2": "darnell",
+		"player2": "darnell-blazin",
 		"player3": null,
 		"song": "Blazin",
 		"needsVoices": true,
-		"stage": "phillyStreets",
+		"stage": "phillyBlazin",
 		"bpm": 180,
 		"speed": 3.2
 	}

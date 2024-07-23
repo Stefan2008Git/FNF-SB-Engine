@@ -1,5 +1,6 @@
 package flxanimate;
 
+import flixel.util.FlxDestroyUtil;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import flxanimate.frames.FlxAnimateFrames;
 import flxanimate.data.AnimationData;
@@ -80,9 +81,8 @@ class PsychFlxAnimate extends OriginalFlxAnimate
 		}
 		catch(e:haxe.Exception)
 		{
-			anim.curInstance = FlxDestroyUtil.destroy(anim.curInstance);
-			anim.stageInstance = FlxDestroyUtil.destroy(anim.stageInstance);
-			//anim.metadata = FlxDestroyUtil.destroy(anim.metadata);
+			anim.curInstance.destroy();
+			anim.stageInstance.destroy();
 			anim.metadata.destroy();
 			anim.symbolDictionary = null;
 		}

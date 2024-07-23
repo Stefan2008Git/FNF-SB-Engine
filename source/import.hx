@@ -204,6 +204,7 @@ import states.stages.objects.*;
 import substates.*;
 
 #if flxanimate
+import flxanimate.*;
 import flxanimate.PsychFlxAnimate as FlxAnimate;
 #end
 

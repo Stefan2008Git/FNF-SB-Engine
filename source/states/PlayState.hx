@@ -272,9 +272,7 @@ class PlayState extends MusicBeatState
 	public var startCallback:Void->Void = null;
 	public var endCallback:Void->Void = null;
 
-	var abotEyess:Float = 0;
-	var abotEyes:FlxAnimate; //don't get the two mixed, one is a float while the other is the animate sprite
-	var abot:FlxAnimate; //don't get the two mixed, one is a float while the other is the animate sprite
+	public var pressMissDamage:Float = 0.05;
 
 	override public function create()
 	{
@@ -503,7 +501,8 @@ class PlayState extends MusicBeatState
 			case 'school': new states.stages.School(); //Week 6 - Senpai, Roses
 			case 'schoolEvil': new states.stages.SchoolEvil(); //Week 6 - Thorns
 			case 'tank': new states.stages.Tank(); //Week 7 - Ugh, Guns, Stress
-			case 'phillyStreets': new states.stages.PhillyStreets(); // Weekend 1 - Darnell, Lit Up, 2Hot, Blazin
+			case 'phillyStreets': new states.stages.PhillyStreets(); // Weekend 1 - Darnell, Lit Up, 2Hot
+			case 'phillyBlazin': new states.stages.PhillyBlazin(); // Weekend 1 - Blazin (Final song)
 		}
 
 		if(isPixelStage) {
@@ -574,7 +573,6 @@ class PlayState extends MusicBeatState
 			if(gf != null)
 				gf.visible = false;
 		}
-		stagesFunc(function(stage:BaseStage) stage.createPost());
 
 		noteGroup = new FlxTypedGroup<FlxBasic>();
 		add(noteGroup);
@@ -3882,7 +3880,7 @@ class PlayState extends MusicBeatState
 	function noteMissCommon(direction:Int, note:Note = null)
 	{
 		// score and data
-		var subtract:Float = 0.05;
+		var subtract:Float = pressMissDamage;
 		if(note != null) subtract = note.missHealth;
 
 		// GUITAR HERO SUSTAIN CHECK LOL!!!!
