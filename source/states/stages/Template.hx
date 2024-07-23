@@ -87,8 +87,8 @@ class Template extends BaseStage
 		switch(event.event)
 		{
 			case "My Event":
-				//precacheImage('myImage') //preloads images/myImage.png
-				//precacheSound('mySound') //preloads sounds/mySound.ogg
+				//Paths.image('myImage') //preloads images/myImage.png
+				//Paths.sound('mySound') //preloads sounds/mySound.ogg
 				//precacheMusic('myMusic') //preloads music/myMusic.ogg
 		}
 	}
@@ -102,20 +102,20 @@ class Template extends BaseStage
 				{
 					// If value 1 is "blah blah", it will preload these assets:
 					case 'blah blah':
-						//precacheImage('myImageOne') //preloads images/myImageOne.png
-						//precacheSound('mySoundOne') //preloads sounds/mySoundOne.ogg
+						//Paths.image('myImageOne') //preloads images/myImageOne.png
+						//Paths.sound('mySoundOne') //preloads sounds/mySoundOne.ogg
 						//precacheMusic('myMusicOne') //preloads music/myMusicOne.ogg
 
 					// If value 1 is "coolswag", it will preload these assets:
 					case 'coolswag':
-						//precacheImage('myImageTwo') //preloads images/myImageTwo.png
-						//precacheSound('mySoundTwo') //preloads sounds/mySoundTwo.ogg
+						//Paths.image('myImageTwo') //preloads images/myImageTwo.png
+						//Paths.sound('mySoundTwo') //preloads sounds/mySoundTwo.ogg
 						//precacheMusic('myMusicTwo') //preloads music/myMusicTwo.ogg
 					
 					// If value 1 is not "blah blah" or "coolswag", it will preload these assets:
 					default:
-						//precacheImage('myImageThree') //preloads images/myImageThree.png
-						//precacheSound('mySoundThree') //preloads sounds/mySoundThree.ogg
+						//Paths.image('myImageThree') //preloads images/myImageThree.png
+						//Paths.sound('mySoundThree') //preloads sounds/mySoundThree.ogg
 						//precacheMusic('myMusicThree') //preloads music/myMusicThree.ogg
 				}
 		}

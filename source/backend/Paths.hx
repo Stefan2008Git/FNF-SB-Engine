@@ -523,7 +523,7 @@ class Paths
 			}
 		}
 
-		#if desktop spr.loadAtlasEx(folderOrImg, spriteJson, animationJson); #end
+		spr.loadAtlasEx(folderOrImg, spriteJson, animationJson);
 	}
 	#end
 }

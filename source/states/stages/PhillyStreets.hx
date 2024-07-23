@@ -151,7 +151,7 @@ class PhillyStreets extends BaseStage
 		if(finishInstantly) abot.eyes.anim.curFrame = abot.eyes.anim.length - 1;
 	}
 
-	function startSong()
+	override function startSong()
 	{
 		abot.snd = FlxG.sound.music;
 	}
@@ -163,7 +163,7 @@ class PhillyStreets extends BaseStage
 	var lightCanSnd:FlxSound;
 	var kickCanSnd:FlxSound;
 	var kneeCanSnd:FlxSound;
-	override function precache()
+	function precache()
 	{
 		for (noteType in noteTypes)
 		{

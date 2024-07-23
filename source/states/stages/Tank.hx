@@ -199,9 +199,9 @@ class Tank extends BaseStage
 			prepareCutscene();
 			cutsceneHandler.endTime = 12;
 			cutsceneHandler.music = 'DISTORTO';
-			precacheSound('wellWellWell');
-			precacheSound('killYou');
-			precacheSound('bfBeep');
+			Paths.sound('wellWellWell');
+			Paths.sound('killYou');
+			Paths.sound('bfBeep');
 
 			var wellWellWell:FlxSound = new FlxSound().loadEmbedded(Paths.sound('wellWellWell'));
 			FlxG.sound.list.add(wellWellWell);
@@ -254,7 +254,7 @@ class Tank extends BaseStage
 			cutsceneHandler.music = 'DISTORTO';
 			tankman.x += 40;
 			tankman.y += 10;
-			precacheSound('tankSong2');
+			Paths.sound('tankSong2');
 
 			var tightBars:FlxSound = new FlxSound().loadEmbedded(Paths.sound('tankSong2'));
 			FlxG.sound.list.add(tightBars);
