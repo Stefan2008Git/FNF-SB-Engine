@@ -1,6 +1,5 @@
 package flxanimate;
 
-import flixel.util.FlxDestroyUtil;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import flxanimate.frames.FlxAnimateFrames;
 import flxanimate.data.AnimationData;
@@ -62,7 +61,8 @@ class PsychFlxAnimate extends OriginalFlxAnimate
 		}
 
 		anim._loadAtlas(animJson);
-		frames = FlxAnimateFrames.fromSparrow(cast myData, img);
+		if(!isXml) frames = FlxAnimateFrames.fromSpriteMap(cast myData, img);
+		else frames = FlxAnimateFrames.fromSparrow(cast myData, img);
 		origin = anim.curInstance.symbol.transformationPoint;
 	}
 
