@@ -32,6 +32,10 @@ class VisualsUISubState extends BaseOptionsMenu
 			'If unchecked, hides memory on FPS Counter.', 'memory', 'bool');
 		addOption(option);
 
+		var option:Option = new Option('Memory type:', 
+			'Change memory type from default to Ib', 'memoryType', 'string', ['Default', 'Ib']);
+		addOption(option);
+
 		var option:Option = new Option('Engine Version',
 			'If checked, shows engine version on FPS Counter.', 'engineVersion', 'bool');
 		addOption(option);

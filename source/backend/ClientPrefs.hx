@@ -9,6 +9,7 @@ import states.TitleState;
 	public var opponentStrums:Bool = true;
 	public var showFPS:Bool = true;
 	public var memory:Bool = true;
+	public var memoryType:String = 'Default';
 	public var engineVersion:Bool = false;
 	public var debugInfo:Bool = false;
 	public var rainbowFPS:Bool = false;

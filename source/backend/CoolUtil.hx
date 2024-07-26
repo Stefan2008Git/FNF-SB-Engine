@@ -49,7 +49,13 @@ class CoolUtil
 	public static function formatMemory(num:UInt):String {
 		var size:Float = num;
 		var data = 0;
-		var dataTexts = ["B", "KB", "MB", "GB"];
+		static var dataTexts = [];
+		switch (ClientPrefs.data.memoryType)
+		{
+			case 'Ib': dataTexts = ["Bib", "KiB", "MiB", "GiB"];
+			default: dataTexts = ["B", "KB", "MB", "GB"];
+		}
+
 		while (size > 1024 && data < dataTexts.length - 1) {
 			data++;
 			size = size / 1024;

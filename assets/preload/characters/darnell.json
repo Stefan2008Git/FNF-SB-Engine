@@ -77,7 +77,7 @@
 			"loop": false,
 			"fps": 24,
 			"anim": "laugh",
-			"indices": [],
+			"indices": [0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5],
 			"name": "Laugh"
 		},
 		{
@@ -113,7 +113,7 @@
 			"name": "Gets Pissed0"
 		}
 	],
-	"vocals_file": "",
+	"vocals_file": "darnell",
 	"no_antialiasing": false,
 	"image": "characters/darnell",
 	"position": [0, 200],
