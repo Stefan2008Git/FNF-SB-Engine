@@ -61,8 +61,8 @@ class PsychFlxAnimate extends OriginalFlxAnimate
 		}
 
 		anim._loadAtlas(animJson);
-		if(!isXml) frames = FlxAnimateFrames.fromSpriteMap(cast myData, img);
-		else frames = FlxAnimateFrames.fromSparrow(cast myData, img);
+		#if desktop if(!isXml) frames = FlxAnimateFrames.fromSpriteMap(cast myData, img);
+		else frames = FlxAnimateFrames.fromSparrow(cast myData, img); #end
 		origin = anim.curInstance.symbol.transformationPoint;
 	}
 
