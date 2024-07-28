@@ -18,7 +18,7 @@ Used and coded on: [Psych Engine](https://gamebanana.com/mods/309789).
 | ------ | -------- | ----------- |
 | ![](https://raw.githubusercontent.com/Stefan2008Git/FNF-SB-Engine/main/assets/preload/images/credits/stefan.png) | [Stefan2008](https://www.youtube.com/channel/UC9Nwf21GbaEm_h0Ka9gxZjQ) | Main Programmer of SB Engine.
 | ![](https://raw.githubusercontent.com/Stefan2008Git/FNF-SB-Engine/main/assets/preload/images/credits/hutaroz.png) | [Hutaro](https://youtube.com/@hutaroz?si=1-qCf4MucDxMpL12) | Main Artist of SB Engine
-| ![](https://raw.githubusercontent.com/Stefan2008Git/FNF-SB-Engine/main/assets/preload/images/credits/plus.png) | [IsThePlusOpd](https://youtube.com/@hutaroz?si=1-qCf4MucDxMpL12) | Second Artist of SB Engine
+| ![](https://raw.githubusercontent.com/Stefan2008Git/FNF-SB-Engine/main/assets/preload/images/credits/plus.png) | [IsThePlusOpd](http://www.youtube.com/@Istheplusopd) | Second Artist of SB Engine
 | ![](https://raw.githubusercontent.com/Stefan2008Git/FNF-SB-Engine/main/assets/preload/images/credits/mays.png) | [MaysLastPlay](https://www.youtube.com/@MaysLastPlay) | Second Programmer of SB Engine.
 | ![](https://raw.githubusercontent.com/Stefan2008Git/FNF-SB-Engine/main/assets/preload/images/credits/fearester.png) | [Fearester2008](https://www.youtube.com/@fearester1282) | Third Programmer of SB Engine.
 | ![](https://raw.githubusercontent.com/Stefan2008Git/FNF-SB-Engine/main/assets/preload/images/credits/sun.png) | [SunBurn'tTails](https://www.youtube.com/channel/UCooFjEgVBZyTSx_hbcnqclw) | First SB Engine Beta tester.
@@ -31,6 +31,7 @@ Used and coded on: [Psych Engine](https://gamebanana.com/mods/309789).
 | ![](https://raw.githubusercontent.com/Stefan2008Git/FNF-SB-Engine/main/assets/preload/images/credits/sam.png) | [Sussy Sam](https://www.youtube.com/@sussysam6789) | Maked new icons and new music for SB Engine, but he is not on SB Engine team.
 | ![](https://raw.githubusercontent.com/Stefan2008Git/FNF-SB-Engine/main/assets/preload/images/credits/xale.png) | [JustXale](https://github.com/JustXale) | Main Programmer of Grafex Engine.
 | ![](https://raw.githubusercontent.com/Stefan2008Git/FNF-SB-Engine/main/assets/preload/images/credits/core.png) | [CoreCat](https://twitter.com/core5570r) | Used a lot of stuff from CDEV Engine. Thank you CoreCat.
+| ![](https://raw.githubusercontent.com/Stefan2008Git/FNF-SB-Engine/main/assets/preload/images/credits/mago.png) | [GatoMago](https://www.youtube.com/@GatoMago_XD) | Gem note asset creator.
 | ![](https://raw.githubusercontent.com/Stefan2008Git/FNF-SB-Engine/main/assets/preload/images/credits/mario.png) | [MarioMaster](https://www.youtube.com/channel/UC65m-_5tbYFJ7oRqZzpFBJw) | Created hitbox selector and virtual pad opacity.
 | ![](https://raw.githubusercontent.com/Stefan2008Git/FNF-SB-Engine/main/assets/preload/images/credits/beihu.png) | [NF Beihu](https://www.youtube.com/@beihu235) | Created hitbox space for dodge mechanic system on NF Engine.
 | ![](https://raw.githubusercontent.com/Stefan2008Git/FNF-SB-Engine/main/assets/preload/images/credits/jigsaw.png) | [M.A. Jigsaw77](https://www.youtube.com/channel/UC2Sk7vtPzOvbVzdVTWrribQ) | Main Programmer of Psych Engine with Android Support.

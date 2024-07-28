@@ -1,10 +1,5 @@
 package states;
 
-#if MODS_ALLOWED
-import sys.FileSystem;
-import sys.io.File;
-#end
-
 import objects.AttachedSprite;
 
 class CreditsState extends MusicBeatState
@@ -59,34 +54,35 @@ class CreditsState extends MusicBeatState
 			['SB Engine Team'],
 			['Stefan2008', 			'stefan', 			'Main Programmer of SB Engine', 								'https://www.youtube.com/@stefan2008official', 				'8B4513'],
 			['Hutaro', 				'hutaroz', 			'Main Artist for SB Engine', 									'https://www.youtube.com/@hutaroz', 						'F8F58F'],
+			['IsThePlusOpd', 		'plus', 			'Second Artist for SB Engine', 									'http://www.youtube.com/@Istheplusopd', 					'4c5695'],
 			['MaysLastPlay', 		'mays', 			'Second Programmer of SB Engine', 								'https://www.youtube.com/@MaysLastPlay', 					'5E99DF'],
 			['Fearester2008', 		'fearester', 		'Third Programmer of SB Engine', 								'https://www.youtube.com/@fearester1282', 					'04435a'],
 			['SunBurntTails', 		'sun', 				'First Beta test player for SB Engine', 						'https://www.youtube.com/channel/UCooFjEgVBZyTSx_hbcnqclw', 'fc0000'],
 			['Ali Alafandy', 		'ali', 				'Second Beta test player for SB Engine', 						'https://youtube.com/channel/UClK5uzYLZDUZmbI6O56J-QA', 	'00008b'],
 			['Luiz Felipe Play', 	'luiz', 			'Third Beta test player for SB Engine', 						'https://www.youtube.com/channel/UCb0odiyqDCKje8rlBZGvKBg', '59d927'],
-			[''],
+			[null],
 			['Special credits'],
-			['Sussy Sam', 			'sam', 				'Maked new icons and new music for SB Engine', 					'https://www.youtube.com/@sussysam6789','964B00'],
-			['JustXale', 			'xale', 			'Main Programmer of Grafex Engine', 							'https://github.com/JustXale', 			'f7a300'],
-			['Sayofthelor', 		'bean', 			'Main Programmer of Lore Engine', 								'https://twitter.com/sayofthelor', 		'663399'],
-			['CoreCat', 			'core', 			'Used a lot of stuff from CDEV Engine. Thank you CoreCat.', 	'https://twitter.com/core5570r', 		'005FAD'],
+			['Sussy Sam', 			'sam', 				'Maked new icons and new music for SB Engine', 					'https://www.youtube.com/@sussysam6789',					'964B00'],
+			['JustXale', 			'xale', 			'Main Programmer of Grafex Engine', 							'https://github.com/JustXale', 								'f7a300'],
+			['Sayofthelor', 		'bean', 			'Main Programmer of Lore Engine', 								'https://twitter.com/sayofthelor', 							'663399'],
+			['CoreCat', 			'core', 			'Used a lot of stuff from CDEV Engine. Thank you CoreCat.', 	'https://twitter.com/core5570r', 							'005FAD'],
+			['GatoMago',			'mago',				'Gem note asset creator',										'https://www.youtube.com/@GatoMago_XD',						'04435a'],
 			#if android
 			['MarioMaster', 		'mario', 			'Created hitbox selector and virtual pad opacity', 				'https://www.youtube.com/channel/UC65m-_5tbYFJ7oRqZzpFBJw', 'fc0000'],
-			['NF | Beihu', 			'beihu', 			'Created the working Kade Engine for PE on NF Engine.', 		'https://www.youtube.com/@beihu235', 	'964B00'],
+			['NF | Beihu', 			'beihu', 			'Created the working Kade Engine for PE on NF Engine.', 		'https://www.youtube.com/@beihu235', 						'964B00'],
 			['M.A. Jigsaw77', 		'jigsaw', 			'Main Programmer of Psych Engine\nWith Android Support', 		'https://www.youtube.com/channel/UC2Sk7vtPzOvbVzdVTWrribQ', '444444'],
 			['Goldie', 				'goldie', 			'Old Hitbox and Virtual Pad Artist', 							'https://www.youtube.com/channel/UCjTi9Hfl1Eb5Bgk5gksmsbA', '444444'],
-			['mcagabe19', 			'lily', 			'Old Head Porter of Psych Engine Mobile',						'https://www.youtube.com/@mcagabe19', 	'FFE7C0'],
-			['Karim Akra', 			'karim',            'New Head Porter of Psych Engine Mobile', 						'https://youtube.com/@Karim0690',      	'FFB4F0'],
+			['mcagabe19', 			'lily', 			'Old Head Porter of Psych Engine Mobile',						'https://www.youtube.com/@mcagabe19', 						'FFE7C0'],
+			['Karim Akra', 			'karim',            'New Head Porter of Psych Engine Mobile', 						'https://youtube.com/@Karim0690',      						'FFB4F0'],
 			#end
-			[''],
+			[null],
 			['Psych Engine Team'],
 			['Shadow Mario', 		'shadowmario',		'Main Programmer of Psych Engine', 								'https://twitter.com/Shadow_Mario_',	'444444'],
 			['Riveren',				'riveren', 			'Main Artist/Animator of Psych Engine', 						'https://twitter.com/riverennn', 		'14967B'],
-			[''],
+			[null],
 			['Former Engine Members'],
-			['shubs',				'shubs',			'Ex-Programmer of Psych Engine',								'https://twitter.com/yoshubs',			'5E99DF'],
 			['bb-panzu',			'bb',				'Ex-Programmer of Psych Engine',								'https://twitter.com/bbsub3',			'3E813A'],
-			[''],
+			[null],
 			['Engine Contributors'],
 			['iFlicky',				'flicky',			'Composer of Psync and Tea Time\nMade the Dialogue Sounds',		'https://twitter.com/flicky_i',			'9E29CF'],
 			['SqirraRNG',			'sqirra',			'Crash Handler and Base code for\nChart Editor\'s Waveform',	'https://twitter.com/gedehari',			'E1843A'],
@@ -95,7 +91,7 @@ class CreditsState extends MusicBeatState
 			['KadeDev',				'kade',				'Fixed some cool stuff on Chart Editor\nand other PRs',			'https://twitter.com/kade0912',			'64A250'],
 			['Keoiki',				'keoiki',			'Note Splash Animations and Latin Alphabet',					'https://twitter.com/Keoiki_',			'D2D2D2'],
 			['superpowers04',		'superpowers04',	'LUA JIT Fork',													'https://twitter.com/superpowers04',	'B957ED'],
-			[''],
+			[null],
 			["Funkin' Crew"],
 			['ninjamuffin99',		'ninjamuffin99',	"Programmer of Friday Night Funkin'", 							'https://twitter.com/ninja_muffin99',   'CF2D2D'],
 			['PhantomArcade',		'phantomarcade',	"Animator of Friday Night Funkin'",								'https://twitter.com/PhantomArcade3K',  'FADC45'],

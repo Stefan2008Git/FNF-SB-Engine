@@ -1,8 +1,8 @@
 package main;
 
 import states.FlashingState;
-import states.LoadingMenuState;
 import states.StoryMenuState;
+import states.SBinatorState;
 
 #if linux
 import lime.graphics.Image;
@@ -84,7 +84,7 @@ class Init extends FlxState
 
         FlxTransitionableState.skipNextTransIn = true;
         FlxTransitionableState.skipNextTransOut = true;
-        if (ClientPrefs.data.loadingScreen) FlxG.switchState(() -> new LoadingMenuState());
+        if (ClientPrefs.data.loadingScreen) FlxG.switchState(() -> new SBinatorState());
         else FlxG.switchState(Type.createInstance(Main.game.initialState, []));
     }
 }

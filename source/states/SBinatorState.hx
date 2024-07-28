@@ -2,7 +2,7 @@ package states;
 
 import objects.Bar;
 
-class LoadingMenuState extends MusicBeatState
+class SBinatorState extends MusicBeatState
 {
     var mainBackground:FlxSprite;
     var mainChecker:FlxBackdrop;
@@ -17,8 +17,8 @@ class LoadingMenuState extends MusicBeatState
     var timer:Float = 0;
     var string:String = '';
 	var loadingTime:Float = 0;
-	public static var sillyIcons:Array<String> = ['stefan', 'hutaroz', 'mays', 'fearester'];
-	public static var sillyTexts:Array<String> = ['Stefan2008', 'Hutaro', 'MaysLastPlay', 'Fearester2008'];
+	public static var sillyIcons:Array<String> = ['stefan', 'hutaroz', 'plus', 'mays', 'fearester'];
+	public static var sillyTexts:Array<String> = ['Stefan2008', 'Hutaro', 'IsThePlusOpd', 'MaysLastPlay', 'Fearester2008'];
 
     override function create()
     {
@@ -113,6 +113,8 @@ class LoadingMenuState extends MusicBeatState
 		loadingTime += elapsed;
 		if (loadingTime >= 15) {
 			updateBarPercent();
+			mainText.text = "Done!";
+			mainText.x = 1155;
 		}
         super.update(elapsed);
     }
@@ -148,8 +150,13 @@ class LoadingMenuState extends MusicBeatState
 	}
 
 	function switchToTitleMenu() {
+		randomText.visible = false;
+		#if DISCORD_ALLOWED
+	    // Updating Discord Rich Presence
+	    DiscordClient.changePresence("Done! Loading engine...", null);
+	    #end
 		FlxTween.tween(FlxG.sound, {volume: 0}, 0.2);
-		FlxG.camera.fade(FlxColor.BLACK, 0.25, false, function() {
+		FlxG.camera.fade(FlxColor.BLACK, 0.40, false, function() {
 			FlxG.sound.destroy();
 			FlxG.switchState(() -> new TitleState());
 		});
