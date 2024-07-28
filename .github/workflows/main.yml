@@ -114,6 +114,7 @@ jobs:
       - name: Configure Windows
         run: |
           haxelib run lime setup -alias -y
+          haxelib set lime 8.0.2
           haxelib set SScript 8.1.6
           haxelib list
       - name: Building
@@ -189,6 +190,7 @@ jobs:
       - name: Configure Mac
         run: |
           haxelib run lime setup -alias -y
+          Haxelib set lime 8.0.2
           haxelib set SScript 8.1.6
           haxelib list
       - name: Create Version Tag
@@ -276,7 +278,7 @@ jobs:
       - name: Install Haxelib
         run: |
           haxelib setup ~/haxelib
-          haxelib install hxcpp > 4.2.1 /dev/null
+          haxelib install hxcppm 4.2.1 > /dev/null
           haxelib install lime 8.0.2
           haxelib install openfl
           haxelib install flixel
