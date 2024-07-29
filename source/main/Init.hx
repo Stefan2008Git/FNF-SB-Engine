@@ -13,6 +13,12 @@ class Init extends FlxState
     override function create() 
     {
         FlxTransitionableState.skipNextTransOut = true;
+
+        #if DISCORD_ALLOWED
+	    // Updating Discord Rich Presence
+	    DiscordClient.changePresence("Starting SB Engine...", null);
+	    #end
+
         Paths.clearStoredMemory();
 
         if (Main.fpsVar == null) {

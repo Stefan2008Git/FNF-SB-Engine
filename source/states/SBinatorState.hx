@@ -29,9 +29,9 @@ class SBinatorState extends MusicBeatState
 		FlxG.mouse.visible = false;
         super.create();
 
-		#if DISCORD_ALLOWED
+        #if DISCORD_ALLOWED
 	    // Updating Discord Rich Presence
-	    DiscordClient.changePresence("Starting SB Engine...", null);
+	    DiscordClient.changePresence("Loading SB Engine...", null);
 	    #end
 
         mainBackground = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
@@ -115,6 +115,11 @@ class SBinatorState extends MusicBeatState
 			updateBarPercent();
 			mainText.text = "Done!";
 			mainText.x = 1155;
+			randomText.visible = false;
+			#if DISCORD_ALLOWED
+			// Updating Discord Rich Presence
+			DiscordClient.changePresence("Done! Booting the engine...", null);
+			#end
 		}
         super.update(elapsed);
     }
@@ -150,11 +155,6 @@ class SBinatorState extends MusicBeatState
 	}
 
 	function switchToTitleMenu() {
-		randomText.visible = false;
-		#if DISCORD_ALLOWED
-	    // Updating Discord Rich Presence
-	    DiscordClient.changePresence("Done! Loading engine...", null);
-	    #end
 		FlxTween.tween(FlxG.sound, {volume: 0}, 0.2);
 		FlxG.camera.fade(FlxColor.BLACK, 0.40, false, function() {
 			FlxG.sound.destroy();
