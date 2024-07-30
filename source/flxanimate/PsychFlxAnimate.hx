@@ -61,8 +61,8 @@ class PsychFlxAnimate extends OriginalFlxAnimate
 		}
 
 		anim._loadAtlas(animJson);
-		#if desktop if(!isXml) frames = FlxAnimateFrames.fromSpriteMap(cast myData, img);
-		else frames = FlxAnimateFrames.fromSparrow(cast myData, img); #end
+		if(!isXml) frames = FlxAnimateFrames.fromSpriteMap(cast myData, img);
+		else frames = FlxAnimateFrames.fromSparrow(cast myData, img);
 		origin = anim.curInstance.symbol.transformationPoint;
 	}
 
@@ -80,8 +80,8 @@ class PsychFlxAnimate extends OriginalFlxAnimate
 		}
 		catch(e:haxe.Exception)
 		{
-			anim.curInstance.destroy();
-			anim.stageInstance.destroy();
+			anim.curInstance = FlxDestroyUtil.destroy(anim.curInstance);
+			anim.stageInstance = FlxDestroyUtil.destroy(anim.stageInstance);
 			anim.metadata.destroy();
 			anim.symbolDictionary = null;
 		}
