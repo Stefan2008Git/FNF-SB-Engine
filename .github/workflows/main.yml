@@ -40,6 +40,7 @@ jobs:
       - name: Configure Linux
         run: |
           haxelib run lime setup -alias -y
+          haxelib set lime 8.0.2
           haxelib set SScript 8.1.6
           haxelib list
       - name: Building
@@ -183,7 +184,6 @@ jobs:
       - name: Install Haxelib
         run: |
           haxelib setup ~/haxelib
-          haxelib --global update haxelib
           haxelib install hxcpp > /dev/null
           haxelib install hmm --quiet
           haxelib run hmm install
