@@ -48,7 +48,7 @@ class StoryMenuState extends MusicBeatState
 		{
 			FlxTransitionableState.skipNextTransIn = true;
 			persistentUpdate = false;
-			FlxG.switchState(() -> new states.engine.ErrorHandlerState(#if android "NO WEEKS ADDED FOR STORY MODE\n\nTap on A to go to the Week Editor Menu.\nTap on B to return to Main Menu." #else "NO WEEKS ADDED FOR STORY MODE\n\nPress ACCEPT to go to the Week Editor Menu.\nPress BACK to return to Main Menu." #end,
+			FlxG.switchState(() -> new states.engine.ErrorHandlerState(#if android "NO WEEKS ADDED FOR STORY MODE\n\nTap on A to go to the Week Editor Menu.\nTap on B to return to Main Menu.", #else "NO WEEKS ADDED FOR STORY MODE\n\nPress ACCEPT to go to the Week Editor Menu.\nPress BACK to return to Main Menu." #end,
 				function() FlxG.switchState(() -> new states.editors.WeekEditorState()),
 				function() FlxG.switchState(() -> new states.MainMenuState())));
 			return;
