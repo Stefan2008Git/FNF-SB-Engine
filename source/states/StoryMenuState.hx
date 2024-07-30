@@ -48,7 +48,7 @@ class StoryMenuState extends MusicBeatState
 		{
 			FlxTransitionableState.skipNextTransIn = true;
 			persistentUpdate = false;
-			FlxG.switchState(() -> new states.engine.ErrorHandlerState(#if android "NO WEEKS ADDED FOR STORY MODE\n\nTap on A to go to the Week Editor Menu.\nTap on B to return to Main Menu.", #else "NO WEEKS ADDED FOR STORY MODE\n\nPress ACCEPT to go to the Week Editor Menu.\nPress BACK to return to Main Menu." #end,
+			FlxG.switchState(() -> new states.engine.ErrorHandlerState(#if android "NO WEEKS ADDED FOR STORY MODE\n\nTap on A to go to the Week Editor Menu.\nTap on B to return to Main Menu." #else "NO WEEKS ADDED FOR STORY MODE\n\nPress ACCEPT to go to the Week Editor Menu.\nPress BACK to return to Main Menu." #end,
 				function() FlxG.switchState(() -> new states.editors.WeekEditorState()),
 				function() FlxG.switchState(() -> new states.MainMenuState())));
 			return;
@@ -59,8 +59,8 @@ class StoryMenuState extends MusicBeatState
 
 		scoreText = new FlxText(10, 10, 0, "SCORE: 0", 36);
 		switch (ClientPrefs.data.gameStyle) {
-			case 'Psych Engine' | 'Kade Engine' | 'Cheeky':
-				scoreText.setFormat("VCR OSD Mono", 32);
+			case 'SB Engine':
+				scoreText.setFormat("Bahnschrift", 32);
 			
 			case 'Dave and Bambi':
 				scoreText.setFormat("Comic Sans MS Bold", 32);
@@ -68,23 +68,23 @@ class StoryMenuState extends MusicBeatState
 			case 'TGT Engine':
 				scoreText.setFormat("Calibri", 32);
 			
-			case 'SB Engine':
-				scoreText.setFormat("Bahnschrift", 32);
+			default:
+				scoreText.setFormat("VCR OSD Mono", 32);
 		}
 
 		txtWeekTitle = new FlxText(FlxG.width * 0.7, 10, 0, "", 32);
 		switch (ClientPrefs.data.gameStyle) {
-			case 'Psych Engine' | 'Kade Engine' | 'Cheeky':
-				txtWeekTitle.setFormat("VCR OSD Mono", 32, FlxColor.WHITE, RIGHT);
-			
+			case 'SB Engine':
+				txtWeekTitle.setFormat("Bahnschrift", 32, FlxColor.WHITE, RIGHT);
+
 			case 'Dave and Bambi':
 				txtWeekTitle.setFormat("Comic Sans MS Bold", 32, FlxColor.WHITE, RIGHT);
 			
 			case 'TGT Engine':
 				txtWeekTitle.setFormat("Calibri", 32, FlxColor.WHITE, RIGHT);
 			
-			case 'SB Engine':
-				txtWeekTitle.setFormat("Bahnschrift", 32, FlxColor.WHITE, RIGHT);
+			default:
+				txtWeekTitle.setFormat("VCR OSD Mono", 32, FlxColor.WHITE, RIGHT);
 			
 		}
 		txtWeekTitle.alpha = 0.7;
@@ -92,8 +92,8 @@ class StoryMenuState extends MusicBeatState
 		var rankText:FlxText = new FlxText(0, 10);
 		rankText.text = 'Nothing';
 		switch (ClientPrefs.data.gameStyle) {
-			case 'Psych Engine' | 'Kade Engine' | 'Cheeky':
-				rankText.setFormat(Paths.font("vcr.ttf"), 32);
+			case 'SB Engine':
+				rankText.setFormat(Paths.font("bahnschrift.ttf"), 32);
 			
 			case 'Dave and Bambi':
 				rankText.setFormat(Paths.font("comic.ttf"), 32);
@@ -101,8 +101,8 @@ class StoryMenuState extends MusicBeatState
 			case 'TGT Engine':
 				rankText.setFormat(Paths.font("calibri.ttf"), 32);
 			
-			case 'SB Engine':
-				rankText.setFormat(Paths.font("bahnschrift.ttf"), 32);
+			default:
+				rankText.setFormat(Paths.font("vcr.ttf"), 32);
 		}
 		rankText.size = scoreText.size;
 		rankText.screenCenter(X);
@@ -215,9 +215,9 @@ class StoryMenuState extends MusicBeatState
 		changeWeek();
 		changeDifficulty();
 
-    #if mobile
-    addVirtualPad(FULL, A_B_X_Y);
-    #end
+   	 	#if mobile
+    	addVirtualPad(FULL, A_B_X_Y);
+    	#end
 
 		super.create();
 	}
@@ -281,17 +281,17 @@ class StoryMenuState extends MusicBeatState
 
 			if(FlxG.keys.justPressed.CONTROL #if android || MusicBeatState.virtualPad.buttonY.justPressed #end)
 			{
-			  #if mobile
-			  removeVirtualPad();
-			  #end
+			  	#if mobile
+			  	removeVirtualPad();
+			  	#end
 				persistentUpdate = false;
 				openSubState(new GameplayChangersSubstate());
 			}
 			else if(controls.RESET #if android || MusicBeatState.virtualPad.buttonX.justPressed #end)
 			{
-			  #if mobile
-			  removeVirtualPad();
-			  #end
+			  	#if mobile
+			  	removeVirtualPad();
+			  	#end
 				persistentUpdate = false;
 				openSubState(new ResetScoreSubState('', curDifficulty, '', curWeek));
 				//FlxG.sound.play(Paths.sound('scrollMenu'));

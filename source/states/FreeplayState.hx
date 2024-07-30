@@ -61,7 +61,7 @@ class FreeplayState extends MusicBeatState
 		{
 			FlxTransitionableState.skipNextTransIn = true;
 			persistentUpdate = false;
-			FlxG.switchState(() -> new states.engine.ErrorHandlerState("NO WEEKS ADDED FOR FREEPLAY\n\nPress ACCEPT to go to the Week Editor Menu.\nPress BACK to return to Main Menu.",
+			FlxG.switchState(() -> new states.engine.ErrorHandlerState(#if android "NO WEEKS ADDED FOR FREEPLAY MODE\n\nTap on A to go to the Week Editor Menu.\nTap on B to return to Main Menu." #else "NO WEEKS ADDED FOR FREEPLAY MENU\n\nPress ACCEPT to go to the Week Editor Menu.\nPress BACK to return to Main Menu." #end,
 				function() FlxG.switchState(() -> new states.editors.WeekEditorState()),
 				function() FlxG.switchState(() -> new states.MainMenuState())));
 			return;
@@ -141,15 +141,15 @@ class FreeplayState extends MusicBeatState
 		switch (ClientPrefs.data.gameStyle) {
 			case 'SB Engine':
 				scoreText.setFormat(Paths.font("bahnschrift.ttf"), 32, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-
-			case 'Psych Engine' | 'Kade Engine' | 'Cheeky':
-				scoreText.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 			
 			case 'Dave and Bambi':
 				scoreText.setFormat(Paths.font("comic.ttf"), 32, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 			
 			case 'TGT Engine':
 				scoreText.setFormat(Paths.font("calibri.ttf"), 32, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			
+			default:
+				scoreText.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		}
 
 		scoreBG = new FlxSprite(scoreText.x - 6, 0).makeGraphic(1, 66, 0xFF000000);
@@ -171,15 +171,15 @@ class FreeplayState extends MusicBeatState
 		switch (ClientPrefs.data.gameStyle) {
 			case 'SB Engine':
 				missingText.setFormat(Paths.font("bahnschrift.ttf"), 24, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-
-			case 'Psych Engine' | 'Kade Engine' | 'Cheeky':
-				missingText.setFormat(Paths.font("vcr.ttf"), 24, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 			
 			case 'Dave and Bambi':
 				missingText.setFormat(Paths.font("comic.ttf"), 24, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 			
 			case 'TGT Engine':
 				missingText.setFormat(Paths.font("calibri.ttf"), 24, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			
+			default:
+				missingText.setFormat(Paths.font("vcr.ttf"), 24, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		}
 		missingText.scrollFactor.set();
 		missingText.visible = false;
@@ -212,8 +212,8 @@ class FreeplayState extends MusicBeatState
 		var size:Int = 16;
 		bottomText = new FlxText(bottomBG.x, bottomBG.y + 4, FlxG.width, leText, size);
 		switch (ClientPrefs.data.gameStyle) {
-			case 'Psych Engine' | 'Kade Engine' | 'Cheeky':
-				bottomText.setFormat(Paths.font("vcr.ttf"), size, FlxColor.WHITE, CENTER);
+			case 'SB Engine':
+				bottomText.setFormat(Paths.font("bahnschrift.ttf"), size, FlxColor.WHITE, CENTER);
 			
 			case 'Dave and Bambi':
 				bottomText.setFormat(Paths.font("comic.ttf"), size, FlxColor.WHITE, CENTER);
@@ -221,8 +221,8 @@ class FreeplayState extends MusicBeatState
 			case 'TGT Engine':
 				bottomText.setFormat(Paths.font("calibri.ttf"), size, FlxColor.WHITE, CENTER);
 			
-			case 'SB Engine':
-				bottomText.setFormat(Paths.font("bahnschrift.ttf"), size, FlxColor.WHITE, CENTER);
+			default:
+				bottomText.setFormat(Paths.font("vcr.ttf"), size, FlxColor.WHITE, CENTER);
 		}
 		bottomText.scrollFactor.set();
 		add(bottomText);
@@ -476,8 +476,7 @@ class FreeplayState extends MusicBeatState
 			}
 
 			controlsActive = false;
-			for (item in grpSongs.members) 
-				if (item.targetY == 0) FlxFlicker.flicker(item, 1.05, 0.06, false, false);
+			for (item in grpSongs.members) if (item.targetY == 0) FlxFlicker.flicker(item, 1.05, 0.06, false, false);
 			FlxFlicker.flicker(iconArray[currentlySelected], 1.05, 0.06, false, false);
 			FlxG.sound.play(Paths.sound('confirmMenu'));
 			if (FlxG.sound.music != null) FlxTween.tween(FlxG.sound.music, {pitch: 0, volume: 0}, 2.5, {ease: FlxEase.sineInOut});
