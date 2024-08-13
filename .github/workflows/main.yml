@@ -171,7 +171,7 @@ jobs:
     runs-on: macos-${{matrix.version}}
     strategy:
       matrix:
-        version: macos-12
+        version: [12]
 
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
