@@ -929,7 +929,7 @@ class PlayState extends MusicBeatState
 		uiGroup.add(judgementCounterTxt);
 
 		// Used from Bambi Purgatory repository :D (Please don't kill me WhatsDown :(. If you want me to remove the code, i will remove it and never use it)
-		var randomName:Int = FlxG.random.int(0, 13);
+		var randomName:Int = FlxG.random.int(0, 15);
 		var engineName:String = '';
 		switch (randomName)
 	    {
@@ -938,14 +938,16 @@ class PlayState extends MusicBeatState
 			case 2: engineName = 'Stefan2008 Engine ';
 			case 3: engineName = 'Unknown Engine ';
 			case 5: engineName = 'Hutaro Engine ';
-			case 6: engineName = 'MaysLastPlay Engine ';
-			case 7: engineName = 'Fearester Engine ';
-			case 8:	engineName = 'Play Engine ';
-			case 9:	engineName = 'SunBurntTails Engine '; 
-			case 10: engineName = 'Ali Alafandy Engine ';
-			case 11: engineName = 'Luiz Engine ';
-			case 12: engineName = 'MemeHoovy Engine '; // Added because he is helpful and best dude who want to help :)
-			case 13: engineName = 'Boris2014 Engine '; // My little brother engine :).
+			case 6: engineName = 'IsThePlusOpd Engine';
+			case 7: engineName = 'MaysLastPlay Engine ';
+			case 8: engineName = 'Fearester Engine ';
+			case 9:	engineName = 'Play Engine ';
+			case 10: engineName = 'SunBurntTails Engine ';
+			case 11: engineName = 'Ali Alafandy Engine ';
+			case 12: engineName = 'Luiz Engine ';
+			case 13: engineName = 'MemeHoovy Engine '; // Added because he is helpful and best dude who want to help :)
+			case 14: engineName = 'Boris2014 Engine '; // My little brother engine :).
+			case 15: engineName = 'SBinator Engine '; // New engine name...
 			default: engineName = 'SB ';
 		}
 		if (ClientPrefs.data.watermarkStyle == 'SB Engine') {
