@@ -44,10 +44,6 @@ class VisualsUISubState extends BaseOptionsMenu
 			'If checked, shows debug info on FPS Counter.', 'debugInfo', 'bool');
 		addOption(option);
 
-		var option:Option = new Option('Rainbow FPS',
-			'If checked, enables rainbow FPS.', 'rainbowFPS', 'bool');
-		addOption(option);
-
 		var option:Option = new Option('Red text on lowest framerate',
 			'If unchecked, disables red color when you had an lowest frame rate.', 'redText', 'bool');
 		addOption(option);

@@ -3,10 +3,6 @@ package debug;
 
 import lime.system.System as LimeSystem;
 
-#if openfl
-import openfl.system.System;
-#end
-
 #if cpp
 #if windows
 @:cppFileCode('#include <windows.h>')
@@ -96,13 +92,9 @@ class FPS extends TextField
 			currentMemory = obtainMemory();
 			if (currentMemory >= maxMemory) maxMemory = currentMemory;
 
-			if (ClientPrefs.data.memory) {
-				text += "\n" + CoolUtil.formatMemory(Std.int(currentMemory)) + " / " + CoolUtil.formatMemory(Std.int(maxMemory));
-			}
+			if (ClientPrefs.data.memory) text += "\n" + CoolUtil.formatMemory(Std.int(currentMemory)) + " / " + CoolUtil.formatMemory(Std.int(maxMemory));
 
-			if (ClientPrefs.data.engineVersion) {
-				text += "\nEngine version: " + MainMenuState.sbEngineVersion + " (Modified Psych Engine " + MainMenuState.psychEngineVersion + ")";
-			}
+			if (ClientPrefs.data.engineVersion) text += "\nEngine version: " + MainMenuState.sbEngineVersion + " (Modified Psych Engine " + MainMenuState.psychEngineVersion + ")";
 
 			if (ClientPrefs.data.debugInfo) {
 				text += '\nState: ${Type.getClassName(Type.getClass(FlxG.state))}';
@@ -117,9 +109,7 @@ class FPS extends TextField
 				text += "\nLime: " + Compiler.getDefine("lime");
 			}
 
-			if (ClientPrefs.data.inGameLogs) {
-				#if android text += '\n${Main.gameLogs.logData.length} traced lines. Release BACK to view.'; #else text += '\n${Main.gameLogs.logData.length} traced lines. Press F3 to view.'; #end
-			}
+			if (ClientPrefs.data.inGameLogs) #if android text += '\n${Main.gameLogs.logData.length} traced lines. Release BACK to view.'; #else text += '\n${Main.gameLogs.logData.length} traced lines. Press F3 to view.'; #end
 
 			switch (ClientPrefs.data.gameStyle) {
 				case 'SB Engine':
@@ -144,14 +134,14 @@ class FPS extends TextField
 			}
 		}
 
-			text += "\n";
+		text += "\n";
 		}
 
 		cacheCount = currentCount;
 	}
 
 	function obtainMemory():Dynamic {
-		return System.totalMemory;
+		return cpp.vm.Gc.memInfo64(cpp.vm.Gc.MEM_INFO_USAGE);
 	}
 
 	public function getGLInfo(info:GLInfo):String {
