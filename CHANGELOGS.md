@@ -6,6 +6,36 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.1.0b] - 15.08.2024
+- SB Engine is now compatible with latest the Haxe version (SWITCHED!)
+- You have to remove old assets folder and re-copy it into SB Engine folder because lot of stuff are changed (CHANGED!)
+- New application icon in FNF 0.3+ style made by @Stefan2008Git (NEW!)
+- FPS will tween alpha when you open the game (NEW!)
+- Fake loading screen is back into engine because someone suggested it, but with better additions and it can be disabled/enabled by checking the option "Loading screen" on Visuals and UI option (BRINGED BACK!)
+- Custom volume tray from FNF 0.3+ update is ported into Psych by me (NEW!)
+- Psych 1.0b main menu is ported, but with some little modifications by me (CHANGED!)
+
+MODDING CHANGES
+- Now you have to go into mods menu to press 7 to enter it, for Android you have to press E to enter it (CHANGED!)
+- Fixed some bugs and issues on lua handler (FIXED?)
+
+MAIN ENGINE ADDITIONS, CHANGES AND FIXES
+- Fixed the pixelated notes crash on note color menu and week 6 (FIXED!)
+- Fixed a winning icon layers now showing the third icon (FIXED!)
+- Added custom accurary types from Burgerballs's pull request
+- Added a PA statistic from Leather Engine if you switch judgement counter style into "Better Judge" (NEW!)
+- Added a smooth score into gameplay made by @Fearester2008 (NEW!)
+- Added to show extra info from FNF 0.3+ when you get crash logs (NEW!)
+- This update is using FlxAnimate because old Smokey's atlas handler is outdated (CHANGED!)
+- Now you can disable toast message into engine for Android made by MobilePorting team (NEW!)
+- Now you can enable/disable screen timeout into engine for Android made by MobilePorting team (NEW!)
+- Now you can disable hitbox hint into engine for Android made by MobilePorting team (NEW!)
+- Options menu got brand new W.I.P modification style made by @Stefan2008Git (NEW!)
+- Fixed a option to not disable red text when you get 30 FPS by removing Rainbow FPS completely (CHANGED!)
+- Fixed a bug when you want to change note splash style into Gameplay option for Android to not show it (FIXED!)
+- Weekend 1 is ported from Psych's experimental branch, but it's currently W.I.P, so you are gonna get crashes for Android (NEW!)
+- Character editor is re-created from Psych, but with little modifications made by @Stefan2008Git (CHANGED!)
+
 ## [2.9.0] - 31.10.2023
 - Source code folder is rechanged again because yeah (RE-CHANGED!)
 - Almost all imports are now on "https://github.com/Stefan2008Git/FNF-SB-Engine/blob/aa07499456b850cc3a32f4c36237ed4108eb096d/source/import.hx"
