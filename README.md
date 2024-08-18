@@ -1,4 +1,11 @@
-# Friday Night Funkin': SB Engine
+<header>
+<h1>
+<p align="center">
+Friday Night Funkin': SB (StefanBETA) Engine
+</p>
+</h1>
+</header>
+
 ![sbEngineLogo](https://github.com/Stefan2008Git/FNF-SB-Engine/assets/126715034/69f5983a-e492-4ebd-8741-2fd9ea70eb63)
 [![Star History Chart](https://api.star-history.com/svg?repos=Stefan2008Git/FNF-SB-Engine&type=Timeline)](https://star-history.com/#Stefan2008Git/FNF-SB-Engine&Timeline)
 
