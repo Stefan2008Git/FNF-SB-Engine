@@ -11,6 +11,8 @@ class SBinatorState extends MusicBeatState
     var mainLoaderSpin:FlxSprite;
 	var mainLoadingBar:Bar;
     var randomText:FlxText;
+	var skipText:FlxText;
+	var keybindActivation:Bool = false;
 	var icons:FlxSprite;
 	var creditTexts:FlxText;
     var tweening:Bool;
@@ -83,6 +85,11 @@ class SBinatorState extends MusicBeatState
 		randomText.setFormat("VCR OSD Mono", 26, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(randomText);
 
+		skipText = new FlxText(20, FlxG.height - 110, 1000, "Got annoyed waiting? Press SPACE to skip loading screen", 10);
+		skipText.setFormat("VCR OSD Mono", 26, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		skipText.alpha = 0;
+		add(skipText);
+
 		icons = new FlxSprite(40, FlxG.height * 0.78).loadGraphic(randomCreditIcons());
 		icons.antialiasing = ClientPrefs.data.antialiasing;
 		icons.setGraphicSize(Std.int(icons.width * 0.89));
@@ -110,17 +117,23 @@ class SBinatorState extends MusicBeatState
             }
         }
 
+		if (tweening) {
+			skipText.screenCenter(X);
+			timer += elapsed;
+			if (timer >= 4) doSkipFunction();
+		}
+
 		loadingTime += elapsed;
 		if (loadingTime >= 15) {
 			updateBarPercent();
 			mainText.text = "Done!";
 			mainText.x = 1155;
 			randomText.visible = false;
-			#if DISCORD_ALLOWED
-			// Updating Discord Rich Presence
-			DiscordClient.changePresence("Done! Booting the engine...", null);
-			#end
+			skipText.visible = false;
 		}
+
+		// Got annoyed waiting to fully finish the "fake" loading screen?
+		if (FlxG.keys.justPressed.SPACE && keybindActivation) switchToTitleMenu();
         super.update(elapsed);
     }
 
@@ -155,7 +168,10 @@ class SBinatorState extends MusicBeatState
 	}
 
 	function switchToTitleMenu() {
-		FlxTween.tween(FlxG.sound, {volume: 0}, 0.2);
+		#if DISCORD_ALLOWED
+		// Updating Discord Rich Presence
+		DiscordClient.changePresence("Done! Booting the engine...", null);
+		#end
 		FlxG.camera.fade(FlxColor.BLACK, 0.40, false, function() {
 			FlxG.switchState(() -> new TitleState());
 		});
@@ -181,5 +197,15 @@ class SBinatorState extends MusicBeatState
 	{
 		var textChance:Int = FlxG.random.int(0, sillyTexts.length - 1);
 		return creditTexts.text = sillyTexts[textChance];
+	}
+
+	function doSkipFunction()
+	{
+		FlxTween.tween(skipText, {alpha: 1}, 1, {
+			ease: FlxEase.sineInOut,
+			onComplete: function(completition:FlxTween) {
+				keybindActivation = true;
+			}
+		});
 	}
 }

@@ -6,7 +6,7 @@ class Difficulty
 		'Easy',
 		'Normal',
 		'Hard',
-		'Errect'
+		'Erect'
 	];
 	public static var list:Array<String> = [];
 	private static var defaultDifficulty(default, never):String = 'Normal'; //The chart that has no suffix and starting difficulty on Freeplay/Story Mode

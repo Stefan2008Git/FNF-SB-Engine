@@ -13,11 +13,6 @@ import lime.system.System as LimeSystem;
 #end
 #end
 
-/**
-	The FPS class provides an easy-to-use monitor to display
-	the current frame rate of an OpenFL project
-**/
-
 class FPS extends TextField
 {
 	/**
@@ -77,15 +72,12 @@ class FPS extends TextField
 		currentFPS = Math.round((currentCount + cacheCount) / 2);
 		if (currentFPS > ClientPrefs.data.framerate) currentFPS = ClientPrefs.data.framerate;
 
-		totalFPS = Math.round(currentFPS + currentCount / 8);
+		totalFPS = Math.round(currentFPS + currentCount / 8); 
 		if (totalFPS < 10) totalFPS = 0;
 
-		if (currentCount != cacheCount) {
-			text = '$currentFPS / $totalFPS FPS';
-
+		if (currentCount != cacheCount)
 			currentMemory = obtainMemory();
 			if (currentMemory >= maxMemory) maxMemory = currentMemory;
-		}
 
 		updateText();
 	}
