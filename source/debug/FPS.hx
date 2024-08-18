@@ -40,8 +40,12 @@ class FPS extends TextField
 	{
 		super();
 
-		this.x = x;
-		this.y = y;
+		if (LimeSystem.platformName == LimeSystem.platformVersion || LimeSystem.platformVersion == null)
+			os = '\nPlatform: ${LimeSystem.platformName}' #if cpp + ' ${getArch() != 'Unknown' ? getArch() : ''}' #end;
+		else
+			os = '\nPlatform: ${LimeSystem.platformName} - ${LimeSystem.platformVersion}' #if cpp + ' ${getArch() != 'Unknown' ? getArch() : ''}' #end;
+
+		positionCounter(x, y);
 
 		currentFPS = 0;
 		totalFPS = 0;
@@ -55,19 +59,11 @@ class FPS extends TextField
 		cacheCount = 0;
 		currentTime = 0;
 		times = [];
-
-		#if flash
-		addEventListener(Event.ENTER_FRAME, function(e)
-		{
-			var time = Lib.getTimer();
-			__enterFrame(time - currentTime);
-		});
-		#end
 	}
 
 	// Event Handlers
 	@:noCompletion
-	private #if !flash override #end function __enterFrame(deltaTime:Float):Void
+	private override function __enterFrame(deltaTime:Float):Void
 	{
 		currentTime += deltaTime;
 		times.push(currentTime);
@@ -84,64 +80,61 @@ class FPS extends TextField
 		totalFPS = Math.round(currentFPS + currentCount / 8);
 		if (totalFPS < 10) totalFPS = 0;
 
-		if (LimeSystem.platformName == LimeSystem.platformVersion || LimeSystem.platformVersion == null) os = 'Platform: ${LimeSystem.platformName}' #if cpp + ' ${getArch()}' #end; else os = 'Platform: ${LimeSystem.platformName} ${LimeSystem.platformVersion}' #if cpp + ' - ${getArch()}' #end;
-
 		if (currentCount != cacheCount) {
 			text = '$currentFPS / $totalFPS FPS';
 
 			currentMemory = obtainMemory();
 			if (currentMemory >= maxMemory) maxMemory = currentMemory;
+		}
 
-			if (ClientPrefs.data.memory) text += "\n" + CoolUtil.formatMemory(Std.int(currentMemory)) + " / " + CoolUtil.formatMemory(Std.int(maxMemory));
+		updateText();
+	}
 
-			if (ClientPrefs.data.engineVersion) text += "\nEngine version: " + MainMenuState.sbEngineVersion + " (Modified Psych Engine " + MainMenuState.psychEngineVersion + ")";
+	public dynamic function updateText():Void
+	{
+		text = currentFPS + " / " + totalFPS + " FPS";
+		if (ClientPrefs.data.memory) text += "\n" + CoolUtil.formatMemory(Std.int(currentMemory)) + " / " + CoolUtil.formatMemory(Std.int(maxMemory));
 
-			if (ClientPrefs.data.debugInfo) {
-				text += '\nState: ${Type.getClassName(Type.getClass(FlxG.state))}';
-				if (FlxG.state.subState != null)
-					text += '\nSubstate: ${Type.getClassName(Type.getClass(FlxG.state.subState))}';
-				text += "\nGL Render: " + '${getGLInfo(RENDERER)}';
-				text += "\nGL Shading version: " + '${getGLInfo(SHADING_LANGUAGE_VERSION)}';
-				text += "\n" + os;
-				text += "\nHaxe: " + Compiler.getDefine("haxe");
-				text += "\n" + FlxG.VERSION;
-				text += "\nOpenFL " + Compiler.getDefine("openfl");
-				text += "\nLime: " + Compiler.getDefine("lime");
-			}
+		if (ClientPrefs.data.engineVersion) text += "\nEngine version: " + MainMenuState.sbEngineVersion;
 
-			if (ClientPrefs.data.inGameLogs) #if android text += '\n${Main.gameLogs.logData.length} traced lines. Release BACK to view.'; #else text += '\n${Main.gameLogs.logData.length} traced lines. Press F3 to view.'; #end
+		if (ClientPrefs.data.debugInfo) {
+			text += '\nState: ${Type.getClassName(Type.getClass(FlxG.state))}';
+			if (FlxG.state.subState != null) text += '\nSubstate: ${Type.getClassName(Type.getClass(FlxG.state.subState))}';
+			text += "\nGL Render: " + '${getGLInfo(RENDERER)}';
+			text += "\nGL Shading version: " + '${getGLInfo(SHADING_LANGUAGE_VERSION)}';
+			text += os;
+			text += "\nHaxe: " + Compiler.getDefine("haxe");
+			text += "\n" + FlxG.VERSION;
+			text += "\nOpenFL " + Compiler.getDefine("openfl");
+			text += "\nLime: " + Compiler.getDefine("lime");
+		}
 
-			switch (ClientPrefs.data.gameStyle) {
-				case 'SB Engine':
-					Main.fpsVar.defaultTextFormat = new TextFormat('Bahnschrift', 14, color);
-				
-				case 'Kade Engine':
-					Main.fpsVar.defaultTextFormat = new TextFormat('VCR OSD Mono', 14, color);
-				
-				case 'Dave and Bambi':
-					Main.fpsVar.defaultTextFormat = new TextFormat('Comic Sans MS Bold', 14, color);
-				
-				case 'TGT Engine':
-					Main.fpsVar.defaultTextFormat = new TextFormat('Calibri', 14, color);
-				
-				default:
-					Main.fpsVar.defaultTextFormat = new TextFormat('_sans', 14, color);
-			}
+		if (ClientPrefs.data.inGameLogs) #if android text += '\n${Main.gameLogs.logData.length} traced lines. Release BACK to view.'; #else text += '\n${Main.gameLogs.logData.length} traced lines. Press F3 to view.'; #end
+
+		switch (ClientPrefs.data.gameStyle) {
+			case 'SB Engine': Main.fpsVar.defaultTextFormat = new TextFormat('Bahnschrift', 14, color);
+			case 'Kade Engine': Main.fpsVar.defaultTextFormat = new TextFormat('VCR OSD Mono', 14, color);
+			case 'Dave and Bambi': Main.fpsVar.defaultTextFormat = new TextFormat('Comic Sans MS Bold', 14, color);
+			case 'TGT Engine': Main.fpsVar.defaultTextFormat = new TextFormat('Calibri', 14, color);
+			default: Main.fpsVar.defaultTextFormat = new TextFormat('_sans', 14, color);
+		}
 
 		if (ClientPrefs.data.redText) {
-			if (currentFPS <= ClientPrefs.data.framerate / 2) {
+			if (currentFPS <= ClientPrefs.data.framerate / 2)
+			{
 				textColor = FlxColor.RED;
 			}
-		}
-
-		text += "\n";
-		}
-
-		cacheCount = currentCount;
+	    }
 	}
 
 	function obtainMemory():Dynamic {
 		return cpp.vm.Gc.memInfo64(cpp.vm.Gc.MEM_INFO_USAGE);
+	}
+
+	public inline function positionCounter(X:Float, Y:Float, ?scale:Float = 1){
+		scaleX = scaleY = #if android (scale > 1 ? scale : 1) #else (scale < 1 ? scale : 1) #end;
+		x = FlxG.game.x + X;
+		y = FlxG.game.y + Y;
 	}
 
 	public function getGLInfo(info:GLInfo):String {
@@ -180,7 +173,7 @@ class FPS extends TextField
 				return ::String("Unknown");
 		}
 	')
-	#elseif mac
+	#elseif (ios || mac)
 	@:functionCode('
 		const NXArchInfo *archInfo = NXGetLocalArchInfo();
     	return ::String(archInfo == NULL ? "Unknown" : archInfo->name);
@@ -192,11 +185,10 @@ class FPS extends TextField
 		return ::String(osInfo.machine);
 	')
 	#end
-
 	@:noCompletion
 	private function getArch():String
 	{
-		return null;
+		return "Unknown";
 	}
 	#end
 }

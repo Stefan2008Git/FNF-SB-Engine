@@ -157,7 +157,6 @@ class SBinatorState extends MusicBeatState
 	function switchToTitleMenu() {
 		FlxTween.tween(FlxG.sound, {volume: 0}, 0.2);
 		FlxG.camera.fade(FlxColor.BLACK, 0.40, false, function() {
-			FlxG.sound.destroy();
 			FlxG.switchState(() -> new TitleState());
 		});
 	}

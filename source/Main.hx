@@ -112,22 +112,20 @@ class Main extends Sprite
 		#if android lime.system.System.allowScreenTimeout = ClientPrefs.data.screenSaver; #end // It cannot recognize which class file is using becase Lime and OpenFL have the same class directory and name, so i have to add back the import!!! --Stefan2008
 
 		// shader coords fix
-		FlxG.signals.gameResized.add(function (w, h) {
-		     if (FlxG.cameras != null) {
-			   for (cam in FlxG.cameras.list) {
-				@:privateAccess
-				if (cam != null && cam.filters != null)
-					resetSpriteCache(cam.flashSprite);
-			   }
-		     }
+		FlxG.signals.gameResized.add(function (w, h) 
+		{
+			if(fpsVar != null) fpsVar.positionCounter(10, 3, Math.min(w / FlxG.width, h / FlxG.height));
 
-		     if (FlxG.game != null)
-			 resetSpriteCache(FlxG.game);
+		    if (FlxG.cameras != null)
+			{
+				for (cam in FlxG.cameras.list) 
+				{
+			    	@:privateAccess if (cam != null && cam.filters != null) resetSpriteCache(cam.flashSprite);
+			    }
+		    }
+
+		    if (FlxG.game != null) resetSpriteCache(FlxG.game);
 		});
-
-		#if debug
-		FlxG.console.registerClass(openfl.utils.Assets);
-		#end
 	}
 
 	static function resetSpriteCache(sprite:Sprite):Void 
