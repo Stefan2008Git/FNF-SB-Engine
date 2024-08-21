@@ -25,8 +25,6 @@ class FPS extends TextField
 	public var maxMemory:Float;
 	public var color:Int = FlxColor.WHITE;
 
-	@:noCompletion private var cacheCount:Int;
-	@:noCompletion private var currentTime:Float;
 	@:noCompletion private var times:Array<Float>;
 
 	public var os:String = '';
@@ -51,35 +49,34 @@ class FPS extends TextField
 		multiline = true;
 		text = "FPS: ";
 
-		cacheCount = 0;
-		currentTime = 0;
 		times = [];
 	}
 
+	var deltaTimeout:Float = 0.0;
+
 	// Event Handlers
-	@:noCompletion
 	private override function __enterFrame(deltaTime:Float):Void
 	{
-		currentTime += deltaTime;
-		times.push(currentTime);
-
-		while (times[0] < currentTime - 1000)
-		{
-			times.shift();
+		// prevents the overlay from updating every frame, why would you need to anyways
+		if (deltaTimeout > 1000) {
+			deltaTimeout = 0.0;
+			return;
 		}
 
-		var currentCount = times.length;
-		currentFPS = Math.round((currentCount + cacheCount) / 2);
-		if (currentFPS > ClientPrefs.data.framerate) currentFPS = ClientPrefs.data.framerate;
+		final now:Float = haxe.Timer.stamp() * 1000;
+		times.push(now);
+		while (times[0] < now - 1000) times.shift();
 
-		totalFPS = Math.round(currentFPS + currentCount / 8); 
+		currentFPS = times.length < FlxG.updateFramerate ? times.length : FlxG.updateFramerate;
+
+		totalFPS = Math.round(currentFPS + times.length / 8); 
 		if (totalFPS < 10) totalFPS = 0;
 
-		if (currentCount != cacheCount)
-			currentMemory = obtainMemory();
-			if (currentMemory >= maxMemory) maxMemory = currentMemory;
+		currentMemory = obtainMemory();
+		if (currentMemory >= maxMemory) maxMemory = currentMemory;
 
 		updateText();
+		deltaTimeout += deltaTime;
 	}
 
 	public dynamic function updateText():Void
@@ -112,24 +109,24 @@ class FPS extends TextField
 		}
 
 		if (ClientPrefs.data.redText) {
-			if (currentFPS <= ClientPrefs.data.framerate / 2)
-			{
-				textColor = FlxColor.RED;
-			}
+			if (currentFPS < FlxG.drawFramerate * 0.5) textColor = 0xFFFF0000;
 	    }
 	}
 
-	function obtainMemory():Dynamic {
+	function obtainMemory():Dynamic 
+	{
 		return cpp.vm.Gc.memInfo64(cpp.vm.Gc.MEM_INFO_USAGE);
 	}
 
-	public inline function positionCounter(X:Float, Y:Float, ?scale:Float = 1){
+	public inline function positionCounter(X:Float, Y:Float, ?scale:Float = 1)
+	{
 		scaleX = scaleY = #if android (scale > 1 ? scale : 1) #else (scale < 1 ? scale : 1) #end;
 		x = FlxG.game.x + X;
 		y = FlxG.game.y + Y;
 	}
 
-	public function getGLInfo(info:GLInfo):String {
+	public function getGLInfo(info:GLInfo):String 
+	{
 		@:privateAccess
 		var gl:Dynamic = Lib.current.stage.context3D.gl;
 
