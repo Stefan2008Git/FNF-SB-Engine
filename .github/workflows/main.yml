@@ -41,7 +41,7 @@ jobs:
         run: |
           haxelib run lime setup -alias -y
           haxelib set lime 8.0.2
-          haxelib set SScript 8.1.6
+          haxelib set hscript-Iris 1.0.2
           haxelib list
       - name: Building
         run:
@@ -116,7 +116,7 @@ jobs:
         run: |
           haxelib run lime setup -alias -y
           haxelib set lime 8.0.2
-          haxelib set SScript 8.1.6
+          haxelib set hscript-Iris 1.0.2
           haxelib list
       - name: Building
         run:
@@ -191,7 +191,7 @@ jobs:
         run: |
           haxelib run lime setup -alias -y
           Haxelib set lime 8.0.2
-          haxelib set SScript 8.1.6
+          haxelib set hscript-Iris 1.0.2
           haxelib list
       - name: Create Version Tag
         run: echo "${{github.run_id}}" > VERSION
@@ -288,7 +288,7 @@ jobs:
           haxelib install flixel-addons
           haxelib install tjson
           haxelib install hxjsonast
-          haxelib install SScript 8.1.6
+          haxelib install hscript-Iris 1.0.2
           haxelib git hxCodec https://github.com/SPLCoding/hxCodec-but-it-works-xd
           haxelib git flxanimate https://github.com/Dot-Stuff/flxanimate 768740a56b26aa0c072720e0d1236b94afe68e3e --quiet
           haxelib git linc_luajit https://github.com/mcagabe19-stuff/linc_luajit-legacy 923a8262a7a8dcd166264dcf22cb7395a11fba65 --quiet
@@ -309,7 +309,7 @@ jobs:
           haxelib run lime config JAVA_HOME $JAVA_HOME
           haxelib run lime config ANDROID_SETUP true
           haxelib set lime 8.0.2
-          haxelib set SScript 8.1.6
+          haxelib set hscript-Iris 1.0.2
           haxelib list
         env:
           ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}

@@ -28,12 +28,16 @@ class VisualsUISubState extends BaseOptionsMenu
 		addOption(option);
 		option.onChange = onChangeFPSCounterSize;
 
+		var option:Option = new Option('Total FPS text',
+			'If checked, shows your max FPS on FPS Counter.', 'totalFPS', 'bool');
+		addOption(option);
+
 		var option:Option = new Option('Memory text',
 			'If unchecked, hides memory on FPS Counter.', 'memory', 'bool');
 		addOption(option);
 
-		var option:Option = new Option('Memory type:', 
-			'Change memory type from default to Ib', 'memoryType', 'string', ['Default', 'Ib']);
+		var option:Option = new Option('Max memory text',
+			'If checked, shows max memory on FPS Counter.', 'maxMemory', 'bool');
 		addOption(option);
 
 		var option:Option = new Option('Engine Version',

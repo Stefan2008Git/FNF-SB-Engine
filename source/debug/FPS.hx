@@ -1,6 +1,6 @@
 package debug;
 
-
+import main.Memory;
 import lime.system.System as LimeSystem;
 
 #if cpp
@@ -72,7 +72,7 @@ class FPS extends TextField
 		totalFPS = Math.round(currentFPS + times.length / 8); 
 		if (totalFPS < 10) totalFPS = 0;
 
-		currentMemory = obtainMemory();
+		currentMemory = Memory.obtainMemory();
 		if (currentMemory >= maxMemory) maxMemory = currentMemory;
 
 		updateText();
@@ -81,8 +81,9 @@ class FPS extends TextField
 
 	public dynamic function updateText():Void
 	{
-		text = currentFPS + " / " + totalFPS + " FPS";
-		if (ClientPrefs.data.memory) text += "\n" + CoolUtil.formatMemory(Std.int(currentMemory)) + " / " + CoolUtil.formatMemory(Std.int(maxMemory));
+		text = "FPS: " + Math.round(currentFPS) + (ClientPrefs.data.totalFPS ? " / " + Math.round(totalFPS) : "");
+
+		if (ClientPrefs.data.memory) text += "\nMemory: " + FlxStringUtil.formatBytes(currentMemory) + (ClientPrefs.data.maxMemory ? " / " + FlxStringUtil.formatBytes(maxMemory) : "");
 
 		if (ClientPrefs.data.engineVersion) text += "\nEngine version: " + MainMenuState.sbEngineVersion;
 
@@ -101,21 +102,18 @@ class FPS extends TextField
 		if (ClientPrefs.data.inGameLogs) #if android text += '\n${Main.gameLogs.logData.length} traced lines. Release BACK to view.'; #else text += '\n${Main.gameLogs.logData.length} traced lines. Press F3 to view.'; #end
 
 		switch (ClientPrefs.data.gameStyle) {
-			case 'SB Engine': Main.fpsVar.defaultTextFormat = new TextFormat('Bahnschrift', 14, color);
-			case 'Kade Engine': Main.fpsVar.defaultTextFormat = new TextFormat('VCR OSD Mono', 14, color);
-			case 'Dave and Bambi': Main.fpsVar.defaultTextFormat = new TextFormat('Comic Sans MS Bold', 14, color);
-			case 'TGT Engine': Main.fpsVar.defaultTextFormat = new TextFormat('Calibri', 14, color);
-			default: Main.fpsVar.defaultTextFormat = new TextFormat('_sans', 14, color);
+			case 'SB Engine': Main.fpsVar.defaultTextFormat = new TextFormat('Bahnschrift', #if android 14 #else 12 #end, color);
+			case 'Kade Engine': Main.fpsVar.defaultTextFormat = new TextFormat('VCR OSD Mono', #if android 14 #else 12 #end, color);
+			case 'Dave and Bambi': Main.fpsVar.defaultTextFormat = new TextFormat('Comic Sans MS Bold', #if android 14 #else 12 #end, color);
+			case 'TGT Engine': Main.fpsVar.defaultTextFormat = new TextFormat('Calibri', #if android 14 #else 12 #end, color);
+			default: Main.fpsVar.defaultTextFormat = new TextFormat('_sans', #if android 14 #else 12 #end, color);
 		}
 
 		if (ClientPrefs.data.redText) {
-			if (currentFPS < FlxG.drawFramerate * 0.5) textColor = 0xFFFF0000;
+			if (currentFPS <= FlxG.drawFramerate / 2 && currentFPS >= FlxG.drawFramerate / 3) textColor = FlxColor.YELLOW;
+			else if (currentFPS <= FlxG.drawFramerate / 3 && currentFPS >= FlxG.drawFramerate / 4) textColor = FlxColor.ORANGE;
+			else if (currentFPS < FlxG.drawFramerate * 0.5) textColor = FlxColor.RED;
 	    }
-	}
-
-	function obtainMemory():Dynamic 
-	{
-		return cpp.vm.Gc.memInfo64(cpp.vm.Gc.MEM_INFO_USAGE);
 	}
 
 	public inline function positionCounter(X:Float, Y:Float, ?scale:Float = 1)

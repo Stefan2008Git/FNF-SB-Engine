@@ -8,7 +8,7 @@ import substates.GameOverSubstate;
 
 import psychlua.LuaUtils;
 import psychlua.LuaUtils.LuaTweenOptions;
-#if (SScript >= "3.0.0")
+#if HSCRIPT_ALLOWED
 import psychlua.HScript;
 #end
 import psychlua.DebugLuaText;
@@ -28,7 +28,7 @@ class FunkinLua {
 	public var scriptName:String = '';
 	public var closed:Bool = false;
 
-	#if (SScript >= "3.0.0")
+	#if HSCRIPT_ALLOWED
 	public var hscript:HScript = null;
 	#end
 	
@@ -50,11 +50,12 @@ class FunkinLua {
 		game.luaArray.push(this);
 
 		// Lua shit
-		set('Function_StopLua', Function_StopLua);
-		set('Function_StopHScript', Function_StopHScript);
-		set('Function_StopAll', Function_StopAll);
-		set('Function_Stop', Function_Stop);
-		set('Function_Continue', Function_Continue);
+
+		set('Function_StopLua', LuaUtils.Function_StopLua);
+		set('Function_StopHScript', LuaUtils.Function_StopHScript);
+		set('Function_StopAll', LuaUtils.Function_StopAll);
+		set('Function_Stop', LuaUtils.Function_Stop);
+		set('Function_Continue', LuaUtils.Function_Continue);
 		set('luaDebugMode', false);
 		set('luaDeprecatedWarnings', true);
 		set('inChartEditor', false);
@@ -164,7 +165,7 @@ class FunkinLua {
 		set('splashSkinPostfix', NoteSplash.getSplashSkinPostfix());
 		set('splashAlpha', ClientPrefs.data.splashAlpha);
 
-		set('buildTarget', getBuildTarget());
+		set('buildTarget', LuaUtils.getBuildTarget());
 
 		for (name => func in customFunctions)
 		{
@@ -1393,7 +1394,7 @@ class FunkinLua {
 		});
 
 		#if DISCORD_ALLOWED DiscordClient.addLuaCallbacks(lua); #end
-		#if (SScript >= "3.0.0") HScript.implement(this); #end
+		#if HSCRIPT_ALLOWED HScript.implement(this); #end
 		#if flxanimate FlxAnimateFunctions.implement(this); #end
 		ReflectionFunctions.implement(this);
 		TextFunctions.implement(this);
@@ -1485,8 +1486,6 @@ class FunkinLua {
 	}
 
 	public function stop() {
-		#if LUA_ALLOWED
-		PlayState.instance.luaArray.remove(this);
 		closed = true;
 
 		if(lua == null) {
@@ -1494,32 +1493,12 @@ class FunkinLua {
 		}
 		Lua.close(lua);
 		lua = null;
-		#if (SScript >= "3.0.0")
+		#if HSCRIPT_ALLOWED
 		if(hscript != null)
 		{
-			hscript.active = false;
-			#if (SScript >= "3.0.3")
 			hscript.destroy();
-			#end
 			hscript = null;
 		}
-		#end
-		#end
-	}
-
-	//clone functions
-	public static function getBuildTarget():String
-	{
-		#if windows
-		return 'windows';
-		#elseif linux
-		return 'linux';
-		#elseif mac
-		return 'mac';
-		#elseif android
-		return 'android';
-		#else
-		return 'unknown';
 		#end
 	}
 

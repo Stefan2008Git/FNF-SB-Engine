@@ -43,7 +43,7 @@
 	<define name="MODS_ALLOWED" if="desktop || android" />
 	<define name="LUA_ALLOWED" if="desktop || android"/>
 	<define name="DISCORD_ALLOWED" if="desktop || cpp" unless="hl || android"/>
-	<define name="VIDEOS_ALLOWED" if="web || windows || android" unless="32bits"/>
+	<define name="VIDEOS_ALLOWED" if="web || windows || android" unless="32bits || linux"/>
 	<define name="PSYCH_WATERMARKS"/> <!-- DELETE THIS TO REMOVE THE PSYCH LOGO FROM LOADING SCREEN -->
 	<define name="SHOW_LOADING_SCREEN" />
 	<define name="CRASH_HANDLER" if="desktop release || android" />
@@ -91,7 +91,7 @@
 
 	<!--Psych stuff needed-->
 	<haxelib name="linc_luajit" if="LUA_ALLOWED"/>
-	<haxelib name="SScript" if="HSCRIPT_ALLOWED"/>
+	<haxelib name="hscript-iris" if="HSCRIPT_ALLOWED" version="1.0.2"/>
 	<haxelib name="hxCodec" if="VIDEOS_ALLOWED"/>
     <haxelib name="extension-androidtools" if="android"/>
 	<haxelib name="AndroidDialogs" if = "android"/>

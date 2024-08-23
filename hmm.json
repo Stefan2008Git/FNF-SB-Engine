@@ -51,9 +51,9 @@
         "version": "2.5.1"
       },
       {
-        "name": "SScript",
+        "name": "hscript-iris",
         "type": "haxelib",
-        "version": "8.1.6"
+        "version": "1.0.2"
       },
       {
         "name": "hxdiscord_rpc",
