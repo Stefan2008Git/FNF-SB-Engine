@@ -21,8 +21,8 @@ class FPS extends TextField
 	public var currentFPS(default, null):Int;
 	public var totalFPS(default, null):Int;
 
-	public var currentMemory:Float;
-	public var maxMemory:Float;
+	public var currentMemory(get, never):Float;
+	public var maxMemory(get, never):Float;
 	public var color:Int = FlxColor.WHITE;
 
 	@:noCompletion private var times:Array<Float>;
