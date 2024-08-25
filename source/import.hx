@@ -79,6 +79,7 @@ import flixel.util.FlxColor;
 import flixel.util.FlxGradient;
 import flixel.util.FlxDestroyUtil;
 import flixel.util.FlxSave;
+import flixel.util.FlxSignal.FlxTypedSignal;
 import flixel.util.FlxSpriteUtil;
 import flixel.util.FlxStringUtil;
 import flixel.util.FlxSort;
@@ -109,9 +110,11 @@ import openfl.events.Event;
 import openfl.events.EventDispatcher;
 import openfl.events.KeyboardEvent;
 import openfl.events.IOErrorEvent;
+import openfl.events.MouseEvent;
 import openfl.events.UncaughtErrorEvent;
 import openfl.geom.Rectangle;
 import openfl.display.DisplayObject;
+import openfl.display.PNGEncoderOptions;
 import openfl.display.ShaderParameter;
 import openfl.display.ShaderParameterType;
 import openfl.display.StageScaleMode;
@@ -127,6 +130,7 @@ import openfl.text.TextField;
 import openfl.text.TextFormat;
 import openfl.text.TextFormatAlign;
 import openfl.utils.AssetType;
+import openfl.utils.ByteArray;
 #end
 
 #if !flash 

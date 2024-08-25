@@ -63,7 +63,12 @@ class ModsMenuState extends MusicBeatState
 
 		noModsTxt = new FlxText(0, 0, FlxG.width, "NO MODS INSTALLED\nPRESS BACK TO EXIT AND INSTALL A MOD", 48);
 		if(FlxG.random.bool(0.1)) noModsTxt.text += '\nBITCH.'; //meanie
-		noModsTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		switch (ClientPrefs.data.gameStyle) {
+			case 'SB Engine': noModsTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			case 'TGT Engine': noModsTxt.setFormat(Paths.font("calibri.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			case 'Dave and Bambi': noModsTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			default: noModsTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		}
 		noModsTxt.scrollFactor.set();
 		noModsTxt.borderSize = 2;
 		noModsTxt.alpha = 1;
@@ -71,10 +76,11 @@ class ModsMenuState extends MusicBeatState
 		visibleWhenNoMods.push(noModsTxt);
 		add(noModsTxt);
 
-		modEditorTxt = new FlxText(400, 665, FlxG.width - 800, #if android "Tap on E button to enter on master editor menu." #else "Press 7 to enter on master editor menu." #end, 32);
+		modEditorTxt = new FlxText(400, 665, FlxG.width - 800, #if android "Tap on E button to enter on master editor menu." #else "Press 7 to enter on master editor menu." #end, 25);
 		modEditorTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		modEditorTxt.scrollFactor.set();
 		modEditorTxt.borderSize = 2;
+		modEditorTxt.screenCenter();
 		add(modEditorTxt);
 
 		var list:ModsList = Mods.parseList();

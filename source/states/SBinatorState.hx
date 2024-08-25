@@ -1,7 +1,5 @@
 package states;
 
-import objects.Bar;
-
 class SBinatorState extends MusicBeatState
 {
     var mainBackground:FlxSprite;
@@ -85,9 +83,18 @@ class SBinatorState extends MusicBeatState
 		randomText.setFormat("VCR OSD Mono", 26, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(randomText);
 
-		skipText = new FlxText(20, FlxG.height - 110, 1000, "Got annoyed waiting? Press SPACE to skip loading screen", 10);
+		skipText = new FlxText(20, FlxG.height - #if android 80 #else 110 #end, 1000, #if android "Got annoyed waiting? Tap on screen to skip loading screen" #else "Got annoyed waiting? Press SPACE to skip loading screen" #end, 10);
 		skipText.setFormat("VCR OSD Mono", 26, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		skipText.alpha = 0;
+		new FlxTimer().start(5, function(tmr:FlxTimer) {
+			FlxTween.tween(skipText, {alpha: 1}, 1.5, {
+				ease: FlxEase.sineInOut,
+				onComplete: function(completition:FlxTween) {
+					keybindActivation = true;
+				}
+			});
+		});
+		skipText.screenCenter(X);
 		add(skipText);
 
 		icons = new FlxSprite(40, FlxG.height * 0.78).loadGraphic(randomCreditIcons());
@@ -117,12 +124,6 @@ class SBinatorState extends MusicBeatState
             }
         }
 
-		if (tweening) {
-			skipText.screenCenter(X);
-			timer += elapsed;
-			if (timer >= 4) doSkipFunction();
-		}
-
 		loadingTime += elapsed;
 		if (loadingTime >= 15) {
 			updateBarPercent();
@@ -133,7 +134,12 @@ class SBinatorState extends MusicBeatState
 		}
 
 		// Got annoyed waiting to fully finish the "fake" loading screen?
-		if (FlxG.keys.justPressed.SPACE && keybindActivation) switchToTitleMenu();
+		if (FlxG.keys.justPressed.SPACE && keybindActivation) {
+			switchToTitleMenu();
+			mainText.text = "Skipped!";
+			mainText.x = 1135;
+		}
+
         super.update(elapsed);
     }
 
@@ -197,15 +203,5 @@ class SBinatorState extends MusicBeatState
 	{
 		var textChance:Int = FlxG.random.int(0, sillyTexts.length - 1);
 		return creditTexts.text = sillyTexts[textChance];
-	}
-
-	function doSkipFunction()
-	{
-		FlxTween.tween(skipText, {alpha: 1}, 1, {
-			ease: FlxEase.sineInOut,
-			onComplete: function(completition:FlxTween) {
-				keybindActivation = true;
-			}
-		});
 	}
 }

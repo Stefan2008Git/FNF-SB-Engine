@@ -74,7 +74,7 @@ class Main extends Sprite
 	private function setupGame():Void
 	{
 		Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion;
-		#if android AndroidDialogsExtend.openToastBox("Welcome to: FNF': SB Engine v" + MainMenuState.sbEngineVersion, 1); #end// For some wierd reason i cannot make a option to disable toast box when you open the game it crashes immediately...
+		#if android AndroidDialogsExtend.openToastBox("Welcome to: FNF': SB Engine v" + MainMenuState.sbEngineVersion, 1); #end// For some reason i cannot make a option to disable toast box when you open the game it crashes immediately...
 
 		var stageWidth:Int = Lib.current.stage.stageWidth;
 		var stageHeight:Int = Lib.current.stage.stageHeight;
@@ -193,7 +193,7 @@ class Main extends Sprite
 		Sys.println("Crash dump saved in " + Path.normalize(path));
 
 		#if android
-		if (ClientPrefs.data.toastText) AndroidDialogsExtend.openToastBox('Uncaught Error happends!', 1);
+		if (ClientPrefs.data.toastText) AndroidDialogsExtend.openToastBox('Fatal Uncaugth Expection happened!', 1);
 		if (ClientPrefs.data.vibration) Hardware.vibrate(vibrationInt);
 		#end
 
@@ -201,6 +201,7 @@ class Main extends Sprite
 		FlxG.sound.play(Paths.sound('error'));
 		// if (ClientPrefs.data.betterCrashHandler) openSubState(new substates.system.CrashHandlerSubstate()); else UNFINISHED!!!!!
 		Application.current.window.alert(errorMessage, "Fatal Uncaugth Expection! SB Engine v" + MainMenuState.sbEngineVersion);
+
 		#if DISCORD_ALLOWED
 		DiscordClient.shutdown();
 		#end

@@ -36,6 +36,7 @@ class Controls
 	public var SPACE_P(get, never):Bool;
 	public var FULL_SCREEN_P(get, never):Bool;
 	public var RESET_STATE_P(get, never):Bool;
+	public var SCREENSHOT_P(get,never):Bool;
 	private function get_UI_UP_P() return justPressed('ui_up');
 	private function get_UI_DOWN_P() return justPressed('ui_down');
 	private function get_UI_LEFT_P() return justPressed('ui_left');
@@ -47,6 +48,7 @@ class Controls
     private function get_SPACE_P() return justPressed('space');
 	private function get_FULL_SCREEN_P() return justPressed('full_screen');
 	private function get_RESET_STATE_P() return justPressed('refresh_game');
+	private function get_SCREENSHOT_P() return justPressed('screenshot');
     
 	// Held buttons (directions)
 	public var UI_UP(get, never):Bool;
@@ -60,6 +62,7 @@ class Controls
 	public var SPACE(get, never):Bool;
 	public var FULL_SCREEN(get, never):Bool;
 	public var RESET_STATE(get, never):Bool;
+	public var SCREENSHOT(get, never):Bool;
 	private function get_UI_UP() return pressed('ui_up');
 	private function get_UI_DOWN() return pressed('ui_down');
 	private function get_UI_LEFT() return pressed('ui_left');
@@ -70,7 +73,8 @@ class Controls
 	private function get_NOTE_RIGHT() return pressed('note_right');
     private function get_SPACE() return pressed('space');
 	private function get_FULL_SCREEN() return pressed('full_screen');
-	private function get_RESET_STATE() return justPressed('refresh_game');
+	private function get_RESET_STATE() return pressed('refresh_game');
+	private function get_SCREENSHOT() return pressed('screenshot');
     
 	// Released buttons (directions)
 	public var UI_UP_R(get, never):Bool;
@@ -84,6 +88,7 @@ class Controls
 	public var SPACE_R(get, never):Bool;
 	public var FULL_SCREEN_R(get, never):Bool;
 	public var RESET_STATE_R(get, never):Bool;
+	public var SCREENSHOT_R(get, never):Bool;
 	private function get_UI_UP_R() return justReleased('ui_up');
 	private function get_UI_DOWN_R() return justReleased('ui_down');
 	private function get_UI_LEFT_R() return justReleased('ui_left');
@@ -94,7 +99,8 @@ class Controls
 	private function get_NOTE_RIGHT_R() return justReleased('note_right');
 	private function get_SPACE_R() return justReleased('space');
 	private function get_FULL_SCREEN_R() return justReleased('full_screen');
-	private function get_RESET_STATE_R() return justPressed('refresh_game');
+	private function get_RESET_STATE_R() return justReleased('refresh_game');
+	private function get_SCREENSHOT_R() return justReleased('screenshot');
 
 	// Pressed buttons (others)
 	public var ACCEPT(get, never):Bool;

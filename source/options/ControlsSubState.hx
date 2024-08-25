@@ -30,10 +30,11 @@ class ControlsSubState extends MusicBeatSubstate
 		[false, 'Down', 'volume_down', 'Volume Down'],
 		[false],
 		[false, 'DEBUG'],
-		[false, 'Key 1', 'debug_1', 'Debug Key #1'],
-		[false, 'Key 2', 'debug_2', 'Debug Key #2'],
-		[false, 'Key 3', 'refresh_game', 'Debug Key #3'],
-		[false, 'Key 1', 'full_screen', 'Debug Key #4']
+		[false, 'Key 1', 'debug_1', 'Master editor'],
+		[false, 'Key 2', 'debug_2', 'In-game char editor'],
+		[false, 'Key 3', 'refresh_game', 'Refresh game'],
+		[false, 'Key 4', 'full_screen', 'Fullscreen'],
+		[false, 'Key 5', 'screenshot', 'Screenshot']
 	];
 	var curOptions:Array<Int>;
 	var curOptionsValid:Array<Int>;

@@ -117,7 +117,7 @@ class VisualsUISubState extends BaseOptionsMenu
 		addOption(option);
 
 		var option:Option = new Option('Themes:', 
-			'Change theme from different engines. More themes are coming very soon', 'themes', 'string', ['SB Engine', 'Psych Engine']);
+			'Change theme from different engines. More themes are coming very soon', 'themes', 'string', ['SB Engine', 'Psych Engine', 'Vanilla', 'Dark', 'Light']);
 		addOption(option);
 		option.onChange = onChangeThemes;
 
@@ -205,11 +205,11 @@ class VisualsUISubState extends BaseOptionsMenu
 	function onChangeThemes()
 	{
 		switch (ClientPrefs.data.themes) {
-			case 'SB Engine':
-				BaseOptionsMenu.background.color = FlxColor.BROWN;
-			
-			case 'Psych Engine':
-				BaseOptionsMenu.background.color = 0xFFea71fd;
+			case 'SB Engine': BaseOptionsMenu.background.color = FlxColor.BROWN;
+			case 'Psych Engine': BaseOptionsMenu.background.color = 0xFFea71fd;
+			case 'Vanilla': BaseOptionsMenu.background.color = 0xFFfc719a;
+			case 'Dark': BaseOptionsMenu.background.color = 0xFF353535;
+			case 'Light': BaseOptionsMenu.background.color = 0xFFCECDCD;
 		}
 	}
 }

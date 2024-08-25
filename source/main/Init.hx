@@ -1,5 +1,6 @@
 package main;
 
+import debug.Screenshot;
 import states.FlashingState;
 import states.StoryMenuState;
 import states.SBinatorState;
@@ -10,9 +11,14 @@ import lime.graphics.Image;
 
 class Init extends FlxState 
 {
+    var background:FlxSprite;
+    var mainLogo:FlxSprite;
+    var startupSound:FlxSound;
+
     override function create() 
     {
         FlxTransitionableState.skipNextTransOut = true;
+        TraceText.makeTheTraceText("Welcome to modifed Psych Engine with some changes and additions called SB Engine made by Stefan2008. Enjoy <3!");
 
         #if DISCORD_ALLOWED
 	    // Updating Discord Rich Presence
@@ -36,6 +42,37 @@ class Init extends FlxState
 		    Main.watermark.y = Lib.application.window.height - 10 - Main.watermark.height;
             Lib.current.stage.addChild(Main.watermark);
         }
+
+        background = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BROWN);
+        background.alpha = 0;
+		FlxTween.tween(background, {alpha: 1}, 1.3, {ease: FlxEase.sineInOut});
+        add(background);
+
+        mainLogo = new FlxSprite().loadGraphic(Paths.image("engineStuff/main/sbEngineLogo"));
+		mainLogo.screenCenter();
+		mainLogo.alpha = 0;
+		FlxTween.tween(mainLogo, {alpha: 1}, 2.6, {ease: FlxEase.sineInOut});
+		add(mainLogo);
+
+        FlxG.sound.play(Paths.sound('startup'));
+
+        new FlxTimer().start(4.7, function(tmr:FlxTimer) {
+			FlxTween.tween(background, {alpha: 0}, 1.2, {
+				ease: FlxEase.sineInOut,
+				onComplete: function(completition:FlxTween) {
+					startLoadingProcess();
+				}
+			});
+		});
+
+        new FlxTimer().start(4.7, function(tmr:FlxTimer) {
+			FlxTween.tween(mainLogo, {alpha: 0}, 1.2, {
+				ease: FlxEase.sineInOut,
+				onComplete: function(completition:FlxTween) {
+					startLoadingProcess();
+				}
+			});
+		});
 
         #if linux
 		var icon = Image.fromFile("icon.png");
@@ -82,6 +119,7 @@ class Init extends FlxState
         Controls.instance = new Controls();
         ClientPrefs.loadDefaultKeys();
         Highscore.load();
+        Screenshot.initialize();
 
         if (FlxG.save.data.weekCompleted != null) StoryMenuState.weekCompleted = FlxG.save.data.weekCompleted;
         #if DISCORD_ALLOWED DiscordClient.prepare(); #end
@@ -90,6 +128,10 @@ class Init extends FlxState
 
         FlxTransitionableState.skipNextTransIn = true;
         FlxTransitionableState.skipNextTransOut = true;
+    }
+
+    function startLoadingProcess()
+    {
         if (ClientPrefs.data.loadingScreen) FlxG.switchState(() -> new SBinatorState());
         else FlxG.switchState(Type.createInstance(Main.game.initialState, []));
     }

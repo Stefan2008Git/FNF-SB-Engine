@@ -229,7 +229,7 @@ class GameLog extends Sprite
 		#end
 
 		// this is pretty much acts like update() function
-		if (FlxG.keys.justPressed.F3 #if android || FlxG.android.justReleased.BACK #end)
+		if (FlxG.keys.justPressed.F4 #if android || FlxG.android.justReleased.BACK #end)
             changeActive(!isVisible);
 
 		if (isVisible){

@@ -52,11 +52,11 @@ class MasterEditorMenu extends MusicBeatState
 
 		background = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
 		switch (ClientPrefs.data.themes) {
-			case 'SB Engine':
-				background.color = FlxColor.BROWN;
-			
-			case 'Psych Engine':
-				background.color = 0xFF353535;
+			case 'SB Engine': background.color = FlxColor.BROWN;
+			case 'Psych Engine': background.color = 0xFF353535;
+			case 'Vanilla': background.color = 0xaf00ff22;
+			case 'Dark': background.color = 0xFF222222;
+			case 'Light': background.color = 0xFFB8B8B8;
 		}
 		background.scrollFactor.set();
 		background.screenCenter();
@@ -151,9 +151,9 @@ class MasterEditorMenu extends MusicBeatState
 		directoryTxt = new FlxText(textBG.x, textBG.y + 4, FlxG.width, '', 32);
 		switch (ClientPrefs.data.gameStyle) {
 			case 'SB Engine': directoryTxt.setFormat(Paths.font("bahnschrift.ttf"), 32, FlxColor.WHITE, CENTER);
-			case 'Psych Engine' | 'Kade Engine' | 'Cheeky': directoryTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER);
 			case 'TGT Engine': directoryTxt.setFormat(Paths.font("calibri.ttf"), 32, FlxColor.WHITE, CENTER);
 			case 'Dave and Bambi': directoryTxt.setFormat(Paths.font("comic.ttf"), 32, FlxColor.WHITE, CENTER);
+			default: directoryTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER);
 		}
 		directoryTxt.scrollFactor.set();
 		add(directoryTxt);

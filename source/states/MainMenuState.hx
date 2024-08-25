@@ -119,9 +119,9 @@ class MainMenuState extends MusicBeatState
 		sbEngineLogo.scrollFactor.y = 0;
 		add(sbEngineLogo);
 
-		versionSb = new FlxText(12, FlxG.height - 64, 0, "SB Engine v" + sbEngineVersion + " (Modified Psych Engine)" #if debug + " (Running currently on Debug build) " #end, 16);
-		versionPsych = new FlxText(12, FlxG.height - 44, 0, "Psych Engine v" + psychEngineVersion #if debug + " (Running currently on Debug build) " #end, 16);
-		versionFnf = new FlxText(12, FlxG.height - 24, 0, "Friday Night Funkin' v" + fnfEngineVersion #if debug + " (Running currently on Debug build) " #end, 16);
+		versionSb = new FlxText(420, FlxG.height - 24, 0, "SB Engine v" + sbEngineVersion, 16);
+		versionPsych = new FlxText(740, FlxG.height - 24, 0, "Psych Engine v" + psychEngineVersion, 16);
+		versionFnf = new FlxText(400, FlxG.height - 24, 0, "Friday Night Funkin' v" + fnfEngineVersion, 16);
 		switch (ClientPrefs.data.gameStyle) {
 			case 'SB Engine':
 				versionSb.setFormat("Bahnschrift", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -146,6 +146,7 @@ class MainMenuState extends MusicBeatState
 		versionSb.scrollFactor.set();
 		versionPsych.scrollFactor.set();
 		versionFnf.scrollFactor.set();
+		versionFnf.screenCenter(X);
 		add(versionSb);
 		add(versionPsych);
 		add(versionFnf);
@@ -272,7 +273,7 @@ class MainMenuState extends MusicBeatState
 				FlxG.switchState(() -> new TitleState());
 			}
 
-			if (controls.ACCEPT || (FlxG.mouse.justPressed && allowMouse))
+			if (controls.ACCEPT || (FlxG.mouse.justReleased && allowMouse))
 			{
 				FlxG.sound.play(Paths.sound('confirmMenu'));
 					selectedSomethin = true;

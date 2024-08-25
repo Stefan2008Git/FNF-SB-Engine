@@ -34,11 +34,11 @@ class BaseOptionsMenu extends MusicBeatSubstate
 		
 		background = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
 		switch (ClientPrefs.data.themes) {
-			case 'SB Engine':
-				background.color = FlxColor.BROWN;
-			
-			case 'Psych Engine':
-				background.color = 0xFFea71fd;
+			case 'SB Engine': background.color = FlxColor.BROWN;
+			case 'Psych Engine': background.color = 0xFFea71fd;
+			case 'Vanilla': background.color = 0xFFfc719a;
+			case 'Dark': background.color = 0xFF353535;
+			case 'Light': background.color = 0xFFCECDCD;
 		}
 		background.scrollFactor.set();
 		background.screenCenter();

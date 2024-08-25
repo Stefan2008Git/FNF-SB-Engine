@@ -160,6 +160,7 @@ class ClientPrefs {
 
 		'full_screen'   => [F11],
 		'refresh_game'  => [F5],
+		'screenshot'    => [F3],
 	];
 	public static var gamepadBinds:Map<String, Array<FlxGamepadInputID>> = [
 		'note_up'		=> [DPAD_UP, Y],
