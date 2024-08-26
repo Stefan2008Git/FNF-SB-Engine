@@ -364,7 +364,7 @@ class NoteSplashDebugState extends MusicBeatState
 		var path:String = pathSplit[pathSplit.length-1].trim();
 		savedText.text = 'Saved to: $path';
 		//sys.io.File.saveContent(path, strToSave);
-		//var path:String = SUtil.getPath() + 'modsList.txt';
+		//var path:String = StorageUtil.getPath() + 'modsList.txt';
 		File.saveContent(path, strToSave);
 		#else
 		savedText.text = "Can\'t save on this platform, too bad.";  

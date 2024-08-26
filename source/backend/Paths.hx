@@ -117,7 +117,7 @@ class Paths
 
 	inline public static function getSharedPath(file:String = '')
 	{
-		return SUtil.getPath() + 'assets/shared/$file';
+		return StorageUtil.getPath() + 'assets/shared/$file';
 	}
 
 	inline static function getLibraryPathForce(file:String, library:String, ?level:String)
@@ -154,7 +154,7 @@ class Paths
 		var file:String = modsVideo(key);
 		if(FileSystem.exists(file)) return file;
 		#end
-		return SUtil.getPath() + 'assets/videos/$key.$VIDEO_EXT';
+		return StorageUtil.getPath() + 'assets/videos/$key.$VIDEO_EXT';
 	}
 
 	static public function sound(key:String, ?library:String):Sound
@@ -245,19 +245,19 @@ class Paths
 		if (!ignoreMods && FileSystem.exists(modFolders(key)))
 			return File.getContent(modFolders(key));
 
-		if (FileSystem.exists(SUtil.getPath() + getPreloadPath(key)))
-			return File.getContent(SUtil.getPath() + getPreloadPath(key));
+		if (FileSystem.exists(StorageUtil.getPath() + getPreloadPath(key)))
+			return File.getContent(StorageUtil.getPath() + getPreloadPath(key));
 
 		if (currentLevel != null)
 		{
 			var levelPath:String = '';
 			if(currentLevel != 'shared') {
-				levelPath = SUtil.getPath() + getLibraryPathForce(key, 'week_assets', currentLevel);
+				levelPath = StorageUtil.getPath() + getLibraryPathForce(key, 'week_assets', currentLevel);
 				if (FileSystem.exists(levelPath))
 					return File.getContent(levelPath);
 			}
 
-			levelPath = SUtil.getPath() + getLibraryPathForce(key, 'shared');
+			levelPath = StorageUtil.getPath() + getLibraryPathForce(key, 'shared');
 			if (FileSystem.exists(levelPath))
 				return File.getContent(levelPath);
 		}
@@ -275,7 +275,7 @@ class Paths
 			return file;
 		}
 		#end
-		return SUtil.getPath() + 'assets/fonts/$key';
+		return StorageUtil.getPath() + 'assets/fonts/$key';
 	}
 
 	public static function fileExists(key:String, type:AssetType, ?ignoreMods:Bool = false, ?library:String = null)
@@ -290,7 +290,7 @@ class Paths
 			if (FileSystem.exists(mods(Mods.currentModDirectory + '/' + key)) || FileSystem.exists(mods(key)))
 				return true;
 			
-				if (FileSystem.exists(SUtil.getPath() + 'assets/shared/' + key) || FileSystem.exists(SUtil.getPath() + 'assets/' + key))
+				if (FileSystem.exists(StorageUtil.getPath() + 'assets/shared/' + key) || FileSystem.exists(StorageUtil.getPath() + 'assets/' + key))
 				return true;
 		}
 		#end
@@ -406,7 +406,7 @@ class Paths
 	
 	#if MODS_ALLOWED
 	inline static public function mods(key:String = '')
-		return SUtil.getPath() + 'mods/' + key;
+		return StorageUtil.getPath() + 'mods/' + key;
 	
 	inline static public function modsFont(key:String)
 		return modFolders('fonts/' + key);
@@ -444,18 +444,18 @@ class Paths
 				return fileToCheck;
 
 		}
-		    var fileToCheck:String = SUtil.getPath() + 'mods/' + key;
+		    var fileToCheck:String = StorageUtil.getPath() + 'mods/' + key;
 			if(FileSystem.exists(fileToCheck)) 
 			return fileToCheck;
 			
-		    var fileToCheck:String = SUtil.getPath() + 'assets/' + key;
+		    var fileToCheck:String = StorageUtil.getPath() + 'assets/' + key;
 			if(FileSystem.exists(fileToCheck)) 
 			return fileToCheck;
 		    
-		    var fileToCheck:String = SUtil.getPath() + 'assets/shared/' + key;
+		    var fileToCheck:String = StorageUtil.getPath() + 'assets/shared/' + key;
 			if(FileSystem.exists(fileToCheck)) 
 			return fileToCheck;
-		return SUtil.getPath() + 'mods/' + key;	
+		return StorageUtil.getPath() + 'mods/' + key;	
 	}
 	#end
 

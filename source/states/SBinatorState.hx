@@ -145,7 +145,7 @@ class SBinatorState extends MusicBeatState
 
     function changeText() {
 		var selectedText:String = '';
-		var textArray:Array<String> = CoolUtil.coolTextFile(SUtil.getPath() + Paths.txt('loadingTips'));
+		var textArray:Array<String> = CoolUtil.coolTextFile(StorageUtil.getPath() + Paths.txt('loadingTips'));
 
 		randomText.alpha = 1;
 		tweening = true;

@@ -6,7 +6,7 @@ import sys.FileSystem;
 #end
 import openfl.utils.Assets;
 import tjson.TJSON as Json;
-import android.backend.SUtil;
+import android.backend.StorageUtil;
 
 typedef MenuCharacterFile = {
 	var image:String;
@@ -54,11 +54,11 @@ class MenuCharacter extends FlxSprite
 				#if MODS_ALLOWED
 				var path:String = Paths.modFolders(characterPath);
 				if (!FileSystem.exists(path)) {
-					path = SUtil.getPath() + Paths.getPreloadPath(characterPath);
+					path = StorageUtil.getPath() + Paths.getPreloadPath(characterPath);
 				}
 
 				if(!FileSystem.exists(path)) {
-					path = SUtil.getPath() + Paths.getPreloadPath('images/menucharacters/' + DEFAULT_CHARACTER + '.json');
+					path = StorageUtil.getPath() + Paths.getPreloadPath('images/menucharacters/' + DEFAULT_CHARACTER + '.json');
 				}
 				rawJson = File.getContent(path);
 

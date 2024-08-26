@@ -1226,7 +1226,7 @@ class CharacterEditorState extends MusicBeatState
 
 		#if MODS_ALLOWED
 		characterList = [];
-		var directories:Array<String> = [Paths.mods('characters/'), Paths.mods(Mods.currentModDirectory + '/characters/'), SUtil.getPath() + Paths.getPreloadPath('characters/')];
+		var directories:Array<String> = [Paths.mods('characters/'), Paths.mods(Mods.currentModDirectory + '/characters/'), StorageUtil.getPath() + Paths.getPreloadPath('characters/')];
 		for(mod in Mods.getGlobalMods())
 			directories.push(Paths.mods(mod + '/characters/'));
 		for (i in 0...directories.length) {
@@ -1316,7 +1316,7 @@ class CharacterEditorState extends MusicBeatState
 		if (data.length > 0)
 		{
 			#if android
-			SUtil.saveContent('$_char', '.json', data);
+			StorageUtil.saveContent('$_char', '.json', data);
 			#else
 			_file = new FileReference();
 			_file.addEventListener(Event.COMPLETE, onSaveComplete);

@@ -16,7 +16,7 @@ import openfl.utils.Assets as OpenFlAssets;
 
 using StringTools;
 
-class SUtil
+class StorageUtil
 {
 	#if android
 	private static var aDir:String = null; // android dir
@@ -50,10 +50,10 @@ class SUtil
 
 		if (Permissions.getGrantedPermissions().contains(PermissionsList.READ_EXTERNAL_STORAGE) || Permissions.getGrantedPermissions().contains(PermissionsList.WRITE_EXTERNAL_STORAGE))
 		{
-			if (!FileSystem.exists(Tools.getExternalStorageDirectory() + '/' + '.SB Engine')) FileSystem.createDirectory(Tools.getExternalStorageDirecotry() + '/' + '.SB Engine');
+			if (!FileSystem.exists(Tools.getExternalStorageDirectory() + '/' + '.SB Engine')) FileSystem.createDirectory(Tools.getExternalStorageDirectory() + '/' + '.SB Engine');
 			if (ClientPrefs.data.toastText) AndroidDialogsExtend.openToastBox("Creating the root directory...", 1);
 
-		if (!FileSystem.exists(SUtil.getPath() + 'assets') && !FileSystem.exists(SUtil.getPath() + 'mods'))
+		if (!FileSystem.exists(StorageUtil.getPath() + 'assets') && !FileSystem.exists(StorageUtil.getPath() + 'mods'))
 		{
 			applicationAlert('Uncaught Error!', "Whoops, seems you didn't extract the 2 folders from the .APK!\nPlease watch the tutorial by pressing OK.");
 			if (ClientPrefs.data.toastText) AndroidDialogsExtend.openToastBox("Missing the assets and mods folder in root directory!", 1);
@@ -62,7 +62,7 @@ class SUtil
 		} 
 		else 
 			{
-				if (!FileSystem.exists(SUtil.getPath() + 'assets'))
+				if (!FileSystem.exists(StorageUtil.getPath() + 'assets'))
 				{
 					applicationAlert('Uncaught Error!', "Whoops, seems you are missing the assets folder from the .APK to the root directory!\nPlease watch the tutorial by pressing OK.");
 					if (ClientPrefs.data.toastText) AndroidDialogsExtend.openToastBox("Missing the assets folder in root directory!", 1);
@@ -70,7 +70,7 @@ class SUtil
 					openfl.system.System.exit(1);
 				}
 
-				if (!FileSystem.exists(SUtil.getPath() + 'mods'))
+				if (!FileSystem.exists(StorageUtil.getPath() + 'mods'))
 				{
 					applicationAlert('Uncaught Error!', "Whoops, seems you are missing the mods folder from the .APK to the root directory!\nPlease watch the tutorial by pressing OK.");
 					if (ClientPrefs.data.toastText) AndroidDialogsExtend.openToastBox("Missing the mods folder in root directory!", 1);
@@ -83,8 +83,8 @@ class SUtil
 
 	public static function saveContent(fileName:String = 'file', fileExtension:String = '.json', fileData:String = 'You forgot something to add in your code')
 	{
-		if (!FileSystem.exists(SUtil.getPath() + 'saves')) FileSystem.createDirectory(SUtil.getPath() + 'saves');
-		File.saveContent(SUtil.getPath() + 'saves/' + fileName + fileExtension, fileData);
+		if (!FileSystem.exists(StorageUtil.getPath() + 'saves')) FileSystem.createDirectory(StorageUtil.getPath() + 'saves');
+		File.saveContent(StorageUtil.getPath() + 'saves/' + fileName + fileExtension, fileData);
 		if (ClientPrefs.data.toastText) AndroidDialogsExtend.openToastBox("Done! File Saved Successfully!", 1);
 	}
 

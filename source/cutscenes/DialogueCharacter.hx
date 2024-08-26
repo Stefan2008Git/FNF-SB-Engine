@@ -8,7 +8,7 @@ import sys.FileSystem;
 import sys.io.File;
 #end
 
-import android.backend.SUtil;
+import android.backend.StorageUtil;
 
 typedef DialogueCharacterFile = {
 	var image:String;
@@ -64,10 +64,10 @@ class DialogueCharacter extends FlxSprite
 		#if MODS_ALLOWED
 		var path:String = Paths.modFolders(characterPath);
 		if (!FileSystem.exists(path))
-			path = SUtil.getPath() + Paths.getPreloadPath(characterPath);
+			path = StorageUtil.getPath() + Paths.getPreloadPath(characterPath);
 
 		if(!FileSystem.exists(path))
-			path = SUtil.getPath() + Paths.getPreloadPath('images/dialogue/' + DEFAULT_CHARACTER + '.json');
+			path = StorageUtil.getPath() + Paths.getPreloadPath('images/dialogue/' + DEFAULT_CHARACTER + '.json');
 
 		rawJson = File.getContent(path);
 

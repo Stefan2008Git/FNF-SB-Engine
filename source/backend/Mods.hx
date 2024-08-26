@@ -8,7 +8,7 @@ import lime.utils.Assets;
 #end
 
 import tjson.TJSON as Json;
-import android.backend.SUtil;
+import android.backend.StorageUtil;
 
 typedef ModsList = {
 	enabled:Array<String>,
@@ -88,7 +88,7 @@ class Mods
 
 		for (file in paths)
 		{
-			var list:Array<String> = CoolUtil.coolTextFile(SUtil.getPath() + file);
+			var list:Array<String> = CoolUtil.coolTextFile(StorageUtil.getPath() + file);
 			for (value in list)
 				if((allowDuplicates || !mergedList.contains(value)) && value.length > 0)
 					mergedList.push(value);
@@ -218,7 +218,7 @@ class Mods
 			fileStr += values[0] + '|' + (values[1] ? '1' : '0');
 		}
 
-		File.saveContent(SUtil.getPath() + 'modsList.txt', fileStr);
+		File.saveContent(StorageUtil.getPath() + 'modsList.txt', fileStr);
 		updatedOnState = true;
 		//TraceText.makeTheTraceText('Saved modsList.txt');
 		#end

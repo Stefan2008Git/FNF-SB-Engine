@@ -4441,11 +4441,11 @@ class PlayState extends MusicBeatState
     	#if MODS_ALLOWED
     	var scriptToLoad:String = Paths.modFolders(scriptFile);
     	if(!FileSystem.exists(scriptToLoad))
-        	scriptToLoad = Paths.getPreloadPath(SUtil.getPath() + scriptFile);
+        	scriptToLoad = Paths.getPreloadPath(StorageUtil.getPath() + scriptFile);
 
     	if(FileSystem.exists(scriptToLoad))
     	#elseif sys
-    	var scriptToLoad:String = Paths.getPreloadPath(SUtil.getPath() + scriptFile);
+    	var scriptToLoad:String = Paths.getPreloadPath(StorageUtil.getPath() + scriptFile);
     	if(OpenFlAssets.exists(scriptToLoad))
    		#end
     	{

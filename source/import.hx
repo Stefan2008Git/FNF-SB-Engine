@@ -146,7 +146,7 @@ import sys.io.Process;
 #end
 
 // Friday Night Funkin': SB Engine stuff (Im talking about states, substates, backend, etc.)
-import android.backend.SUtil;
+import android.backend.StorageUtil;
 import backend.animation.PsychAnimationController;
 import backend.BaseStage;
 import backend.ClientPrefs;
