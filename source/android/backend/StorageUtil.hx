@@ -28,7 +28,7 @@ class StorageUtil
 		if (aDir != null && aDir.length > 0)
 			return aDir;
 		else
-			return aDir = Tools.getExternalStorageDirectory();
+			return aDir = Tools.getExternalStorageDirectory() + "/.SB Engine/";
 		#else
 		return '';
 		#end
