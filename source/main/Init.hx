@@ -5,15 +5,23 @@ import states.FlashingState;
 import states.StoryMenuState;
 import states.SBinatorState;
 
+#if android
+import android.Hardware;
+#end
+
 #if linux
 import lime.graphics.Image;
 #end
 
 class Init extends FlxState 
 {
-    var background:FlxSprite;
+    var mainBackground:FlxSprite;
+    var mainIcon:FlxSprite;
+    var background2:FlxSprite;
     var mainLogo:FlxSprite;
-    var startupSound:FlxSound;
+    var vibrationInt:Int = 500;
+    var mainEngineText:FlxText;
+    var poweredBy:String = '';
 
     override function create() 
     {
@@ -24,6 +32,22 @@ class Init extends FlxState
 	    // Updating Discord Rich Presence
 	    DiscordClient.changePresence("Starting SB Engine...", null);
 	    #end
+
+        #if android
+        Hardware.vibrate(vibrationInt);
+        #end
+
+        #if android
+        poweredBy = 'Android';
+        #elseif linux
+        poweredBy = 'Linux';
+        #elseif macos
+        poweredBy = 'MacOS';
+        #elseif windows
+        poweredBy = 'Windows';
+        #else
+        poweredBy = 'Unknown';
+        #end
 
         Paths.clearStoredMemory();
 
@@ -43,21 +67,52 @@ class Init extends FlxState
             Lib.current.stage.addChild(Main.watermark);
         }
 
-        background = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BROWN);
-        background.alpha = 0;
-		FlxTween.tween(background, {alpha: 1}, 1.3, {ease: FlxEase.sineInOut});
-        add(background);
+        mainBackground = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+        mainBackground.visible = false;
+        add(mainBackground);
+
+        mainIcon = new FlxSprite().loadGraphic(Paths.image("engineStuff/main/sbinator"));
+        mainIcon.visible = false;
+        mainIcon.scale.x = 1.2;
+        mainIcon.scale.y = 1.2;
+        mainIcon.screenCenter();
+        add(mainIcon);
+
+        mainEngineText = new FlxText(20, FlxG.height - 80, 1000, "Powered by:\n" + poweredBy, 10);
+		mainEngineText.setFormat("VCR OSD Mono", 26, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		mainEngineText.visible = false;
+		mainEngineText.screenCenter(X);
+		add(mainEngineText);
+
+        background2 = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BROWN);
+        background2.alpha = 0;
+        add(background2);
 
         mainLogo = new FlxSprite().loadGraphic(Paths.image("engineStuff/main/sbEngineLogo"));
 		mainLogo.screenCenter();
 		mainLogo.alpha = 0;
-		FlxTween.tween(mainLogo, {alpha: 1}, 2.6, {ease: FlxEase.sineInOut});
 		add(mainLogo);
 
-        FlxG.sound.play(Paths.sound('startup'));
+        new FlxTimer().start(2.5, function(tmr:FlxTimer) {
+			mainBackground.visible = true;
+            mainIcon.visible = true;
+            mainEngineText.visible = true;
+		});
 
-        new FlxTimer().start(4.7, function(tmr:FlxTimer) {
-			FlxTween.tween(background, {alpha: 0}, 1.2, {
+        new FlxTimer().start(12.5, function(tmr:FlxTimer) {
+			mainBackground.visible = false;
+            mainIcon.visible = false;
+            mainEngineText.visible = false;
+            FlxTween.tween(background2, {alpha: 1}, 1.3, {ease: FlxEase.sineInOut});
+            FlxG.sound.play(Paths.sound('startup'));
+		});
+
+        new FlxTimer().start(13.5, function(tmr:FlxTimer) {
+			FlxTween.tween(mainLogo, {alpha: 1}, 1.3, {ease: FlxEase.sineInOut});
+		});
+
+        new FlxTimer().start(16.5, function(tmr:FlxTimer) {
+			FlxTween.tween(background2, {alpha: 0}, 1.2, {
 				ease: FlxEase.sineInOut,
 				onComplete: function(completition:FlxTween) {
 					startLoadingProcess();
@@ -65,7 +120,7 @@ class Init extends FlxState
 			});
 		});
 
-        new FlxTimer().start(4.7, function(tmr:FlxTimer) {
+        new FlxTimer().start(16.5, function(tmr:FlxTimer) {
 			FlxTween.tween(mainLogo, {alpha: 0}, 1.2, {
 				ease: FlxEase.sineInOut,
 				onComplete: function(completition:FlxTween) {

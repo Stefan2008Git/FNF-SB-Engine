@@ -126,6 +126,11 @@ class Main extends Sprite
 
 		    if (FlxG.game != null) resetSpriteCache(FlxG.game);
 		});
+
+		#if desktop
+		Application.current.window.onFocusOut.add(onWindowFocusOut);
+		Application.current.window.onFocusIn.add(onWindowFocusIn);
+		#end
 	}
 
 	static function resetSpriteCache(sprite:Sprite):Void 
@@ -208,4 +213,22 @@ class Main extends Sprite
 		Sys.exit(1);
 	}
 	#end
+
+	var focusMusicTween:FlxTween;
+	var lowFramerate:Int = 20;
+	function onWindowFocusOut() 
+	{
+		if(focusMusicTween != null) focusMusicTween.cancel();
+		focusMusicTween = FlxTween.tween(FlxG.sound, {volume: 0.3}, 0.5);
+
+		FlxG.drawFramerate = lowFramerate;
+	}
+
+	function onWindowFocusIn() 
+	{
+		if(focusMusicTween != null) focusMusicTween.cancel();
+		focusMusicTween = FlxTween.tween(FlxG.sound, {volume: 1.0}, 0.5);
+	
+		FlxG.drawFramerate = ClientPrefs.data.framerate;
+	}
 }

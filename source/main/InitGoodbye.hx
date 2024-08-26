@@ -7,6 +7,10 @@ class InitGoodbye extends FlxState
 
     override function create()
     {
+        Main.tweenFPS(false);
+		Main.tweenWatermark(false);
+        Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Goodbye...";
+
         if (FlxG.sound.music != null) FlxTween.tween(FlxG.sound.music, {pitch: 0, volume: 0}, 2.5, {ease: FlxEase.sineInOut});
         TraceText.makeTheTraceText("Closing the entire engine.");
 
