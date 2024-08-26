@@ -28,7 +28,7 @@ class SUtil
 		if (aDir != null && aDir.length > 0)
 			return aDir;
 		else
-			return aDir = Tools.getExternalStorageDirectory() + '/.SB Engine/';  // I think this thing makes your storage on your phone really big because it's using from Project.xml
+			return aDir = Tools.getExternalStorageDirectory();
 		#else
 		return '';
 		#end
@@ -45,33 +45,37 @@ class SUtil
 		if (!Permissions.getGrantedPermissions().contains(PermissionsList.READ_EXTERNAL_STORAGE) || !Permissions.getGrantedPermissions().contains(PermissionsList.WRITE_EXTERNAL_STORAGE))
 		{
 			Permissions.requestPermissions([PermissionsList.READ_EXTERNAL_STORAGE, PermissionsList.WRITE_EXTERNAL_STORAGE]);
-			SUtil.applicationAlert('Permissions', "if you acceptd the permissions all good if not expect a crash\nPress Ok to see what happens");
+			applicationAlert('Permissions', "if you acceptd the permissions all good if not expect a crash\nPress Ok to see what happens");
 		}
 
 		if (Permissions.getGrantedPermissions().contains(PermissionsList.READ_EXTERNAL_STORAGE) || Permissions.getGrantedPermissions().contains(PermissionsList.WRITE_EXTERNAL_STORAGE))
 		{
-			if (!FileSystem.exists(Tools.getExternalStorageDirectory() + '/' + '.' + Application.current.meta.get('file'))) FileSystem.createDirectory(Tools.getExternalStorageDirectory() + '/' + '.' + Application.current.meta.get('file'));
+			if (!FileSystem.exists(Tools.getExternalStorageDirectory() + '/' + '.SB Engine')) FileSystem.createDirectory(Tools.getExternalStorageDirecotry() + '/' + '.SB Engine');
+			if (ClientPrefs.data.toastText) AndroidDialogsExtend.openToastBox("Creating the root directory...", 1);
 
 		if (!FileSystem.exists(SUtil.getPath() + 'assets') && !FileSystem.exists(SUtil.getPath() + 'mods'))
 		{
-			SUtil.applicationAlert('Uncaught Error!', "Whoops, seems you didn't extract the files from the .APK!\nPlease watch the tutorial by pressing OK.");
-			if (ClientPrefs.data.toastText) AndroidDialogsExtend.openToastBox("Missing the assets and mods folder in engine folder", 1);
+			applicationAlert('Uncaught Error!', "Whoops, seems you didn't extract the 2 folders from the .APK!\nPlease watch the tutorial by pressing OK.");
+			if (ClientPrefs.data.toastText) AndroidDialogsExtend.openToastBox("Missing the assets and mods folder in root directory!", 1);
 			CoolUtil.browserLoad('https://www.youtube.com/watch?v=Cm1JE_uBbYk');
+			openfl.system.System.exit(1);
 		} 
 		else 
 			{
 				if (!FileSystem.exists(SUtil.getPath() + 'assets'))
 				{
-					SUtil.applicationAlert('Uncaught Error!', "Whoops, seems you are missing the assets folder from the .APK to the engine folder!\nPlease watch the tutorial by pressing OK.");
-					if (ClientPrefs.data.toastText) AndroidDialogsExtend.openToastBox("Missing the assets folder in engine folder", 1);
+					applicationAlert('Uncaught Error!', "Whoops, seems you are missing the assets folder from the .APK to the root directory!\nPlease watch the tutorial by pressing OK.");
+					if (ClientPrefs.data.toastText) AndroidDialogsExtend.openToastBox("Missing the assets folder in root directory!", 1);
 					CoolUtil.browserLoad('https://www.youtube.com/watch?v=Cm1JE_uBbYk');
+					openfl.system.System.exit(1);
 				}
 
 				if (!FileSystem.exists(SUtil.getPath() + 'mods'))
 				{
-					SUtil.applicationAlert('Uncaught Error!', "Whoops, seems you are missing the mods folder from the .APK to the engine folder!\nPlease watch the tutorial by pressing OK.");
-					if (ClientPrefs.data.toastText) AndroidDialogsExtend.openToastBox("Missing the mods folder in engine folder", 1);
+					applicationAlert('Uncaught Error!', "Whoops, seems you are missing the mods folder from the .APK to the root directory!\nPlease watch the tutorial by pressing OK.");
+					if (ClientPrefs.data.toastText) AndroidDialogsExtend.openToastBox("Missing the mods folder in root directory!", 1);
 					CoolUtil.browserLoad('https://www.youtube.com/watch?v=Cm1JE_uBbYk');
+					openfl.system.System.exit(1);
 				}
 			}
 		}
@@ -92,8 +96,7 @@ class SUtil
 
 	public static function copyContent(copyPath:String, savePath:String)
 	{
-		if (!FileSystem.exists(savePath))
-			File.saveBytes(savePath, OpenFlAssets.getBytes(copyPath));
+		if (!FileSystem.exists(savePath)) File.saveBytes(savePath, OpenFlAssets.getBytes(copyPath));
 	}
 	#end
 }
