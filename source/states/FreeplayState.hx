@@ -1,5 +1,6 @@
 package states;
 
+import objects.AudioVisualer;
 import states.editors.ChartingState;
 import substates.GameplayChangersSubstate;
 import substates.ResetScoreSubState;
@@ -29,6 +30,7 @@ class FreeplayState extends MusicBeatState
 
 	var background:FlxSprite;
 	var checkerboard:FlxBackdrop;
+	var testVisualer:AudioVisualer;
 	var intendedColor:Int;
 	var colorTween:FlxTween;
 
@@ -105,6 +107,11 @@ class FreeplayState extends MusicBeatState
 		checkerboard.velocity.set(FlxG.random.bool(50) ? 90 : -90, FlxG.random.bool(50) ? 90 : -90);
 		checkerboard.visible = ClientPrefs.data.checkerboard;
 		add(checkerboard);
+
+		testVisualer = new AudioVisualer(FlxG.sound.music, 0, FlxG.height,  FlxG.width, FlxG.height, 200, 4, FlxColor.WHITE);
+		testVisualer.alpha = 0.6;
+		testVisualer.visible = false;
+		add(testVisualer);
 
 		grpSongs = new FlxTypedGroup<Alphabet>();
 		add(grpSongs);
@@ -363,6 +370,7 @@ class FreeplayState extends MusicBeatState
 				instPlaying = -1;
 
 				player.playingMusic = false;
+				testVisualer.visible = false;
 				player.switchPlayMusic();
 
 				FlxG.sound.playMusic(Paths.music('freakyMenu-' + ClientPrefs.data.mainMenuMusic), 0);
@@ -392,7 +400,7 @@ class FreeplayState extends MusicBeatState
 			if(instPlaying != currentlySelected && !player.playingMusic && controlsActive)
 			{
 				destroyFreeplayVocals();
-				FlxTween.tween(FlxG.sound.music, {pitch: 0, volume: 0}, 0.5, {ease: FlxEase.sineInOut});
+				FlxG.sound.music.volume = 0;
 
 				Mods.currentModDirectory = songs[currentlySelected].folder;
 				var poop:String = Highscore.formatSong(songs[currentlySelected].songName.toLowerCase(), curDifficulty);
@@ -433,6 +441,8 @@ class FreeplayState extends MusicBeatState
 				player.playingMusic = true;
 				player.curTime = 0;
 				player.switchPlayMusic();
+
+				testVisualer.visible = true;
 			}
 			else if (instPlaying == currentlySelected && player.playingMusic && controlsActive)
 			{

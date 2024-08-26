@@ -2,7 +2,7 @@
 <project>
 	<!-- _________________________ Application Settings _________________________ -->
 
-	<app title="Friday Night Funkin': SB Engine" file="StefanBeta" packageName="com.stefan2008.sbengine" package="com.stefan2008.sbengine" main="Main" version="3.1.0b" company="Stefan2008" />
+	<app title="Friday Night Funkin': SB Engine" file="StefanBeta" root="SB Engine" packageName="com.stefan2008.sbengine" package="com.stefan2008.sbengine" main="Main" version="3.1.0b" company="Stefan2008" />
 
 	<!--Switch Export with Unique ApplicationID and Icon-->
 	<set name="APP_ID" value="0x0100f6c013bbc000" />

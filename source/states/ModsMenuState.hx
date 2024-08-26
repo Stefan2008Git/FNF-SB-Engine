@@ -80,7 +80,7 @@ class ModsMenuState extends MusicBeatState
 		modEditorTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		modEditorTxt.scrollFactor.set();
 		modEditorTxt.borderSize = 2;
-		modEditorTxt.screenCenter();
+		modEditorTxt.screenCenter(Y);
 		add(modEditorTxt);
 
 		var list:ModsList = Mods.parseList();

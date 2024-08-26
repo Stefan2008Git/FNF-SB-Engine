@@ -50,7 +50,7 @@ class StorageUtil
 
 		if (Permissions.getGrantedPermissions().contains(PermissionsList.READ_EXTERNAL_STORAGE) || Permissions.getGrantedPermissions().contains(PermissionsList.WRITE_EXTERNAL_STORAGE))
 		{
-			if (!FileSystem.exists(Tools.getExternalStorageDirectory() + '/' + '.SB Engine')) FileSystem.createDirectory(Tools.getExternalStorageDirectory() + '/' + '.SB Engine');
+			if (!FileSystem.exists(Tools.getExternalStorageDirectory() + '/' + '.' + Application.current.meta.get('root'))) FileSystem.createDirectory(Tools.getExternalStorageDirectory() + '/' + '.' + Application.current.meta.get('root'));
 			if (ClientPrefs.data.toastText) AndroidDialogsExtend.openToastBox("Creating the root directory...", 1);
 
 		if (!FileSystem.exists(StorageUtil.getPath() + 'assets') && !FileSystem.exists(StorageUtil.getPath() + 'mods'))
