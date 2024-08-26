@@ -61,10 +61,4 @@ class AudioVisualer extends FlxSpriteGroup
         analyzer.fftN = 256;       
       }
     }
-
-    public function changeAnalyzer(snd:FlxSound) 
-    {
-      @:privateAccess
-      analyzer.changeSnd(snd._channel.__audioSource);
-    }
 }
