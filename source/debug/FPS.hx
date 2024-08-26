@@ -36,7 +36,7 @@ class FPS extends TextField
 		if (LimeSystem.platformName == LimeSystem.platformVersion || LimeSystem.platformVersion == null)
 			os = '\nPlatform: ${LimeSystem.platformName}' #if cpp + ' ${getArch() != 'Unknown' ? getArch() : ''}' #end;
 		else
-			os = '\nPlatform: ${LimeSystem.platformName} - ${LimeSystem.platformVersion}' #if cpp + ' ${getArch() != 'Unknown' ? getArch() : ''}' #end;
+			os = '\nPlatform: ${LimeSystem.platformName} ${LimeSystem.platformVersion}' #if cpp + ' - ${getArch() != 'Unknown' ? getArch() : ''}' #end;
 
 		positionCounter(x, y);
 
@@ -70,7 +70,7 @@ class FPS extends TextField
 		currentFPS = times.length < FlxG.updateFramerate ? times.length : FlxG.updateFramerate;
 
 		totalFPS = Math.round(currentFPS + times.length / 8); 
-		if (totalFPS < 10) totalFPS = 0;
+		if (currentFPS >= totalFPS) totalFPS = currentFPS;
 
 		currentMemory = Memory.obtainMemory();
 		if (currentMemory >= maxMemory) maxMemory = currentMemory;
