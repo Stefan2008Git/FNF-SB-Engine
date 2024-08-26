@@ -38,6 +38,8 @@ class TitleState extends MusicBeatState {
 	var wackyImage:FlxSprite;
 	var titleJSON:TitleData;
 
+	var actionBg:FlxSprite;
+
 	override public function create():Void
 	{
 		Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion +" - Title screen";
@@ -356,6 +358,11 @@ class TitleState extends MusicBeatState {
 					closedState = true;
 				});
 			}
+		}
+
+		if (FlxG.keys.justPressed.ESCAPE #if android || FlxG.android.justReleased.BACK #end)
+		{
+			FlxG.switchState(() -> new main.InitGoodbye());
 		}
 
 		if (initialized && pressedEnter && !skippedIntro)

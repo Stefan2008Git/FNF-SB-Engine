@@ -1,6 +1,6 @@
 package debug;
 
-import main.Memory;
+import debug.Memory;
 import lime.system.System as LimeSystem;
 
 #if cpp

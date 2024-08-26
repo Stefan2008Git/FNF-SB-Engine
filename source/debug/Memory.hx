@@ -1,4 +1,4 @@
-package main;
+package debug;
 
 class Memory {
     inline public static function obtainMemory():Float {
