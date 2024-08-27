@@ -47,8 +47,8 @@ class MusicPlayer extends FlxGroup
 
 		songTxt = new FlxText(FlxG.width * 0.7, 5, 0, "", 32);
 		switch (ClientPrefs.data.gameStyle) {
-			case 'Psych Engine' | 'Kade Engine':
-				songTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, RIGHT);
+			case 'SB Engine':
+				songTxt.setFormat(Paths.font("bahnschrift.ttf"), 32, FlxColor.WHITE, RIGHT);
 			
 			case 'Dave and Bambi':
 				songTxt.setFormat(Paths.font("comic.ttf"), 32, FlxColor.WHITE, RIGHT);
@@ -57,14 +57,14 @@ class MusicPlayer extends FlxGroup
 				songTxt.setFormat(Paths.font("calibri.ttf"), 32, FlxColor.WHITE, RIGHT);
 			
 			default:
-				songTxt.setFormat(Paths.font("bahnschrift.ttf"), 32, FlxColor.WHITE, RIGHT);
+				songTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, RIGHT);
 		}
 		add(songTxt);
 
 		timeTxt = new FlxText(xPos, songTxt.y + 60, 0, "", 32);
 		switch (ClientPrefs.data.gameStyle) {
-			case 'Psych Engine' | 'Kade Engine':
-				timeTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, RIGHT);
+			case 'SB Engine':
+				timeTxt.setFormat(Paths.font("bahnschrift.ttf"), 32, FlxColor.WHITE, RIGHT);
 			
 			case 'Dave and Bambi':
 				timeTxt.setFormat(Paths.font("comic.ttf"), 32, FlxColor.WHITE, RIGHT);
@@ -73,7 +73,7 @@ class MusicPlayer extends FlxGroup
 				timeTxt.setFormat(Paths.font("calibri.ttf"), 32, FlxColor.WHITE, RIGHT);
 			
 			default:
-				timeTxt.setFormat(Paths.font("bahnschrift.ttf"), 32, FlxColor.WHITE, RIGHT);
+				timeTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, RIGHT);
 		}
 		add(timeTxt);
 
@@ -81,17 +81,17 @@ class MusicPlayer extends FlxGroup
 		{
 			var text:FlxText = new FlxText();
 			switch (ClientPrefs.data.gameStyle) {
-				case 'Psych Engine' | 'Kade Engine':
-					text.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER);
+				case 'SB Engine':
+					text.setFormat(Paths.font("bahnschrift.ttf"), 32, FlxColor.WHITE, CENTER);
 				
 				case 'Dave and Bambi':
 					text.setFormat(Paths.font("comic.ttf"), 32, FlxColor.WHITE, CENTER);
 				
 				case 'TGT Engine':
 					text.setFormat(Paths.font("calibri.ttf"), 32, FlxColor.WHITE, CENTER);
-				
+
 				default:
-					text.setFormat(Paths.font("bahnschrift.ttf"), 32, FlxColor.WHITE, CENTER);
+					text.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER);
 			}
 			text.text = '^';
 			if (i == 1)
@@ -107,8 +107,8 @@ class MusicPlayer extends FlxGroup
 
 		playbackTxt = new FlxText(FlxG.width * 0.6, 20, 0, "", 32);
 		switch (ClientPrefs.data.gameStyle) {
-			case 'Psych Engine' | 'Kade Engine':
-				playbackTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE);
+			case 'SB Engine':
+				playbackTxt.setFormat(Paths.font("bahnschrift.ttf"), 32, FlxColor.WHITE);
 			
 			case 'Dave and Bambi':
 				playbackTxt.setFormat(Paths.font("comic.ttf"), 32, FlxColor.WHITE);
@@ -117,7 +117,7 @@ class MusicPlayer extends FlxGroup
 				playbackTxt.setFormat(Paths.font("calibri.ttf"), 32, FlxColor.WHITE);
 			
 			default:
-				playbackTxt.setFormat(Paths.font("bahnschrift.ttf"), 32, FlxColor.WHITE);
+				playbackTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE);
 		}
 		add(playbackTxt);
 
@@ -134,9 +134,9 @@ class MusicPlayer extends FlxGroup
 		}
 
 		if (paused && !wasPlaying)
-			songTxt.text = 'PLAYING: ' + instance.songs[FreeplayState.currentlySelected].songName + ' (PAUSED)';
+			songTxt.text = 'PLAYING: ' + instance.songs[FreeplayState.curSelected].songName + ' (PAUSED)';
 		else
-			songTxt.text = 'PLAYING: ' + instance.songs[FreeplayState.currentlySelected].songName;
+			songTxt.text = 'PLAYING: ' + instance.songs[FreeplayState.curSelected].songName;
 
 		positionSong();
 
@@ -336,7 +336,7 @@ class MusicPlayer extends FlxGroup
 
 	function positionSong() 
 	{
-		var length:Int = instance.songs[FreeplayState.currentlySelected].songName.length;
+		var length:Int = instance.songs[FreeplayState.curSelected].songName.length;
 		var shortName:Bool = length < 5; // Fix for song names like Ugh, Guns
 		songTxt.x = FlxG.width - songTxt.width - 6;
 		if (shortName)

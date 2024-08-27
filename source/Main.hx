@@ -1,7 +1,7 @@
 package;
 
-import debug.GameLog;
 import debug.FPS;
+import debug.GameLog;
 import main.Init;
 import objects.VolumeTray;
 import states.TitleState;
@@ -128,8 +128,10 @@ class Main extends Sprite
 		});
 
 		#if desktop
-		Application.current.window.onFocusOut.add(onWindowFocusOut);
+		if (ClientPrefs.data.autoPause) {
+			Application.current.window.onFocusOut.add(onWindowFocusOut);
 		Application.current.window.onFocusIn.add(onWindowFocusIn);
+		}
 		#end
 	}
 

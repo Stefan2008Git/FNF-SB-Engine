@@ -34,10 +34,6 @@ class Init extends FlxState
 	    #end
 
         #if android
-        Hardware.vibrate(vibrationInt);
-        #end
-
-        #if android
         poweredBy = 'Android';
         #elseif linux
         poweredBy = 'Linux';
@@ -93,13 +89,19 @@ class Init extends FlxState
 		mainLogo.alpha = 0;
 		add(mainLogo);
 
+        new FlxTimer().start(1.5, function(tmr:FlxTimer) {
+			#if android
+            Hardware.vibrate(vibrationInt);
+            #end
+		});
+
         new FlxTimer().start(2.5, function(tmr:FlxTimer) {
 			mainBackground.visible = true;
             mainIcon.visible = true;
             mainEngineText.visible = true;
 		});
 
-        new FlxTimer().start(12.5, function(tmr:FlxTimer) {
+        new FlxTimer().start(13.5, function(tmr:FlxTimer) {
 			mainBackground.visible = false;
             mainIcon.visible = false;
             mainEngineText.visible = false;
@@ -107,11 +109,11 @@ class Init extends FlxState
             FlxG.sound.play(Paths.sound('startup'));
 		});
 
-        new FlxTimer().start(13.5, function(tmr:FlxTimer) {
+        new FlxTimer().start(14.5, function(tmr:FlxTimer) {
 			FlxTween.tween(mainLogo, {alpha: 1}, 1.3, {ease: FlxEase.sineInOut});
 		});
 
-        new FlxTimer().start(16.5, function(tmr:FlxTimer) {
+        new FlxTimer().start(17.5, function(tmr:FlxTimer) {
 			FlxTween.tween(background2, {alpha: 0}, 1.2, {
 				ease: FlxEase.sineInOut,
 				onComplete: function(completition:FlxTween) {
@@ -120,7 +122,7 @@ class Init extends FlxState
 			});
 		});
 
-        new FlxTimer().start(16.5, function(tmr:FlxTimer) {
+        new FlxTimer().start(17.5, function(tmr:FlxTimer) {
 			FlxTween.tween(mainLogo, {alpha: 0}, 1.2, {
 				ease: FlxEase.sineInOut,
 				onComplete: function(completition:FlxTween) {
