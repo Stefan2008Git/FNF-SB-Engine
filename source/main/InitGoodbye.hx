@@ -10,7 +10,6 @@ class InitGoodbye extends FlxState
     override function create()
     {
         Main.tweenFPS(false);
-		Main.tweenWatermark(false);
 
         if (FlxG.sound.music != null) FlxTween.tween(FlxG.sound.music, {pitch: 0, volume: 0}, 2.5, {ease: FlxEase.sineInOut});
         trace("Closing the entire engine.");
