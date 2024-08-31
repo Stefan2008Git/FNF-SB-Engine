@@ -165,16 +165,16 @@ Used and coded on: [Psych Engine](https://gamebanana.com/mods/309789).
 <details>
     <summary>Linux</summary>
 
-Soon...
+Test...
 </details>
 <details>
     <summary>MacOS</summary>
 
-Soon..
+Test..
 </details>
 <details>
   <summary>Windows</summary>
 
-Soon...
+Test...
 </details>
 </details>
