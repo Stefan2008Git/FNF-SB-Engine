@@ -123,7 +123,6 @@
 
 	<!-- Android Specific-->
 	<haxelib name="extension-androidtools" if="android" />
-	<haxelib name="toast-message-android" if = "android"/>
 
 	<!-- Disable Discord IO Thread -->
 	<haxedef name="DISCORD_DISABLE_IO_THREAD" if="hxdiscord_rpc" />
