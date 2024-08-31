@@ -14,10 +14,9 @@ body:
     attributes:
       label: "Are you modding a build from source or with Lua?"
       options:
-        - Lua
-        - HScript
-        - Haxe source code
-        - No
+        - Lua/HScript
+        - Source
+        - No (I am not using any programming language)
     validations:
       required: true
 
@@ -26,10 +25,11 @@ body:
     attributes:
       label: "What is your build target?"
       options:
-        - "Windows x86/x64/x32"
-        - "Linux Mint/Ubuntu/Debian/Fedora"
-        - "MacOS"
         - "Android x86/x64/x32"
+        - "iOS"
+        - "Linux Debian/Fedora/Arch/Alpine/"
+        - "MacOS"
+        - "Windows x86/x64/x32"
     validations:
       required: true
 

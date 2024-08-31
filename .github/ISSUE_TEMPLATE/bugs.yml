@@ -22,7 +22,7 @@ body:
     attributes:
       label: "Are you modding a build from source or with Lua?"
       options:
-        - Lua
+        - Lua/HScript
         - Source
         - No (I am not using any programming language)
     validations:
@@ -33,10 +33,11 @@ body:
     attributes:
       label: "What is your current build target?"
       options:
-        - "Windows x64/x32"
-        - "Linux Mint/Ubuntu/Debian/Fedora"
+        - "Android x86/x64/x32"
+        - "iOS"
+        - "Linux Debian/Fedora/Arch/Alpine/"
         - "MacOS"
-        - "Android x32/x64"
+        - "Windows x86/x64/x32"
     validations:
       required: true
 

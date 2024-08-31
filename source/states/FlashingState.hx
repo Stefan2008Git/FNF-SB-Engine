@@ -30,7 +30,8 @@ class FlashingState extends MusicBeatState
 
 		final silly:String = controls.mobileC ? 'A' : 'ENTER';
 		final baka:String = controls.mobileC ? 'B' : 'ESCAPE';
-		var warning:String = 'FNF: SB Engine contains bugs, issues and flashing lights.\n\nFNF: SB Engine is a modified Psych Engine with some changes and additions made by Stefan2008 and it wasnt meant to be an attack on ShadowMario\nor any other mod makers out there. Im am not aiming for replacing what Friday Night Funkin: Psych Engine was, is and will be.\nIts made for fun and from the love for the game itself. All of the comparisons between this and other mods are purely coincidental, unless stated otherwise.\n\nNow with that out of the way, I hope you will enjoy to this modified Psych Engine fork.\nFunk all the way.\nPress $silly to proced.\nPress $baka to ignore this message.\nCurrent running SB Engine version is ${MainMenuState.sbEngineVersion}'
+		var warning:String = 'FNF: SB Engine contains bugs, issues and flashing lights.\n\nFNF: SB Engine is a modified Psych Engine with some changes and additions made by Stefan2008 and it wasnt meant to be an attack on ShadowMario\nor any other mod makers out there. Im am not aiming for replacing what Friday Night Funkin: Psych Engine was, is and will be.\nIts made for fun and from the love for the game itself. All of the comparisons between this and other mods are purely coincidental, unless stated otherwise.\n\nNow with that out of the way, I hope you will enjoy to this modified Psych Engine fork.\nFunk all the way.\nPress $silly to proced.\nPress $baka to ignore this message.\nCurrent running SB Engine version is ${MainMenuState.sbEngineVersion}';
+
 		titleText = new Alphabet(200, 45, "WARNING:", true);
 		titleText.setScale(0.6);
 		titleText.alpha = 0.4;
