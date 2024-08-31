@@ -1,6 +1,7 @@
 package mobile.states;
 
 #if mobile
+import main.Init;
 import states.TitleState;
 import lime.utils.Assets as LimeAssets;
 import openfl.utils.Assets as OpenFLAssets;
@@ -38,7 +39,7 @@ class CopyState extends MusicBeatState
 		checkExistingFiles();
 		if (maxLoopTimes <= 0)
 		{
-			MusicBeatState.switchState(new TitleState());
+			FlxG.switchState(() -> new Init());
 			return;
 		}
 
@@ -88,11 +89,11 @@ class CopyState extends MusicBeatState
 					#end
 					if (!FileSystem.exists('logs'))
 						FileSystem.createDirectory('logs');
-					File.saveContent('logs/' + Date.now().toString().replace(' ', '-').replace(':', "'") + '-CopyState' + '.txt', failedFilesStack.join('\n'));
+					File.saveContent('logs/' + Date.now().toString().replace(' ', '-').replace(':', "'") + '-CopyState' + '.logs', failedFilesStack.join('\n'));
 				}
 				canUpdate = false;
 				FlxG.sound.play(Paths.sound('confirmMenu')).onComplete = () -> {
-					MusicBeatState.switchState(new TitleState());
+					FlxG.switchState(() -> new Init());
 				};
 			}
 

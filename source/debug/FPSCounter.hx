@@ -102,17 +102,7 @@ class FPSCounter extends TextField
 
 		if (ClientPrefs.data.engineVersion) text += "\nEngine version: " + MainMenuState.sbEngineVersion;
 
-		if (ClientPrefs.data.debugInfo) {
-			text += os;
-			text += '\nState: ${Type.getClassName(Type.getClass(FlxG.state))}';
-			if (FlxG.state.subState != null) text += '\nSubstate: ${Type.getClassName(Type.getClass(FlxG.state.subState))}';
-			text += "\nGL Render: " + '${getGLInfo(RENDERER)}';
-			text += "\nGL Shading version: " + '${getGLInfo(SHADING_LANGUAGE_VERSION)}';
-			text += "\nHaxe: " + Compiler.getDefine("haxe");
-			text += "\n" + FlxG.VERSION;
-			text += "\nOpenFL " + Compiler.getDefine("openfl");
-			text += "\nLime: " + Compiler.getDefine("lime");
-		}
+		if (ClientPrefs.data.osInfo) text += os;
 
 		textColor = 0xFFFFFFFF;
 		if (currentFPS <= FlxG.drawFramerate / 2 && currentFPS >= FlxG.drawFramerate / 3) textColor = FlxColor.YELLOW;
@@ -181,4 +171,14 @@ class FPSCounter extends TextField
 		return "Unknown";
 	}
 	#end
+
+	/*
+	text += '\nState: ${Type.getClassName(Type.getClass(FlxG.state))}';
+	if (FlxG.state.subState != null) text += '\nSubstate: ${Type.getClassName(Type.getClass(FlxG.state.subState))}';
+	text += "\nGL Render: " + '${getGLInfo(RENDERER)}';
+	text += "\nGL Shading version: " + '${getGLInfo(SHADING_LANGUAGE_VERSION)}';
+	text += "\nHaxe: " + Compiler.getDefine("haxe");
+	text += "\n" + FlxG.VERSION;
+	text += "\nOpenFL " + Compiler.getDefine("openfl");
+	text += "\nLime: " + Compiler.getDefine("lime"); I will see for this until now i have to make it blank*/
 }

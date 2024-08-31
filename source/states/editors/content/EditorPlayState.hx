@@ -472,6 +472,7 @@ class EditorPlayState extends MusicBeatSubstate
 
 		Conductor.songPosition = FlxG.sound.music.time = vocals.time = opponentVocals.time = startPos - Conductor.offset;
 		close();
+		DiscordClient.changePresence('Chart Editor', 'Song: ' + PlayState.SONG.song);
 	}
 	
 	private function cachePopUpScore()
@@ -801,6 +802,7 @@ class EditorPlayState extends MusicBeatSubstate
 			combo++;
 			if(combo > 9999) combo = 9999;
 			popUpScore(note);
+			updateScore();
 		}
 
 		var spr:StrumNote = playerStrums.members[note.noteData];

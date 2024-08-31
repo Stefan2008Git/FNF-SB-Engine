@@ -10,7 +10,6 @@ import flixel.input.keyboard.FlxKey;
 
 import lime.utils.Assets;
 import lime.media.AudioBuffer;
-
 import flash.media.Sound;
 import flash.geom.Rectangle;
 
@@ -550,20 +549,29 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 		chartEditorSave.data.theme = changeTo;
 		if(doSave) chartEditorSave.flush();
 
+		var gridBgWidth = gridBg == null ? null : gridBg.width;
+		var prevGridBgWidth = prevGridBg == null ? null : prevGridBg.width;
+		var nextGridBgWidth = nextGridBg == null ? null : nextGridBg.width;
+
 		switch(theme)
 		{
 			case LIGHT:
 				bg.color = 0xFFA0A0A0;
 				gridColors = [0xFFDFDFDF, 0xFFBFBFBF];
 				gridColorsOther = [0xFF5F5F5F, 0xFF4A4A4A];
+				if (gridBgWidth != null) gridBg.width = gridBgWidth;
+
 			case DARK:
 				bg.color = 0xFF222222;
 				gridColors = [0xFF3F3F3F, 0xFF2F2F2F];
 				gridColorsOther = [0xFF1F1F1F, 0xFF111111];
+				if (prevGridBgWidth != null) prevGridBg.width = prevGridBgWidth;
+
 			default:
 				bg.color = 0xFF303030;
 				gridColors = [0xFFDFDFDF, 0xFFBFBFBF];
 				gridColorsOther = [0xFF5F5F5F, 0xFF4A4A4A];
+				if (nextGridBgWidth != null) prevGridBg.width = nextGridBgWidth;
 		}
 
 		if(theme != oldTheme)

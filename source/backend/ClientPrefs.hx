@@ -32,7 +32,7 @@ import states.TitleState;
 	public var memory:Bool = true;
 	public var maxMemory:Bool = false;
 	public var engineVersion:Bool = false;
-	public var debugInfo:Bool = false;
+	public var osInfo:Bool = false;
 	public var watermarkIcon:Bool = true;
 	public var watermarkIconResize:Float = 1;
 	public var flashing:Bool = true;
@@ -102,11 +102,11 @@ import states.TitleState;
 	public var language:String = 'en-US';
 
 	public var checkerboard:Bool = true;
-	public var smoothScore:Bool = true;
 	public var scoreText:Bool = true;
 	public var watermark:Bool = true;
 	public var judgementCounter:Bool = true;
 	public var judgementCounterStyle:String = 'Default';
+	public var smoothHealth:Bool = true;
 }
 
 class ClientPrefs {

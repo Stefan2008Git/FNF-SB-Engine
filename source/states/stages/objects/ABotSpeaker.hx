@@ -85,7 +85,7 @@ class ABotSpeaker extends FlxSpriteGroup
 		if(analyzer == null) return;
 
 		//var levels = analyzer.getLevels(); //this has a memory leak, so i made my own function for it
-		// levels = analyzer.getLevels(levels);
+		levels = analyzer.getLevels();
 		var oldLevelMax = levelMax;
 		levelMax = 0;
 		for (i in 0...Std.int(Math.min(vizSprites.length, levels.length)))

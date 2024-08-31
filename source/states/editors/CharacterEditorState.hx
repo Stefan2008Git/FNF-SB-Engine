@@ -18,6 +18,14 @@ import objects.Bar;
 import states.editors.content.Prompt;
 import states.editors.content.PsychJsonPrinter;
 
+// Flixel 5.7.0+ main black camera bug fix
+#if (FLX_DEBUG || flixel < version("5.7.0"))
+typedef PointerGraphic = flixel.system.debug.interaction.tools.Pointer.GraphicCursorCross;
+#else
+@:bitmap("assets/shared/images/editors/cursorCross.png")
+class PointerGraphic extends openfl.display.BitmapData {}
+#end
+
 class CharacterEditorState extends MusicBeatState implements PsychUIEventHandler.PsychUIEvent
 {
 	var character:Character;
@@ -108,7 +116,7 @@ class CharacterEditorState extends MusicBeatState implements PsychUIEventHandler
 
 		addCharacter();
 
-		cameraFollowPointer = new FlxSprite().loadGraphic(FlxGraphic.fromClass(GraphicCursorCross));
+		cameraFollowPointer = new FlxSprite(FlxGraphic.fromClass(PointerGraphic));
 		cameraFollowPointer.setGraphicSize(40, 40);
 		cameraFollowPointer.updateHitbox();
 
@@ -917,19 +925,16 @@ class CharacterEditorState extends MusicBeatState implements PsychUIEventHandler
 		if (FlxG.keys.pressed.L) FlxG.camera.scroll.x += elapsed * 500 * shiftMult * ctrlMult;
 		if (FlxG.keys.pressed.I) FlxG.camera.scroll.y -= elapsed * 500 * shiftMult * ctrlMult;
 
-		if (controls.mobileC)
+		var mouse = FlxG.mouse.getScreenPosition(); // using FlxG.mouse cuz FlxTouch suck
+		if (FlxG.mouse.justPressed && !FlxG.mouse.overlaps(UI_characterbox))
 		{
-			var mouse = FlxG.mouse.getScreenPosition(); // using FlxG.mouse cuz FlxTouch suck
-			if (FlxG.mouse.justPressed && !FlxG.mouse.overlaps(UI_characterbox))
-			{
-            	cameraPosition[0] = FlxG.camera.scroll.x + mouse.x;
-            	cameraPosition[1] = FlxG.camera.scroll.y + mouse.y;
-			}
-			else if (FlxG.mouse.pressed && !FlxG.mouse.overlaps(UI_characterbox))
-			{
-				FlxG.camera.scroll.x = cameraPosition[0] - mouse.x;
-            	FlxG.camera.scroll.y = cameraPosition[1] - mouse.y;
-			}
+            cameraPosition[0] = FlxG.camera.scroll.x + mouse.x;
+            cameraPosition[1] = FlxG.camera.scroll.y + mouse.y;
+		}
+		else if (FlxG.mouse.pressed && !FlxG.mouse.overlaps(UI_characterbox))
+		{
+			FlxG.camera.scroll.x = cameraPosition[0] - mouse.x;
+            FlxG.camera.scroll.y = cameraPosition[1] - mouse.y;
 		}
 
 		var lastZoom = FlxG.camera.zoom;
@@ -1110,17 +1115,18 @@ class CharacterEditorState extends MusicBeatState implements PsychUIEventHandler
 		}
 		else if(FlxG.keys.justPressed.ESCAPE || touchPad.buttonB.justPressed)
 		{
-			FlxG.mouse.visible = false;
 			if(!_goToPlayState)
 			{
 				if(!unsavedProgress)
 				{
+					FlxG.mouse.visible = false;
 					MusicBeatState.switchState(new states.editors.MasterEditorMenu());
 					FlxG.sound.playMusic(Paths.music('freakyMenu'));
 				}
 				else openSubState(new ExitConfirmationPrompt());
+			} else {
+				MusicBeatState.switchState(new PlayState());
 			}
-			else MusicBeatState.switchState(new PlayState());
 			return;
 		}
 	}
