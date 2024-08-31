@@ -107,6 +107,7 @@ import states.TitleState;
 	public var judgementCounter:Bool = true;
 	public var judgementCounterStyle:String = 'Default';
 	public var smoothHealth:Bool = true;
+	public var textSine:Bool = true;
 }
 
 class ClientPrefs {

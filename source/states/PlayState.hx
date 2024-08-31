@@ -203,9 +203,10 @@ class PlayState extends MusicBeatState
 	public var nps:Int = 0;
 	public var maxNPS:Int = 0;
 	public var scoreTxt:FlxText;
+	public var scoreTextSine:Float = 0;
+	var scoreTxtTween:FlxTween;
 	public static var judgementCounterTxt:FlxText;
 	var timeTxt:FlxText;
-	var scoreTxtTween:FlxTween;
 
 	public static var campaignScore:Int = 0;
 	public static var campaignMisses:Int = 0;
@@ -1161,7 +1162,9 @@ class PlayState extends MusicBeatState
 			str += ' (${percent}%) - ' + Language.getPhrase(ratingFC);
 		}
 
-		scoreTxt.text = 'Score: ${songScore} | Accurarcy: ${CoolUtil.floorDecimal(ratingPercent * 100, 2)}% | Misses: ${songMisses} - ${ratingName} [${ratingFC}]';
+		if (cpuControlled && !practiceMode) scoreTxt.text = 'BOTPLAY';
+		else if (!cpuControlled && practiceMode) scoreTxt.text = 'Practice Mode! | Accurarcy: ${CoolUtil.floorDecimal(ratingPercent * 100, 2)}% | Misses: ${songMisses}';
+		else if (!cpuControlled && !practiceMode) scoreTxt.text = 'Score: ${songScore} | Accurarcy: ${CoolUtil.floorDecimal(ratingPercent * 100, 2)}% | Misses: ${songMisses} - ${ratingName} [${ratingFC}]';
 
 		if (!miss && !cpuControlled)
 			doScoreBop();
@@ -1745,9 +1748,15 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		if(botplayTxt != null && botplayTxt.visible) {
-			botplaySine += 50 * elapsed;
-			botplayTxt.alpha = 1 - Math.sin((Math.PI * botplaySine) / 120);
+		if (ClientPrefs.data.textSine && !practiceMode && cpuControlled)
+		{
+			if (botplayTxt != null && botplayTxt.visible || scoreTxt != null && scoreTxt.visible) 
+			{
+				botplaySine += 50 * elapsed;
+				botplayTxt.alpha = 1 - Math.sin((Math.PI * botplaySine) / 120);
+				scoreTextSine += 50 * elapsed;
+				scoreTxt.alpha = 1 - Math.sin((Math.PI * scoreTextSine) / 120);
+			}
 		}
 
 		if ((controls.PAUSE #if android || FlxG.android.justReleased.BACK #else || touchPad.buttonP.justPressed #end) && (startedCountdown && canPause))
@@ -1802,8 +1811,16 @@ class PlayState extends MusicBeatState
 			var secondsTotal:Int = Math.floor(songCalc / 1000);
 			if(secondsTotal < 0) secondsTotal = 0;
 
-			if(ClientPrefs.data.timeBarType != 'Song Name')
-				timeTxt.text = FlxStringUtil.formatTime(secondsTotal, false);
+			if(ClientPrefs.data.timeBarType != 'Song Name') timeTxt.text = FlxStringUtil.formatTime(secondsTotal, false);
+
+			switch (ClientPrefs.data.timeBarType)
+			{
+				case 'Song Name + Time Left': timeTxt.text = SONG.song + ' [${FlxStringUtil.formatTime(secondsTotal, false)}]';
+				case 'Song Name + Time Elapsed': timeTxt.text = SONG.song + ' [${FlxStringUtil.formatTime(FlxG.sound.music.time / 1000, false)}]';
+				case 'Song Name + Difficulty': timeTxt.text = SONG.song + ' [${Difficulty.getString()}]';
+				case 'Modern Time': timeTxt.text = FlxStringUtil.formatTime(secondsTotal, false) + ' / ' + FlxStringUtil.formatTime(songLength / 1000, false);
+				case 'Modern Time Elapsed': timeTxt.text = FlxStringUtil.formatTime(FlxG.sound.music.time / 1000, false) + ' / ' + FlxStringUtil.formatTime(FlxG.sound.music.length / 1000, false);
+			}
 		}
 
 		if (camZooming)

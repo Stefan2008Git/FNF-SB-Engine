@@ -6,6 +6,7 @@ class VisualsSettingsSubState extends BaseOptionsMenu
 {
 	public static var pauseMusics:Array<String> = ['None', 'Tea Time', 'Breakfast', 'Breakfast (Pico)'];
 	public static var judgementStyle:Array<String> = ['Default', 'With Misses', 'Better Judge'];
+	public static var timeBarType:Array<String> = ['Time Left', 'Time Elapsed', 'Song Name', 'Song Name + Time Left', 'Song Name + Time Elapsed', 'Song Name + Difficulty', 'Modern Time', 'Modern Time Elapsed', 'Disabled'];
 	public function new()
 	{
 		title = Language.getPhrase('visuals_menu', 'Visuals Settings');
@@ -32,7 +33,7 @@ class VisualsSettingsSubState extends BaseOptionsMenu
 			"What should the Time Bar display?",
 			'timeBarType',
 			STRING,
-			['Time Left', 'Time Elapsed', 'Song Name', 'Disabled']);
+			timeBarType);
 		addOption(option);
 
 		var option:Option = new Option('Flashing Lights',
@@ -70,6 +71,17 @@ class VisualsSettingsSubState extends BaseOptionsMenu
 			BOOL);
 		addOption(option);
 		option.onChange = onChangeFPSCounter;
+
+		var option:Option = new Option('FPS Counter size:',
+			'How much FPS Counter size should be?',
+			'fpsResize',
+			FLOAT);
+		option.scrollSpeed = 2;
+		option.minValue = 0.3;
+		option.maxValue = 3;
+		option.changeValue = 0.1;
+		addOption(option);
+		option.onChange = onChangeFPSCounterSize;
 
 		var option:Option = new Option('Total FPS text',
 			'If checked, shows your max FPS on FPS Counter.', 'totalFPS', BOOL);
@@ -158,6 +170,12 @@ class VisualsSettingsSubState extends BaseOptionsMenu
 		var option:Option = new Option('Smooth health',
 			"If unchecked, disables smooth health",
 			'smoothHealth',
+			BOOL);
+		addOption(option);
+
+		var option:Option = new Option('Text since',
+			"If unchecked, disables text alpha sine",
+			'textSine',
 			BOOL);
 		addOption(option);
 
