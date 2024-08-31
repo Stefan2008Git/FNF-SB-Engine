@@ -10,7 +10,7 @@ class FlashingState extends MusicBeatState
 {
 	public static var leftState:Bool = false;
 
-	var bg:FlxSprite();
+	var bg:FlxSprite;
 	var checkeboard:FlxBackdrop;
 	var titleWatermark:Alphabet;
 	var warnText:FlxText;
