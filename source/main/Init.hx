@@ -177,9 +177,6 @@ class Init extends FlxState
             Main.fpsVar.alpha = 0;
             Main.fpsVar.scaleX = Main.fpsVar.scaleY = ClientPrefs.data.fpsResize;
 
-        if (Main.watermark != null) 
-            Main.watermark.visible = ClientPrefs.data.watermarkIcon;
-
         #if LUA_ALLOWED
 		Mods.pushGlobalMods();
 		#end

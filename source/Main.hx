@@ -1,7 +1,6 @@
 package;
 
 import debug.FPSCounter;
-import debug.WatermarkCounter;
 import main.Init;
 import backend.Highscore;
 import flixel.FlxGame;
@@ -40,7 +39,6 @@ class Main extends Sprite
 	};
 
 	public static var fpsVar:FPSCounter;
-	public static var watermark:WatermarkCounter;
 
 	public static final platform:String = #if mobile "Phones" #else "PCs" #end;
 
@@ -66,6 +64,8 @@ class Main extends Sprite
 		Sys.setCwd(StorageUtil.getStorageDirectory());
 		#end
 		backend.CrashHandler.init();
+
+		#if android AndroidToast.makeText("Welcome to FNF': SB Engine v" + MainMenuState.sbEngineVersion); #end
 
 		#if windows
 		@:functionCode("

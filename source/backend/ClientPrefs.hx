@@ -20,7 +20,6 @@ import states.TitleState;
 	public var hitboxType:String = "Gradient";
 	public var popUpRating:Bool = true;
 	public var vsync:Bool = false;
-	public var toastText:Bool = true;
 	public var vibration:Bool = true;
 	
 	public var downScroll:Bool = false;
@@ -33,8 +32,6 @@ import states.TitleState;
 	public var maxMemory:Bool = false;
 	public var engineVersion:Bool = false;
 	public var osInfo:Bool = false;
-	public var watermarkIcon:Bool = true;
-	public var watermarkIconResize:Float = 1;
 	public var flashing:Bool = true;
 	public var autoPause:Bool = true;
 	public var antialiasing:Bool = true;
