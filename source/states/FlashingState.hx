@@ -12,7 +12,7 @@ class FlashingState extends MusicBeatState
 
 	var bg:FlxSprite;
 	var checkeboard:FlxBackdrop;
-	var titleWatermark:Alphabet;
+	var titleText:Alphabet;
 	var warnText:FlxText;
 	override function create()
 	{
