@@ -77,11 +77,13 @@ class CrashHandler
 
 		#if android
 		if (ClientPrefs.data.vibration) Haptic.vibrate(0, 500);
+		AndroidToast.makeText("Fatal Uncaugth Expection happened!", 1, -1, 0, 0);
 		#end
 
 		FlxG.sound.play(Paths.sound('engineStuff/error'));
 		flixel.FlxG.sound.music.stop();
-		CoolUtil.showPopUp('$m\n$stackLabel\nPlease report this error to the GitHub page: https://github.com/Stefan2008Git/FNF-SB-Engine\n\n> Crash Handler written by: sqirra-rng', "Fatal Uncaugth Expection! SB Engine v" + MainMenuState.sbEngineVersion);
+
+		CoolUtil.showPopUp('$m\n$stackLabel\n\nPlease report this error to the GitHub page: https://github.com/Stefan2008Git/FNF-SB-Engine\n> Crash Handler written by: sqirra-rng', "Fatal Uncaugth Expection! SB Engine v" + MainMenuState.sbEngineVersion);
 
 		#if html5
 		if (flixel.FlxG.sound.music != null)

@@ -23,6 +23,8 @@ class CopyState extends MusicBeatState
 	public var bottomBG:FlxSprite;
 	public var loadedText:FlxText;
 	public var loadingText:FlxText;
+	var bar:FlxSprite;
+	var barWidth:Int = 0;
 	public var copyLoop:FlxAsyncLoop;
 
 	var loopTimes:Int = 0;
@@ -66,6 +68,18 @@ class CopyState extends MusicBeatState
 		loadingText.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, LEFT, OUTLINE_FAST, FlxColor.BLACK);
 		loadingText.borderSize = 2;
 		add(loadingText);
+
+		var bg:FlxSprite = new FlxSprite(0, 660).makeGraphic(1, 1, FlxColor.BLACK);
+		bg.scale.set(FlxG.width - 300, 25);
+		bg.updateHitbox();
+		bg.screenCenter(X);
+		add(bg);
+
+		bar = new FlxSprite(bg.x + 5, bg.y + 5).makeGraphic(1, 1, FlxColor.BROWN);
+		bar.scale.set(0, 15);
+		bar.updateHitbox();
+		add(bar);
+		barWidth = Std.int(bg.width - 10);
 
 		loadedText = new FlxText(bottomBG.x, bottomBG.y + 4, FlxG.width, '', 16);
 		loadedText.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, CENTER);
@@ -121,6 +135,8 @@ class CopyState extends MusicBeatState
 				loadedText.text = "Completed!";
 			else
 				loadedText.text = '$loopTimes/$maxLoopTimes';
+				bar.scale.x = barWidth * loopTimes + maxLoopTimes;
+				bar.updateHitbox();
 		}
 		super.update(elapsed);
 	}
