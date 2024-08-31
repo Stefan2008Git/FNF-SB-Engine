@@ -65,7 +65,7 @@ class Main extends Sprite
 		#end
 		backend.CrashHandler.init();
 
-		#if android AndroidToast.makeText("Welcome to FNF': SB Engine v" + MainMenuState.sbEngineVersion, 1, 1, 1, 1); #end
+		#if android AndroidToast.makeText("Welcome to FNF': SB Engine v" + MainMenuState.sbEngineVersion, 1, -1, 0, 0); #end
 
 		#if windows
 		@:functionCode("
