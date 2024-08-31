@@ -1,33 +1,25 @@
 package backend;
 
+import openfl.utils.Assets;
 import lime.utils.Assets as LimeAssets;
+import lime.app.Application;
 
 class CoolUtil
 {
 	inline public static function quantize(f:Float, snap:Float){
 		// changed so this actually works lol
 		var m:Float = Math.fround(f * snap);
-		trace(snap);
+		//trace(snap);
 		return (m / snap);
 	}
 
 	inline public static function capitalize(text:String)
 		return text.charAt(0).toUpperCase() + text.substr(1).toLowerCase();
 
-	inline public static function boundTo(value:Float, min:Float, max:Float):Float {
-		return Math.max(min, Math.min(max, value));
-	}
-
-	inline public static function coolTextFile(path:String, ?android:Bool = true):Array<String>
+	inline public static function coolTextFile(path:String):Array<String>
 	{
 		var daList:String = null;
 		#if (sys && MODS_ALLOWED)
-		var formatted:Array<String> = path.split(':'); //prevent "shared:", "preload:" and other library names on file path
-		if (android)
-			path = StorageUtil.getPath() + formatted[formatted.length-1];
-		else
-			path = formatted[formatted.length-1];
-
 		if(FileSystem.exists(path)) daList = File.getContent(path);
 		#else
 		if(Assets.exists(path)) daList = Assets.getText(path);
@@ -69,7 +61,7 @@ class CoolUtil
 		var newValue:Float = Math.floor(value * tempMult);
 		return newValue / tempMult;
 	}
-	
+
 	inline public static function dominantColor(sprite:flixel.FlxSprite):Int
 	{
 		var countByColor:Map<Int, Int> = [];
@@ -114,6 +106,25 @@ class CoolUtil
 		#end
 	}
 
+	inline public static function openFolder(folder:String, absolute:Bool = false) {
+		#if sys
+			if(!absolute) folder =  Sys.getCwd() + '$folder';
+
+			folder = folder.replace('/', '\\');
+			if(folder.endsWith('/')) folder.substr(0, folder.length - 1);
+
+			#if linux
+			var command:String = '/usr/bin/xdg-open';
+			#else
+			var command:String = 'explorer.exe';
+			#end
+			Sys.command(command, [folder]);
+			trace('$command $folder');
+		#else
+			FlxG.error("Platform is not supported for CoolUtil.openFolder");
+		#end
+	}
+
 	/**
 		Helper Function to Fix Save Files for Flixel 5
 
@@ -129,5 +140,29 @@ class CoolUtil
 		// #if (flixel < "5.0.0") return company; #else
 		return '${company}/${flixel.util.FlxSave.validate(FlxG.stage.application.meta.get('file'))}';
 		// #end
+	}
+
+	public static function setTextBorderFromString(text:FlxText, border:String)
+	{
+		switch(border.toLowerCase().trim())
+		{
+			case 'shadow':
+				text.borderStyle = SHADOW;
+			case 'outline':
+				text.borderStyle = OUTLINE;
+			case 'outline_fast', 'outlinefast':
+				text.borderStyle = OUTLINE_FAST;
+			default:
+				text.borderStyle = NONE;
+		}
+	}
+
+	public static function showPopUp(message:String, title:String):Void
+	{
+		#if android
+		AndroidTools.showAlertDialog(title, message, {name: "OK", func: null}, null);
+		#else
+		Application.current.window.alert(message, title);
+		#end
 	}
 }

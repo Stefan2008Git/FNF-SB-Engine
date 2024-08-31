@@ -1,0 +1,111 @@
+name: Mobile + Release
+on: workflow_dispatch
+jobs:
+  Mobile:
+    runs-on: ${{matrix.os}}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-14]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@main
+
+      - name: Setup Haxe
+        uses: krdlab/setup-haxe@master
+        with:
+          haxe-version: 4.3.6
+
+      - name: Install Libraries
+        run: |
+          haxelib git hxcpp https://github.com/mcagabe19-stuff/hxcpp --quiet
+          haxelib git lime https://github.com/mcagabe19-stuff/lime --quiet
+          haxelib install openfl --quiet
+          haxelib install flixel --quiet
+          haxelib install flixel-addons --quiet
+          haxelib install flixel-tools --quiet
+          haxelib install hscript-iris 1.0.2
+          haxelib install tjson --quiet
+          haxelib git flxanimate https://github.com/Dot-Stuff/flxanimate 768740a56b26aa0c072720e0d1236b94afe68e3e --quiet
+          if [[ "${{ runner.os }}" == "macOS" ]] ; then
+            haxelib git linc_luajit https://github.com/superpowers04/linc_luajit 1906c4a96f6bb6df66562b3f24c62f4c5bba14a7 --quiet
+          else
+            haxelib git linc_luajit https://github.com/mcagabe19-stuff/linc_luajit-legacy --quiet --skip-dependencies
+          fi
+          haxelib git hxdiscord_rpc https://github.com/MAJigsaw77/hxdiscord_rpc 3538a1c2bb07b04208cd014220207f8173acdb21 --quiet --skip-dependencies
+          haxelib git hxvlc https://github.com/MAJigsaw77/hxvlc 70e7f5f3e76d526ac6fb8f0e6665efe7dfda589d --quiet --skip-dependencies
+          haxelib git funkin.vis https://github.com/FunkinCrew/funkVis d5361037efa3a02c4ab20b5bd14ca11e7d00f519 --quiet --skip-dependencies
+          haxelib git grig.audio https://gitlab.com/haxe-grig/grig.audio.git cbf91e2180fd2e374924fe74844086aab7891666 --quiet
+          haxelib git extension-androidtools https://github.com/MAJigsaw77/extension-androidtools 727693f0a76c6e396df675bb0ed95d7639a4db01 --quiet --skip-dependencies
+          haxelib git toast-message-android https://github.com/beihu235/AndroidDialogs --quiet
+
+      - name: Configure Android
+        if: startsWith(matrix.os, 'ubuntu')
+        run: |
+          haxelib run lime config ANDROID_SDK $ANDROID_HOME
+          haxelib run lime config ANDROID_NDK_ROOT $ANDROID_NDK_LATEST_HOME
+          haxelib run lime config JAVA_HOME $JAVA_HOME_17_X64
+          haxelib run lime config ANDROID_SETUP true
+
+      - name: Compile (Android)
+        if: startsWith(matrix.os, 'ubuntu')
+        run: haxelib run lime build android -D officialBuild
+
+      - name: Compile (iOS)
+        if: startsWith(matrix.os, 'macos')
+        run: haxelib run lime build ios -nosign -D officialBuild
+
+      - name: Make Ipa And Zip For Release
+        if: startsWith(matrix.os, 'macos')
+        run: |
+          cd export/release/ios/build/*-iphoneos
+          mkdir Payload
+          mv *.app Payload
+          zip -r StefanBeta.ipa Payload
+          zip StefanBeta-iOS.zip StefanBeta.ipa
+
+      - name: Upload Artifact (Android)
+        if: startsWith(matrix.os, 'ubuntu')
+        uses: actions/upload-artifact@main
+        with:
+          name: sbEngineAndroidBuild
+          path: export/release/android/bin/app/build/outputs/apk/release/*.apk
+          if-no-files-found: error
+
+      - name: Upload Artifact (iOS)
+        if: startsWith(matrix.os, 'macos')
+        uses: actions/upload-artifact@main
+        with:
+          name: sbEngineiOSBuild
+          path: export/release/ios/build/Release-iphoneos/*.zip
+          if-no-files-found: error
+  Releaser:
+    needs: [Mobile]
+    runs-on: ubuntu-latest
+    permissions: write-all
+    steps:
+      - name: Download Android Build
+        uses: actions/download-artifact@main
+        with:
+           name: sbEngineAndroidBuild
+           path: /home/runner
+
+      - name: Move Android File
+        run: mv /home/runner/StefanBeta-release.apk /home/runner/StefanBeta-Android.apk
+
+      - name: Download iOS Build
+        uses: actions/download-artifact@main
+        with:
+           name: sbEngineiOSBuild
+           path: /home/runner
+
+      - name: Publish The Release
+        uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          release: true
+          automatic_release_tag: "3.1.0"
+          title: "FNF': SB Engine bugfix update"
+          files: |
+            /home/runner/*.apk
+            /home/runner/*.zip

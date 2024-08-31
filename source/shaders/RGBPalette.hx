@@ -1,6 +1,7 @@
 package shaders;
 
-import flixel.system.FlxAssets.FlxShader;
+import shaders.flixel.system.FlxShader;
+import objects.Note;
 
 class RGBPalette {
 	public var shader(default, null):RGBPaletteShader = new RGBPaletteShader();
@@ -28,9 +29,9 @@ class RGBPalette {
 	}
 	
 	private function set_mult(value:Float) {
-		mult = Math.max(0, Math.min(1, value));
+		mult = FlxMath.bound(value, 0, 1);
 		shader.mult.value = [mult];
-		return value;
+		return mult;
 	}
 
 	public function new()
@@ -110,7 +111,7 @@ class RGBShaderReference
 			parent.b = _original.b;
 			parent.mult = _original.mult;
 			_owner.shader = parent.shader;
-			//TraceText.makeTheTraceText('created new shader');
+			//trace('created new shader');
 		}
 	}
 }
@@ -126,12 +127,8 @@ class RGBPaletteShader extends FlxShader {
 
 		vec4 flixel_texture2DCustom(sampler2D bitmap, vec2 coord) {
 			vec4 color = flixel_texture2D(bitmap, coord);
-			if (!hasTransform) {
+			if (!hasTransform || color.a == 0.0 || mult == 0.0) {
 				return color;
-			}
-
-			if(color.a == 0.0 || mult == 0.0) {
-				return color * openfl_Alphav;
 			}
 
 			vec4 newColor = color;

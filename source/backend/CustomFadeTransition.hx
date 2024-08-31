@@ -1,5 +1,9 @@
 package backend;
-class CustomFadeTransition extends MusicBeatSubstate {
+
+import flixel.util.FlxGradient;
+import flixel.FlxSubState;
+
+class CustomFadeTransition extends FlxSubState {
 	public static var finishCallback:Void->Void;
 	var isTransIn:Bool = false;
 	var transBlack:FlxSprite;
@@ -58,7 +62,17 @@ class CustomFadeTransition extends MusicBeatSubstate {
 		if(transGradient.y >= targetPos)
 		{
 			close();
-			if(finishCallback != null) finishCallback();
+		}
+	}
+
+	// Don't delete this
+	override function close():Void
+	{
+		super.close();
+
+		if(finishCallback != null)
+		{
+			finishCallback();
 			finishCallback = null;
 		}
 	}

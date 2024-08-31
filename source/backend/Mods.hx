@@ -1,14 +1,6 @@
 package backend;
 
-#if sys
-import sys.FileSystem;
-import sys.io.File;
-#else
-import lime.utils.Assets;
-#end
-
-import tjson.TJSON as Json;
-import android.backend.StorageUtil;
+import haxe.Json;
 
 typedef ModsList = {
 	enabled:Array<String>,
@@ -19,7 +11,7 @@ typedef ModsList = {
 class Mods
 {
 	static public var currentModDirectory:String = '';
-	public static var ignoreModFolders:Array<String> = [
+	public static final ignoreModFolders:Array<String> = [
 		'characters',
 		'custom_events',
 		'custom_notetypes',
@@ -33,7 +25,8 @@ class Mods
 		'stages',
 		'weeks',
 		'fonts',
-		'scripts'
+		'scripts',
+		'achievements'
 	];
 
 	private static var globalMods:Array<String> = [];
@@ -61,17 +54,17 @@ class Mods
 			for (folder in FileSystem.readDirectory(modsFolder))
 			{
 				var path = haxe.io.Path.join([modsFolder, folder]);
-				if (sys.FileSystem.isDirectory(path) && !ignoreModFolders.contains(folder.toLowerCase()) && !list.contains(folder))
+				if (FileSystem.isDirectory(path) && !ignoreModFolders.contains(folder.toLowerCase()) && !list.contains(folder))
 					list.push(folder);
 			}
 		}
 		#end
 		return list;
 	}
-
-	inline public static function mergeAllTextsNamed(path:String, defaultDirectory:String = null, allowDuplicates:Bool = false)
+	
+	inline public static function mergeAllTextsNamed(path:String, ?defaultDirectory:String = null, allowDuplicates:Bool = false)
 	{
-		if(defaultDirectory == null) defaultDirectory = Paths.getPreloadPath();
+		if(defaultDirectory == null) defaultDirectory = Paths.getSharedPath();
 		defaultDirectory = defaultDirectory.trim();
 		if(!defaultDirectory.endsWith('/')) defaultDirectory += '/';
 		if(!defaultDirectory.startsWith('assets/')) defaultDirectory = 'assets/$defaultDirectory';
@@ -88,7 +81,7 @@ class Mods
 
 		for (file in paths)
 		{
-			var list:Array<String> = CoolUtil.coolTextFile(StorageUtil.getPath() + file);
+			var list:Array<String> = CoolUtil.coolTextFile(file);
 			for (value in list)
 				if((allowDuplicates || !mergedList.contains(value)) && value.length > 0)
 					mergedList.push(value);
@@ -99,10 +92,15 @@ class Mods
 	inline public static function directoriesWithFile(path:String, fileToFind:String, mods:Bool = true)
 	{
 		var foldersToCheck:Array<String> = [];
-		#if sys
 		if(FileSystem.exists(path + fileToFind))
-		#end
 			foldersToCheck.push(path + fileToFind);
+
+		if(Paths.currentLevel != null && Paths.currentLevel != path)
+		{
+			var pth:String = Paths.getFolderPath(fileToFind, Paths.currentLevel);
+			if(FileSystem.exists(pth))
+				foldersToCheck.push(pth);
+		}
 
 		#if MODS_ALLOWED
 		if(mods)
@@ -111,18 +109,18 @@ class Mods
 			for(mod in Mods.getGlobalMods())
 			{
 				var folder:String = Paths.mods(mod + '/' + fileToFind);
-				if(FileSystem.exists(folder)) foldersToCheck.push(folder);
+				if(FileSystem.exists(folder) && !foldersToCheck.contains(folder)) foldersToCheck.push(folder);
 			}
 
 			// Then "PsychEngine/mods/" main folder
 			var folder:String = Paths.mods(fileToFind);
-			if(FileSystem.exists(folder)) foldersToCheck.push(Paths.mods(fileToFind));
+			if(FileSystem.exists(folder) && !foldersToCheck.contains(folder)) foldersToCheck.push(Paths.mods(fileToFind));
 
 			// And lastly, the loaded mod's folder
 			if(Mods.currentModDirectory != null && Mods.currentModDirectory.length > 0)
 			{
 				var folder:String = Paths.mods(Mods.currentModDirectory + '/' + fileToFind);
-				if(FileSystem.exists(folder)) foldersToCheck.push(folder);
+				if(FileSystem.exists(folder) && !foldersToCheck.contains(folder)) foldersToCheck.push(folder);
 			}
 		}
 		#end
@@ -142,9 +140,9 @@ class Mods
 				#else
 				var rawJson:String = Assets.getText(path);
 				#end
-				if(rawJson != null && rawJson.length > 0) return Json.parse(rawJson);
+				if(rawJson != null && rawJson.length > 0) return tjson.TJSON.parse(rawJson);
 			} catch(e:Dynamic) {
-				TraceText.makeTheTraceText(e);
+				trace(e);
 			}
 		}
 		#end
@@ -152,8 +150,7 @@ class Mods
 	}
 
 	public static var updatedOnState:Bool = false;
-	inline public static function parseList():ModsList
-	{
+	inline public static function parseList():ModsList {
 		if(!updatedOnState) updateModList();
 		var list:ModsList = {enabled: [], disabled: [], all: []};
 
@@ -161,8 +158,9 @@ class Mods
 		try {
 			for (mod in CoolUtil.coolTextFile('modsList.txt'))
 			{
-				//TraceText.makeTheTraceText('Mod: $mod');
+				//trace('Mod: $mod');
 				if(mod.trim().length < 1) continue;
+
 				var dat = mod.split("|");
 				list.all.push(dat[0]);
 				if (dat[1] == "1")
@@ -218,9 +216,9 @@ class Mods
 			fileStr += values[0] + '|' + (values[1] ? '1' : '0');
 		}
 
-		File.saveContent(StorageUtil.getPath() + 'modsList.txt', fileStr);
+		File.saveContent('modsList.txt', fileStr);
 		updatedOnState = true;
-		//TraceText.makeTheTraceText('Saved modsList.txt');
+		//trace('Saved modsList.txt');
 		#end
 	}
 

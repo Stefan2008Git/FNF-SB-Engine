@@ -2,6 +2,25 @@ package debug;
 
 import debug.DateUtil;
 import debug.FileUtil;
+import flixel.FlxBasic;
+import flixel.FlxCamera;
+import flixel.FlxG;
+import flixel.FlxState;
+import flixel.graphics.FlxGraphic;
+import flixel.input.keyboard.FlxKey;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
+import flixel.util.FlxColor;
+import flixel.util.FlxSignal;
+import flixel.util.FlxTimer;
+import openfl.display.Bitmap;
+import openfl.display.Sprite;
+import openfl.display.BitmapData;
+import openfl.display.PNGEncoderOptions;
+import openfl.geom.Matrix;
+import openfl.geom.Rectangle;
+import openfl.utils.ByteArray;
+import openfl.events.MouseEvent;
 
 typedef ScreenshotParams =
 {
@@ -78,7 +97,7 @@ class Screenshot extends FlxBasic
         flashColor: ClientPrefs.data.flashing ? FlxColor.WHITE : null, // Was originally a black flash.
 
         // TODO: Add a way to configure screenshots from the options menu.
-        hotkeys: [FlxKey.F5],
+        hotkeys: [FlxKey.F3],
         shouldHideMouse: false,
         fancyPreview: true,
       }));
@@ -163,7 +182,7 @@ class Screenshot extends FlxBasic
       catch(x){} // this can crach if flashSpr is not a child of stage anymore.
     });
     // Play a sound (auto-play is true).
-    FlxG.sound.play(Paths.sound('screenshot'),1.0);
+    FlxG.sound.play(Paths.sound('engineStuff/screenshot'),1.0);
   }
 
   static final PREVIEW_INITIAL_DELAY = 0.25; // How long before the preview starts fading in.
@@ -283,7 +302,7 @@ class Screenshot extends FlxBasic
 
   static function getScreenshotPath():String
   {
-    return '$SCREENSHOT_FOLDER/screenshot-${DateUtil.generateTimestamp()}.png';
+    return '$SCREENSHOT_FOLDER/SB Engine_${DateUtil.generateTimestamp()}.png';
   }
 
   static function makeScreenshotPath():Void

@@ -1,8 +1,13 @@
 package psychlua;
 
-import psychlua.FunkinLua;
+import flixel.FlxBasic;
+import objects.Character;
+import psychlua.LuaUtils;
 import psychlua.CustomSubstate;
 
+#if LUA_ALLOWED
+import psychlua.FunkinLua;
+#end
 
 #if HSCRIPT_ALLOWED
 import crowplexus.iris.Iris;
@@ -107,6 +112,7 @@ class HScript extends Iris
 		set('FlxSprite', flixel.FlxSprite);
 		set('FlxText', flixel.text.FlxText);
 		set('FlxCamera', flixel.FlxCamera);
+		set('PsychCamera', backend.PsychCamera);
 		set('FlxTimer', flixel.util.FlxTimer);
 		set('FlxTween', flixel.tweens.FlxTween);
 		set('FlxEase', flixel.tweens.FlxEase);
@@ -114,8 +120,13 @@ class HScript extends Iris
 		set('Countdown', backend.BaseStage.Countdown);
 		set('PlayState', PlayState);
 		set('Paths', Paths);
+		set('StorageUtil', StorageUtil);
+		set('MobileControls', mobile.objects.MobileControls);
 		set('Conductor', Conductor);
 		set('ClientPrefs', ClientPrefs);
+		#if ACHIEVEMENTS_ALLOWED
+		set('Achievements', Achievements);
+		#end
 		set('Character', Character);
 		set('Alphabet', Alphabet);
 		set('Note', objects.Note);
@@ -151,6 +162,18 @@ class HScript extends Iris
 		set('debugPrint', function(text:String, ?color:FlxColor = null) {
 			if(color == null) color = FlxColor.WHITE;
 			PlayState.instance.addTextToDebug(text, color);
+		});
+		set('getModSetting', function(saveTag:String, ?modName:String = null) {
+			if(modName == null)
+			{
+				if(this.modFolder == null)
+				{
+					PlayState.instance.addTextToDebug('getModSetting: Argument #2 is null and script is not inside a packed Mod folder!', FlxColor.RED);
+					return null;
+				}
+				modName = this.modFolder;
+			}
+			return LuaUtils.getModSetting(saveTag, modName);
 		});
 
 		// Keyboard & Gamepads
@@ -304,6 +327,58 @@ class HScript extends Iris
 			set('addBehindGF', PlayState.instance.addBehindGF);
 			set('addBehindDad', PlayState.instance.addBehindDad);
 			set('addBehindBF', PlayState.instance.addBehindBF);
+		}
+        #if LUA_ALLOWED
+		set("addTouchPad", (DPadMode:String, ActionMode:String) -> {
+			PlayState.instance.makeLuaTouchPad(DPadMode, ActionMode);
+			PlayState.instance.addLuaTouchPad();
+		  });
+  
+		set("removeTouchPad", () -> {
+			PlayState.instance.removeLuaTouchPad();
+		});
+  
+		set("addTouchPadCamera", () -> {
+			if(PlayState.instance.luaTouchPad == null){
+				FunkinLua.luaTrace('addTouchPadCamera: VPAD does not exist.');
+				return;
+			}
+			PlayState.instance.addLuaTouchPadCamera();
+		});
+  
+		set("touchPadJustPressed", function(button:Dynamic):Bool {
+			if(PlayState.instance.luaTouchPad == null){
+			  //FunkinLua.luaTrace('touchPadJustPressed: VPAD does not exist.');
+			  return false;
+			}
+		  return PlayState.instance.luaTouchPadJustPressed(button);
+		});
+  
+		set("touchPadPressed", function(button:Dynamic):Bool {
+			if(PlayState.instance.luaTouchPad == null){
+				//FunkinLua.luaTrace('touchPadPressed: VPAD does not exist.');
+				return false;
+			}
+			return PlayState.instance.luaTouchPadPressed(button);
+		});
+  
+		set("touchPadJustReleased", function(button:Dynamic):Bool {
+			if(PlayState.instance.luaTouchPad == null){
+				//FunkinLua.luaTrace('touchPadJustReleased: VPAD does not exist.');
+				return false;
+			}
+			return PlayState.instance.luaTouchPadJustReleased(button);
+		});
+                #end
+
+		if(varsToBring != null) {
+			for (key in Reflect.fields(varsToBring)) {
+				key = key.trim();
+				var value = Reflect.field(varsToBring, key);
+				//trace('Key $key: $value');
+				set(key, Reflect.field(varsToBring, key));
+			}
+			varsToBring = null;
 		}
 	}
 

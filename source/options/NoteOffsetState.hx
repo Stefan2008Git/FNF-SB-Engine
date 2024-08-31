@@ -1,5 +1,10 @@
 package options;
 
+import backend.StageData;
+import objects.Character;
+import objects.Bar;
+import flixel.addons.display.shapes.FlxShapeCircle;
+
 import states.stages.StageWeek1 as BackgroundStage;
 
 class NoteOffsetState extends MusicBeatState
@@ -32,23 +37,21 @@ class NoteOffsetState extends MusicBeatState
 
 	override public function create()
 	{
-		if (options.OptionsState.onPlayState) 
-			Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Options Menu - Paused (In Note Offset Menu)"; 
-		else 
-			Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Options Menu (In Note Offset Menu)";
-		if (ClientPrefs.data.cacheOnGPU) Paths.clearStoredMemory();
-		// Cameras
-		camGame = new FlxCamera();
-		camHUD = new FlxCamera();
-		camOther = new FlxCamera();
-		camHUD.bgColor.alpha = 0;
-		camOther.bgColor.alpha = 0;
+		#if DISCORD_ALLOWED
+		DiscordClient.changePresence("Delay/Combo Offset Menu", null);
+		#end
 
-		FlxG.cameras.reset(camGame);
+		// Cameras
+		camGame = initPsychCamera();
+
+		camHUD = new FlxCamera();
+		camHUD.bgColor.alpha = 0;
 		FlxG.cameras.add(camHUD, false);
+
+		camOther = new FlxCamera();
+		camOther.bgColor.alpha = 0;
 		FlxG.cameras.add(camOther, false);
 
-		FlxG.cameras.setDefaultDrawTarget(camGame, true);
 		FlxG.camera.scroll.set(120, 130);
 
 		persistentUpdate = true;
@@ -59,18 +62,15 @@ class NoteOffsetState extends MusicBeatState
 		new BackgroundStage();
 
 		// Characters
-		if (ClientPrefs.data.objects) {
-			gf = new Character(400, 130, 'gf');
-			gf.x += gf.positionArray[0];
-			gf.y += gf.positionArray[1];
-			gf.scrollFactor.set(0.95, 0.95);
-			add(gf);
-
-			boyfriend = new Character(770, 100, 'bf', true);
-			boyfriend.x += boyfriend.positionArray[0];
-			boyfriend.y += boyfriend.positionArray[1];
-			add(boyfriend);
-		}
+		gf = new Character(400, 130, 'gf');
+		gf.x += gf.positionArray[0];
+		gf.y += gf.positionArray[1];
+		gf.scrollFactor.set(0.95, 0.95);
+		boyfriend = new Character(770, 100, 'bf', true);
+		boyfriend.x += boyfriend.positionArray[0];
+		boyfriend.y += boyfriend.positionArray[1];
+		add(gf);
+		add(boyfriend);
 
 		// Combo stuff
 		coolText = new FlxText(0, 0, 0, '', 32);
@@ -107,8 +107,6 @@ class NoteOffsetState extends MusicBeatState
 			daLoop++;
 		}
 
-		if (ClientPrefs.data.cacheOnGPU) Paths.clearUnusedMemory();
-
 		dumbTexts = new FlxTypedGroup<FlxText>();
 		dumbTexts.cameras = [camHUD];
 		add(dumbTexts);
@@ -117,7 +115,7 @@ class NoteOffsetState extends MusicBeatState
 		repositionCombo();
 
 		// Note delay stuff
-		beatText = new Alphabet(0, 0, 'Beat Hit!', true);
+		beatText = new Alphabet(0, 0, Language.getPhrase('delay_beat_hit', 'Beat Hit!'), true);
 		beatText.setScale(0.6, 0.6);
 		beatText.x += 260;
 		beatText.alpha = 0;
@@ -140,8 +138,7 @@ class NoteOffsetState extends MusicBeatState
 		timeBar.screenCenter(X);
 		timeBar.visible = false;
 		timeBar.cameras = [camHUD];
-		timeBar.leftBar.color = FlxColor.BROWN;
-		timeBar.rightBar.color = 0xFF1A1A1A;
+		timeBar.leftBar.color = FlxColor.LIME;
 
 		add(timeBar);
 		add(timeTxt);
@@ -174,19 +171,14 @@ class NoteOffsetState extends MusicBeatState
 		FlxG.sound.playMusic(Paths.music('offsetSong'), 1, true);
 
 		super.create();
-		
-		#if android
-		addVirtualPad(FULL, A_B_C);
-		addPadCamera();
-		#end
 	}
 
 	var holdTime:Float = 0;
 	var onComboMenu:Bool = true;
 	var holdingObjectType:Null<Bool> = null;
 
-	var startMousePos:FlxPoint = new FlxPoint();
-	var startComboOffset:FlxPoint = new FlxPoint();
+	var startMousePos:FlxPoint = FlxPoint.get();
+	var startComboOffset:FlxPoint = FlxPoint.get();
 
 	override public function update(elapsed:Float)
 	{
@@ -204,7 +196,7 @@ class NoteOffsetState extends MusicBeatState
 
 		if(controls.controllerMode != _lastControllerMode)
 		{
-			//TraceText.makeTheTraceText('changed controller mode');
+			//trace('changed controller mode');
 			FlxG.mouse.visible = !controls.controllerMode;
 			controllerPointer.visible = controls.controllerMode;
 
@@ -321,7 +313,7 @@ class NoteOffsetState extends MusicBeatState
 					holdingObjectType = true;
 					startComboOffset.x = ClientPrefs.data.comboOffset[2];
 					startComboOffset.y = ClientPrefs.data.comboOffset[3];
-					//TraceText.makeTheTraceText('yo bro');
+					//trace('yo bro');
 				}
 				else if (startMousePos.x - rating.x >= 0 && startMousePos.x - rating.x <= rating.width &&
 						 startMousePos.y - rating.y >= 0 && startMousePos.y - rating.y <= rating.height)
@@ -329,12 +321,12 @@ class NoteOffsetState extends MusicBeatState
 					holdingObjectType = false;
 					startComboOffset.x = ClientPrefs.data.comboOffset[0];
 					startComboOffset.y = ClientPrefs.data.comboOffset[1];
-					//TraceText.makeTheTraceText('heya');
+					//trace('heya');
 				}
 			}
 			if(FlxG.mouse.justReleased || gamepadReleased) {
 				holdingObjectType = null;
-				//TraceText.makeTheTraceText('dead');
+				//trace('dead');
 			}
 
 			if(holdingObjectType != null)
@@ -354,7 +346,7 @@ class NoteOffsetState extends MusicBeatState
 				}
 			}
 
-			if(controls.RESET #if android || MusicBeatState.virtualPad.buttonC.justPressed #end)
+			if(controls.RESET || touchPad.buttonC.justPressed)
 			{
 				for (i in 0...ClientPrefs.data.comboOffset.length)
 				{
@@ -392,7 +384,7 @@ class NoteOffsetState extends MusicBeatState
 				updateNoteDelay();
 			}
 
-			if(controls.RESET #if android || MusicBeatState.virtualPad.buttonC.justPressed #end)
+			if(controls.RESET || touchPad.buttonC.justPressed)
 			{
 				holdTime = 0;
 				barPercent = 0;
@@ -413,8 +405,7 @@ class NoteOffsetState extends MusicBeatState
 			if(beatTween != null) beatTween.cancel();
 
 			persistentUpdate = false;
-			FlxG.switchState(() -> new options.OptionsState());
-
+			MusicBeatState.switchState(new options.OptionsState());
 			if(OptionsState.onPlayState)
 			{
 				if(ClientPrefs.data.pauseMusic != 'None')
@@ -422,10 +413,8 @@ class NoteOffsetState extends MusicBeatState
 				else
 					FlxG.sound.music.volume = 0;
 			}
-			else FlxG.sound.playMusic(Paths.music('freakyMenu-' + ClientPrefs.data.mainMenuMusic));
-			FlxG.sound.music.resume();
+			else FlxG.sound.playMusic(Paths.music('freakyMenu'));
 			FlxG.mouse.visible = false;
-			Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Options Menu (Closing the state)";
 		}
 
 		Conductor.songPosition = FlxG.sound.music.time;
@@ -510,9 +499,9 @@ class NoteOffsetState extends MusicBeatState
 		{
 			switch(i)
 			{
-				case 0: dumbTexts.members[i].text = 'Rating Offset:';
+				case 0: dumbTexts.members[i].text = Language.getPhrase('combo_rating_offset', 'Rating Offset:');
 				case 1: dumbTexts.members[i].text = '[' + ClientPrefs.data.comboOffset[0] + ', ' + ClientPrefs.data.comboOffset[1] + ']';
-				case 2: dumbTexts.members[i].text = 'Numbers Offset:';
+				case 2: dumbTexts.members[i].text = Language.getPhrase('combo_numbers_offset', 'Numbers Offset:');
 				case 3: dumbTexts.members[i].text = '[' + ClientPrefs.data.comboOffset[2] + ', ' + ClientPrefs.data.comboOffset[3] + ']';
 			}
 		}
@@ -521,7 +510,7 @@ class NoteOffsetState extends MusicBeatState
 	function updateNoteDelay()
 	{
 		ClientPrefs.data.noteOffset = Math.round(barPercent);
-		timeTxt.text = 'Current offset: ' + Math.floor(barPercent) + ' ms';
+		timeTxt.text = Language.getPhrase('delay_current_offset', 'Current offset: {1} ms', [Math.floor(barPercent)]);
 	}
 
 	function updateMode()
@@ -542,18 +531,33 @@ class NoteOffsetState extends MusicBeatState
 			controllerPointer.visible = controls.controllerMode;
 		}
 
+        removeTouchPad();
+
 		var str:String;
 		var str2:String;
-		if(onComboMenu)
-			str = 'Combo Offset';
-		else
-			str = 'Note/Beat Delay';
+		if(onComboMenu){
+			str = Language.getPhrase('combo_offset', 'Combo Offset');
+			addTouchPad('NONE', 'A_B_C');
+			addTouchPadCamera(false);
+		} else {
+			str = Language.getPhrase('note_delay', 'Note/Beat Delay');
+			addTouchPad('LEFT_FULL', 'A_B_C');
+			addTouchPadCamera(false);
+		}
 
-		if(!controls.controllerMode)
-			str2 = '(Press Accept to Switch)';
+		if(controls.mobileC)
+			str2 = '(Press A to Switch)';
+		else if(!controls.controllerMode)
+			str2 = Language.getPhrase('switch_on_accept', '(Press Accept to Switch)');
 		else
-			str2 = '(Press Start to Switch)';
+			str2 = Language.getPhrase('switch_on_start', '(Press Start to Switch)');
 
 		changeModeText.text = '< ${str.toUpperCase()} ${str2.toUpperCase()} >';
+	}
+
+	override function destroy(){
+		startMousePos.put();
+		startComboOffset.put();
+		super.destroy();
 	}
 }

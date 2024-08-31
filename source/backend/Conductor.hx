@@ -1,7 +1,6 @@
 package backend;
 
 import backend.Song;
-import backend.Section;
 import objects.Note;
 
 typedef BPMChangeEvent =
@@ -24,10 +23,6 @@ class Conductor
 	public static var safeZoneOffset:Float = 0; // is calculated in create(), is safeFrames in milliseconds
 
 	public static var bpmChangeMap:Array<BPMChangeEvent> = [];
-
-	public function new()
-	{
-	}
 
 	public static function judgeNote(arr:Array<Rating>, diff:Float=0):Rating // die
 	{
@@ -125,7 +120,7 @@ class Conductor
 			totalSteps += deltaSteps;
 			totalPos += ((60 / curBPM) * 1000 / 4) * deltaSteps;
 		}
-		TraceText.makeTheTraceText("new BPM map BUDDY " + bpmChangeMap);
+		trace("new BPM map BUDDY " + bpmChangeMap);
 	}
 
 	static function getSectionBeats(song:SwagSong, section:Int)

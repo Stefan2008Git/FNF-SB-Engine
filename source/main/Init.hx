@@ -1,12 +1,24 @@
 package main;
 
+import backend.Discord;
+import backend.Highscore;
+import flixel.FlxState;
+import debug.WatermarkCounter;
+import debug.FPSCounter;
 import debug.Screenshot;
+import openfl.Assets;
+import openfl.Lib;
+import openfl.display.Bitmap;
+import openfl.display.Sprite;
 import states.FlashingState;
 import states.StoryMenuState;
 import states.SBinatorState;
 
-#if android
-import android.Hardware;
+#if mobile
+import mobile.backend.MobileScaleMode;
+import mobile.objects.MobileControls;
+import mobile.states.CopyState;
+import lime.ui.Haptic;
 #end
 
 #if linux
@@ -26,7 +38,7 @@ class Init extends FlxState
     override function create() 
     {
         FlxTransitionableState.skipNextTransOut = true;
-        TraceText.makeTheTraceText("Welcome to modifed Psych Engine with some changes and additions called SB Engine made by Stefan2008. Enjoy <3!");
+        trace("Welcome to modifed Psych Engine with some changes and additions called SB Engine made by Stefan2008. Enjoy <3!");
 
         #if DISCORD_ALLOWED
 	    // Updating Discord Rich Presence
@@ -37,6 +49,8 @@ class Init extends FlxState
         poweredBy = 'Android';
         #elseif linux
         poweredBy = 'Linux';
+        #elseif ios
+        poweredBy = 'iOS';
         #elseif macos
         poweredBy = 'MacOS';
         #elseif windows
@@ -48,19 +62,20 @@ class Init extends FlxState
         Paths.clearStoredMemory();
 
         if (Main.fpsVar == null) {
-            Main.fpsVar = new FPS(10, 3);
+            Main.fpsVar = new FPSCounter(10, 3);
             Lib.current.stage.addChild(Main.fpsVar);
         }
 
         // Mic'd Up SC code :D
-        var bitmapData = Assets.getBitmapData("assets/images/sbinator.png");
-		if (Main.watermark == null) {
-            Main.watermark = new Sprite();
-		    Main.watermark.addChild(new Bitmap(bitmapData)); // Sets the graphic of the sprite to a Bitmap object, which uses our embedded BitmapData class.
-		    Main.watermark.alpha = 0.4;
-		    Main.watermark.x = Lib.application.window.width - 10 - Main.watermark.width;
-		    Main.watermark.y = Lib.application.window.height - 10 - Main.watermark.height;
-            Lib.current.stage.addChild(Main.watermark);
+        var imagePath:String = Paths.modFolders('engineStuff/main/sbinator');
+        if (FileSystem.exists(imagePath)) {
+            if (Main.watermark == null) {
+                Main.watermark = new WatermarkCounter();
+                Main.watermark.x = Lib.application.window.width - 10 - Main.watermark.width;
+                Main.watermark.y = Lib.application.window.height - 10 - Main.watermark.height;
+                Main.watermark.alpha = 0;
+                Lib.current.stage.addChild(Main.watermark);
+            }
         }
 
         mainBackground = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
@@ -69,8 +84,8 @@ class Init extends FlxState
 
         mainIcon = new FlxSprite().loadGraphic(Paths.image("engineStuff/main/sbinator"));
         mainIcon.visible = false;
-        mainIcon.scale.x = 1.2;
-        mainIcon.scale.y = 1.2;
+        mainIcon.scale.x = 1.5;
+        mainIcon.scale.y = 1.5;
         mainIcon.screenCenter();
         add(mainIcon);
 
@@ -90,8 +105,8 @@ class Init extends FlxState
 		add(mainLogo);
 
         new FlxTimer().start(1.5, function(tmr:FlxTimer) {
-			#if android
-            Hardware.vibrate(vibrationInt);
+            #if mobile
+			Haptic.vibrate(0, 500);
             #end
 		});
 
@@ -106,7 +121,7 @@ class Init extends FlxState
             mainIcon.visible = false;
             mainEngineText.visible = false;
             FlxTween.tween(background2, {alpha: 1}, 1.3, {ease: FlxEase.sineInOut});
-            FlxG.sound.play(Paths.sound('startup'));
+            FlxG.sound.play(Paths.sound('engineStuff/startup'));
 		});
 
         new FlxTimer().start(14.5, function(tmr:FlxTimer) {
@@ -136,26 +151,26 @@ class Init extends FlxState
 		Lib.current.stage.window.setIcon(icon);
 		#end
 
-        #if LUA_ALLOWED
-		Mods.pushGlobalMods();
-		#end
-		Mods.loadTopMod();
+        FlxG.mouse.visible = false;
 
-        FlxG.save.bind('sbFunkin', CoolUtil.getSavePath());
-
-        ClientPrefs.loadPrefs();
-
-        #if android
-		FlxG.android.preventDefaultKeys = [BACK];
+		#if html5
+		FlxG.autoPause = false;
 		#end
 
-        #if !(flixel >= "5.4.0")
 		FlxG.fixedTimestep = false;
-		#end
-		FlxG.game.focusLostFramerate = 60;
+		FlxG.game.focusLostFramerate = #if mobile 30 #else 60 #end;
+		#if web
+		FlxG.keys.preventDefaultKeys.push(TAB);
+		#else
 		FlxG.keys.preventDefaultKeys = [TAB];
+		#end
 
-        FlxG.updateFramerate = FlxG.drawFramerate = ClientPrefs.data.framerate;
+		#if DISCORD_ALLOWED
+		DiscordClient.prepare();
+		#end
+		MobileControls.initSave();
+
+		#if android FlxG.android.preventDefaultKeys = [BACK]; #end
         
         if (Main.fpsVar != null) 
             Main.fpsVar.visible = ClientPrefs.data.showFPS;
@@ -164,22 +179,24 @@ class Init extends FlxState
 
         if (Main.watermark != null) 
             Main.watermark.visible = ClientPrefs.data.watermarkIcon;
-            Main.watermark.alpha = 0;
-            Main.watermark.scaleX = Main.watermark.scaleY = ClientPrefs.data.iconResize;
 
         #if LUA_ALLOWED
-        Mods.pushGlobalMods();
+		Mods.pushGlobalMods();
+		#end
 		Mods.loadTopMod();
-        #end
 
-        #if LUA_ALLOWED Lua.set_callbacks_function(cpp.Callable.fromStaticFunction(psychlua.CallbackHandler.call)); #end
-        Controls.instance = new Controls();
-        ClientPrefs.loadDefaultKeys();
-        Highscore.load();
+		FlxG.save.bind('funkin', CoolUtil.getSavePath());
+
+		Highscore.load();
+
         Screenshot.initialize();
 
+		#if LUA_ALLOWED Lua.set_callbacks_function(cpp.Callable.fromStaticFunction(psychlua.CallbackHandler.call)); #end
+		Controls.instance = new Controls();
+		ClientPrefs.loadDefaultKeys();
+		#if ACHIEVEMENTS_ALLOWED Achievements.load(); #end
+
         if (FlxG.save.data.weekCompleted != null) StoryMenuState.weekCompleted = FlxG.save.data.weekCompleted;
-        #if DISCORD_ALLOWED DiscordClient.prepare(); #end
 
         if(FlxG.save.data != null && FlxG.save.data.fullscreen) FlxG.fullscreen = FlxG.save.data.fullscreen;
 

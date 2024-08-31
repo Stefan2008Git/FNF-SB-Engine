@@ -1,5 +1,13 @@
 package backend;
 
+import flixel.FlxBasic;
+import flixel.FlxObject;
+import flixel.FlxSubState;
+import flixel.group.FlxGroup;
+
+import objects.Note;
+import objects.Character;
+
 enum Countdown
 {
 	THREE;

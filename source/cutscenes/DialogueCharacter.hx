@@ -1,14 +1,15 @@
 package cutscenes;
 
-import tjson.TJSON as Json;
-import lime.utils.Assets;
+import haxe.Json;
+import openfl.utils.Assets;
 
-#if sys
-import sys.FileSystem;
-import sys.io.File;
-#end
-
-import android.backend.StorageUtil;
+typedef DialogueAnimArray = {
+	var anim:String;
+	var loop_name:String;
+	var loop_offsets:Array<Int>;
+	var idle_name:String;
+	var idle_offsets:Array<Int>;
+}
 
 typedef DialogueCharacterFile = {
 	var image:String;
@@ -20,17 +21,9 @@ typedef DialogueCharacterFile = {
 	var scale:Float;
 }
 
-typedef DialogueAnimArray = {
-	var anim:String;
-	var loop_name:String;
-	var loop_offsets:Array<Int>;
-	var idle_name:String;
-	var idle_offsets:Array<Int>;
-}
-
 class DialogueCharacter extends FlxSprite
 {
-	private static var IDLE_SUFFIX:String = '-IDLE';
+	private static var IDLE_POSTFIX:String = '-IDLE';
 	public static var DEFAULT_CHARACTER:String = 'bf';
 	public static var DEFAULT_SCALE:Float = 0.7;
 
@@ -63,16 +56,17 @@ class DialogueCharacter extends FlxSprite
 
 		#if MODS_ALLOWED
 		var path:String = Paths.modFolders(characterPath);
-		if (!FileSystem.exists(path))
-			path = StorageUtil.getPath() + Paths.getPreloadPath(characterPath);
+		if (!FileSystem.exists(path)) {
+			path = Paths.getSharedPath(characterPath);
+		}
 
-		if(!FileSystem.exists(path))
-			path = StorageUtil.getPath() + Paths.getPreloadPath('images/dialogue/' + DEFAULT_CHARACTER + '.json');
-
+		if(!FileSystem.exists(path)) {
+			path = Paths.getSharedPath('images/dialogue/' + DEFAULT_CHARACTER + '.json');
+		}
 		rawJson = File.getContent(path);
 
 		#else
-		var path:String = Paths.getPreloadPath(characterPath);
+		var path:String = Paths.getSharedPath(characterPath);
 		rawJson = Assets.getText(path);
 		#end
 		
@@ -84,7 +78,7 @@ class DialogueCharacter extends FlxSprite
 		if(jsonFile.animations != null && jsonFile.animations.length > 0) {
 			for (anim in jsonFile.animations) {
 				animation.addByPrefix(anim.anim, anim.loop_name, 24, isGhost);
-				animation.addByPrefix(anim.anim + IDLE_SUFFIX, anim.idle_name, 24, true);
+				animation.addByPrefix(anim.anim + IDLE_POSTFIX, anim.idle_name, 24, true);
 				dialogueAnimations.set(anim.anim, anim);
 			}
 		}
@@ -108,26 +102,25 @@ class DialogueCharacter extends FlxSprite
 		dialogueAnimations.get(leAnim).loop_name == dialogueAnimations.get(leAnim).idle_name)) {
 			playIdle = true;
 		}
-		animation.play(playIdle ? leAnim + IDLE_SUFFIX : leAnim, false);
+		animation.play(playIdle ? leAnim + IDLE_POSTFIX : leAnim, false);
 
 		if(dialogueAnimations.exists(leAnim)) {
 			var anim:DialogueAnimArray = dialogueAnimations.get(leAnim);
 			if(playIdle) {
 				offset.set(anim.idle_offsets[0], anim.idle_offsets[1]);
-				//TraceText.makeTheTraceText('Setting idle offsets: ' + anim.idle_offsets);
+				//trace('Setting idle offsets: ' + anim.idle_offsets);
 			} else {
 				offset.set(anim.loop_offsets[0], anim.loop_offsets[1]);
-				//TraceText.makeTheTraceText('Setting loop offsets: ' + anim.loop_offsets);
+				//trace('Setting loop offsets: ' + anim.loop_offsets);
 			}
 		} else {
 			offset.set(0, 0);
-			TraceText.makeTheTraceText('Offsets not found! Dialogue character is badly formatted, anim: ' + leAnim + ', ' + (playIdle ? 'idle anim' : 'loop anim'));
+			trace('Offsets not found! Dialogue character is badly formatted, anim: ' + leAnim + ', ' + (playIdle ? 'idle anim' : 'loop anim'));
 		}
 	}
 
-	public function animationIsLoop():Bool
-	{
+	public function animationIsLoop():Bool {
 		if(animation.curAnim == null) return false;
-		return !animation.curAnim.name.endsWith(IDLE_SUFFIX);
+		return !animation.curAnim.name.endsWith(IDLE_POSTFIX);
 	}
 }

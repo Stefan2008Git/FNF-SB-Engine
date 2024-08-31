@@ -90,8 +90,8 @@ class Limo extends BaseStage
 		if(!ClientPrefs.data.lowQuality) {
 			grpLimoParticles.forEach(function(spr:BGSprite) {
 				if(spr.animation.curAnim.finished) {
-					spr.kill();
 					grpLimoParticles.remove(spr, true);
+					spr.kill();
 					spr.destroy();
 				}
 			});
@@ -157,7 +157,7 @@ class Limo extends BaseStage
 					dancersParenting();
 
 				case STOPPING:
-					bgLimo.x = FlxMath.lerp(bgLimo.x, -150, FlxMath.bound(elapsed * 9, 0, 1));
+					bgLimo.x = FlxMath.lerp(-150, bgLimo.x, Math.exp(-elapsed * 9));
 					if(Math.round(bgLimo.x) == -150) {
 						bgLimo.x = -150;
 						limoKillingState = WAIT;
@@ -239,7 +239,7 @@ class Limo extends BaseStage
 	var carTimer:FlxTimer;
 	function fastCarDrive()
 	{
-		//TraceText.makeTheTraceText('Car drive');
+		//trace('Car drive');
 		FlxG.sound.play(Paths.soundRandom('carPass', 0, 1), 0.7);
 
 		fastCar.velocity.x = (FlxG.random.int(170, 220) / FlxG.elapsed) * 3;
@@ -261,6 +261,11 @@ class Limo extends BaseStage
 				limoCorpse.visible = false;
 				limoCorpseTwo.visible = false;
 				limoKillingState = KILLING;
+
+				#if ACHIEVEMENTS_ALLOWED
+				var kills = Achievements.addScore("roadkill_enthusiast");
+				FlxG.log.add('Henchmen kills: $kills');
+				#end
 			}
 		}
 	}

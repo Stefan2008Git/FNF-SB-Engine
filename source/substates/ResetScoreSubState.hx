@@ -1,14 +1,16 @@
 package substates;
 
+import backend.WeekData;
+import backend.Highscore;
+import flixel.FlxSubState;
+import objects.HealthIcon;
+
 class ResetScoreSubState extends MusicBeatSubstate
 {
 	var bg:FlxSprite;
 	var alphabetArray:Array<Alphabet> = [];
-	var text1:Alphabet;
-	var text2:Alphabet;
 	var icon:HealthIcon;
 	var onYes:Bool = false;
-	var controlsActive:Bool = true;
 	var yesText:Alphabet;
 	var noText:Alphabet;
 
@@ -23,9 +25,9 @@ class ResetScoreSubState extends MusicBeatSubstate
 		this.difficulty = difficulty;
 		this.week = week;
 
-		super();
+                controls.isInSubstate = true;
 
-		FlxTween.tween(FlxG.sound.music, {volume: 0.4}, 0.8);
+		super();
 
 		var name:String = song;
 		if(week > -1) {
@@ -39,44 +41,41 @@ class ResetScoreSubState extends MusicBeatSubstate
 		add(bg);
 
 		var tooLong:Float = (name.length > 18) ? 0.8 : 1; //Fucking Winter Horrorland
-		text1 = new Alphabet(0, 180, "Reset the score of", true);
-		text1.screenCenter(X);
-		alphabetArray.push(text1);
-		text1.alpha = 0;
-		add(text1);
-
-		text2 = new Alphabet(0, text1.y + 90, name, true);
-		text2.scaleX = tooLong;
-		text2.screenCenter(X);
-		if(week == -1) text1.x += 60 * tooLong;
-		alphabetArray.push(text2);
-		text2.alpha = 0;
-		add(text2);
+		var text:Alphabet = new Alphabet(0, 180, Language.getPhrase('reset_score', 'Reset the score of'), true);
+		text.screenCenter(X);
+		alphabetArray.push(text);
+		text.alpha = 0;
+		add(text);
+		var text:Alphabet = new Alphabet(0, text.y + 90, name, true);
+		text.scaleX = tooLong;
+		text.screenCenter(X);
+		if(week == -1) text.x += 60 * tooLong;
+		alphabetArray.push(text);
+		text.alpha = 0;
+		add(text);
 		if(week == -1) {
 			icon = new HealthIcon(character);
 			icon.setGraphicSize(Std.int(icon.width * tooLong));
 			icon.updateHitbox();
-			icon.setPosition(text2.x - icon.width + (10 * tooLong), text2.y - 30);
+			icon.setPosition(text.x - icon.width + (10 * tooLong), text.y - 30);
 			icon.alpha = 0;
 			add(icon);
 		}
 
-		yesText = new Alphabet(0, text2.y + 150, 'Yes', true);
+		yesText = new Alphabet(0, text.y + 150, Language.getPhrase('Yes'), true);
 		yesText.screenCenter(X);
 		yesText.x -= 200;
-		yesText.color = FlxColor.RED;
 		add(yesText);
-
-		noText = new Alphabet(0, text2.y + 150, 'No', true);
+		noText = new Alphabet(0, text.y + 150, Language.getPhrase('No'), true);
 		noText.screenCenter(X);
 		noText.x += 200;
-		noText.color = FlxColor.LIME;
 		add(noText);
+		
+		for(letter in yesText.letters) letter.color = FlxColor.RED;
 		updateOptions();
 
-    	#if mobile
-    	addVirtualPad(LEFT_RIGHT, A);
-    	#end
+		addTouchPad('LEFT_RIGHT', 'A_B');
+		addTouchPadCamera(false);
 	}
 
 	override function update(elapsed:Float)
@@ -90,42 +89,32 @@ class ResetScoreSubState extends MusicBeatSubstate
 		}
 		if(week == -1) icon.alpha += elapsed * 2.5;
 
-		if(controls.UI_LEFT_P || controls.UI_RIGHT_P && controlsActive) {
+		if(controls.UI_LEFT_P || controls.UI_RIGHT_P) {
 			FlxG.sound.play(Paths.sound('scrollMenu'), 1);
 			onYes = !onYes;
 			updateOptions();
 		}
-		if(controls.ACCEPT && controlsActive) {
+		if(controls.BACK) {
+			FlxG.sound.play(Paths.sound('cancelMenu'), 1);
+			ClientPrefs.saveSettings();
+			close();
+			controls.isInSubstate = false;
+		} else if(controls.ACCEPT) {
 			if(onYes) {
-				if (ClientPrefs.data.flashing) {
-					FlxFlicker.flicker(text2, 2, 0.15, false);
-					text1.visible = false;
-					text2.set_text("Reseting the score...");
-					controlsActive = false;
-					FlxTween.tween(FlxG.sound.music, {pitch: 0, volume: 0}, 1.5, {ease: FlxEase.sineInOut});
-					FlxG.sound.play(Paths.sound('confirmMenu'), 1);
-					TraceText.makeTheTraceText("Reseting the score...");
-					new FlxTimer().start(2, function(tmr:FlxTimer) {
-						if(week == -1) {
-							Highscore.resetSong(song, difficulty);
-						} else {
-							Highscore.resetWeek(WeekData.weeksList[week], difficulty);
-						}
-						FlxTween.tween(FlxG.sound.music, {pitch: 1.5, volume: 1}, {ease: FlxEase.sineInOut});
-						FlxG.resetState();
-					});
+				if(week == -1) {
+					Highscore.resetSong(song, difficulty);
 				} else {
-					if(week == -1) {
-						Highscore.resetSong(song, difficulty);
-					} else {
-						Highscore.resetWeek(WeekData.weeksList[week], difficulty);
-					}
-					FlxG.resetState();
-					FlxG.sound.play(Paths.sound('cancelMenu'), 1);
+					Highscore.resetWeek(WeekData.weeksList[week], difficulty);
 				}
-			} else {
-				close();
 			}
+			FlxG.sound.play(Paths.sound('cancelMenu'), 1);
+			ClientPrefs.saveSettings();
+			controls.isInSubstate = false;
+			close();
+		}
+		if (touchPad == null){ //sometimes it dosent add the vpad, hopefully this fixes it
+		addTouchPad('LEFT_RIGHT', 'A_B');
+		addTouchPadCamera(false);
 		}
 		super.update(elapsed);
 	}
@@ -140,5 +129,15 @@ class ResetScoreSubState extends MusicBeatSubstate
 		noText.alpha = alphas[1 - confirmInt];
 		noText.scale.set(scales[1 - confirmInt], scales[1 - confirmInt]);
 		if(week == -1) icon.animation.curAnim.curFrame = confirmInt;
+	}
+
+	override function destroy(){
+		bg = FlxDestroyUtil.destroy(bg);
+		alphabetArray = FlxDestroyUtil.destroyArray(alphabetArray);
+		icon = FlxDestroyUtil.destroy(icon);
+                yesText = FlxDestroyUtil.destroy(yesText);
+		noText = FlxDestroyUtil.destroy(noText);
+
+		super.destroy();
 	}
 }

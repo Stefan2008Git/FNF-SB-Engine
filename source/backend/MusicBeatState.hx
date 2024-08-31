@@ -1,15 +1,12 @@
 package backend;
 
-#if android
-import android.AndroidControls.AndroidControls;
-import android.flixel.FlxHitbox;
-import android.flixel.FlxNewHitbox;
-import android.flixel.FlxVirtualPad;
-import android.flixel.FlxButton as FlxNewButton;
-#end
+import flixel.FlxState;
+import backend.PsychCamera;
 
-class MusicBeatState extends FlxUIState
+class MusicBeatState extends FlxState
 {
+	public static var instance:MusicBeatState;
+
 	private var curSection:Int = 0;
 	private var stepsToDo:Int = 0;
 
@@ -19,116 +16,106 @@ class MusicBeatState extends FlxUIState
 	private var curDecStep:Float = 0;
 	private var curDecBeat:Float = 0;
 	public var controls(get, never):Controls;
-	
-	public static var checkHitbox:Bool = false;
-	public static var checkDUO:Bool = false;
-	
 	private function get_controls()
 	{
 		return Controls.instance;
 	}
-	
-	#if android
-	public static var virtualPad:FlxVirtualPad;
-	public static var androidControls:AndroidControls;
-	//var trackedinputsUI:Array<FlxActionInput> = [];
-	//var trackedinputsNOTES:Array<FlxActionInput> = [];
-	#end
-	
-	#if android
-	public function addVirtualPad(?DPad:FlxDPadMode, ?Action:FlxActionMode) {
-		virtualPad = new FlxVirtualPad(DPad, Action, 0.75, ClientPrefs.data.antialiasing);
-		add(virtualPad);
-		Controls.checkTheState = true;
-		Controls.checkThePressedControl = true;
-		//controls.setVirtualPadUI(virtualPad, DPad, Action);
-		//trackedinputsUI = controls.trackedinputsUI;
-		//controls.trackedinputsUI = [];
-	}
-	#end
 
-	#if android
-	public function removeVirtualPad() {
-		//controls.removeFlxInput(trackedinputsUI);
-		remove(virtualPad);
+	public var touchPad:TouchPad;
+	public var mobileControls:MobileControls;
+	public var camControls:FlxCamera;
+	public var vpadCam:FlxCamera;
+
+	public function addTouchPad(DPad:String, Action:String)
+	{
+		touchPad = new TouchPad(DPad, Action);
+		add(touchPad);
 	}
-	#end
-	
-	#if android
-	public function noCheckPress() {
-		Controls.checkThePressedControl = false;
+
+	public function removeTouchPad()
+	{
+		if (touchPad != null)
+			remove(touchPad);
 	}
-	#end
-	
-	#if android
-	public function addAndroidControls() {
-		androidControls = new AndroidControls();
-		
-        Controls.checkThePressedControl = true;
-        
-		switch (androidControls.mode)
+
+	public function addMobileControls(defaultDrawTarget:Bool = true):Void
+	{
+		mobileControls = new MobileControls();
+
+		camControls = new FlxCamera();
+		camControls.bgColor.alpha = 0;
+		FlxG.cameras.add(camControls, defaultDrawTarget);
+
+		mobileControls.cameras = [camControls];
+		mobileControls.visible = false;
+		add(mobileControls);
+	}
+
+	public function removeMobileControls()
+	{
+		if (mobileControls != null)
+			remove(mobileControls);
+	}
+
+	public function addTouchPadCamera(defaultDrawTarget:Bool = true):Void
+	{
+		if (touchPad != null)
 		{
-			case VIRTUALPAD_RIGHT | VIRTUALPAD_LEFT | VIRTUALPAD_CUSTOM:
-				//controls.setVirtualPadNOTES(androidControls.virtualPads, FULL, NONE);
-				checkHitbox = false;
-				checkDUO = false;
-				Controls.checkTheKeyboard = false;
-			case DUO:
-				//controls.setVirtualPadNOTES(androidControls.virtualPads, DUO, NONE);
-				checkHitbox = false;
-				checkDUO = true;
-				Controls.checkTheKeyboard = false;
-			case HITBOX:
-				//controls.setNewHitBox(androidControls.newHitbox);
-				checkHitbox = true;
-				checkDUO = false;
-				Controls.checkTheKeyboard = false;
-			//case KEYBOARD:	
-			    
-			default:
-			    checkHitbox = false;
-				checkDUO = false;
-			    Controls.checkTheKeyboard = true;
+			vpadCam = new FlxCamera();
+			vpadCam.bgColor.alpha = 0;
+			FlxG.cameras.add(vpadCam, defaultDrawTarget);
+			touchPad.cameras = [vpadCam];
+		}
+	}
+
+	override function destroy()
+	{
+		super.destroy();
+
+		if (touchPad != null)
+		{
+			touchPad = FlxDestroyUtil.destroy(touchPad);
+			touchPad = null;
 		}
 
-		var camcontrol = new flixel.FlxCamera();
-		FlxG.cameras.add(camcontrol, false);
-		camcontrol.bgColor.alpha = 0;
-		androidControls.cameras = [camcontrol];
-
-		androidControls.visible = false;
-
-		add(androidControls);
-		Controls.checkTheControls = true;
+		if (mobileControls != null)
+		{
+			mobileControls = FlxDestroyUtil.destroy(mobileControls);
+			mobileControls = null;
+		}
 	}
-	#end
 
-	#if android
-    public function addPadCamera() {
-		var camcontrol = new flixel.FlxCamera();
-		camcontrol.bgColor.alpha = 0;
-		FlxG.cameras.add(camcontrol, false);
-		virtualPad.cameras = [camcontrol];
-	}
-	#end
+	var _psychCameraInitialized:Bool = false;
 
 	public var variables:Map<String, Dynamic> = new Map<String, Dynamic>();
-	inline public static function getVariables()
+	public static function getVariables()
 		return getState().variables;
 
-	public static var camBeat:FlxCamera;
 	override function create() {
-		camBeat = FlxG.camera;
+		instance = this;
+
 		var skip:Bool = FlxTransitionableState.skipNextTransOut;
 		#if MODS_ALLOWED Mods.updatedOnState = false; #end
+
+		if(!_psychCameraInitialized) initPsychCamera();
 
 		super.create();
 
 		if(!skip) {
-			openSubState(new CustomFadeTransition(0.7, true));
+			openSubState(new CustomFadeTransition(0.6, true));
 		}
 		FlxTransitionableState.skipNextTransOut = false;
 		timePassedOnState = 0;
+	}
+
+	public function initPsychCamera():PsychCamera
+	{
+		var camera = new PsychCamera();
+		FlxG.cameras.reset(camera);
+		FlxG.cameras.setDefaultDrawTarget(camera, true);
+		_psychCameraInitialized = true;
+		//trace('initialized psych camera ' + Sys.cpuTime());
+		return camera;
 	}
 
 	public static var timePassedOnState:Float = 0;
@@ -137,9 +124,6 @@ class MusicBeatState extends FlxUIState
 		//everyStep();
 		var oldStep:Int = curStep;
 		timePassedOnState += elapsed;
-
-		Main.watermark.x = Lib.application.window.width - 10 - Main.watermark.width;
-		Main.watermark.y = Lib.application.window.height - 10 - Main.watermark.height;
 
 		updateCurStep();
 		updateBeat();
@@ -199,7 +183,7 @@ class MusicBeatState extends FlxUIState
 
 		if(curSection > lastSection) sectionHit();
 	}
-	
+
 	private function updateBeat():Void
 	{
 		curBeat = Math.floor(curStep / 4);
@@ -213,6 +197,38 @@ class MusicBeatState extends FlxUIState
 		var shit = ((Conductor.songPosition - ClientPrefs.data.noteOffset) - lastChange.songTime) / lastChange.stepCrochet;
 		curDecStep = lastChange.stepTime + shit;
 		curStep = lastChange.stepTime + Math.floor(shit);
+	}
+
+	public static function switchState(nextState:FlxState = null) {
+		if(nextState == null) nextState = FlxG.state;
+		if(nextState == FlxG.state)
+		{
+			resetState();
+			return;
+		}
+
+		if(FlxTransitionableState.skipNextTransIn) FlxG.switchState(nextState);
+		else startTransition(nextState);
+		FlxTransitionableState.skipNextTransIn = false;
+	}
+
+	public static function resetState() {
+		if(FlxTransitionableState.skipNextTransIn) FlxG.resetState();
+		else startTransition();
+		FlxTransitionableState.skipNextTransIn = false;
+	}
+
+	// Custom made Trans in
+	public static function startTransition(nextState:FlxState = null)
+	{
+		if(nextState == null)
+			nextState = FlxG.state;
+
+		FlxG.state.openSubState(new CustomFadeTransition(0.6, false));
+		if(nextState == FlxG.state)
+			CustomFadeTransition.finishCallback = function() FlxG.resetState();
+		else
+			CustomFadeTransition.finishCallback = function() FlxG.switchState(nextState);
 	}
 
 	public static function getState():MusicBeatState {
@@ -231,26 +247,10 @@ class MusicBeatState extends FlxUIState
 			beatHit();
 	}
 
-	override function startOutro(onOutroComplete:()-> Void):Void
-	{
-		if (!FlxTransitionableState.skipNextTransIn || !ClientPrefs.data.fadeTransition)
-		{
-			FlxG.state.openSubState(new CustomFadeTransition(0.6, false));
-
-			CustomFadeTransition.finishCallback = onOutroComplete;
-
-			return;
-		}
-
-		FlxTransitionableState.skipNextTransIn = false;
-
-		onOutroComplete();
-	}
-
 	public var stages:Array<BaseStage> = [];
 	public function beatHit():Void
 	{
-		//TraceText.makeTheTraceText('Beat: ' + curBeat);
+		//trace('Beat: ' + curBeat);
 		stagesFunc(function(stage:BaseStage) {
 			stage.curBeat = curBeat;
 			stage.curDecBeat = curDecBeat;
@@ -260,7 +260,7 @@ class MusicBeatState extends FlxUIState
 
 	public function sectionHit():Void
 	{
-		//TraceText.makeTheTraceText('Section: ' + curSection + ', Beat: ' + curBeat + ', Step: ' + curStep);
+		//trace('Section: ' + curSection + ', Beat: ' + curBeat + ', Step: ' + curStep);
 		stagesFunc(function(stage:BaseStage) {
 			stage.curSection = curSection;
 			stage.sectionHit();

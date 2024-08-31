@@ -15,7 +15,7 @@ class TypedAlphabet extends Alphabet
 		this.delay = delay;
 	}
 
-	override public function set_text(newText:String)
+	override private function set_text(newText:String)
 	{
 		super.set_text(newText);
 
@@ -63,7 +63,7 @@ class TypedAlphabet extends Alphabet
 		for (i in start...(upTo+1))
 		{
 			if(letters[i] != null) letters[i].visible = true;
-			//TraceText.makeTheTraceText('test, showing: $i');
+			//trace('test, showing: $i');
 		}
 	}
 

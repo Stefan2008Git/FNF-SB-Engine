@@ -1,3 +1,4 @@
+#if LUA_ALLOWED
 package psychlua;
 
 class CallbackHandler
@@ -6,7 +7,7 @@ class CallbackHandler
 	{
 		try
 		{
-			//TraceText.makeTheTraceText('calling $fname');
+			//trace('calling $fname');
 			var cbf:Dynamic = Lua_helper.callbacks.get(fname);
 
 			//Local functions have the lowest priority
@@ -14,14 +15,20 @@ class CallbackHandler
 			//so that it only loops on reserved/special functions
 			if(cbf == null) 
 			{
-				//TraceText.makeTheTraceText('looping thru scripts');
-				for (script in PlayState.instance.luaArray)
-					if(script != null && script.lua == l)
-					{
-						//TraceText.makeTheTraceText('found script');
-						cbf = script.callbacks.get(fname);
-						break;
-					}
+				//trace('checking last script');
+				var last:FunkinLua = FunkinLua.lastCalledScript;
+				if(last == null || last.lua != l)
+				{
+					//trace('looping thru scripts');
+					for (script in PlayState.instance.luaArray)
+						if(script != FunkinLua.lastCalledScript && script != null && script.lua == l)
+						{
+							//trace('found script');
+							cbf = script.callbacks.get(fname);
+							break;
+						}
+				}
+				else cbf = last.callbacks.get(fname);
 			}
 			
 			if(cbf == null) return 0;
@@ -45,10 +52,11 @@ class CallbackHandler
 		}
 		catch(e:Dynamic)
 		{
-			/*if(Lua_helper.sendErrorsToLua) {LuaL.error(l, 'CALLBACK ERROR! ${if(e.message != null) e.message else e}');return 0;}
-			TraceText.makeTheTraceText(e);
-			throw(e);*/
+			if(Lua_helper.sendErrorsToLua) {LuaL.error(l, 'CALLBACK ERROR! ${if(e.message != null) e.message else e}');return 0;}
+			trace(e);
+			throw(e);
 		}
 		return 0;
 	}
 }
+#end

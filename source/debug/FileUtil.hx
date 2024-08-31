@@ -1,7 +1,11 @@
 package debug;
 
 import haxe.io.Path;
+import flixel.util.FlxSignal.FlxTypedSignal;
 import lime.utils.Bytes;
+import openfl.events.MouseEvent;
+import openfl.display.PNGEncoderOptions;
+import openfl.utils.ByteArray;
 
 class FileUtil
 {

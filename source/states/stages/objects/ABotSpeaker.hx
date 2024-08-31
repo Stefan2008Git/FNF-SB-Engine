@@ -77,14 +77,15 @@ class ABotSpeaker extends FlxSpriteGroup
 		add(speaker);
 	}
 
-	var levelMax:Int = 0;
 	var levels:Array<Bar>;
+	var levelMax:Int = 0;
 	override function update(elapsed:Float):Void
 	{
 		super.update(elapsed);
 		if(analyzer == null) return;
 
 		//var levels = analyzer.getLevels(); //this has a memory leak, so i made my own function for it
+		// levels = analyzer.getLevels(levels);
 		var oldLevelMax = levelMax;
 		levelMax = 0;
 		for (i in 0...Std.int(Math.min(vizSprites.length, levels.length)))

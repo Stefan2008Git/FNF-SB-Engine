@@ -30,49 +30,49 @@ POSSIBILITY OF SUCH DAMAGE.
  */
 #ifndef CLIENT_GAMEMODE_H
 #define CLIENT_GAMEMODE_H
- /*
-  * GameMode supports the following client functions
-  * Requests are refcounted in the daemon
-  *
-  * int gamemode_request_start() - Request gamemode starts
-  *   0 if the request was sent successfully
-  *   -1 if the request failed
-  *
-  * int gamemode_request_end() - Request gamemode ends
-  *   0 if the request was sent successfully
-  *   -1 if the request failed
-  *
-  * GAMEMODE_AUTO can be defined to make the above two functions apply during static init and
-  * destruction, as appropriate. In this configuration, errors will be printed to stderr
-  *
-  * int gamemode_query_status() - Query the current status of gamemode
-  *   0 if gamemode is inactive
-  *   1 if gamemode is active
-  *   2 if gamemode is active and this client is registered
-  *   -1 if the query failed
-  *
-  * int gamemode_request_start_for(pid_t pid) - Request gamemode starts for another process
-  *   0 if the request was sent successfully
-  *   -1 if the request failed
-  *   -2 if the request was rejected
-  *
-  * int gamemode_request_end_for(pid_t pid) - Request gamemode ends for another process
-  *   0 if the request was sent successfully
-  *   -1 if the request failed
-  *   -2 if the request was rejected
-  *
-  * int gamemode_query_status_for(pid_t pid) - Query status of gamemode for another process
-  *   0 if gamemode is inactive
-  *   1 if gamemode is active
-  *   2 if gamemode is active and this client is registered
-  *   -1 if the query failed
-  *
-  * const char* gamemode_error_string() - Get an error string
-  *   returns a string describing any of the above errors
-  *
-  * Note: All the above requests can be blocking - dbus requests can and will block while the daemon
-  * handles the request. It is not recommended to make these calls in performance critical code
-  */
+/*
+ * GameMode supports the following client functions
+ * Requests are refcounted in the daemon
+ *
+ * int gamemode_request_start() - Request gamemode starts
+ *   0 if the request was sent successfully
+ *   -1 if the request failed
+ *
+ * int gamemode_request_end() - Request gamemode ends
+ *   0 if the request was sent successfully
+ *   -1 if the request failed
+ *
+ * GAMEMODE_AUTO can be defined to make the above two functions apply during static init and
+ * destruction, as appropriate. In this configuration, errors will be printed to stderr
+ *
+ * int gamemode_query_status() - Query the current status of gamemode
+ *   0 if gamemode is inactive
+ *   1 if gamemode is active
+ *   2 if gamemode is active and this client is registered
+ *   -1 if the query failed
+ *
+ * int gamemode_request_start_for(pid_t pid) - Request gamemode starts for another process
+ *   0 if the request was sent successfully
+ *   -1 if the request failed
+ *   -2 if the request was rejected
+ *
+ * int gamemode_request_end_for(pid_t pid) - Request gamemode ends for another process
+ *   0 if the request was sent successfully
+ *   -1 if the request failed
+ *   -2 if the request was rejected
+ *
+ * int gamemode_query_status_for(pid_t pid) - Query status of gamemode for another process
+ *   0 if gamemode is inactive
+ *   1 if gamemode is active
+ *   2 if gamemode is active and this client is registered
+ *   -1 if the query failed
+ *
+ * const char* gamemode_error_string() - Get an error string
+ *   returns a string describing any of the above errors
+ *
+ * Note: All the above requests can be blocking - dbus requests can and will block while the daemon
+ * handles the request. It is not recommended to make these calls in performance critical code
+ */
 
 #include <stdbool.h>
 #include <stdio.h>
@@ -96,7 +96,7 @@ static volatile int internal_libgamemode_loaded = 1;
 
 /* Typedefs for the functions to load */
 typedef int (*api_call_return_int)(void);
-typedef const char* (*api_call_return_cstring)(void);
+typedef const char *(*api_call_return_cstring)(void);
 typedef int (*api_call_pid_return_int)(pid_t);
 
 /* Storage for functors */
@@ -114,19 +114,19 @@ static api_call_pid_return_int REAL_internal_gamemode_query_status_for = NULL;
  * Returns 0 on success and -1 on failure
  */
 __attribute__((always_inline)) static inline int internal_bind_libgamemode_symbol(
-	void* handle, const char* name, void** out_func, size_t func_size, bool required)
+    void *handle, const char *name, void **out_func, size_t func_size, bool required)
 {
-	void* symbol_lookup = NULL;
-	char* dl_error = NULL;
+	void *symbol_lookup = NULL;
+	char *dl_error = NULL;
 
 	/* Safely look up the symbol */
 	symbol_lookup = dlsym(handle, name);
 	dl_error = dlerror();
 	if (required && (dl_error || !symbol_lookup)) {
 		snprintf(internal_gamemode_client_error_string,
-			sizeof(internal_gamemode_client_error_string),
-			"dlsym failed - %s",
-			dl_error);
+		         sizeof(internal_gamemode_client_error_string),
+		         "dlsym failed - %s",
+		         dl_error);
 		return -1;
 	}
 
@@ -149,42 +149,42 @@ __attribute__((always_inline)) static inline int internal_load_libgamemode(void)
 
 	/* Anonymous struct type to define our bindings */
 	struct binding {
-		const char* name;
-		void** functor;
+		const char *name;
+		void **functor;
 		size_t func_size;
 		bool required;
 	} bindings[] = {
 		{ "real_gamemode_request_start",
-		  (void**)&REAL_internal_gamemode_request_start,
+		  (void **)&REAL_internal_gamemode_request_start,
 		  sizeof(REAL_internal_gamemode_request_start),
 		  true },
 		{ "real_gamemode_request_end",
-		  (void**)&REAL_internal_gamemode_request_end,
+		  (void **)&REAL_internal_gamemode_request_end,
 		  sizeof(REAL_internal_gamemode_request_end),
 		  true },
 		{ "real_gamemode_query_status",
-		  (void**)&REAL_internal_gamemode_query_status,
+		  (void **)&REAL_internal_gamemode_query_status,
 		  sizeof(REAL_internal_gamemode_query_status),
 		  false },
 		{ "real_gamemode_error_string",
-		  (void**)&REAL_internal_gamemode_error_string,
+		  (void **)&REAL_internal_gamemode_error_string,
 		  sizeof(REAL_internal_gamemode_error_string),
 		  true },
 		{ "real_gamemode_request_start_for",
-		  (void**)&REAL_internal_gamemode_request_start_for,
+		  (void **)&REAL_internal_gamemode_request_start_for,
 		  sizeof(REAL_internal_gamemode_request_start_for),
 		  false },
 		{ "real_gamemode_request_end_for",
-		  (void**)&REAL_internal_gamemode_request_end_for,
+		  (void **)&REAL_internal_gamemode_request_end_for,
 		  sizeof(REAL_internal_gamemode_request_end_for),
 		  false },
 		{ "real_gamemode_query_status_for",
-		  (void**)&REAL_internal_gamemode_query_status_for,
+		  (void **)&REAL_internal_gamemode_query_status_for,
 		  sizeof(REAL_internal_gamemode_query_status_for),
 		  false },
 	};
 
-	void* libgamemode = NULL;
+	void *libgamemode = NULL;
 
 	/* Try and load libgamemode */
 	libgamemode = dlopen("libgamemode.so.0", RTLD_NOW);
@@ -195,9 +195,9 @@ __attribute__((always_inline)) static inline int internal_load_libgamemode(void)
 		libgamemode = dlopen("libgamemode.so", RTLD_NOW);
 		if (!libgamemode) {
 			snprintf(internal_gamemode_client_error_string,
-				sizeof(internal_gamemode_client_error_string),
-				"dlopen failed - %s",
-				dlerror());
+			         sizeof(internal_gamemode_client_error_string),
+			         "dlopen failed - %s",
+			         dlerror());
 			internal_libgamemode_loaded = -1;
 			return -1;
 		}
@@ -205,13 +205,13 @@ __attribute__((always_inline)) static inline int internal_load_libgamemode(void)
 
 	/* Attempt to bind all symbols */
 	for (size_t i = 0; i < sizeof(bindings) / sizeof(bindings[0]); i++) {
-		struct binding* binder = &bindings[i];
+		struct binding *binder = &bindings[i];
 
 		if (internal_bind_libgamemode_symbol(libgamemode,
-			binder->name,
-			binder->functor,
-			binder->func_size,
-			binder->required)) {
+		                                     binder->name,
+		                                     binder->functor,
+		                                     binder->func_size,
+		                                     binder->required)) {
 			internal_libgamemode_loaded = -1;
 			return -1;
 		};
@@ -225,7 +225,7 @@ __attribute__((always_inline)) static inline int internal_load_libgamemode(void)
 /**
  * Redirect to the real libgamemode
  */
-__attribute__((always_inline)) static inline const char* gamemode_error_string(void)
+__attribute__((always_inline)) static inline const char *gamemode_error_string(void)
 {
 	/* If we fail to load the system gamemode, or we have an error string already, return our error
 	 * string instead of diverting to the system version */
@@ -311,8 +311,8 @@ __attribute__((always_inline)) static inline int gamemode_query_status(void)
 
 	if (REAL_internal_gamemode_query_status == NULL) {
 		snprintf(internal_gamemode_client_error_string,
-			sizeof(internal_gamemode_client_error_string),
-			"gamemode_query_status missing (older host?)");
+		         sizeof(internal_gamemode_client_error_string),
+		         "gamemode_query_status missing (older host?)");
 		return -1;
 	}
 
@@ -329,8 +329,8 @@ __attribute__((always_inline)) static inline int gamemode_request_start_for(pid_
 
 	if (REAL_internal_gamemode_request_start_for == NULL) {
 		snprintf(internal_gamemode_client_error_string,
-			sizeof(internal_gamemode_client_error_string),
-			"gamemode_request_start_for missing (older host?)");
+		         sizeof(internal_gamemode_client_error_string),
+		         "gamemode_request_start_for missing (older host?)");
 		return -1;
 	}
 
@@ -347,8 +347,8 @@ __attribute__((always_inline)) static inline int gamemode_request_end_for(pid_t 
 
 	if (REAL_internal_gamemode_request_end_for == NULL) {
 		snprintf(internal_gamemode_client_error_string,
-			sizeof(internal_gamemode_client_error_string),
-			"gamemode_request_end_for missing (older host?)");
+		         sizeof(internal_gamemode_client_error_string),
+		         "gamemode_request_end_for missing (older host?)");
 		return -1;
 	}
 
@@ -365,8 +365,8 @@ __attribute__((always_inline)) static inline int gamemode_query_status_for(pid_t
 
 	if (REAL_internal_gamemode_query_status_for == NULL) {
 		snprintf(internal_gamemode_client_error_string,
-			sizeof(internal_gamemode_client_error_string),
-			"gamemode_query_status_for missing (older host?)");
+		         sizeof(internal_gamemode_client_error_string),
+		         "gamemode_query_status_for missing (older host?)");
 		return -1;
 	}
 

@@ -1,6 +1,8 @@
 package backend;
 
-import tjson.TJSON as Json;
+import openfl.utils.Assets;
+import haxe.Json;
+import backend.Song;
 import psychlua.ModchartSprite;
 
 typedef StageFile = {
@@ -39,7 +41,6 @@ class StageData {
 		return {
 			directory: "",
 			defaultZoom: 0.9,
-			isPixelStage: false,
 			stageUI: "normal",
 
 			boyfriend: [770, 100],
@@ -50,74 +51,43 @@ class StageData {
 			camera_boyfriend: [0, 0],
 			camera_opponent: [0, 0],
 			camera_girlfriend: [0, 0],
-			camera_speed: 1
+			camera_speed: 1,
+
+			_editorMeta: {
+				gf: "gf",
+				dad: "dad",
+				boyfriend: "bf"
+			}
 		};
 	}
 
 	public static var forceNextDirectory:String = null;
 	public static function loadDirectory(SONG:SwagSong) {
 		var stage:String = '';
-		if(SONG.stage != null) {
+		if(SONG.stage != null)
 			stage = SONG.stage;
-		} else if(SONG.song != null) {
-			switch (SONG.song.toLowerCase().replace(' ', '-'))
-			{
-				case 'spookeez' | 'south' | 'monster':
-					stage = 'spooky';
-				case 'pico' | 'blammed' | 'philly' | 'philly-nice':
-					stage = 'philly';
-				case 'milf' | 'satin-panties' | 'high':
-					stage = 'limo';
-				case 'cocoa' | 'eggnog':
-					stage = 'mall';
-				case 'winter-horrorland':
-					stage = 'mallEvil';
-				case 'senpai' | 'roses':
-					stage = 'school';
-				case 'thorns':
-					stage = 'schoolEvil';
-				case 'ugh' | 'guns' | 'stress':
-					stage = 'tank';
-				case 'darnell' | 'lit-up' | '2hot':
-					stage = 'phillyStreets';
-				case 'blazin':
-					stage = 'phillyBlazin';
-				default:
-					stage = 'stage';
-			}
-		} else {
+		else if(Song.loadedSongName != null)
+			stage = vanillaSongStage(Paths.formatToSongPath(Song.loadedSongName));
+		else
 			stage = 'stage';
-		}
 
 		var stageFile:StageFile = getStageFile(stage);
-		if(stageFile == null) { //preventing crashes
-			forceNextDirectory = '';
-		} else {
-			forceNextDirectory = stageFile.directory;
-		}
+		forceNextDirectory = (stageFile != null) ? stageFile.directory : ''; //preventing crashes
 	}
 
 	public static function getStageFile(stage:String):StageFile {
-		var rawJson:String = null;
-		var path:String = StorageUtil.getPath() + Paths.getPreloadPath('stages/' + stage + '.json');
-
-		#if MODS_ALLOWED
-		var modPath:String = Paths.modFolders('stages/' + stage + '.json');
-		if(FileSystem.exists(modPath)) {
-			rawJson = File.getContent(modPath);
-		} else if(FileSystem.exists(path)) {
-			rawJson = File.getContent(path);
-		}
-		#else
-		if(Assets.exists(path)) {
-			rawJson = Assets.getText(path);
-		}
-		#end
-		else
+		try
 		{
-			return null;
+			var path:String = Paths.getPath('stages/' + stage + '.json', TEXT, null, true);
+			#if MODS_ALLOWED
+			if(FileSystem.exists(path))
+				return cast tjson.TJSON.parse(File.getContent(path));
+			#else
+			if(Assets.exists(path))
+				return cast tjson.TJSON.parse(Assets.getText(path));
+			#end
 		}
-		return cast Json.parse(rawJson);
+		return dummy();
 	}
 
 	public static function vanillaSongStage(songName):String
@@ -157,7 +127,7 @@ class StageData {
 				case 'gf', 'gfGroup':
 					if(gf != null)
 					{
-						gf.ID = num;
+						gf.ID = num; 
 						if (group != null) group.add(gf);
 						addedObjects.set('gf', gf);
 					}
@@ -187,7 +157,7 @@ class StageData {
 							spr.loadGraphic(Paths.image(data.image));
 						else
 							spr.frames = Paths.getAtlas(data.image);
-
+						
 						if(data.type == 'animatedSprite' && data.animations != null)
 						{
 							var anims:Array<objects.Character.AnimArray> = cast data.animations;
@@ -197,10 +167,10 @@ class StageData {
 									spr.animation.addByPrefix(anim.anim, anim.name, anim.fps, anim.loop);
 								else
 									spr.animation.addByIndices(anim.anim, anim.name, anim.indices, '', anim.fps, anim.loop);
-
+	
 								if(anim.offsets != null)
 									spr.addOffset(anim.anim, anim.offsets[0], anim.offsets[1]);
-
+	
 								if(spr.animation.curAnim == null || data.firstAnimation == anim.anim)
 									spr.playAnim(anim.anim, true);
 							}
@@ -225,7 +195,7 @@ class StageData {
 					}
 					spr.scrollFactor.set(data.scroll[0], data.scroll[1]);
 					spr.color = CoolUtil.colorFromString(data.color);
-
+					
 					for (varName in ['alpha', 'angle'])
 					{
 						var dat:Dynamic = Reflect.getProperty(data, varName);

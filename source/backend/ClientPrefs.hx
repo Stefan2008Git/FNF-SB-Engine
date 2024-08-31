@@ -1,24 +1,40 @@
 package backend;
 
+import flixel.util.FlxSave;
+import flixel.input.keyboard.FlxKey;
+import flixel.input.gamepad.FlxGamepadInputID;
 import states.TitleState;
 
 // Add a variable here and it will get automatically saved
 @:structInit class SaveVariables {
+	// Mobile and Mobile Controls Releated
+	public var extraButtons:String = "NONE"; // mobile extra button option
+	public var hitbox2:Bool = true; // hitbox extra button position option
+	public var dynamicColors:Bool = true; // yes cause its cool -Karim
+	public var controlsAlpha:Float = FlxG.onMobile ? 0.6 : 0;
+	public var screensaver:Bool = false;
+	public var wideScreen:Bool = false;
+	#if android
+	public var storageType:String = "EXTERNAL_DATA";
+	#end
+	public var hitboxType:String = "Gradient";
+	public var popUpRating:Bool = true;
+	public var vsync:Bool = false;
+	public var toastText:Bool = true;
+	public var vibration:Bool = true;
+	
 	public var downScroll:Bool = false;
 	public var middleScroll:Bool = false;
 	public var opponentStrums:Bool = true;
 	public var showFPS:Bool = true;
+	public var fpsResize:Float = 1;
 	public var totalFPS:Bool = false;
 	public var memory:Bool = true;
 	public var maxMemory:Bool = false;
 	public var engineVersion:Bool = false;
 	public var debugInfo:Bool = false;
-	public var rainbowFPS:Bool = false;
-	public var redText:Bool = true;
-	public var fpsResize:Float = 1;
-	public var inGameLogs:Bool = false;
 	public var watermarkIcon:Bool = true;
-	public var iconResize:Float = 1;
+	public var watermarkIconResize:Float = 1;
 	public var flashing:Bool = true;
 	public var autoPause:Bool = true;
 	public var antialiasing:Bool = true;
@@ -44,21 +60,7 @@ import states.TitleState;
 		[0xFFFF884E, 0xFFFFFAF5, 0xFF6C0000]];
 
 	public var ghostTapping:Bool = true;
-	public var timeBarType:String = 'Time Elapsed';
-
-  	//  Mobile Stuff
-	public var hitboxMode:String = 'New';
-	public var hitboxExtend:Bool = false;
-	public var hitboxLocation:String = 'Bottom';
-	public var hitboxAlpha:Float = 0.2; //someone request this lol
-	public var hitboxHints:Bool = true;
-	public var virtualPadAlpha:Float = 0.75;
-	public var virtualPadSpace:Array<Float> = [FlxG.width - 44 * 3, FlxG.height - 45 * 3];
-	public var dynamicColor:Bool = false;
-	public var screenSaver:Bool = true;
-	public var vibration:Bool = true;
-	public var toastText:Bool = true;
-
+	public var timeBarType:String = 'Time Left';
 	public var scoreZoom:Bool = true;
 	public var noReset:Bool = false;
 	public var healthBarAlpha:Float = 1;
@@ -66,67 +68,45 @@ import states.TitleState;
 	public var pauseMusic:String = 'Tea Time';
 	public var checkForUpdates:Bool = true;
 	public var comboStacking:Bool = true;
-	public var themes:String = 'SB Engine';
-	public var checkerboard:Bool = true;
-	public var gameStyle:String = 'SB Engine';
-	public var judgementCounter:Bool = true;
-	public var judgementCounterStyle:String = 'Original';
-	public var judgementZoom:Bool = true;
-	public var watermark:Bool = true;
-	public var watermarkStyle:String = 'SB Engine';
-	public var randomEngineNames:Bool = false;
-	public var objects:Bool = true;
-	public var timeBar:Bool = true;
-	public var iconBounce:Bool = true;
-	public var cameraMovement:Bool = true;
-	public var arrowGlow:Bool = true;
-	public var opponentArrowGlow:Bool = true;
-	public var scoreText:Bool = true;
-	public var textSineEffect:Bool = true;
-	public var shakeObjects:Bool = true;
-	public var opponentHealthColor:Bool = false;
-	public var autoplayTextOnTimeBar:Bool = true;
-	public var guitarHeroSustains:Bool = true;
-	public var originalHPBar:Bool = false;
-	public var smoothHealth:Bool = true;
-	public var smoothScore:Bool = true;
-	public var tweenableTimeTxt:Bool = false;
-	public var tweenableScoreTxt:Bool = false;
-	public var millisecondTxt:Bool = false;
-	public var ratingPopup:Bool = true;
-	public var ratingComboPopup:Bool = true;
-	public var ratingComboNumberPopup:Bool = true;
-	public var mainMenuMusic:String = 'SB Engine';
-	public var resultsScreen:Bool = false;
-	public var loadingScreen:Bool = true;
-	public var gameOverScreen:Bool = true;
-	public var songPercentage:Bool = false;
-	public var fadeTransition:Bool = true;
-	public var timeTxt:Bool = true;
-	public var accuraryStyle:String = 'Judgement';
-	public var leftToRightBar:Bool = true;
-	public var betterCutscene:Bool = true;
 	public var gameplaySettings:Map<String, Dynamic> = [
 		'scrollspeed' => 1.0,
 		'scrolltype' => 'multiplicative', 
+		// anyone reading this, amod is multiplicative speed mod, cmod is constant speed mod, and xmod is bpm based speed mod.
+		// an amod example would be chartSpeed * multiplier
+		// cmod would just be constantSpeed = chartSpeed
+		// and xmod basically works by basing the speed on the bpm.
+		// iirc (beatsPerSecond * (conductorToNoteDifference / 1000)) * noteSize (110 or something like that depending on it, prolly just use note.height)
+		// bps is calculated by bpm / 60
+		// oh yeah and you'd have to actually convert the difference to seconds which I already do, because this is based on beats and stuff. but it should work
+		// just fine. but I wont implement it because I don't know how you handle sustains and other stuff like that.
+		// oh yeah when you calculate the bps divide it by the songSpeed or rate because it wont scroll correctly when speeds exist.
+		// -kade
 		'songspeed' => 1.0,
 		'healthgain' => 1.0,
 		'healthloss' => 1.0,
-		'healthDran' => 0,
 		'instakill' => false,
 		'practice' => false,
-		'botplay' => false
+		'botplay' => false,
+		'opponentplay' => false
 	];
 
 	public var comboOffset:Array<Int> = [0, 0, 0, 0];
 	public var ratingOffset:Int = 0;
-	public var impressiveWindow:Int = 25;
 	public var sickWindow:Int = 45;
 	public var goodWindow:Int = 90;
 	public var badWindow:Int = 135;
 	public var safeFrames:Float = 10;
+	public var guitarHeroSustains:Bool = true;
 	public var discordRPC:Bool = true;
-	// public var betterCrashHandler:Bool = true;
+	public var loadingScreen:Bool = true;
+	public var language:String = 'en-US';
+
+	public var checkerboard:Bool = true;
+	public var smoothScore:Bool = true;
+	public var scoreText:Bool = true;
+	public var watermark:Bool = true;
+	public var judgementCounter:Bool = true;
+	public var judgementCounterStyle:String = 'Default';
 }
 
 class ClientPrefs {
@@ -136,10 +116,10 @@ class ClientPrefs {
 	//Every key has two binds, add your key bind down here and then add your control on options/ControlsSubState.hx and Controls.hx
 	public static var keyBinds:Map<String, Array<FlxKey>> = [
 		//Key Bind, Name for ControlsSubState
-		'note_up'		=> [J],
-		'note_left'		=> [D],
-		'note_down'		=> [F],
-		'note_right'	=> [K],
+		'note_up'		=> [W, UP],
+		'note_left'		=> [A, LEFT],
+		'note_down'		=> [S, DOWN],
+		'note_right'	=> [D, RIGHT],
 		
 		'ui_up'			=> [W, UP],
 		'ui_left'		=> [A, LEFT],
@@ -157,16 +137,15 @@ class ClientPrefs {
 		
 		'debug_1'		=> [SEVEN],
 		'debug_2'		=> [EIGHT],
-
-		'full_screen'   => [F11],
-		'refresh_game'  => [F5],
-		'screenshot'    => [F3],
+		
+		'fullscreen'	=> [F11],
+		'screenshot' 	=> [F3],
 	];
 	public static var gamepadBinds:Map<String, Array<FlxGamepadInputID>> = [
 		'note_up'		=> [DPAD_UP, Y],
 		'note_left'		=> [DPAD_LEFT, X],
 		'note_down'		=> [DPAD_DOWN, A],
-		'note_right'	=> [DPAD_RIGHT, B],
+		'note_right'	        => [DPAD_RIGHT, B],
 		
 		'ui_up'			=> [DPAD_UP, LEFT_STICK_DIGITAL_UP],
 		'ui_left'		=> [DPAD_LEFT, LEFT_STICK_DIGITAL_LEFT],
@@ -178,6 +157,23 @@ class ClientPrefs {
 		'pause'			=> [START],
 		'reset'			=> [BACK]
 	];
+	public static var mobileBinds:Map<String, Array<MobileInputID>> = [
+		'note_up'		=> [noteUP, UP2],
+		'note_left'		=> [noteLEFT, LEFT2],
+		'note_down'		=> [noteDOWN, DOWN2],
+		'note_right'	=> [noteRIGHT, RIGHT2],
+
+		'ui_up'			=> [UP, noteUP],
+		'ui_left'		=> [LEFT, noteLEFT],
+		'ui_down'		=> [DOWN, noteDOWN],
+		'ui_right'		=> [RIGHT, noteRIGHT],
+
+		'accept'		=> [A],
+		'back'			=> [B],
+		'pause'			=> [#if android NONE #else P #end],
+		'reset'			=> [NONE]
+	];
+	public static var defaultMobileBinds:Map<String, Array<MobileInputID>> = null;
 	public static var defaultKeys:Map<String, Array<FlxKey>> = null;
 	public static var defaultButtons:Map<String, Array<FlxGamepadInputID>> = null;
 
@@ -194,45 +190,49 @@ class ClientPrefs {
 					gamepadBinds.set(button, defaultButtons.get(button).copy());
 	}
 
-	public static function clearInvalidKeys(key:String) {
+	public static function clearInvalidKeys(key:String)
+	{
 		var keyBind:Array<FlxKey> = keyBinds.get(key);
 		var gamepadBind:Array<FlxGamepadInputID> = gamepadBinds.get(key);
+		var mobileBind:Array<MobileInputID> = mobileBinds.get(key);
 		while(keyBind != null && keyBind.contains(NONE)) keyBind.remove(NONE);
 		while(gamepadBind != null && gamepadBind.contains(NONE)) gamepadBind.remove(NONE);
+		while(mobileBind != null && mobileBind.contains(NONE)) mobileBind.remove(NONE);
 	}
 
-	public static function loadDefaultKeys() {
+	public static function loadDefaultKeys()
+	{
 		defaultKeys = keyBinds.copy();
 		defaultButtons = gamepadBinds.copy();
+		defaultMobileBinds = mobileBinds.copy();
 	}
 
 	public static function saveSettings() {
-		for (key in Reflect.fields(data)) {
-			//TraceText.makeTheTraceText('saved variable: $key');
+		for (key in Reflect.fields(data))
 			Reflect.setField(FlxG.save.data, key, Reflect.field(data, key));
-		}
+
+		#if ACHIEVEMENTS_ALLOWED Achievements.save(); #end
 		FlxG.save.flush();
 
 		//Placing this in a separate save so that it can be manually deleted without removing your Score and stuff
 		var save:FlxSave = new FlxSave();
-		save.bind('dataSaver', CoolUtil.getSavePath());
+		save.bind('controls_v3', CoolUtil.getSavePath());
 		save.data.keyboard = keyBinds;
 		save.data.gamepad = gamepadBinds;
+		save.data.mobile = mobileBinds;
 		save.flush();
 		FlxG.log.add("Settings saved!");
-		TraceText.makeTheTraceText('Settings saved!');
 	}
 
 	public static function loadPrefs() {
-		for (key in Reflect.fields(data)) {
-			if (key != 'gameplaySettings' && Reflect.hasField(FlxG.save.data, key)) {
-				//TraceText.makeTheTraceText('loaded variable: $key');
+		#if ACHIEVEMENTS_ALLOWED Achievements.load(); #end
+
+		for (key in Reflect.fields(data))
+			if (key != 'gameplaySettings' && Reflect.hasField(FlxG.save.data, key))
 				Reflect.setField(data, key, Reflect.field(FlxG.save.data, key));
-			}
-		}
 		
-		if (Main.fpsVar != null) Main.fpsVar.visible = data.showFPS;
-		if (Main.watermark != null) Main.watermark.visible = data.watermarkIcon;
+		if(Main.fpsVar != null)
+			Main.fpsVar.visible = data.showFPS;
 
 		#if (!html5 && !switch)
 		FlxG.autoPause = ClientPrefs.data.autoPause;
@@ -243,15 +243,19 @@ class ClientPrefs {
 		}
 		#end
 
-		if(data.framerate > FlxG.drawFramerate) {
+		if(data.framerate > FlxG.drawFramerate)
+		{
 			FlxG.updateFramerate = data.framerate;
 			FlxG.drawFramerate = data.framerate;
-		} else {
+		}
+		else
+		{
 			FlxG.drawFramerate = data.framerate;
 			FlxG.updateFramerate = data.framerate;
 		}
 
-		if(FlxG.save.data.gameplaySettings != null) {
+		if(FlxG.save.data.gameplaySettings != null)
+		{
 			var savedMap:Map<String, Dynamic> = FlxG.save.data.gameplaySettings;
 			for (name => value in savedMap)
 				data.gameplaySettings.set(name, value);
@@ -270,60 +274,42 @@ class ClientPrefs {
 		save.bind('controls_v3', CoolUtil.getSavePath());
 		if(save != null)
 		{
-			if(save.data.keyboard != null) {
+			if(save.data.keyboard != null)
+			{
 				var loadedControls:Map<String, Array<FlxKey>> = save.data.keyboard;
-				for (control => keys in loadedControls) {
+				for (control => keys in loadedControls)
 					if(keyBinds.exists(control)) keyBinds.set(control, keys);
-				}
 			}
-			if(save.data.gamepad != null) {
+			if(save.data.gamepad != null)
+			{
 				var loadedControls:Map<String, Array<FlxGamepadInputID>> = save.data.gamepad;
-				for (control => keys in loadedControls) {
+				for (control => keys in loadedControls)
 					if(gamepadBinds.exists(control)) gamepadBinds.set(control, keys);
-				}
+			}
+			if(save.data.mobile != null) {
+					var loadedControls:Map<String, Array<MobileInputID>> = save.data.mobile;
+					for (control => keys in loadedControls)
+						if(mobileBinds.exists(control)) mobileBinds.set(control, keys);
 			}
 			reloadVolumeKeys();
 		}
 	}
 
-
-	// what to do before application get closed?
-	public static var onExitFunction:Function = function()
+	inline public static function getGameplaySetting(name:String, defaultValue:Dynamic = null, ?customDefaultValue:Bool = false):Dynamic
 	{
-		// null
-	};
-
-	public static function setExitHandler(func:Function):Void
-	{
-		trace("exit handler change: " + func);
-		#if openfl_legacy
-		openfl.Lib.current.stage.onQuit = function()
-		{
-			func();
-			openfl.Lib.close();
-		};
-		#else
-		openfl.Lib.current.stage.application.onExit.add(function(code)
-		{
-			func();
-		});
-		#end
-
-		onExitFunction = func;
-	}
-
-	inline public static function getGameplaySetting(name:String, defaultValue:Dynamic = null, ?customDefaultValue:Bool = false):Dynamic {
 		if(!customDefaultValue) defaultValue = defaultData.gameplaySettings.get(name);
 		return /*PlayState.isStoryMode ? defaultValue : */ (data.gameplaySettings.exists(name) ? data.gameplaySettings.get(name) : defaultValue);
 	}
 
-	public static function reloadVolumeKeys() {
+	public static function reloadVolumeKeys()
+	{
 		TitleState.muteKeys = keyBinds.get('volume_mute').copy();
 		TitleState.volumeDownKeys = keyBinds.get('volume_down').copy();
 		TitleState.volumeUpKeys = keyBinds.get('volume_up').copy();
 		toggleVolumeKeys(true);
 	}
-	public static function toggleVolumeKeys(turnOn:Bool) {
+	public static function toggleVolumeKeys(?turnOn:Bool = true)
+	{
 		final emptyArray = [];
 		FlxG.sound.muteKeys = turnOn ? TitleState.muteKeys : emptyArray;
 		FlxG.sound.volumeDownKeys = turnOn ? TitleState.volumeDownKeys : emptyArray;

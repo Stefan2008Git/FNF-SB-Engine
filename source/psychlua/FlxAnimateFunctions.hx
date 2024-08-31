@@ -1,6 +1,6 @@
 package psychlua;
 
-import psychlua.ModchartAnimateSprite;
+import openfl.utils.Assets;
 
 #if (LUA_ALLOWED && flxanimate)
 class FlxAnimateFunctions

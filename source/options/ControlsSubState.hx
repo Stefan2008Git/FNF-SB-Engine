@@ -1,8 +1,18 @@
 package options;
 
+import backend.InputFormatter;
+import flixel.addons.display.FlxBackdrop;
+import flixel.addons.display.FlxGridOverlay;
+import objects.AttachedSprite;
+
+import flixel.input.keyboard.FlxKey;
+import flixel.input.gamepad.FlxGamepad;
+import flixel.input.gamepad.FlxGamepadInputID;
+import flixel.input.gamepad.FlxGamepadManager;
+
 class ControlsSubState extends MusicBeatSubstate
 {
-	var currentlySelected:Int = 0;
+	var curSelected:Int = 0;
 	var curAlt:Bool = false;
 
 	//Show on gamepad - Display name - Save file key - Rebind display name
@@ -30,11 +40,10 @@ class ControlsSubState extends MusicBeatSubstate
 		[false, 'Down', 'volume_down', 'Volume Down'],
 		[false],
 		[false, 'DEBUG'],
-		[false, 'Key 1', 'debug_1', 'Master editor'],
-		[false, 'Key 2', 'debug_2', 'In-game char editor'],
-		[false, 'Key 3', 'refresh_game', 'Refresh game'],
-		[false, 'Key 4', 'full_screen', 'Fullscreen'],
-		[false, 'Key 5', 'screenshot', 'Screenshot']
+		[false, 'Key 1', 'debug_1', 'Debug Key #1'],
+		[false, 'Key 2', 'debug_2', 'Debug Key #2'],
+		[false, 'WINDOW'],
+		[false, 'Fullscreen', 'fullscreen', 'Fullscreen Toggel']
 	];
 	var curOptions:Array<Int>;
 	var curOptionsValid:Array<Int>;
@@ -47,18 +56,21 @@ class ControlsSubState extends MusicBeatSubstate
 	var grpBinds:FlxTypedGroup<Alphabet>;
 	var selectSpr:AttachedSprite;
 
-	var gamepadColor:FlxColor = FlxColor.PURPLE;
-	var keyboardColor:FlxColor = FlxColor.BROWN;
+	var gamepadColor:FlxColor = 0xfffd7194;
+	var keyboardColor:FlxColor = 0xff7192fd;
 	var onKeyboardMode:Bool = true;
 	
 	var controllerSpr:FlxSprite;
 	
 	public function new()
 	{
+		controls.isInSubstate = true;
+
 		super();
 
-		Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Options Menu (In Controls menu)";
-		FlxTween.tween(FlxG.sound.music, {volume: 0.4}, 0.8);
+		#if DISCORD_ALLOWED
+		DiscordClient.changePresence("Controls Menu", null);
+		#end
 
 		options.push([true]);
 		options.push([true]);
@@ -70,11 +82,10 @@ class ControlsSubState extends MusicBeatSubstate
 		bg.screenCenter();
 		add(bg);
 
-		var grid:FlxBackdrop = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0x70000000, 0x0));
+		var grid:FlxBackdrop = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0x33FFFFFF, 0x0));
 		grid.velocity.set(40, 40);
 		grid.alpha = 0;
 		FlxTween.tween(grid, {alpha: 1}, 0.5, {ease: FlxEase.quadOut});
-		grid.visible = ClientPrefs.data.checkerboard;
 		add(grid);
 
 		grpDisplay = new FlxTypedGroup<Alphabet>();
@@ -84,8 +95,7 @@ class ControlsSubState extends MusicBeatSubstate
 		grpBlacks = new FlxTypedGroup<AttachedSprite>();
 		add(grpBlacks);
 		selectSpr = new AttachedSprite();
-		selectSpr.makeGraphic(250, 78, FlxColor.TRANSPARENT);
-		FlxSpriteUtil.drawRoundRect(selectSpr, 0, 0, 250, 78, 65, 65, FlxColor.WHITE);
+		selectSpr.makeGraphic(250, 78, FlxColor.WHITE);
 		selectSpr.copyAlpha = false;
 		selectSpr.alpha = 0.75;
 		add(selectSpr);
@@ -104,7 +114,6 @@ class ControlsSubState extends MusicBeatSubstate
 		add(text);
 
 		createTexts();
-		cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
 	}
 
 	var lastID:Int = 0;
@@ -122,10 +131,9 @@ class ControlsSubState extends MusicBeatSubstate
 		grpBinds.clear();
 
 		var myID:Int = 0;
-		for (i in 0...options.length)
+		for (i => option in options)
 		{
-			var option:Array<Dynamic> = options[i];
-			if(option[0] || onKeyboardMode)
+			if(onKeyboardMode || option[0])
 			{
 				if(option.length > 1)
 				{
@@ -133,7 +141,10 @@ class ControlsSubState extends MusicBeatSubstate
 					var isDefaultKey:Bool = (option[1] == defaultKey);
 					var isDisplayKey:Bool = (isCentered && !isDefaultKey);
 
-					var text:Alphabet = new Alphabet(200, 300, option[1], !isDisplayKey);
+					var str:String = option[1];
+					var keyStr:String = option[2];
+					if(isDefaultKey) str = Language.getPhrase(str);
+					var text:Alphabet = new Alphabet(200, 300, !isDisplayKey ? Language.getPhrase('key_$keyStr', str) : Language.getPhrase('keygroup_$str', str), !isDisplayKey);
 					text.isMenuItem = true;
 					text.changeX = false;
 					text.distancePerItem.y = 60;
@@ -168,21 +179,23 @@ class ControlsSubState extends MusicBeatSubstate
 	}
 	function addKeyText(text:Alphabet, option:Array<Dynamic>, id:Int)
 	{
+		var keys:Array<Null<FlxKey>> = ClientPrefs.keyBinds.get(option[2]);
+		if(keys == null && onKeyboardMode)
+			keys = ClientPrefs.defaultKeys.get(option[2]).copy();
+
+		var gmpds:Array<Null<FlxGamepadInputID>> = ClientPrefs.gamepadBinds.get(option[2]);
+		if(gmpds == null && !onKeyboardMode)
+			gmpds = ClientPrefs.defaultButtons.get(option[2]).copy();
+
 		for (n in 0...2)
 		{
 			var textX:Float = 350 + n * 300;
 
 			var key:String = null;
 			if(onKeyboardMode)
-			{
-				var savKey:Array<Null<FlxKey>> = ClientPrefs.keyBinds.get(option[2]);
-				key = InputFormatter.getKeyName((savKey[n] != null) ? savKey[n] : NONE);
-			}
+				key = InputFormatter.getKeyName((keys[n] != null) ? keys[n] : NONE);
 			else
-			{
-				var savKey:Array<Null<FlxGamepadInputID>> = ClientPrefs.gamepadBinds.get(option[2]);
-				key = InputFormatter.getGamepadName((savKey[n] != null) ? savKey[n] : NONE);
-			}
+				key = InputFormatter.getGamepadName((gmpds[n] != null) ? gmpds[n] : NONE);
 
 			var attach:Alphabet = new Alphabet(textX + 210, 248, key, false);
 			attach.isMenuItem = true;
@@ -200,8 +213,7 @@ class ControlsSubState extends MusicBeatSubstate
 
 			// spawn black bars at the right of the key name
 			var black:AttachedSprite = new AttachedSprite();
-			black.makeGraphic(250, 78, FlxColor.TRANSPARENT);
-			FlxSpriteUtil.drawRoundRect(black, 0, 0, 250, 78, 65, 65, FlxColor.BROWN);
+			black.makeGraphic(250, 78, FlxColor.BLACK);
 			black.alphaMult = 0.4;
 			black.sprTracker = text;
 			black.yAdd = -6;
@@ -271,13 +283,10 @@ class ControlsSubState extends MusicBeatSubstate
 
 		if(!binding)
 		{
-			if(controls.BACK || FlxG.gamepads.anyJustPressed(B))
+			if(FlxG.keys.justPressed.ESCAPE || FlxG.gamepads.anyJustPressed(B))
 			{
-				FlxTransitionableState.skipNextTransOut = true;
-				ClientPrefs.saveSettings();
+				controls.isInSubstate = false;
 				close();
-				Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " - Options Menu";
-				FlxTween.tween(FlxG.sound.music, {volume: 1}, 0.8);
 				return;
 			}
 			if(FlxG.keys.justPressed.CONTROL || FlxG.gamepads.anyJustPressed(LEFT_SHOULDER) || FlxG.gamepads.anyJustPressed(RIGHT_SHOULDER)) swapMode();
@@ -290,19 +299,20 @@ class ControlsSubState extends MusicBeatSubstate
 
 			if(FlxG.keys.justPressed.ENTER || FlxG.gamepads.anyJustPressed(START) || FlxG.gamepads.anyJustPressed(A))
 			{
-				if(options[curOptions[currentlySelected]][1] != defaultKey)
+				if(options[curOptions[curSelected]][1] != defaultKey)
 				{
-					bindingBlack = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, /*FlxColor.BLACK*/ FlxColor.WHITE);
+					bindingBlack = new FlxSprite().makeGraphic(1, 1, /*FlxColor.BLACK*/ FlxColor.WHITE);
+					bindingBlack.scale.set(FlxG.width, FlxG.height);
+					bindingBlack.updateHitbox();
 					bindingBlack.alpha = 0;
 					FlxTween.tween(bindingBlack, {alpha: 0.6}, 0.35, {ease: FlxEase.linear});
 					add(bindingBlack);
 
-					bindingText = new Alphabet(FlxG.width / 2, 160, "Rebinding " + options[curOptions[currentlySelected]][3], false);
-					TraceText.makeTheTraceText("Rebinding " + options[curOptions[currentlySelected]][3]);
+					bindingText = new Alphabet(FlxG.width / 2, 160, Language.getPhrase('controls_rebinding', 'Rebinding {1}', [options[curOptions[curSelected]][3]]), false);
 					bindingText.alignment = CENTERED;
 					add(bindingText);
 					
-					bindingText2 = new Alphabet(FlxG.width / 2, 340, "Hold ESC to Cancel\nHold Backspace to Delete", true);
+					bindingText2 = new Alphabet(FlxG.width / 2, 340, Language.getPhrase('controls_rebinding2', 'Hold ESC to Cancel\nHold Backspace to Delete'), true);
 					bindingText2.alignment = CENTERED;
 					add(bindingText2);
 
@@ -316,9 +326,9 @@ class ControlsSubState extends MusicBeatSubstate
 					// Reset to Default
 					ClientPrefs.resetKeys(!onKeyboardMode);
 					ClientPrefs.reloadVolumeKeys();
-					var lastSel:Int = currentlySelected;
+					var lastSel:Int = curSelected;
 					createTexts();
-					currentlySelected = lastSel;
+					curSelected = lastSel;
 					updateText();
 					FlxG.sound.play(Paths.sound('cancelMenu'));
 				}
@@ -327,11 +337,10 @@ class ControlsSubState extends MusicBeatSubstate
 		else
 		{
 			var altNum:Int = curAlt ? 1 : 0;
-			var curOption:Array<Dynamic> = options[curOptions[currentlySelected]];
+			var curOption:Array<Dynamic> = options[curOptions[curSelected]];
 			if(FlxG.keys.pressed.ESCAPE || FlxG.gamepads.anyPressed(B))
 			{
 				holdingEsc += elapsed;
-				TraceText.makeTheTraceText("Closing the Binding sub menu...");
 				if(holdingEsc > 0.5)
 				{
 					FlxG.sound.play(Paths.sound('cancelMenu'));
@@ -343,9 +352,12 @@ class ControlsSubState extends MusicBeatSubstate
 				holdingEsc += elapsed;
 				if(holdingEsc > 0.5)
 				{
-					ClientPrefs.keyBinds.get(curOption[2])[altNum] = NONE;
+					if (onKeyboardMode)
+						ClientPrefs.keyBinds.get(curOption[2])[altNum] = NONE;
+					else
+						ClientPrefs.gamepadBinds.get(curOption[2])[altNum] = NONE;
 					ClientPrefs.clearInvalidKeys(curOption[2]);
-					updateBind(Math.floor(currentlySelected * 2) + altNum, onKeyboardMode ? InputFormatter.getKeyName(NONE) : InputFormatter.getGamepadName(NONE));
+					updateBind(Math.floor(curSelected * 2) + altNum, onKeyboardMode ? InputFormatter.getKeyName(NONE) : InputFormatter.getGamepadName(NONE));
 					FlxG.sound.play(Paths.sound('cancelMenu'));
 					closeBinding();
 				}
@@ -423,7 +435,7 @@ class ControlsSubState extends MusicBeatSubstate
 							curButtons[1 - altNum] = FlxGamepadInputID.NONE;
 					}
 
-					var option:String = options[curOptions[currentlySelected]][2];
+					var option:String = options[curOptions[curSelected]][2];
 					ClientPrefs.clearInvalidKeys(option);
 					for (n in 0...2)
 					{
@@ -438,7 +450,7 @@ class ControlsSubState extends MusicBeatSubstate
 							var savKey:Array<Null<FlxGamepadInputID>> = ClientPrefs.gamepadBinds.get(option);
 							key = InputFormatter.getGamepadName(savKey[n] != null ? savKey[n] : NONE);
 						}
-						updateBind(Math.floor(currentlySelected * 2) + n, key);
+						updateBind(Math.floor(curSelected * 2) + n, key);
 					}
 					FlxG.sound.play(Paths.sound('confirmMenu'));
 					closeBinding();
@@ -462,18 +474,11 @@ class ControlsSubState extends MusicBeatSubstate
 		ClientPrefs.reloadVolumeKeys();
 	}
 
-	function updateText(?move:Int = 0)
+	function updateText(?change:Int = 0)
 	{
-		if(move != 0)
-		{
-			//var dir:Int = Math.round(move / Math.abs(move));
-			currentlySelected += move;
+		curSelected = FlxMath.wrap(curSelected + change, 0, curOptions.length - 1);
 
-			if(currentlySelected < 0) currentlySelected = curOptions.length - 1;
-			else if (currentlySelected >= curOptions.length) currentlySelected = 0;
-		}
-
-		var num:Int = curOptionsValid[currentlySelected];
+		var num:Int = curOptionsValid[curSelected];
 		var addNum:Int = 0;
 		if(num < 3) addNum = 3 - num;
 		else if(num > lastID - 4) addNum = (lastID - 4) - num;
@@ -498,14 +503,13 @@ class ControlsSubState extends MusicBeatSubstate
 		FlxG.sound.play(Paths.sound('scrollMenu'));
 	}
 
-	var colorTween:FlxTween;
 	function swapMode()
 	{
-		if(colorTween != null) colorTween.destroy();
-		colorTween = FlxTween.color(bg, 0.5, bg.color, onKeyboardMode ? gamepadColor : keyboardColor, {ease: FlxEase.sineInOut});
+		FlxTween.cancelTweensOf(bg);
+		FlxTween.color(bg, 0.5, bg.color, onKeyboardMode ? gamepadColor : keyboardColor, {ease: FlxEase.linear});
 		onKeyboardMode = !onKeyboardMode;
 
-		currentlySelected = 0;
+		curSelected = 0;
 		curAlt = false;
 		controllerSpr.animation.play(onKeyboardMode ? 'keyboard' : 'gamepad');
 		createTexts();
@@ -518,7 +522,7 @@ class ControlsSubState extends MusicBeatSubstate
 			curAlt = !curAlt;
 			FlxG.sound.play(Paths.sound('scrollMenu'));
 		}
-		selectSpr.sprTracker = grpBlacks.members[Math.floor(currentlySelected * 2) + (curAlt ? 1 : 0)];
+		selectSpr.sprTracker = grpBlacks.members[Math.floor(curSelected * 2) + (curAlt ? 1 : 0)];
 		selectSpr.visible = (selectSpr.sprTracker != null);
 	}
 }

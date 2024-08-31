@@ -1,21 +1,17 @@
 package backend;
 
-#if android
-import android.AndroidControls.AndroidControls;
-import android.flixel.FlxHitbox;
-import android.flixel.FlxNewHitbox;
-import android.flixel.FlxVirtualPad;
-import flixel.ui.FlxButton;
-import android.flixel.FlxButton as FlxNewButton;
-#end
+import flixel.FlxSubState;
 
 class MusicBeatSubstate extends FlxSubState
 {
+	public static var instance:MusicBeatSubstate;
+
 	public function new()
 	{
+		instance = this;
+		controls.isInSubstate = true;
 		super();
 	}
-
 	private var curSection:Int = 0;
 	private var stepsToDo:Int = 0;
 
@@ -31,91 +27,73 @@ class MusicBeatSubstate extends FlxSubState
 
 	inline function get_controls():Controls
 		return Controls.instance;
-		
-    #if android
-	public static var virtualPad:FlxVirtualPad;
-	public static var androidControls:AndroidControls;
-	public static var checkHitbox:Bool = false;
-	public static var checkDUO:Bool = false;
-	#end
-	
-	#if android
-	public function addVirtualPad(?DPad:FlxDPadMode, ?Action:FlxActionMode) {
-		virtualPad = new FlxVirtualPad(DPad, Action, 0.75, ClientPrefs.data.antialiasing);
-		add(virtualPad);
-		Controls.checkTheState = false;
-		Controls.checkThePressedControl = true;
-	}
-	#end
 
-	#if android
-	public function removeVirtualPad() {
-		remove(virtualPad);
-	}
-	#end
-	
-	#if android
-	public function noCheckPress() {
-		Controls.checkThePressedControl = false;
-	}
-	#end
-	
-	#if android
-	public function addAndroidControls() {
-		androidControls = new AndroidControls();
-		
-        Controls.checkThePressedControl = true;
-        
-		switch (androidControls.mode)
+	public var touchPad:TouchPad;
+	public var mobileControls:MobileControls;
+
+	public function addMobileControls(defaultDrawTarget:Bool = true):Void
 		{
-			case VIRTUALPAD_RIGHT | VIRTUALPAD_LEFT | VIRTUALPAD_CUSTOM:
-				checkHitbox = false;
-				checkDUO = false;
-				Controls.checkTheKeyboard = false;
-			case DUO:
-				checkHitbox = false;
-				checkDUO = true;
-				Controls.checkTheKeyboard = false;
-			case HITBOX:
-				checkHitbox = true;
-				checkDUO = false;
-				Controls.checkTheKeyboard = false;
-			    
-			default:
-			    checkHitbox = false;
-				checkDUO = false;
-			    Controls.checkTheKeyboard = true;
+			mobileControls = new MobileControls();
+	
+			var camControls = new flixel.FlxCamera();
+			camControls.bgColor.alpha = 0;
+			FlxG.cameras.add(camControls, defaultDrawTarget);
+	
+			mobileControls.cameras = [camControls];
+			mobileControls.visible = false;
+			add(mobileControls);
+		}
+	
+		public function removeMobileControls()
+		{
+			if (mobileControls != null)
+				remove(mobileControls);
 		}
 
-		var cameraController = new FlxCamera();
-		FlxG.cameras.add(cameraController, false);
-		cameraController.bgColor.alpha = 0;
-		androidControls.cameras = [cameraController];
-
-		androidControls.visible = false;
-
-		add(androidControls);
-		Controls.checkTheControls = true;
+	public function addTouchPad(DPad:String, Action:String)
+	{
+		touchPad = new TouchPad(DPad, Action);
+		add(touchPad);
 	}
-	#end
 
-	#if android
-    public function addPadCamera() {
-		var cameraController = new FlxCamera();
-		cameraController.bgColor.alpha = 0;
-		FlxG.cameras.add(cameraController, false);
-		virtualPad.cameras = [cameraController];
+	public function removeTouchPad()
+	{
+		if (touchPad != null)
+			remove(touchPad);
 	}
-	#end
-	
+
+	public function addTouchPadCamera(defaultDrawTarget:Bool = true):Void
+	{
+		if (touchPad != null)
+		{
+			var camControls:FlxCamera = new FlxCamera();
+			camControls.bgColor.alpha = 0;
+			FlxG.cameras.add(camControls, defaultDrawTarget);
+			touchPad.cameras = [camControls];
+		}
+	}
+
+	override function destroy()
+	{
+		super.destroy();
+
+		controls.isInSubstate = false;
+		if (touchPad != null)
+		{
+			touchPad = FlxDestroyUtil.destroy(touchPad);
+			touchPad = null;
+		}
+		if (mobileControls != null)
+		{
+			mobileControls = FlxDestroyUtil.destroy(mobileControls);
+			mobileControls = null;
+		}
+	}
+
 	override function update(elapsed:Float)
 	{
-		Main.watermark.x = Lib.application.window.width - 10 - Main.watermark.width;
-		Main.watermark.y = Lib.application.window.height - 10 - Main.watermark.height;
-
 		//everyStep();
-
-		if (!persistentUpdate) MusicBeatState.timePassedOnState += elapsed;
+		if(!persistentUpdate) MusicBeatState.timePassedOnState += elapsed;
 		var oldStep:Int = curStep;
 
 		updateCurStep();
@@ -194,12 +172,12 @@ class MusicBeatSubstate extends FlxSubState
 
 	public function beatHit():Void
 	{
-		// Unknown...
+		//do literally nothing dumbass
 	}
 	
 	public function sectionHit():Void
 	{
-		// Unknown...
+		//yep, you guessed it, nothing again, dumbass
 	}
 	
 	function getBeatsOnSection()

@@ -30,11 +30,20 @@ jobs:
       - name: Install Haxelib
         run: |
           DEBIAN_FRONTEND=noninteractive sudo apt-get -qq install -o Dpkg::Progress-Fancy="0" -o APT::Color="0" -o Dpkg::Use-Pty="0" libvlc-dev libvlccore-dev < /dev/null > /dev/null
-          haxelib setup ~/haxelib
-          haxelib --global update haxelib
-          haxelib install hxcpp > /dev/null
-          haxelib install hmm --quiet
-          haxelib run hmm install
+          haxelib git hxcpp https://github.com/mcagabe19-stuff/hxcpp --quiet
+          haxelib install lime 8.0.2 --quiet
+          haxelib install openfl --quiet
+          haxelib install flixel --quiet
+          haxelib install flixel-addons --quiet
+          haxelib install flixel-tools --quiet
+          haxelib install hscript-iris 1.0.2 -quiet
+          haxelib install tjson --quiet
+          haxelib git flxanimate https://github.com/Dot-Stuff/flxanimate 768740a56b26aa0c072720e0d1236b94afe68e3e --quiet
+          haxelib git linc_luajit https://github.com/superpowers04/linc_luajit 1906c4a96f6bb6df66562b3f24c62f4c5bba14a7 --quiet
+          haxelib git hxdiscord_rpc https://github.com/MAJigsaw77/hxdiscord_rpc 3538a1c2bb07b04208cd014220207f8173acdb21 --quiet --skip-dependencies
+          haxelib git hxvlc https://github.com/MAJigsaw77/hxvlc 70e7f5f3e76d526ac6fb8f0e6665efe7dfda589d --quiet --skip-dependencies
+          haxelib git funkin.vis https://github.com/FunkinCrew/funkVis d5361037efa3a02c4ab20b5bd14ca11e7d00f519 --quiet --skip-dependencies
+          haxelib git grig.audio https://gitlab.com/haxe-grig/grig.audio.git cbf91e2180fd2e374924fe74844086aab7891666 --quiet
       - name: Create Version Tag
         run: echo "${{github.run_id}}" > VERSION
       - name: Configure Linux
@@ -45,7 +54,7 @@ jobs:
           haxelib list
       - name: Building
         run:
-          haxelib run lime build linux
+          haxelib run lime build linux -D officialBuild
         env:
           cert_pass: nullfunni
           cert_alias_pass: nullfunni
@@ -105,10 +114,20 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Install Haxelib
         run: |
-          haxelib setup C:/haxelib
-          haxelib install hxcpp > /dev/null
-          haxelib install hmm --quiet
-          haxelib run hmm install
+          haxelib git hxcpp https://github.com/mcagabe19-stuff/hxcpp --quiet
+          haxelib install lime 8.0.2 --quiet
+          haxelib install openfl --quiet
+          haxelib install flixel --quiet
+          haxelib install flixel-addons --quiet
+          haxelib install flixel-tools --quiet
+          haxelib install hscript-iris 1.0.2 -quiet
+          haxelib install tjson --quiet
+          haxelib git flxanimate https://github.com/Dot-Stuff/flxanimate 768740a56b26aa0c072720e0d1236b94afe68e3e --quiet
+          haxelib git linc_luajit https://github.com/superpowers04/linc_luajit 1906c4a96f6bb6df66562b3f24c62f4c5bba14a7 --quiet
+          haxelib git hxdiscord_rpc https://github.com/MAJigsaw77/hxdiscord_rpc 3538a1c2bb07b04208cd014220207f8173acdb21 --quiet --skip-dependencies
+          haxelib git hxvlc https://github.com/MAJigsaw77/hxvlc 70e7f5f3e76d526ac6fb8f0e6665efe7dfda589d --quiet --skip-dependencies
+          haxelib git funkin.vis https://github.com/FunkinCrew/funkVis d5361037efa3a02c4ab20b5bd14ca11e7d00f519 --quiet --skip-dependencies
+          haxelib git grig.audio https://gitlab.com/haxe-grig/grig.audio.git cbf91e2180fd2e374924fe74844086aab7891666 --quiet
         shell: cmd
       - name: Create Version Tag
         run: echo "${{github.run_id}}" > VERSION
@@ -120,7 +139,7 @@ jobs:
           haxelib list
       - name: Building
         run:
-          haxelib run lime build windows
+          haxelib run lime build windows -D officialBuild
         env:
           cert_pass: nullfunni
           cert_alias_pass: nullfunni
@@ -183,20 +202,29 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Install Haxelib
         run: |
-          haxelib setup ~/haxelib
-          haxelib install hxcpp > /dev/null
-          haxelib install hmm --quiet
-          haxelib run hmm install
+          haxelib git hxcpp https://github.com/mcagabe19-stuff/hxcpp --quiet
+          haxelib git lime https://github.com/mcagabe19-stuff/lime --quiet
+          haxelib install openfl --quiet
+          haxelib install flixel --quiet
+          haxelib install flixel-addons --quiet
+          haxelib install flixel-tools --quiet
+          haxelib install hscript-iris 1.0.2 -quiet
+          haxelib install tjson --quiet
+          haxelib git flxanimate https://github.com/Dot-Stuff/flxanimate 768740a56b26aa0c072720e0d1236b94afe68e3e --quiet
+          haxelib git linc_luajit https://github.com/superpowers04/linc_luajit 1906c4a96f6bb6df66562b3f24c62f4c5bba14a7 --quiet
+          haxelib git hxdiscord_rpc https://github.com/MAJigsaw77/hxdiscord_rpc 3538a1c2bb07b04208cd014220207f8173acdb21 --quiet --skip-dependencies
+          haxelib git hxvlc https://github.com/MAJigsaw77/hxvlc 70e7f5f3e76d526ac6fb8f0e6665efe7dfda589d --quiet --skip-dependencies
+          haxelib git funkin.vis https://github.com/FunkinCrew/funkVis d5361037efa3a02c4ab20b5bd14ca11e7d00f519 --quiet --skip-dependencies
+          haxelib git grig.audio https://gitlab.com/haxe-grig/grig.audio.git cbf91e2180fd2e374924fe74844086aab7891666 --quiet
       - name: Configure Mac
         run: |
           haxelib run lime setup -alias -y
-          Haxelib set lime 8.0.2
           haxelib set hscript-Iris 1.0.2
           haxelib list
       - name: Create Version Tag
         run: echo "${{github.run_id}}" > VERSION
       - name: Compile
-        run: haxelib run lime build mac
+        run: haxelib run lime build mac -D officialBuild
 
       - name: Clear Previous Cache
         uses: actions/github-script@main
@@ -277,26 +305,22 @@ jobs:
 
       - name: Install Haxelib
         run: |
-          haxelib setup ~/haxelib
-          haxelib git hxcpp https://github.com/mcagabe19-stuff/hxcpp 8dd30d69399f616f4e85295ce3f828219b78af17 --quiet
-          haxelib install lime 8.0.2
-          haxelib install openfl
-          haxelib install flixel
-          haxelib run lime setup flixel
-          haxelib install flixel-tools
-          haxelib install flixel-ui
-          haxelib install flixel-addons
-          haxelib install tjson
-          haxelib install hxjsonast
-          haxelib install hscript-Iris 1.0.2
-          haxelib git hxCodec https://github.com/SPLCoding/hxCodec-but-it-works-xd
+          haxelib git hxcpp https://github.com/mcagabe19-stuff/hxcpp --quiet
+          haxelib git lime https://github.com/mcagabe19-stuff/lime --quiet
+          haxelib install openfl --quiet
+          haxelib install flixel --quiet
+          haxelib install flixel-addons --quiet
+          haxelib install flixel-tools --quiet
+          haxelib install hscript-iris 1.0.2
+          haxelib install tjson 1.4.0 --quiet
           haxelib git flxanimate https://github.com/Dot-Stuff/flxanimate 768740a56b26aa0c072720e0d1236b94afe68e3e --quiet
-          haxelib git linc_luajit https://github.com/mcagabe19-stuff/linc_luajit-legacy 923a8262a7a8dcd166264dcf22cb7395a11fba65 --quiet
-          haxelib git extension-androidtools https://github.com/MaysLastPlay77/extension-androidtools
-          haxelib git AndroidDialogs https://github.com/beihu235/AndroidDialogs
-          haxelib git devicelanguage https://github.com/beihu235/devicelanguage
+          haxelib git linc_luajit https://github.com/mcagabe19-stuff/linc_luajit-legacy --quiet --skip-dependencies
+          haxelib git hxdiscord_rpc https://github.com/MAJigsaw77/hxdiscord_rpc 3538a1c2bb07b04208cd014220207f8173acdb21 --quiet --skip-dependencies
+          haxelib git hxvlc https://github.com/MAJigsaw77/hxvlc 70e7f5f3e76d526ac6fb8f0e6665efe7dfda589d --quiet --skip-dependencies
           haxelib git funkin.vis https://github.com/FunkinCrew/funkVis d5361037efa3a02c4ab20b5bd14ca11e7d00f519 --quiet --skip-dependencies
-          haxelib git grig.audio https://gitlab.com/haxe-grig/grig.audio
+          haxelib git grig.audio https://gitlab.com/haxe-grig/grig.audio.git cbf91e2180fd2e374924fe74844086aab7891666 --quiet
+          haxelib git extension-androidtools https://github.com/MAJigsaw77/extension-androidtools 727693f0a76c6e396df675bb0ed95d7639a4db01 --quiet --skip-dependencies
+          haxelib git toast-message-android https://github.com/beihu235/AndroidDialogs --quiet
 
       - name: Create Version Tag
         run: echo "${{github.run_id}}" > VERSION
@@ -316,7 +340,7 @@ jobs:
 
       - name: Building
         run:
-          haxelib run lime build android
+          haxelib run lime build android -D officialBuild
         env:
           cert_pass: nullfunni
           cert_alias_pass: nullfunni
@@ -358,10 +382,70 @@ jobs:
             export/release/android/obj
           key: cache-android-build
 
-      - name: Upload Artifact
+      - name: Upload Artifact (Android)
         if: ${{ success() }}
         uses: actions/upload-artifact@main
         with:
           name: sbEngineAndroidBuild
-          path: export/release/android/bin/app/build/outputs/apk/debug
+          path: export/release/android/bin/app/build/outputs/apk/release/*.apk
           if-no-files-found: error
+  iOS:
+      name: iOS
+      runs-on: macos-14
+      steps:
+         - name: Checkout
+           uses: actions/checkout@main
+
+         - name: Setup Haxe
+           uses: krdlab/setup-haxe@master
+           with:
+             haxe-version: 4.3.6
+
+         - name: Install Haxelib
+           run: |
+            haxelib setup ~/haxelib
+            haxelib git hxcpp https://github.com/mcagabe19-stuff/hxcpp --quiet
+            haxelib git lime https://github.com/mcagabe19-stuff/lime --quiet
+            haxelib install openfl --quiet
+            haxelib install flixel --quiet
+            haxelib install flixel-addons --quiet
+            haxelib install flixel-tools --quiet
+            haxelib install hscript-iris 1.0.2
+            haxelib install tjson 1.4.0 --quiet
+            haxelib git flxanimate https://github.com/Dot-Stuff/flxanimate 768740a56b26aa0c072720e0d1236b94afe68e3e --quiet
+            haxelib git linc_luajit https://github.com/superpowers04/linc_luajit 1906c4a96f6bb6df66562b3f24c62f4c5bba14a7 --quiet
+            haxelib git hxdiscord_rpc https://github.com/MAJigsaw77/hxdiscord_rpc 3538a1c2bb07b04208cd014220207f8173acdb21 --quiet --skip-dependencies
+            haxelib git hxvlc https://github.com/MAJigsaw77/hxvlc 70e7f5f3e76d526ac6fb8f0e6665efe7dfda589d --quiet --skip-dependencies
+            haxelib git funkin.vis https://github.com/FunkinCrew/funkVis d5361037efa3a02c4ab20b5bd14ca11e7d00f519 --quiet --skip-dependencies
+            haxelib git grig.audio https://gitlab.com/haxe-grig/grig.audio.git cbf91e2180fd2e374924fe74844086aab7891666 --quiet
+            haxelib git extension-androidtools https://github.com/MAJigsaw77/extension-androidtools 727693f0a76c6e396df675bb0ed95d7639a4db01 --quiet --skip-dependencies
+            haxelib git toast-message-android https://github.com/beihu235/AndroidDialogs --quiet
+
+         - name: Create Version Tag
+           run: echo "${{github.run_id}}" > VERSION
+
+         - name: Configure iOS
+           run: |
+            haxelib set hscript-Iris 1.0.2
+            haxelib list
+
+         - name: Building iOS
+           run:
+             haxelib run lime build ios -nosign -D officialBuild
+           env:
+            cert_pass: nullfunni
+            cert_alias_pass: nullfunni
+
+         - name: Make Ipa
+           run: |
+              cd export/release/ios/build/*-iphoneos
+              mkdir Payload
+              mv *.app Payload
+              zip -r StefanBeta.ipa Payload
+
+         - name: Upload Artifact (iOS)
+           uses: actions/upload-artifact@main
+           with:
+              name: sbEngineiOSBuild
+              path: export/release/ios/build/Release-iphoneos/*.ipa
+              if-no-files-found: error

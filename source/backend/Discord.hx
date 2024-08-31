@@ -3,8 +3,12 @@ package backend;
 #if DISCORD_ALLOWED
 import Sys.sleep;
 import sys.thread.Thread;
+import lime.app.Application;
+
 import hxdiscord_rpc.Discord;
 import hxdiscord_rpc.Types;
+
+import flixel.util.FlxStringUtil;
 
 class DiscordClient
 {
@@ -86,8 +90,8 @@ class DiscordClient
 						Discord.RunCallbacks();
 					}
 
-					// Wait 1 second until the next loop...
-					Sys.sleep(1.0);
+					// Wait 2 second until the next loop...
+					Sys.sleep(2);
 				}
 			});
 		}
@@ -137,7 +141,7 @@ class DiscordClient
 		return newID;
 	}
 
-	#if MODS_ALLOWED
+	#if (MODS_ALLOWED && desktop && !hl)
 	public static function loadModRPC()
 	{
 		var pack:Dynamic = Mods.getPack();
@@ -150,10 +154,10 @@ class DiscordClient
 	#end
 
 	#if LUA_ALLOWED
-	public static function addLuaCallbacks(lua:State)
+	public static function addLuaCallbacks(funk:psychlua.FunkinLua)
 	{
-		Lua_helper.add_callback(lua, "changeDiscordPresence", changePresence);
-		Lua_helper.add_callback(lua, "changeDiscordClientID", function(?newID:String) {
+		funk.set("changeDiscordPresence", changePresence);
+		funk.set("changeDiscordClientID", function(?newID:String) {
 			if(newID == null) newID = _defaultID;
 			clientID = newID;
 		});
