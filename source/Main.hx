@@ -169,11 +169,6 @@ class Main extends Sprite
 		if (ClientPrefs.data.showFPS && fpsVar != null) if (visible) FlxTween.tween(fpsVar, {alpha: 1}, duration); else FlxTween.tween(fpsVar, {alpha: 0}, duration);
 	}
 
-	public static function tweenWatermark(visible:Bool = true, duration:Float = 1.5)
-	{
-		if (ClientPrefs.data.watermarkIcon && watermark != null) if (visible) FlxTween.tween(watermark, {alpha: 0.4}, duration); else FlxTween.tween(watermark, {alpha: 0}, duration);
-	}
-
 	var focusMusicTween:FlxTween;
 	var lowFramerate:Int = 20;
 	function onWindowFocusOut() 

@@ -66,18 +66,6 @@ class Init extends FlxState
             Lib.current.stage.addChild(Main.fpsVar);
         }
 
-        // Mic'd Up SC code :D
-        var imagePath:String = Paths.modFolders('engineStuff/main/sbinator');
-        if (FileSystem.exists(imagePath)) {
-            if (Main.watermark == null) {
-                Main.watermark = new WatermarkCounter();
-                Main.watermark.x = Lib.application.window.width - 10 - Main.watermark.width;
-                Main.watermark.y = Lib.application.window.height - 10 - Main.watermark.height;
-                Main.watermark.alpha = 0;
-                Lib.current.stage.addChild(Main.watermark);
-            }
-        }
-
         mainBackground = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
         mainBackground.visible = false;
         add(mainBackground);
