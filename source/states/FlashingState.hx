@@ -1,33 +1,45 @@
 package states;
 
 import flixel.FlxSubState;
-
+import flixel.addons.display.FlxBackdrop;
+import flixel.addons.display.FlxGridOverlay;
 import flixel.effects.FlxFlicker;
-import lime.app.Application;
+import objects.Alphabet;
 
 class FlashingState extends MusicBeatState
 {
 	public static var leftState:Bool = false;
 
+	var bg:FlxSprite();
+	var checkeboard:FlxBackdrop;
+	var titleWatermark:Alphabet;
 	var warnText:FlxText;
 	override function create()
 	{
 		super.create();
 
-		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+		bg= new FlxSprite().loadGraphic(Paths.image('menuDesat'));
+		bg.screenCenter();
+		bg.color = 0xFF353535;
 		add(bg);
 
-		final silly:String = controls.mobileC ? 'A' : 'ENTER';
-		final baka:String = controls.mobileC ? 'B' : 'ENTER';
+		checkeboard = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0x70000000, 0x0));
+		checkeboard.velocity.set(FlxG.random.bool(50) ? 90 : -90, FlxG.random.bool(50) ? 90 : -90);
+		checkeboard.screenCenter();
+		add(checkeboard);
 
-		var guh:String = 'Hey, watch out!\n
-		This Mod contains some flashing lights!\n
-		Press $silly to disable them now or go to Options Menu.\n
-		Press $baka to ignore this message.\n
-		You\'ve been warned!';
+		final silly:String = controls.mobileC ? 'A' : 'ENTER';
+		final baka:String = controls.mobileC ? 'B' : 'ESCAPE';
+		var warning:String = 'FNF: SB Engine contains bugs, issues and flashing lights.\n\nFNF: SB Engine is a modified Psych Engine with some changes and additions made by Stefan2008 and it wasnt meant to be an attack on ShadowMario\nor any other mod makers out there. Im am not aiming for replacing what Friday Night Funkin: Psych Engine was, is and will be.\nIts made for fun and from the love for the game itself. All of the comparisons between this and other mods are purely coincidental, unless stated otherwise.\n\nNow with that out of the way, I hope you will enjoy to this modified Psych Engine fork.\nFunk all the way.\nPress $silly to proced.\nPress $baka to ignore this message.\nCurrent running SB Engine version is ${MainMenuState.sbEngineVersion}'
+		titleText = new Alphabet(200, 45, "WARNING:", true);
+		titleText.setScale(0.6);
+		titleText.alpha = 0.4;
+		titleText.color = FlxColor.RED;
+		titleText.screenCenter(X);
+		add(titleText);
 
 		controls.isInSubstate = false; // qhar I hate it
-		warnText = new FlxText(0, 0, FlxG.width, guh, 32);
+		warnText = new FlxText(0, 0, FlxG.width, warning, 32);
 		warnText.setFormat("VCR OSD Mono", 32, FlxColor.WHITE, CENTER);
 		warnText.screenCenter(Y);
 		add(warnText);

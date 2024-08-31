@@ -82,7 +82,7 @@ class SBinatorState extends MusicBeatState
 		mainLoaderSpin.antialiasing = ClientPrefs.data.antialiasing;
 		add(mainLoaderSpin);
 
-		skipText = new FlxText(20, FlxG.height - #if android 80 #else 110 #end, 1000, #if android "Got annoyed waiting? Tap on screen to skip loading screen" #else "Got annoyed waiting? Press SPACE to skip loading screen" #end, 10);
+		skipText = new FlxText(20, FlxG.height - #if mobile 80 #else 110 #end, 1000, #if mobile "Got annoyed waiting? Tap on screen to skip loading screen" #else "Got annoyed waiting? Press SPACE to skip loading screen" #end, 10);
 		skipText.setFormat("VCR OSD Mono", 26, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		skipText.alpha = 0;
 		new FlxTimer().start(5, function(tmr:FlxTimer) {
@@ -110,8 +110,17 @@ class SBinatorState extends MusicBeatState
         super.create();
     }
 
+	var screenJustPressed:Bool = false;
     override function update(elapsed:Float) 
     {
+		#if mobile
+		for (touch in FlxG.touches.list) {
+			if (touch.justPressed) {
+				screenJustPressed = true;
+			}
+		}
+		#end
+
 		loadingTime += elapsed;
 		if (loadingTime >= 15) {
 			updateBarPercent();
@@ -121,7 +130,7 @@ class SBinatorState extends MusicBeatState
 		}
 
 		// Got annoyed waiting to fully finish the "fake" loading screen?
-		if (FlxG.keys.justPressed.SPACE #if android || FlxG.android.justReleased.BACK #end && keybindActivation) {
+		if (FlxG.keys.justPressed.SPACE #if mobile || screenJustPressed #end && keybindActivation) {
 			switchToTitleMenu();
 			mainText.text = "Skipped!";
 			mainText.x = 1135;
