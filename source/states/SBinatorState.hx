@@ -27,7 +27,6 @@ class SBinatorState extends MusicBeatState
     override function create()
     {
 		Main.tweenFPS();
-		Main.tweenWatermark();
 		FlxG.sound.playMusic(Paths.music('engineStuff/title/loadingMusic'), 1); // Credits: Roblox Corporation
 		FlxG.mouse.visible = false;
         super.create();

@@ -3,7 +3,6 @@ package main;
 import backend.Discord;
 import backend.Highscore;
 import flixel.FlxState;
-import debug.WatermarkCounter;
 import debug.FPSCounter;
 import debug.Screenshot;
 import openfl.Assets;

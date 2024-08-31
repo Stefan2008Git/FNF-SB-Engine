@@ -144,13 +144,11 @@ class TitleState extends MusicBeatState
 			} else if (initialized) {
 				startIntro();
 				Main.tweenFPS();
-				Main.tweenWatermark();
 			} else {
 			new FlxTimer().start(1, function(tmr:FlxTimer)
 			{
 				startIntro();
 				Main.tweenFPS();
-				Main.tweenWatermark();
 			});
 		}
 	}
