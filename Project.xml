@@ -31,8 +31,6 @@
 	<define name="SHOW_LOADING_SCREEN" />
 	<define name="PSYCH_WATERMARKS"/> <!-- DELETE THIS TO REMOVE THE PSYCH LOGO FROM LOADING SCREEN -->
 	<define name="VIDEOS_ALLOWED" if="desktop || mobile" unless="32bits || hl || rpi"/> <!-- i'll keep this cuz it makes vscode think i don't use videos -->
-
-	<define name="TITLE_SCREEN_EASTER_EGG"/>
 	<define name="BASE_GAME_FILES" />
 
 	<!-- ____________________________ Window Settings ___________________________ -->

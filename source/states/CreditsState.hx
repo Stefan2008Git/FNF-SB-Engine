@@ -45,10 +45,12 @@ class CreditsState extends MusicBeatState
 			['MaysLastPlay', 		'mays', 			'Second Programmer of SB Engine', 								'https://www.youtube.com/@MaysLastPlay', 					'5E99DF'],
 			['Fearester2008', 		'fearester', 		'Third Programmer of SB Engine', 								'https://www.youtube.com/@fearester1282', 					'04435a'],
 			[''],
+			#if mobile
 			['Mobile Porting Team'],
 			['mcagabe19',			'lily',             'Head Porter of Psych Engine Mobile',                       'https://youtube.com/@mcagabe19',		'FFE7C0'],
 			['Karim Akra',			'karim',			'Second Porter of Psych Engine Mobile',						'https://youtube.com/@Karim0690',		'FFB4F0'],
 			['Moxie',			'hoovy',			'Helper of Psych Engine Mobile',						'https://twitter.com/moxie_specalist',       'F592C4'],
+			#end
 			[''],
 			["Psych Engine Team"],
 			["Shadow Mario",		"shadowmario",		"Main Programmer and Head of Psych Engine",					"https://ko-fi.com/shadowmario",		"444444"],
