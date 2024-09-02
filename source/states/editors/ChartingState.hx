@@ -1,6 +1,8 @@
 package states.editors;
 
 import flixel.FlxSubState;
+import flixel.addons.display.FlxBackdrop;
+import flixel.addons.display.FlxGridOverlay;
 import flixel.util.FlxSave;
 import flixel.util.FlxSort;
 import flixel.util.FlxSpriteUtil;
@@ -199,6 +201,7 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 	}
 
 	var bg:FlxSprite;
+	var checkeboard:FlxBackdrop;
 	var theme:ChartingTheme = DEFAULT;
 
 	var copiedNotes:Array<Dynamic> = [];
@@ -241,6 +244,12 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 		bg.antialiasing = ClientPrefs.data.antialiasing;
 		bg.scrollFactor.set();
 		add(bg);
+
+		checkeboard = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0x70000000, 0x0));
+		checkeboard.velocity.set(FlxG.random.bool(50) ? 90 : -90, FlxG.random.bool(50) ? 90 : -90);
+		checkeboard.visible = ClientPrefs.data.checkerboard;
+		checkeboard.screenCenter();
+		add(checkeboard);
 
 		if(chartEditorSave.data.autoSave != null) autoSaveCap = chartEditorSave.data.autoSave;
 		if(chartEditorSave.data.backupLimit != null) backupLimit = chartEditorSave.data.backupLimit;
@@ -473,10 +482,10 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 		tipText.active = false;
 		add(tipText);
 
-		tipBg = new FlxSprite().makeGraphic(1, 1, FlxColor.BLACK);
+		tipBg = FlxSpriteUtil.drawRoundRect(new FlxSprite().makeGraphic(1175, 685, FlxColor.TRANSPARENT), 0, 0, 1175, 685, 65, 65, FlxColor.BLACK);
 		tipBg.cameras = [camUI];
-		tipBg.scale.set(FlxG.width, FlxG.height);
 		tipBg.updateHitbox();
+		tipBg.screenCenter();
 		tipBg.scrollFactor.set();
 		tipBg.visible = tipBg.active = false;
 		tipBg.alpha = 0.6;

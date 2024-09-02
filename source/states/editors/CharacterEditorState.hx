@@ -4,6 +4,7 @@ import flixel.graphics.FlxGraphic;
 import flixel.graphics.frames.FlxAtlasFrames;
 
 import flixel.system.debug.interaction.tools.Pointer.GraphicCursorCross;
+import flixel.util.FlxSpriteUtil;
 import flixel.util.FlxDestroyUtil;
 
 import openfl.net.FileReference;
@@ -212,9 +213,9 @@ class CharacterEditorState extends MusicBeatState implements PsychUIEventHandler
 		"Hold Shift - Move Offsets 10x faster and Camera 4x faster",
 		"Hold Control - Move camera 4x slower"];
 
-		helpBg = new FlxSprite().makeGraphic(1, 1, FlxColor.BLACK);
-		helpBg.scale.set(FlxG.width, FlxG.height);
+		helpBg = FlxSpriteUtil.drawRoundRect(new FlxSprite().makeGraphic(1175, 685, FlxColor.TRANSPARENT), 0, 0, 1175, 685, 65, 65, FlxColor.BLACK);
 		helpBg.updateHitbox();
+		helpBg.screenCenter();
 		helpBg.alpha = 0.6;
 		helpBg.cameras = [camHUD];
 		helpBg.active = helpBg.visible = false;
