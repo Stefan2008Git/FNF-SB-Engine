@@ -203,7 +203,7 @@ jobs:
       - name: Install Haxelib
         run: |
           haxelib git hxcpp https://github.com/mcagabe19-stuff/hxcpp --quiet
-          haxelib install lime 8.02 --quiet
+          haxelib install lime 8.0.2 --quiet
           haxelib install openfl --quiet
           haxelib install flixel --quiet
           haxelib install flixel-addons --quiet
