@@ -201,7 +201,7 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 	}
 
 	var bg:FlxSprite;
-	var checkeboard:FlxBackdrop;
+	var checkerboard:FlxBackdrop;
 	var theme:ChartingTheme = DEFAULT;
 
 	var copiedNotes:Array<Dynamic> = [];
@@ -245,11 +245,13 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 		bg.scrollFactor.set();
 		add(bg);
 
-		checkeboard = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0x70000000, 0x0));
-		checkeboard.velocity.set(FlxG.random.bool(50) ? 90 : -90, FlxG.random.bool(50) ? 90 : -90);
-		checkeboard.visible = ClientPrefs.data.checkerboard;
-		checkeboard.screenCenter();
-		add(checkeboard);
+		checkerboard = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0x70000000, 0x0));
+		checkerboard.velocity.set(FlxG.random.bool(50) ? 90 : -90, FlxG.random.bool(50) ? 90 : -90);
+		checkerboard.scrollFactor.x = 0;
+		checkerboard.scrollFactor.y = 0;
+		checkerboard.visible = ClientPrefs.data.checkerboard;
+		checkerboard.screenCenter();
+		add(checkerboard);
 
 		if(chartEditorSave.data.autoSave != null) autoSaveCap = chartEditorSave.data.autoSave;
 		if(chartEditorSave.data.backupLimit != null) backupLimit = chartEditorSave.data.backupLimit;

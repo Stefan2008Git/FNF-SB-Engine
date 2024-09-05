@@ -2,6 +2,7 @@ package states.editors.content;
 
 import backend.Song;
 import backend.Rating;
+import objects.Bar;
 import objects.Note;
 import objects.NoteSplash;
 import objects.StrumNote;
@@ -59,6 +60,10 @@ class EditorPlayState extends MusicBeatSubstate
 	var startPos:Float = 0;
 	var timerToStart:Float = 0;
 
+	var timeTxt:FlxText;
+	var timeBar:Bar;
+	var songPercent:Float = 0;
+	var updateTime:Bool = true;
 	var scoreTxt:FlxText;
 	var dataTxt:FlxText;
 	var guitarHeroSustains:Bool = false;
@@ -98,10 +103,10 @@ class EditorPlayState extends MusicBeatSubstate
 		add(bg);
 		
 		/**** NOTES ****/
-		comboGroup = new FlxSpriteGroup();
-		add(comboGroup);
 		strumLineNotes = new FlxTypedGroup<StrumNote>();
 		add(strumLineNotes);
+		comboGroup = new FlxSpriteGroup();
+		add(comboGroup);
 		grpNoteSplashes = new FlxTypedGroup<NoteSplash>(8);
 		add(grpNoteSplashes);
 		
@@ -115,6 +120,27 @@ class EditorPlayState extends MusicBeatSubstate
 		generateStaticArrows(0);
 		generateStaticArrows(1);
 		/***************/
+
+		Conductor.songPosition = -Conductor.crochet * 5 + Conductor.offset;
+		var showTime:Bool = (ClientPrefs.data.timeBarType != 'Disabled');
+		timeTxt = new FlxText(PlayState.STRUM_X + (FlxG.width / 2) - 248, 19, 400, "", 32);
+		timeTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		timeTxt.scrollFactor.set();
+		timeTxt.alpha = 0;
+		timeTxt.borderSize = 2;
+		timeTxt.visible = updateTime = showTime;
+		if(ClientPrefs.data.downScroll) timeTxt.y = FlxG.height - 44;
+		if(ClientPrefs.data.timeBarType == 'Song Name') timeTxt.text = PlayState.SONG.song;
+
+		timeBar = new Bar(0, timeTxt.y + (timeTxt.height / 4), 'healthBar', function() return songPercent, 0, 1);
+		timeBar.scrollFactor.set();
+		timeBar.screenCenter(X);
+		timeBar.alpha = 0;
+		timeBar.visible = showTime;
+		timeBar.leftBar.color = FlxColor.BROWN;
+		timeBar.rightBar.color = 0xFF1A1A1A;
+		add(timeBar);
+		add(timeTxt);
 		
 		scoreTxt = new FlxText(10, FlxG.height - 50, FlxG.width - 20, "", 20);
 		scoreTxt.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -131,7 +157,7 @@ class EditorPlayState extends MusicBeatSubstate
 
         var daButton:String;
 	if (controls.mobileC)
-		daButton = #if android "BACK" #else "X" #end;
+		daButton = #if android "BACK" #else "P" #end;
         else
 		daButton = "ESC";
 
@@ -248,6 +274,30 @@ class EditorPlayState extends MusicBeatSubstate
 						'\n\nSection: $curSection' +
 						'\nBeat: $curBeat' +
 						'\nStep: $curStep';
+		
+		if (updateTime)
+		{
+			var curTime:Float = Math.max(0, Conductor.songPosition - ClientPrefs.data.noteOffset);
+			songPercent = (curTime / songLength);
+
+			var songCalc:Float = (songLength - curTime);
+			if(ClientPrefs.data.timeBarType == 'Time Elapsed') songCalc = curTime;
+
+			var secondsTotal:Int = Math.floor(songCalc / 1000);
+			if(secondsTotal < 0) secondsTotal = 0;
+
+			if(ClientPrefs.data.timeBarType != 'Song Name') timeTxt.text = FlxStringUtil.formatTime(secondsTotal, false);
+
+			switch (ClientPrefs.data.timeBarType)
+			{
+				case 'Song Name + Time Left': timeTxt.text = PlayState.SONG.song + ' [${FlxStringUtil.formatTime(secondsTotal, false)}]';
+				case 'Song Name + Time Elapsed': timeTxt.text = PlayState.SONG.song + ' [${FlxStringUtil.formatTime(FlxG.sound.music.time / 1000, false)}]';
+				case 'Song Name + Difficulty': timeTxt.text = PlayState.SONG.song + ' [${Difficulty.getString()}]';
+				case 'Modern Time': timeTxt.text = FlxStringUtil.formatTime(secondsTotal, false) + ' / ' + FlxStringUtil.formatTime(songLength / 1000, false);
+				case 'Modern Time Elapsed': timeTxt.text = FlxStringUtil.formatTime(FlxG.sound.music.time / 1000, false) + ' / ' + FlxStringUtil.formatTime(FlxG.sound.music.length / 1000, false);
+			}
+		}
+
 		super.update(elapsed);
 	}
 
@@ -296,6 +346,8 @@ class EditorPlayState extends MusicBeatSubstate
 
 		// Song duration in a float, useful for the time left feature
 		songLength = FlxG.sound.music.length;
+		FlxTween.tween(timeBar, {alpha: 1}, 0.5, {ease: FlxEase.circOut});
+		FlxTween.tween(timeTxt, {alpha: 1}, 0.5, {ease: FlxEase.circOut});
 	}
 
 	// Borrowed from PlayState

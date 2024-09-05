@@ -96,11 +96,11 @@ class FPSCounter extends TextField
 
 	public dynamic function updateText():Void // so people can override it in hscript
 	{
-		text = "FPS: " + Math.round(currentFPS) + (ClientPrefs.data.totalFPS ? " / " + Math.round(totalFPS) : "");
+		text = Math.round(currentFPS) + (ClientPrefs.data.totalFPS ? " / " + Math.round(totalFPS) : "") + " FPS" + " [" + Std.int((1 / currentFPS) * 1000) + "ms]";
 
-		if (ClientPrefs.data.memory) text += "\nMemory: " + FlxStringUtil.formatBytes(currentMemory) + (ClientPrefs.data.maxMemory ? " / " + FlxStringUtil.formatBytes(maxMemory) : "");
+		if (ClientPrefs.data.memory) text += "\n" + FlxStringUtil.formatBytes(currentMemory) + (ClientPrefs.data.maxMemory ? " / " + FlxStringUtil.formatBytes(maxMemory) : "");
 
-		if (ClientPrefs.data.engineVersion) text += "\nEngine version: " + MainMenuState.sbEngineVersion;
+		if (ClientPrefs.data.engineVersion) text += "\nv" + MainMenuState.sbEngineVersion;
 
 		if (ClientPrefs.data.osInfo) text += os;
 
