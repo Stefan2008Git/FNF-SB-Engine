@@ -80,6 +80,7 @@ class StorageUtil
 
 			File.saveContent('saves/' + fileName, fileData);
 			CoolUtil.showPopUp(fileName + " file has been saved.", "Success!");
+			#if android AndroidToast.makeText("Done! File has been saved successfully.", 1, -1, 0, 0); #end
 
 		}
 		catch (e:Exception)
