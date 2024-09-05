@@ -71,7 +71,7 @@ class StorageUtil
 		}
 	}
 
-	public static function saveContent(fileName:String = 'file', fileData:String = 'You forgor to add somethin\' in yo code :3'):Void
+	public static function saveContent(fileName:String = 'file', fileData:String = 'You forgor to add somethin\' in yo code :3', ?alert:Bool = true):Void
 	{
 		try
 		{
@@ -79,12 +79,12 @@ class StorageUtil
 				FileSystem.createDirectory('saves');
 
 			File.saveContent('saves/' + fileName, fileData);
-			CoolUtil.showPopUp(fileName + " file has been saved.", "Success!");
+			if (alert) CoolUtil.showPopUp('$fileName has been saved.', "Success!");
 			#if android AndroidToast.makeText("Done! File has been saved successfully.", 1, -1, 0, 0); #end
 
 		}
 		catch (e:Exception)
-			trace('File couldn\'t be saved. (${e.message})');
+			if (alert) CoolUtil.showPopUp('$fileName couldn\'t be saved.\n(${e.message})', "Error!") else trace('$fileName couldn\'t be saved. (${e.message})');
 	}
 
 	#if android
