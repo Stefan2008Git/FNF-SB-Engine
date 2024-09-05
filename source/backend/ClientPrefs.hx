@@ -18,7 +18,6 @@ import states.TitleState;
 	public var storageType:String = "EXTERNAL_DATA";
 	#end
 	public var hitboxType:String = "Gradient";
-	public var popUpRating:Bool = true;
 	public var vsync:Bool = false;
 	public var vibration:Bool = true;
 	
@@ -105,6 +104,10 @@ import states.TitleState;
 	public var judgementCounterStyle:String = 'Default';
 	public var smoothHealth:Bool = true;
 	public var textSine:Bool = true;
+	public var ratingPopup:Bool = true;
+	public var comboPopup:Bool = true;
+	public var comboNumberPopup:Bool = true;
+	public var lessCpuFramerateDrop:Bool = false;
 }
 
 class ClientPrefs {

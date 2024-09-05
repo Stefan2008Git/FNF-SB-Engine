@@ -92,9 +92,27 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		addOption(option);
 		option.onChange = onChangeAutoPause;
 
-		var option:Option = new Option('Pop Up Score',
+		var option:Option = new Option('Rating pop-up',
 			"If unchecked, hitting notes won't make \"sick\", \"good\".. and combo popups\n(Useful for low end " + Main.platform + ").",
-			'popUpRating',
+			'ratingPopup',
+			BOOL);
+		addOption(option);
+
+		var option:Option = new Option('Combo pop-up',
+			"If unchecked, hitting notes won't make combo pop-up\n(Useful for low end " + Main.platform + ").",
+			'comboPopup',
+			BOOL);
+		addOption(option);
+
+		var option:Option = new Option('Combo numbers pop-up',
+			"If unchecked, hitting notes won't make combo number pop-up\n(Useful for low end " + Main.platform + ").",
+			'comboNumberPopup',
+			BOOL);
+		addOption(option);
+
+		var option:Option = new Option('Less CPU controller framerate drop',
+			"Test...",
+			'lessCpuFramerateDrop',
 			BOOL);
 		addOption(option);
 

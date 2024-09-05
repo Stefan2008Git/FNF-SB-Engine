@@ -1124,7 +1124,8 @@ class PlayState extends MusicBeatState
 				daNote.visible = false;
 				daNote.ignoreNote = true;
 
-				if(!ClientPrefs.data.lowQuality || !ClientPrefs.data.popUpRating || !cpuControlled) daNote.kill();
+				if(!ClientPrefs.data.ratingPopup || !ClientPrefs.data.comboPopup || !cpuControlled) 
+				daNote.kill();
 				unspawnNotes.remove(daNote);
 				daNote.destroy();
 			}
@@ -2578,9 +2579,9 @@ class PlayState extends MusicBeatState
 	public var totalPlayed:Int = 0;
 	public var totalNotesHit:Float = 0.0;
 
-	public var showCombo:Bool = false;
-	public var showComboNum:Bool = true;
-	public var showRating:Bool = true;
+	public var showCombo:Bool = ClientPrefs.data.comboPopup;
+	public var showComboNum:Bool = ClientPrefs.data.comboNumberPopup;
+	public var showRating:Bool = ClientPrefs.data.ratingPopup;
 
 	// Stores Ratings and Combo Sprites in a group
 	public var comboGroup:FlxSpriteGroup;
@@ -2658,7 +2659,7 @@ class PlayState extends MusicBeatState
 			antialias = !isPixelStage;
 		}
 
-		if (ClientPrefs.data.popUpRating){
+		if (!cpuControlled){
 		rating.loadGraphic(Paths.image(uiPrefix + daRating.image + uiPostfix));
 		rating.screenCenter();
 		rating.x = placement - 40;
@@ -2718,7 +2719,7 @@ class PlayState extends MusicBeatState
 			numScore.acceleration.y = FlxG.random.int(200, 300) * playbackRate * playbackRate;
 			numScore.velocity.y -= FlxG.random.int(140, 160) * playbackRate;
 			numScore.velocity.x = FlxG.random.float(-5, 5) * playbackRate;
-			numScore.visible = !ClientPrefs.data.hideHud;
+			numScore.visible = !ClientPrefs.data.hideHud && showComboNum;
 			numScore.antialiasing = antialias;
 
 			//if (combo >= 10 || combo == 0)
@@ -3150,7 +3151,7 @@ class PlayState extends MusicBeatState
 			else strumPlayAnim(false, Std.int(Math.abs(note.noteData)), Conductor.stepCrochet * 1.25 / 1000 / playbackRate);
 			vocals.volume = 1;
 
-			if (!note.isSustainNote)
+			if (!note.isSustainNote && !cpuControlled)
 			{
 				if(combo >= maxCombo) maxCombo += 1;
 				combo += 1;
@@ -3190,7 +3191,8 @@ class PlayState extends MusicBeatState
 	}
 
 	public function invalidateNote(note:Note):Void {
-		if(!ClientPrefs.data.lowQuality || !ClientPrefs.data.popUpRating || !cpuControlled) note.kill();
+		if (!ClientPrefs.data.ratingPopup || !ClientPrefs.data.comboPopup || !cpuControlled)
+		note.kill();
 		notes.remove(note, true);
 		note.destroy();
 	}
