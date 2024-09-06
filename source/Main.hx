@@ -69,7 +69,7 @@ class Main extends Sprite
 		#if android 
 		if (AndroidTools.isRooted())
 		{
-			AndroidToast.makeText("Welcome to FNF': SB Engine v" + MainMenuState.sbEngineVersion + "\nRoot is detected on your " + AndroidBuild.BUILD + " device!", 1, -1, 0, 0);
+			AndroidToast.makeText("Welcome to FNF': SB Engine v" + MainMenuState.sbEngineVersion + "\nRoot is detected on your " + AndroidBuild.VERSION.CODENAME + " device!", 1, -1, 0, 0);
 		} else {
 			AndroidToast.makeText("Welcome to FNF': SB Engine v" + MainMenuState.sbEngineVersion, 1, -1, 0, 0); 
 		} 
