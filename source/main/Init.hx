@@ -16,8 +16,6 @@ import states.SBinatorState;
 #if mobile
 import mobile.backend.MobileScaleMode;
 import mobile.objects.MobileControls;
-import mobile.states.CopyState;
-import lime.ui.Haptic;
 #end
 
 #if linux
@@ -79,7 +77,7 @@ class Init extends FlxState
 		#end
 		Mods.loadTopMod();
 
-		FlxG.save.bind('funkin', CoolUtil.getSavePath());
+		FlxG.save.bind('sbinator', CoolUtil.getSavePath());
 
 		Highscore.load();
 

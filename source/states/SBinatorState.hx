@@ -1,5 +1,9 @@
 package states;
 
+#if mobile
+import lime.ui.Haptic;
+#end
+
 import states.TitleState;
 
 class SBinatorState extends MusicBeatState
