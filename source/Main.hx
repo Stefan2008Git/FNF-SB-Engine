@@ -66,14 +66,7 @@ class Main extends Sprite
 		backend.CrashHandler.init();
 
 		#if desktop Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " (Psych Engine v" + MainMenuState.psychEngineVersion + ")"; #end
-		#if android 
-		if (AndroidTools.isRooted())
-		{
-			AndroidToast.makeText("Welcome to FNF': SB Engine v" + MainMenuState.sbEngineVersion + "\nRoot is detected on your " + AndroidBuild.VERSION.CODENAME + " device!", 1, -1, 0, 0);
-		} else {
-			AndroidToast.makeText("Welcome to FNF': SB Engine v" + MainMenuState.sbEngineVersion, 1, -1, 0, 0); 
-		} 
-		#end
+		#if android AndroidToast.makeText("Welcome to FNF': SB Engine v" + MainMenuState.sbEngineVersion, 1, -1, 0, 0); #end
 
 		#if windows
 		@:functionCode("
