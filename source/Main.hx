@@ -67,7 +67,7 @@ class Main extends Sprite
 
 		#if desktop Application.current.window.title = "Friday Night Funkin': SB Engine v" + MainMenuState.sbEngineVersion + " (Psych Engine v" + MainMenuState.psychEngineVersion + ")"; #end
 		#if android 
-		if AndroidTools.isRooted()
+		if (AndroidTools.isRooted())
 		{
 			AndroidToast.makeText("Welcome to FNF': SB Engine v" + MainMenuState.sbEngineVersion + "\nRoot is detected on your " + AndroidBuild.BUILD + " device!", 1, -1, 0, 0);
 		} else {
