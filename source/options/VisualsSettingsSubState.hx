@@ -179,6 +179,12 @@ class VisualsSettingsSubState extends BaseOptionsMenu
 			BOOL);
 		addOption(option);
 
+		var option:Option = new Option('Startup screen',
+			"Tf unchecked, disables the startup splash when you open the game",
+			'lessCpuFramerateDrop',
+			BOOL);
+		addOption(option);
+
 		super();
 	}
 

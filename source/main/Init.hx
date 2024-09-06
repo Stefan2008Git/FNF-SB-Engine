@@ -26,14 +26,6 @@ import lime.graphics.Image;
 
 class Init extends FlxState 
 {
-    var mainBackground:FlxSprite;
-    var mainIcon:FlxSprite;
-    var background2:FlxSprite;
-    var mainLogo:FlxSprite;
-    var vibrationInt:Int = 500;
-    var mainEngineText:FlxText;
-    var poweredBy:String = '';
-
     override function create() 
     {
         FlxTransitionableState.skipNextTransOut = true;
@@ -44,94 +36,12 @@ class Init extends FlxState
 	    DiscordClient.changePresence("Starting SB Engine...", null);
 	    #end
 
-        #if android
-        poweredBy = 'Android';
-        #elseif linux
-        poweredBy = 'Linux';
-        #elseif ios
-        poweredBy = 'iOS';
-        #elseif macos
-        poweredBy = 'MacOS';
-        #elseif windows
-        poweredBy = 'Windows';
-        #else
-        poweredBy = 'Unknown';
-        #end
-
         Paths.clearStoredMemory();
 
         if (Main.fpsVar == null) {
             Main.fpsVar = new FPSCounter(10, 3);
             Lib.current.stage.addChild(Main.fpsVar);
         }
-
-        mainBackground = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
-        mainBackground.visible = false;
-        add(mainBackground);
-
-        mainIcon = new FlxSprite().loadGraphic(Paths.image("engineStuff/main/sbinator"));
-        mainIcon.visible = false;
-        mainIcon.scale.x = 1.5;
-        mainIcon.scale.y = 1.5;
-        mainIcon.screenCenter();
-        add(mainIcon);
-
-        mainEngineText = new FlxText(20, FlxG.height - 80, 1000, "Powered by:\n" + poweredBy, 10);
-		mainEngineText.setFormat("VCR OSD Mono", 26, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		mainEngineText.visible = false;
-		mainEngineText.screenCenter(X);
-		add(mainEngineText);
-
-        background2 = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BROWN);
-        background2.alpha = 0;
-        add(background2);
-
-        mainLogo = new FlxSprite().loadGraphic(Paths.image("engineStuff/main/sbEngineLogo"));
-		mainLogo.screenCenter();
-		mainLogo.alpha = 0;
-		add(mainLogo);
-
-        new FlxTimer().start(1.5, function(tmr:FlxTimer) {
-            #if mobile
-			Haptic.vibrate(0, 500);
-            #end
-		});
-
-        new FlxTimer().start(2.5, function(tmr:FlxTimer) {
-			mainBackground.visible = true;
-            mainIcon.visible = true;
-            mainEngineText.visible = true;
-		});
-
-        new FlxTimer().start(13.5, function(tmr:FlxTimer) {
-			mainBackground.visible = false;
-            mainIcon.visible = false;
-            mainEngineText.visible = false;
-            FlxTween.tween(background2, {alpha: 1}, 1.3, {ease: FlxEase.sineInOut});
-            FlxG.sound.play(Paths.sound('engineStuff/startup'));
-		});
-
-        new FlxTimer().start(14.5, function(tmr:FlxTimer) {
-			FlxTween.tween(mainLogo, {alpha: 1}, 1.3, {ease: FlxEase.sineInOut});
-		});
-
-        new FlxTimer().start(17.5, function(tmr:FlxTimer) {
-			FlxTween.tween(background2, {alpha: 0}, 1.2, {
-				ease: FlxEase.sineInOut,
-				onComplete: function(completition:FlxTween) {
-					startLoadingProcess();
-				}
-			});
-		});
-
-        new FlxTimer().start(17.5, function(tmr:FlxTimer) {
-			FlxTween.tween(mainLogo, {alpha: 0}, 1.2, {
-				ease: FlxEase.sineInOut,
-				onComplete: function(completition:FlxTween) {
-					startLoadingProcess();
-				}
-			});
-		});
 
         #if linux
 		var icon = Image.fromFile("icon.png");
@@ -186,11 +96,8 @@ class Init extends FlxState
 
         FlxTransitionableState.skipNextTransIn = true;
         FlxTransitionableState.skipNextTransOut = true;
-    }
 
-    function startLoadingProcess()
-    {
-        if (ClientPrefs.data.loadingScreen) FlxG.switchState(() -> new SBinatorState());
+        if (ClientPrefs.data.startupScreen) FlxG.switchState(() -> new SBinatorState());
         else FlxG.switchState(Type.createInstance(Main.game.initialState, []));
     }
 }

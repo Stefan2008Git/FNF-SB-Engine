@@ -94,7 +94,6 @@ import states.TitleState;
 	public var safeFrames:Float = 10;
 	public var guitarHeroSustains:Bool = true;
 	public var discordRPC:Bool = true;
-	public var loadingScreen:Bool = true;
 	public var language:String = 'en-US';
 
 	public var checkerboard:Bool = true;
@@ -107,7 +106,7 @@ import states.TitleState;
 	public var ratingPopup:Bool = true;
 	public var comboPopup:Bool = true;
 	public var comboNumberPopup:Bool = true;
-	public var lessCpuFramerateDrop:Bool = false;
+	public var startupScreen:Bool = true;
 }
 
 class ClientPrefs {

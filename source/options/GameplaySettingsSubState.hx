@@ -110,12 +110,6 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			BOOL);
 		addOption(option);
 
-		var option:Option = new Option('Less CPU controller framerate drop',
-			"Test...",
-			'lessCpuFramerateDrop',
-			BOOL);
-		addOption(option);
-
 		var option:Option = new Option('Disable Reset Button',
 			"If checked, pressing Reset won't do anything.",
 			'noReset',

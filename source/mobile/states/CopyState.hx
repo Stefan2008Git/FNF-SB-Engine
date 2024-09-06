@@ -135,7 +135,7 @@ class CopyState extends MusicBeatState
 				loadedText.text = "Completed!";
 			else
 				loadedText.text = '$loopTimes/$maxLoopTimes';
-				bar.scale.x = barWidth * loopTimes + maxLoopTimes;
+				bar.scale.x = barWidth * loopTimes * maxLoopTimes;
 				bar.updateHitbox();
 		}
 		super.update(elapsed);

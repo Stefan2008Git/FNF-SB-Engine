@@ -1,172 +1,134 @@
 package states;
 
-import flixel.addons.display.FlxBackdrop;
-import flixel.addons.display.FlxGridOverlay;
-import objects.Bar;
 import states.TitleState;
 
 class SBinatorState extends MusicBeatState
 {
-    var mainBackground:FlxSprite;
-    var mainChecker:FlxBackdrop;
+	var mainBackground:FlxSprite;
+    var mainIcon:FlxSprite;
+    var background2:FlxSprite;
     var mainLogo:FlxSprite;
-    var mainText:FlxText;
-    var mainLoaderSpin:FlxSprite;
-	var mainLoadingBar:Bar;
-	var skipText:FlxText;
-	var keybindActivation:Bool = false;
-	var icons:FlxSprite;
-	var creditTexts:FlxText;
-    var tweening:Bool;
-    var timer:Float = 0;
-    var string:String = '';
-	var loadingTime:Float = 0;
-	public static var sillyIcons:Array<String> = ['stefan', 'hutaroz', 'plus', 'mays', 'fearester'];
-	public static var sillyTexts:Array<String> = ['Stefan2008', 'Hutaro', 'IsThePlusOpd', 'MaysLastPlay', 'Fearester2008'];
+    var mainEngineText:FlxText;
+    var poweredBy:String = '';
+	var loadingText:FlxText;
+	var timePassed:Float;
 
     override function create()
     {
 		Main.tweenFPS();
-		FlxG.sound.playMusic(Paths.music('engineStuff/title/loadingMusic'), 1); // Credits: Roblox Corporation
-		FlxG.mouse.visible = false;
         super.create();
 
-        #if DISCORD_ALLOWED
-	    // Updating Discord Rich Presence
-	    DiscordClient.changePresence("Loading SB Engine...", null);
-	    #end
+		#if android
+        poweredBy = 'Android';
+        #elseif linux
+        poweredBy = 'Linux';
+        #elseif ios
+        poweredBy = 'iOS';
+        #elseif macos
+        poweredBy = 'MacOS';
+        #elseif windows
+        poweredBy = 'Windows';
+        #else
+        poweredBy = 'Unknown';
+        #end
 
-        mainBackground = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
-		mainBackground.antialiasing = ClientPrefs.data.antialiasing;
-        mainBackground.screenCenter();
-        mainBackground.color = FlxColor.BROWN;
-		add(mainBackground);
+		mainBackground = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+        mainBackground.visible = false;
+        add(mainBackground);
 
-        mainChecker = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0x70000000, 0x0));
-		mainChecker.velocity.set(FlxG.random.bool(50) ? 90 : -90, FlxG.random.bool(50) ? 90 : -90);
-		mainChecker.visible = ClientPrefs.data.checkerboard;
-		mainChecker.screenCenter();
-		add(mainChecker);
+        mainIcon = new FlxSprite().loadGraphic(Paths.image("engineStuff/main/sbinator"));
+        mainIcon.visible = false;
+        mainIcon.scale.x = 1.5;
+        mainIcon.scale.y = 1.5;
+        mainIcon.screenCenter();
+        add(mainIcon);
+
+        mainEngineText = new FlxText(20, FlxG.height - 80, 1000, "Powered by:\n" + poweredBy, 10);
+		mainEngineText.setFormat("VCR OSD Mono", 26, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		mainEngineText.visible = false;
+		mainEngineText.screenCenter(X);
+		add(mainEngineText);
+
+        background2 = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BROWN);
+        background2.alpha = 0;
+        add(background2);
 
         mainLogo = new FlxSprite().loadGraphic(Paths.image("engineStuff/main/sbEngineLogo"));
 		mainLogo.screenCenter();
-		mainLogo.antialiasing = ClientPrefs.data.antialiasing;
-		FlxTween.angle(mainLogo, mainLogo.angle, -10, 2, {ease: FlxEase.quartInOut});
-        new FlxTimer().start(2, function(tmr:FlxTimer) {
-			if (mainLogo.angle == -10)
-				FlxTween.angle(mainLogo, mainLogo.angle, 10, 2, {ease: FlxEase.sineInOut});
-			else
-				FlxTween.angle(mainLogo, mainLogo.angle, -10, 2, {ease: FlxEase.sineInOut});
-		}, 0);
+		mainLogo.alpha = 0;
 		add(mainLogo);
 
-		mainLoadingBar = new Bar(0, FlxG.height * 0.94, 'healthBar', function() return loadingTime, 0, 15);
-		mainLoadingBar.screenCenter(X);
-		mainLoadingBar.leftBar.color = FlxColor.BROWN;
-		mainLoadingBar.rightBar.color = 0xFF1A1A1A;
-		add(mainLoadingBar);
+		loadingText = new FlxText(12, FlxG.height - 26, 0, Language.getPhrase('now_loading', 'Now Loading', ['...']), 32);
+		loadingText.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, OUTLINE_FAST, FlxColor.BLACK);
+		loadingText.borderSize = 2;
+		loadingText.visible = false;
+		add(loadingText);
 
-        mainText = new FlxText(1120, FlxG.height - 50, 0, "Loading...", 8);
-		mainText.scrollFactor.set();
-		mainText.setFormat("VCR OSD Mono", 25, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		mainText.borderSize = 1.25;
-		add(mainText);
+        new FlxTimer().start(1.5, function(tmr:FlxTimer) {
+            #if mobile
+			Haptic.vibrate(0, 500);
+            #end
+		});
 
-        mainLoaderSpin = new FlxSprite().loadGraphic(Paths.image("engineStuff/main/loadingSpeen"));
-		mainLoaderSpin.screenCenter(X);
-		mainLoaderSpin.setGraphicSize(Std.int(mainLoaderSpin.width * 0.89));
-		mainLoaderSpin.x = FlxG.width - 130;
-		mainLoaderSpin.y = FlxG.height - 130;
-		mainLoaderSpin.angularVelocity = 180;
-		mainLoaderSpin.antialiasing = ClientPrefs.data.antialiasing;
-		add(mainLoaderSpin);
+        new FlxTimer().start(2.5, function(tmr:FlxTimer) {
+			mainBackground.visible = true;
+            mainIcon.visible = true;
+            mainEngineText.visible = true;
+			loadingText.visible = true;
+		});
 
-		skipText = new FlxText(20, FlxG.height - #if mobile 80 #else 110 #end, 1000, #if mobile "Got annoyed waiting? Tap on screen to skip loading screen" #else "Got annoyed waiting? Press SPACE to skip loading screen" #end, 10);
-		skipText.setFormat("VCR OSD Mono", 26, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		skipText.alpha = 0;
-		new FlxTimer().start(5, function(tmr:FlxTimer) {
-			FlxTween.tween(skipText, {alpha: 1}, 1.5, {
+        new FlxTimer().start(10.5, function(tmr:FlxTimer) {
+			mainBackground.visible = false;
+            mainIcon.visible = false;
+            mainEngineText.visible = false;
+            FlxTween.tween(background2, {alpha: 1}, 1.3, {ease: FlxEase.sineInOut});
+            FlxG.sound.play(Paths.sound('engineStuff/startup'));
+		});
+
+        new FlxTimer().start(11.5, function(tmr:FlxTimer) {
+			FlxTween.tween(mainLogo, {alpha: 1}, 1.3, {ease: FlxEase.sineInOut});
+		});
+
+        new FlxTimer().start(17.5, function(tmr:FlxTimer) {
+			FlxTween.tween(background2, {alpha: 0}, 1.2, {
 				ease: FlxEase.sineInOut,
 				onComplete: function(completition:FlxTween) {
-					keybindActivation = true;
+					loadingText.visible = false;
+					switchToTitleMenu();
 				}
 			});
 		});
-		skipText.screenCenter(X);
-		add(skipText);
 
-		icons = new FlxSprite(40, FlxG.height * 0.78).loadGraphic(randomCreditIcons());
-		icons.antialiasing = ClientPrefs.data.antialiasing;
-		icons.setGraphicSize(Std.int(icons.width * 0.89));
-		add(icons);
+        new FlxTimer().start(17.5, function(tmr:FlxTimer) {
+			FlxTween.tween(mainLogo, {alpha: 0}, 1.2, {
+				ease: FlxEase.sineInOut,
+				onComplete: function(completition:FlxTween) {
+					loadingText.visible = false;
+					switchToTitleMenu();
+				}
+			});
+		});
+	}
 
-		creditTexts = new FlxText(30, FlxG.height * 0.95, "");
-		creditTexts.scrollFactor.set();
-		creditTexts.setFormat("VCR OSD Mono", 26, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		randomCreditText();
-		add(creditTexts);
+	var dots:String = '';
+	override function update(elapsed:Float)
+	{
+		timePassed += elapsed;
+		switch(Math.floor(timePassed % 1 * 3))
+		{
+			case 0:
+				dots = '.';
+			case 1:
+				dots = '..';
+			case 2:
+				dots = '...';
+		}
+		loadingText.text = Language.getPhrase('now_loading', 'Now Loading{1}', [dots]);
+	}
 
-        super.create();
-    }
-
-	var screenJustPressed:Bool = false;
-    override function update(elapsed:Float) 
+	function switchToTitleMenu()
     {
-		#if mobile
-		for (touch in FlxG.touches.list) {
-			if (touch.justPressed) {
-				screenJustPressed = true;
-			}
-		}
-		#end
-
-		loadingTime += elapsed;
-		if (loadingTime >= 15) {
-			updateBarPercent();
-			mainText.text = "Done!";
-			mainText.x = 1155;
-			skipText.visible = false;
-		}
-
-		// Got annoyed waiting to fully finish the "fake" loading screen?
-		if (FlxG.keys.justPressed.SPACE #if mobile || screenJustPressed #end && keybindActivation) {
-			switchToTitleMenu();
-			mainText.text = "Skipped!";
-			mainText.x = 1135;
-		}
-
-        super.update(elapsed);
+        FlxG.switchState(() -> new TitleState());
     }
-
-	public var barTween:FlxTween = null;
-	var val1:Float = 1;
-	var val2:Float = 15;
-	function updateBarPercent() {
-		barTween = FlxTween.tween(mainLoadingBar, {percent: (val1 / val2) * 100}, 0.5, {ease: FlxEase.sineInOut,
-			onComplete: function(twn:FlxTween) switchToTitleMenu(),
-			onUpdate: function(twn:FlxTween) mainLoadingBar.updateBar()
-		});
-	}
-
-	function switchToTitleMenu() {
-		#if DISCORD_ALLOWED
-		// Updating Discord Rich Presence
-		DiscordClient.changePresence("Done! Booting the engine...", null);
-		#end
-		FlxG.camera.fade(FlxColor.BLACK, 0.40, false, function() {
-			MusicBeatState.switchState(new TitleState());
-		});
-	}
-
-	public function randomCreditIcons()
-	{
-		var iconChance:Int = FlxG.random.int(0, sillyIcons.length - 1);
-		return Paths.image('credits/${sillyIcons[iconChance]}');
-	}
-
-	public function randomCreditText()
-	{
-		var textChance:Int = FlxG.random.int(0, sillyTexts.length - 1);
-		return creditTexts.text = sillyTexts[textChance];
-	}
 }
+        
