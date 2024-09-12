@@ -4,7 +4,7 @@
 import backend.Discord;
 #end
 
-//Psych
+//Psych lua
 #if LUA_ALLOWED
 import llua.*;
 import llua.Lua;
