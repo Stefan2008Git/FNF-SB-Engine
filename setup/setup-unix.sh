@@ -5,6 +5,7 @@
 cd ..
 echo Installing dependencies...
 echo This might take a few moments depending on your internet speed.
+mkdir ~/haxelib && haxelib setup ~/haxelib
 haxelib git hxcpp https://github.com/mcagabe19-stuff/hxcpp --quiet
 haxelib install lime 8.0.2 --quiet
 haxelib install openfl --quiet
