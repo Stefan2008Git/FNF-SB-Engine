@@ -50,9 +50,9 @@ class FPSCounter extends TextField
 		super();
 
 		if (LimeSystem.platformName == LimeSystem.platformVersion || LimeSystem.platformVersion == null)
-			os = '\nOS: ${LimeSystem.platformName}' #if cpp + ' ${getArch() != 'Unknown' ? getArch() : ''}' #end;
+			os = '\nOS: ${LimeSystem.platformLabel}' #if cpp + ' ${getArch() != 'Unknown' ? getArch() : ''}' #end;
 		else
-			os = '\nOS: ${LimeSystem.platformName}' #if cpp + ' ${getArch() != 'Unknown' ? getArch() : ''}' #end + ' - ${LimeSystem.platformVersion}';
+			os = '\nOS: ${LimeSystem.platformLabel}' #if cpp + ' ${getArch() != 'Unknown' ? getArch() : ''}' #end + ' - ${LimeSystem.platformVersion}';
 
 		positionFPS(x, y);
 
