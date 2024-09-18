@@ -7,6 +7,7 @@ import openfl.errors.Error;
 #if sys
 import sys.FileSystem;
 import sys.io.File;
+import haxe.io.Path;
 #end
 
 using StringTools;
@@ -66,10 +67,10 @@ class CrashHandler
 		#if sys
 		try
 		{
-			if (!FileSystem.exists('logs'))
-				FileSystem.createDirectory('logs');
+			if (!FileSystem.exists('crash'))
+				FileSystem.createDirectory('crash');
 
-			File.saveContent('logs/' + 'SB Engine - ' + Date.now().toString().replace(' ', '-').replace(':', "'") + '.logs', '$m\n$stackLabel');
+			File.saveContent('crash/' + 'SB Engine - ' + Date.now().toString().replace(' ', '-').replace(':', "'") + '.logs', '$m\n$stackLabel');
 		}
 		catch (e:haxe.Exception)
 			trace('Couldn\'t save error message. (${e.message})');
@@ -79,6 +80,8 @@ class CrashHandler
 		if (ClientPrefs.data.vibration) Haptic.vibrate(0, 500);
 		AndroidToast.makeText("Fatal Uncaugth Expection happened!", 1, -1, 0, 0);
 		#end
+
+		Sys.println("Crash dump saved in " + Path.normalize(stackLabel));
 
 		FlxG.sound.play(Paths.sound('engineStuff/error'));
 		flixel.FlxG.sound.music.stop();

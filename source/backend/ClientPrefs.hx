@@ -98,15 +98,16 @@ import states.TitleState;
 
 	public var checkerboard:Bool = true;
 	public var scoreText:Bool = true;
-	public var watermark:Bool = true;
-	public var judgementCounter:Bool = true;
+	public var watermark:Bool = false;
+	public var judgementCounter:Bool = false;
 	public var judgementCounterStyle:String = 'Default';
-	public var smoothHealth:Bool = true;
+	public var smoothHealth:Bool = false;
 	public var textSine:Bool = true;
 	public var ratingPopup:Bool = true;
 	public var comboPopup:Bool = true;
 	public var comboNumberPopup:Bool = true;
 	public var startupScreen:Bool = true;
+	public var introCard:Bool = false;
 }
 
 class ClientPrefs {

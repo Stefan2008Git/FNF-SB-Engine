@@ -1339,7 +1339,7 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 							var closeNotes:Array<MetaNote> = curRenderedNotes.members.filter(function(note:MetaNote)
 							{
 								var chartY:Float = touch.y - note.chartY;
-								return ((note.isEvent && noteData < 0) || note.songData[1] == noteData) && chartY >= 0 && chartY < GRID_SIZE;
+								return ((note.isEvent && noteData < 0) || (!note.isEvent && note.songData[1] == noteData)) && chartY >= 0 && chartY < GRID_SIZE;
 							});
 							closeNotes.sort(function(a:MetaNote, b:MetaNote) return Math.abs(a.strumTime - touch.y) < Math.abs(b.strumTime - touch.y) ? 1 : -1);
 		
@@ -1823,12 +1823,19 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 		var pushedEvents:Array<EventMetaNote> = [];
 		movingNotes.forEachAlive(function(note:MetaNote)
 		{
-			notes.push(note);
-			if(!note.isEvent) pushedNotes.push(note);
-			else pushedEvents.push(cast (note, EventMetaNote));
+			if(!note.isEvent)
+			{
+				notes.push(note);
+				pushedNotes.push(note);
+			}
+			else
+			{
+				events.push(cast (note, EventMetaNote));
+				pushedEvents.push(cast (note, EventMetaNote));
+			}
 		});
 		notes.sort(PlayState.sortByTime);
-		movingNotes.clear();
+		events.sort(PlayState.sortByTime);
 		isMovingNotes = false;
 		softReloadNotes();
 	}
@@ -2947,6 +2954,10 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 
 				note.setStrumTime(Math.max(-5000, strumTimeStepper.value + (note.strumTime - firstTime)));
 				positionNoteYOnTime(note, curSec);
+				if(note.isEvent)
+				{
+					cast (note, EventMetaNote).updateEventText();
+				}
 			}
 			softReloadNotes();
 		};
@@ -3132,25 +3143,21 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 		});
 		var clearButton:PsychUIButton = new PsychUIButton(objX + 200, objY, 'Clear', function()
 		{
-			if(affectNotes.checked)
+			for (note in curRenderedNotes)
 			{
-				for (note in curRenderedNotes)
-				{
-					if(note == null || note.isEvent) continue;
+				if(note == null) continue;
 
-					selectedNotes.remove(note);
+				if(!note.isEvent && affectNotes.checked)
+				{
 					notes.remove(note);
+					trace('removed normal note');
 				}
-			}
-			if(affectEvents.checked)
-			{
-				for (event in curRenderedNotes)
+				if(note.isEvent && affectEvents.checked)
 				{
-					if(event == null || !event.isEvent) continue;
-
-					selectedNotes.remove(event);
-					events.remove(cast (event, EventMetaNote));
+					events.remove(cast (note, EventMetaNote));
+					trace('removed event note');
 				}
+				selectedNotes.remove(note);
 			}
 			softReloadNotes(true);
 		});
@@ -5095,6 +5102,7 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 			case SELECT_NOTE:
 				resetSelectedNotes();
 				selectedNotes = action.data.old;
+				if(lockedEvents) selectedNotes = selectedNotes.filter((note:MetaNote) -> !note.isEvent);
 				onSelectNote();
 		}
 		showOutput('Undo #${currentUndo+1}: ${action.action}');
@@ -5126,6 +5134,7 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 			case SELECT_NOTE:
 				resetSelectedNotes();
 				selectedNotes = action.data.current;
+				if(lockedEvents) selectedNotes = selectedNotes.filter((note:MetaNote) -> !note.isEvent);
 				onSelectNote();
 		}
 		showOutput('Redo #${currentUndo+1}: ${action.action}');
@@ -5165,21 +5174,28 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 	function actionRemoveNotes(dataNotes:Array<MetaNote>, dataEvents:Array<EventMetaNote>)
 	{
 		if(dataNotes != null && dataNotes.length > 0)
+		{
 			for (note in dataNotes)
+			{
 				if(note != null)
 				{
 					notes.remove(note);
 					selectedNotes.remove(note);
 				}
 
+			}
+		}
 		if(dataEvents != null && dataEvents.length > 0)
+		{
 			for (event in dataEvents)
+			{
 				if(event != null)
 				{
-					events.remove(event);
+					trace(events.remove(event));
 					selectedNotes.remove(event);
 				}
-
+			}
+		}
 		softReloadNotes();
 	}
 

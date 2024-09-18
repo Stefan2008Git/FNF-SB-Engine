@@ -1051,6 +1051,7 @@ class PlayState extends MusicBeatState
 						tick = GO;
 					case 4:
 						tick = START;
+						if (ClientPrefs.data.introCard) introCard();
 				}
 
 				if(!skipArrowStartTween)
@@ -1098,6 +1099,52 @@ class PlayState extends MusicBeatState
 			}
 		});
 		return spr;
+	}
+
+	inline public function introCard()
+	{
+		var firstBox:FlxSprite;
+		var secondBox:FlxSprite;
+		var disc:FlxSprite;
+
+		firstBox = new FlxSprite(-500, 310).makeGraphic(350, 90);
+		firstBox.color = FlxColor.BLACK;
+		uiGroup.add(firstBox);
+
+		secondBox = new FlxSprite(-240, 310).makeGraphic(70, 90);
+		secondBox.color = FlxColor.fromRGB(dad.healthColorArray[0], dad.healthColorArray[1], dad.healthColorArray[2]);
+		uiGroup.add(secondBox);
+
+		disc = new FlxSprite(-185, 265);
+		disc.loadGraphic(Paths.image("engineStuff/main/icons/disc"));
+		disc.scale.x = 0.4;
+		disc.scale.y = 0.4;
+		disc.angularVelocity = 120;
+		uiGroup.add(disc);
+
+		FlxTween.tween(firstBox, {x: 0}, 1.2, {ease: FlxEase.sineInOut, onComplete: function(tween:FlxTween)
+		{
+			FlxTween.tween(firstBox, {x: -500}, 1.2, {ease: FlxEase.sineInOut, onComplete: function(tween:FlxTween)
+			{
+				firstBox.destroy();
+			},  startDelay: 3});
+		}});
+
+		FlxTween.tween(secondBox, {x: 350}, 1.2, {ease: FlxEase.sineInOut, onComplete: function(tween:FlxTween)
+		{
+			FlxTween.tween(secondBox, {x: -250}, 1.2, {ease: FlxEase.sineInOut, onComplete: function(tween:FlxTween)
+			{
+				secondBox.destroy();
+			},  startDelay: 3});
+		}});
+
+		FlxTween.tween(disc, {x: 350}, 1.2, {ease: FlxEase.sineInOut, onComplete: function(tween:FlxTween)
+		{
+			FlxTween.tween(disc, {x: -250}, 1.3, {ease: FlxEase.sineInOut, onComplete: function(tween:FlxTween)
+			{
+				disc.destroy();
+			},  startDelay: 3});
+		}});
 	}
 
 	public function addBehindGF(obj:FlxBasic)
@@ -1394,8 +1441,8 @@ class PlayState extends MusicBeatState
 				}
 
 				var swagNote:Note = new Note(spawnTime, noteColumn, oldNote);
-				var isAlt: Bool = section.altAnim && !swagNote.mustPress && !section.gfSection;
-				swagNote.gfNote = (section.gfSection && gottaHitNote);
+				var isAlt: Bool = section.altAnim && !gottaHitNote;
+				swagNote.gfNote = (section.gfSection && gottaHitNote == section.mustHitSection);
 				swagNote.animSuffix = isAlt ? "-alt" : "";
 				swagNote.mustPress = gottaHitNote;
 				swagNote.sustainLength = holdLength;

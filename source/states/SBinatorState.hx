@@ -60,6 +60,8 @@ class SBinatorState extends MusicBeatState
         mainLogo = new FlxSprite().loadGraphic(Paths.image("engineStuff/main/sbEngineLogo"));
 		mainLogo.screenCenter();
 		mainLogo.alpha = 0;
+		mainLogo.scale.x = 0.7;
+        mainLogo.scale.y = 0.7;
 		add(mainLogo);
 
 		loadingText = new FlxText(12, FlxG.height - 26, 0, Language.getPhrase('now_loading', 'Now Loading', ['...']), 32);

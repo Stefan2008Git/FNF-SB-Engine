@@ -179,6 +179,12 @@ class VisualsSettingsSubState extends BaseOptionsMenu
 			BOOL);
 		addOption(option);
 
+		var option:Option = new Option('Intro card',
+			"If checked, enables intro card when countdown is finished on song start",
+			'introCard',
+			BOOL);
+		addOption(option);
+
 		var option:Option = new Option('Startup screen',
 			"Tf unchecked, disables the startup splash when you open the game",
 			'startupScreen',

@@ -12,6 +12,7 @@ import openfl.display.Sprite;
 import states.FlashingState;
 import states.StoryMenuState;
 import states.SBinatorState;
+import states.TitleState;
 
 #if mobile
 import mobile.backend.MobileScaleMode;
@@ -24,10 +25,12 @@ import lime.graphics.Image;
 
 class Init extends FlxState 
 {
-    override function create() 
+    override function create()
     {
+		super.create();
+
         FlxTransitionableState.skipNextTransOut = true;
-        trace("Welcome to modifed Psych Engine with some changes and additions called SB Engine made by Stefan2008. Enjoy <3!");
+		Sys.println("Welcome to modifed Psych Engine with some changes and additions called SB Engine made by Stefan2008. Enjoy <3!");
 
         #if DISCORD_ALLOWED
 	    // Updating Discord Rich Presence
