@@ -108,6 +108,7 @@ import states.TitleState;
 	public var comboNumberPopup:Bool = true;
 	public var startupScreen:Bool = true;
 	public var introCard:Bool = false;
+	public var followLerp:String = 'Fast';
 }
 
 class ClientPrefs {

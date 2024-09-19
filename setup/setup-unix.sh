@@ -71,7 +71,8 @@ sleep 3
 echo Installing Funkin.Vis package...
 haxelib git funkin.vis https://github.com/FunkinCrew/funkVis d5361037efa3a02c4ab20b5bd14ca11e7d00f519 --quiet --skip-dependencies
 
-sleep 3 Installing last package "(Grig.Audio)"...
+sleep 3
+echo Installing last package "(Grig.Audio)"...
 haxelib git grig.audio https://gitlab.com/haxe-grig/grig.audio.git cbf91e2180fd2e374924fe74844086aab7891666 --quiet
 
 sleep 2
