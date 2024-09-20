@@ -6,7 +6,7 @@ Friday Night Funkin': SB (StefanBETA) Engine
 </h1>
 </header>
 
-![sbEngineLogo](https://github.com/Stefan2008Git/FNF-SB-Engine/assets/126715034/69f5983a-e492-4ebd-8741-2fd9ea70eb63)
+![sbEngineLogo](https://raw.githubusercontent.com/Stefan2008Git/FNF-SB-Engine/refs/heads/main/assets/shared/images/engineStuff/main/sbEngineLogo.png)
 [![Star History Chart](https://api.star-history.com/svg?repos=Stefan2008Git/FNF-SB-Engine&type=Timeline)](https://star-history.com/#Stefan2008Git/FNF-SB-Engine&Timeline)
 
 [![GitHub Releases](https://img.shields.io/github/downloads/Stefan2008Git/FNF-SB-Engine/total?style=flat)](https://github.com/Stefan2008Git/FNF-SB-Engine/releases)
