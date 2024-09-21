@@ -81,7 +81,7 @@ class CrashHandler
 		AndroidToast.makeText("Fatal Uncaugth Expection happened!", 1, -1, 0, 0);
 		#end
 
-		Sys.println("Crash dump saved in " + Path.normalize(stackLabel));
+		Sys.println("Crash dump saved in /crash/ root folder\n" + Path.normalize(stackLabel));
 
 		FlxG.sound.play(Paths.sound('engineStuff/error'));
 		flixel.FlxG.sound.music.stop();
