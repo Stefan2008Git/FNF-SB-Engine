@@ -165,10 +165,19 @@ class CoolUtil
 
 	public static function showPopUp(message:String, title:String):Void
 	{
-		#if android
-		AndroidTools.showAlertDialog(title, message, {name: "OK", func: null}, null);
+		#if (!ios || !iphonesim)
+		try
+		{
+			#if android
+			AndroidTools.showAlertDialog(title, message, {name: "OK", func: null}, null);
+			#else
+			lime.app.Application.current.window.alert(message, title);
+			#end
+		}
+		catch (e:Dynamic)
+			trace('$title - $message');
 		#else
-		Application.current.window.alert(message, title);
+		trace('$title - $message');
 		#end
 	}
 }
