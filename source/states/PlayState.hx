@@ -551,13 +551,13 @@ class PlayState extends MusicBeatState
 		updateJudgementCounter(false);
 		switch (ClientPrefs.data.judgementCounterStyle) {
 			case 'Default':
-				judgementCounterTxt.text = 'Sicks: 0' + '\n' + 'Goods: 0' + '\n' + 'Bads: 0' + '\n' + 'Shits: 0';
+				judgementCounterTxt.text = 'Sicks: -' + '\n' + 'Goods: -' + '\n' + 'Bads: -' + '\n' + 'Shits: -';
 			
 			case 'With Misses':
-				judgementCounterTxt.text = 'Sicks: 0' + '\n' + 'Goods: 0' + '\n' + 'Bads: 0' + '\n' + 'Shits: 0' + '\n' + 'Misses: 0';
+				judgementCounterTxt.text = 'Sicks: -' + '\n' + 'Goods: -' + '\n' + 'Bads: -' + '\n' + 'Shits: -' + '\n' + 'Misses: -';
 			
 			case 'Better Judge':
-				judgementCounterTxt.text = 'Notes Hits: 0 ' + '\n' + ' (Total Notes Hits: 0)' + '\n' + 'NPS: 0' + '\n' + '(Max NPS: 0)' + '\n' + 'Combo: 0 ' + '\n' + '(Max Combo: 0)' + '\n' + 'Sicks: 0' + '\n' + 'Goods: 0' + '\n' + 'Bads: 0' + '\n' + 'Shits: 0' + '\n' + 'Misses: 0' + '\n' + 'PA: 0';
+				judgementCounterTxt.text = 'Notes Hits: - ' + '\n' + '(Total Notes Hits: -)' + '\n' + 'NPS: - ' + '\n' + '(Max NPS: -)' + '\n' + 'Combo: - ' + '\n' + '(Max Combo: -)' + '\n' + 'Sicks: -' + '\n' + 'Goods: -' + '\n' + 'Bads: -' + '\n' + 'Shits: -' + '\n' + 'Misses: -' + '\n' + 'PA: ';
 		}
 		judgementCounterTxt.scrollFactor.set();
 		judgementCounterTxt.screenCenter(Y);
@@ -576,9 +576,16 @@ class PlayState extends MusicBeatState
 		var watermark:FlxText = new FlxText(8, FlxG.height - 22, curSong + " (" + Difficulty.getString() + ") | SB " + MainMenuState.sbEngineVersion + " (Psych Engine " + MainMenuState.psychEngineVersion + ") ", 12);
 		watermark.scrollFactor.set();
 		watermark.setFormat(Paths.font("vcr.ttf"), 15, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		watermark.cameras = [camOther];
+		if (!ClientPrefs.data.downScroll) watermark.cameras = [camOther];
 		watermark.visible = !ClientPrefs.data.hideHud && ClientPrefs.data.watermark;
-		add(watermark);
+		if (ClientPrefs.data.downScroll)
+		{
+			watermark.y = 140;
+			uiGroup.add(watermark);
+		} else if (!ClientPrefs.data.downScroll)
+		{
+			add(watermark);
+		}
 
 		noteGroup.cameras = [camHUD];
 		comboGroup.cameras = [camHUD];
