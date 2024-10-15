@@ -13,7 +13,6 @@ class SBinatorState extends MusicBeatState
     var background2:FlxSprite;
     var mainLogo:FlxSprite;
     var mainEngineText:FlxText;
-    var poweredBy:String = '';
 	var loadingText:FlxText;
 	var timePassed:Float;
 
@@ -21,20 +20,6 @@ class SBinatorState extends MusicBeatState
     {
 		Main.tweenFPS();
         super.create();
-
-		#if android
-        poweredBy = 'Android';
-        #elseif linux
-        poweredBy = 'Linux';
-        #elseif ios
-        poweredBy = 'iOS';
-        #elseif macos
-        poweredBy = 'MacOS';
-        #elseif windows
-        poweredBy = 'Windows';
-        #else
-        poweredBy = 'Unknown';
-        #end
 
 		mainBackground = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
         mainBackground.visible = false;
@@ -47,13 +32,13 @@ class SBinatorState extends MusicBeatState
         mainIcon.screenCenter();
         add(mainIcon);
 
-        mainEngineText = new FlxText(20, FlxG.height - 80, 1000, "Powered by:\n" + poweredBy, 10);
+        mainEngineText = new FlxText(20, FlxG.height - 80, 1000, "Powered by:\n" + Sys.systemName(), 10);
 		mainEngineText.setFormat("VCR OSD Mono", 26, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		mainEngineText.visible = false;
 		mainEngineText.screenCenter(X);
 		add(mainEngineText);
 
-        background2 = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BROWN);
+        background2 = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, 0xFF009E00);
         background2.alpha = 0;
         add(background2);
 

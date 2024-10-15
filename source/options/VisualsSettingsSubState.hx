@@ -11,8 +11,9 @@ class VisualsSettingsSubState extends BaseOptionsMenu
 	var noteY:Float = 90;
 
 	public static var pauseMusics:Array<String> = ['None', 'Tea Time', 'Breakfast', 'Breakfast (Pico)'];
-	public static var judgementStyle:Array<String> = ['Default', 'With Misses', 'Better Judge'];
+	public static var judgementStyle:Array<String> = ['Default', 'With Misses', 'Better Judge', 'Disabled'];
 	public static var timeBarType:Array<String> = ['Time Left', 'Time Elapsed', 'Song Name', 'Song Name + Time Left', 'Song Name + Time Elapsed', 'Song Name + Difficulty', 'Modern Time', 'Modern Time Elapsed', 'Disabled'];
+	public static var introType:Array<String> = ['Default', 'Doido Engine'];
 
 	public function new()
 	{
@@ -163,6 +164,12 @@ class VisualsSettingsSubState extends BaseOptionsMenu
 		option.onChange = onChangeVSync;
 		addOption(option);
 		#end
+
+		var option:Option = new Option('FPS Counter framerate color',
+			'If unchecked, disables colors on FPS counter framerate\nYellow = 50 FPS / Orange = 30 FPS / RED = 20 FPS.',
+			'framerateColor',
+			BOOL);
+		addOption(option);
 		
 		var option:Option = new Option('Pause Music:',
 			"What song do you prefer for the Pause Screen?",
@@ -195,7 +202,7 @@ class VisualsSettingsSubState extends BaseOptionsMenu
 		addOption(option);
 
 		var option:Option = new Option('Score text',
-			"If unchecked, hides score text",
+			"If unchecked, hides score text", // Maybe is useless, i am really not sure..
 			'scoreText',
 			BOOL);
 		addOption(option);
@@ -203,12 +210,6 @@ class VisualsSettingsSubState extends BaseOptionsMenu
 		var option:Option = new Option('Watermark',
 			"If unchecked, hides watermark",
 			'watermark',
-			BOOL);
-		addOption(option);
-
-		var option:Option = new Option('Judgement counter',
-			"If unchecked, hides judgement counter",
-			'judgementCounter',
 			BOOL);
 		addOption(option);
 
@@ -225,22 +226,29 @@ class VisualsSettingsSubState extends BaseOptionsMenu
 			BOOL);
 		addOption(option);
 
-		var option:Option = new Option('Text since',
+		var option:Option = new Option('Text sine',
 			"If unchecked, disables text alpha sine",
 			'textSine',
 			BOOL);
 		addOption(option);
 
 		var option:Option = new Option('Intro card',
-			"If checked, enables intro card when countdown is finished on song start",
+			"If checked, enables intro card when countdown is finished on song start", // Recreated from some lua script to source for fun because i love it
 			'introCard',
 			BOOL);
 		addOption(option);
 
 		var option:Option = new Option('Startup screen',
-			"Tf unchecked, disables the startup splash when you open the game",
+			"If unchecked, disables the startup splash when you open the game\nNOTE: Currently we saw that the startup screen is always forced on for some unexpected reason, so that means you are gonna be switched to startup screen instead on title screen when you turn off this options!!!",
 			'startupScreen',
 			BOOL);
+		addOption(option);
+
+		var option:Option = new Option('Intro:',
+			"What gameplay intro do you prefer?", // To understand more, this is when strum notes are genereated in game countdown, so different type of game intro will be "different"
+			'introType',
+			STRING,
+			introType);
 		addOption(option);
 
 		super();

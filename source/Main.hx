@@ -31,7 +31,7 @@ class Main extends Sprite
 	public static var game = {
 		width: 1280, // WINDOW width
 		height: 720, // WINDOW height
-		initialState: TitleState, // initial game state
+		initialState: Init.new, // initial game state
 		zoom: -1.0, // game state bounds
 		framerate: 60, // default framerate
 		skipSplash: true, // if the default flixel splash screen should be skipped
@@ -97,7 +97,7 @@ class Main extends Sprite
 			game.zoom = 1.0;
 		#end
 
-		var game:FlxGame = new FlxGame(game.width, game.height, #if (mobile && MODS_ALLOWED) CopyState.checkExistingFiles() ? Init : CopyState #else Init #end, #if (flixel < "5.0.0") game.zoom, #end game.framerate, game.skipSplash, game.startFullscreen);
+		var game:FlxGame = new FlxGame(#if android 1280, 720 #else game.width, game.height #end, #if (mobile && MODS_ALLOWED) CopyState.checkExistingFiles() ? game.initialState : CopyState #else game.initialState #end, #if (flixel < "5.0.0") game.zoom, #end game.framerate, game.skipSplash, game.startFullscreen);
 		@:privateAccess
 		game._customSoundTray = backend.FunkinSoundTray;
 		addChild(game);

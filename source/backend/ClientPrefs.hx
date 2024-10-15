@@ -99,7 +99,6 @@ import states.TitleState;
 	public var checkerboard:Bool = true;
 	public var scoreText:Bool = true;
 	public var watermark:Bool = false;
-	public var judgementCounter:Bool = false;
 	public var judgementCounterStyle:String = 'Default';
 	public var smoothHealth:Bool = false;
 	public var textSine:Bool = true;
@@ -109,6 +108,9 @@ import states.TitleState;
 	public var startupScreen:Bool = true;
 	public var introCard:Bool = false;
 	public var followLerp:String = 'Fast';
+	public var screenshot:Bool = true;
+	public var introType:String = 'Default';
+	public var framerateColor:Bool = true;
 }
 
 class ClientPrefs {

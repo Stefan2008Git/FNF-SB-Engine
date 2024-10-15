@@ -6,8 +6,7 @@ import flixel.util.FlxStringUtil;
 import openfl.Lib;
 import openfl.text.TextField;
 import openfl.text.TextFormat;
-import openfl.system.System as OpenFlSystem;
-import lime.system.System as LimeSystem;
+import lime.system.System;
 
 enum GLInfo {
 	RENDERER;
@@ -49,10 +48,7 @@ class FPSCounter extends TextField
 	{
 		super();
 
-		if (LimeSystem.platformName == LimeSystem.platformVersion || LimeSystem.platformVersion == null)
-			os = '\nOS: ${LimeSystem.platformLabel}' #if cpp + ' ${getArch() != 'Unknown' ? getArch() : ''}' #end;
-		else
-			os = '\nOS: ${LimeSystem.platformLabel}' #if cpp + ' ${getArch() != 'Unknown' ? getArch() : ''}' #end + ' - ${LimeSystem.platformVersion}';
+		os = 'OS: ${System.platformLabel} ${System.platformVersion} - ' #if cpp + '${getArch() != 'Unknown' ? getArch() : ''}' #end;
 
 		positionFPS(x, y);
 
@@ -77,7 +73,7 @@ class FPSCounter extends TextField
 		while (times[0] < now - 1000) times.shift();
 
 		// prevents the overlay from updating every frame, why would you need to anyways
-		if (deltaTimeout < 1000) {
+		if (deltaTimeout < 10) {
 			deltaTimeout += deltaTime;
 			return;
 		}
@@ -102,12 +98,14 @@ class FPSCounter extends TextField
 
 		if (ClientPrefs.data.engineVersion) text += "\nv" + MainMenuState.sbEngineVersion;
 
-		if (ClientPrefs.data.osInfo) text += os;
+		if (ClientPrefs.data.osInfo) text += "\n" + os;
 
 		textColor = 0xFFFFFFFF;
-		if (currentFPS <= FlxG.drawFramerate / 2 && currentFPS >= FlxG.drawFramerate / 3) textColor = FlxColor.YELLOW;
-		else if (currentFPS <= FlxG.drawFramerate / 3 && currentFPS >= FlxG.drawFramerate / 4) textColor = FlxColor.ORANGE;
-		else if (currentFPS < FlxG.drawFramerate * 0.5) textColor = FlxColor.RED;
+		if (ClientPrefs.data.framerateColor) {
+			if (currentFPS <= FlxG.drawFramerate / 2 && currentFPS >= FlxG.drawFramerate / 3) textColor = FlxColor.YELLOW;
+			else if (currentFPS <= FlxG.drawFramerate / 3 && currentFPS >= FlxG.drawFramerate / 4) textColor = FlxColor.ORANGE;
+			else if (currentFPS < FlxG.drawFramerate * 0.5) textColor = FlxColor.RED;
+		}
 	}
 
 	public function getGLInfo(info:GLInfo):String 
@@ -125,7 +123,7 @@ class FPSCounter extends TextField
 	}
 
 	public inline function positionFPS(X:Float, Y:Float, ?scale:Float = 1){
-		scaleX = scaleY = #if android (scale > 1 ? scale : 1) #else (scale < 1 ? scale : 1) #end;
+		scaleX = scaleY = (scale > 1 ? scale : 1);
 		x = FlxG.game.x + X;
 		y = FlxG.game.y + Y;
 	}

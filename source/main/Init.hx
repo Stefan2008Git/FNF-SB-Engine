@@ -25,12 +25,11 @@ import lime.graphics.Image;
 
 class Init extends FlxState 
 {
-    override function create()
+    override function create():Void
     {
 		super.create();
 
         FlxTransitionableState.skipNextTransOut = true;
-		Sys.println("Welcome to modifed Psych Engine with some changes and additions called SB Engine made by Stefan2008. Enjoy <3!");
 
         #if DISCORD_ALLOWED
 	    // Updating Discord Rich Presence
@@ -80,11 +79,11 @@ class Init extends FlxState
 		#end
 		Mods.loadTopMod();
 
-		FlxG.save.bind('sbinator', CoolUtil.getSavePath());
+		FlxG.save.bind('funkin', CoolUtil.getSavePath());
 
 		Highscore.load();
 
-        Screenshot.initialize();
+        if (ClientPrefs.data.screenshot) Screenshot.initialize();
 
 		#if LUA_ALLOWED Lua.set_callbacks_function(cpp.Callable.fromStaticFunction(psychlua.CallbackHandler.call)); #end
 		Controls.instance = new Controls();
@@ -98,7 +97,7 @@ class Init extends FlxState
         FlxTransitionableState.skipNextTransIn = true;
         FlxTransitionableState.skipNextTransOut = true;
 
-        if (ClientPrefs.data.startupScreen) FlxG.switchState(() -> new SBinatorState());
-        else FlxG.switchState(Type.createInstance(Main.game.initialState, []));
+        final stateClass:Class<FlxState> = (ClientPrefs.defaultData.startupScreen) ? states.SBinatorState : states.TitleState;
+        FlxG.switchState(Type.createInstance(stateClass, []));
     }
 }

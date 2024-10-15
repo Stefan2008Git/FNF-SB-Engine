@@ -48,8 +48,9 @@ class InitGoodbye extends FlxState
 		mainLogo.screenCenter();
         new FlxTimer().start(5.3, function(tmr:FlxTimer) {
 		    FlxTween.tween(mainLogo, {alpha: 0}, 1, {ease: FlxEase.sineInOut});
-            trace("Thank you for using modified Psych Engine fork with some changes and additions made by Stefan2008 <3! Goodbye...");
         });
+        mainLogo.scale.x = 0.7;
+        mainLogo.scale.y = 0.7;
 		add(mainLogo);
 
         FlxG.sound.play(Paths.sound('engineStuff/shutdown'));

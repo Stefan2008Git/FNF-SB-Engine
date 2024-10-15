@@ -480,7 +480,7 @@ class PlayState extends MusicBeatState
 		timeBar.screenCenter(X);
 		timeBar.alpha = 0;
 		timeBar.visible = showTime;
-		timeBar.leftBar.color = FlxColor.BROWN;
+		timeBar.leftBar.color = 0xFF009E00;
 		timeBar.rightBar.color = 0xFF1A1A1A;
 		uiGroup.add(timeBar);
 		uiGroup.add(timeTxt);
@@ -561,7 +561,7 @@ class PlayState extends MusicBeatState
 		}
 		judgementCounterTxt.scrollFactor.set();
 		judgementCounterTxt.screenCenter(Y);
-		judgementCounterTxt.visible = !ClientPrefs.data.hideHud && ClientPrefs.data.judgementCounter;
+		judgementCounterTxt.visible = !ClientPrefs.data.hideHud && ClientPrefs.data.judgementCounterStyle == 'Disabled';
 		uiGroup.add(judgementCounterTxt);
 
 		botplayTxt = new FlxText(400, healthBar.y - 90, FlxG.width - 800, Language.getPhrase("Botplay").toUpperCase(), 32);
@@ -576,20 +576,16 @@ class PlayState extends MusicBeatState
 		var watermark:FlxText = new FlxText(8, FlxG.height - 22, curSong + " (" + Difficulty.getString() + ") | SB " + MainMenuState.sbEngineVersion + " (Psych Engine " + MainMenuState.psychEngineVersion + ") ", 12);
 		watermark.scrollFactor.set();
 		watermark.setFormat(Paths.font("vcr.ttf"), 15, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		if (!ClientPrefs.data.downScroll) watermark.cameras = [camOther];
 		watermark.visible = !ClientPrefs.data.hideHud && ClientPrefs.data.watermark;
-		if (ClientPrefs.data.downScroll)
-		{
-			watermark.y = 140;
-			uiGroup.add(watermark);
-		} else if (!ClientPrefs.data.downScroll)
-		{
-			add(watermark);
-		}
+		if (!ClientPrefs.data.downScroll) watermark.cameras = [camOther];
+		if (ClientPrefs.data.downScroll) watermark.y = 140;
+		(ClientPrefs.data.downScroll) ? uiGroup.add(watermark) : add(watermark);
 
 		noteGroup.cameras = [camHUD];
 		comboGroup.cameras = [camHUD];
 		uiGroup.cameras = [camHUD];
+
+		if (ClientPrefs.data.introType == 'Doido Engine') uiGroup.alpha = 0;
 
 		startingSong = true;
 
@@ -1048,6 +1044,7 @@ class PlayState extends MusicBeatState
 						countdownReady = createCountdownSprite(introAlts[0], antialias);
 						FlxG.sound.play(Paths.sound('intro2' + introSoundsSuffix), 0.6);
 						tick = TWO;
+						if (ClientPrefs.data.introType == 'Doido Engine') FlxTween.tween(uiGroup, {alpha: 1}, 1.5);
 					case 2:
 						countdownSet = createCountdownSprite(introAlts[1], antialias);
 						FlxG.sound.play(Paths.sound('intro1' + introSoundsSuffix), 0.6);
@@ -1112,6 +1109,9 @@ class PlayState extends MusicBeatState
 	{
 		var firstBox:FlxSprite;
 		var secondBox:FlxSprite;
+		var nowPlaying:FlxText;
+		var songName:FlxText;
+		var noteCount:FlxText;
 		var disc:FlxSprite;
 
 		firstBox = new FlxSprite(-500, 310).makeGraphic(350, 90);
@@ -1121,6 +1121,20 @@ class PlayState extends MusicBeatState
 		secondBox = new FlxSprite(-240, 310).makeGraphic(70, 90);
 		secondBox.color = FlxColor.fromRGB(dad.healthColorArray[0], dad.healthColorArray[1], dad.healthColorArray[2]);
 		uiGroup.add(secondBox);
+
+		nowPlaying = new FlxText(-355, 320, "Now playing:", 20);
+		nowPlaying.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		uiGroup.add(nowPlaying);
+
+		songName = new FlxText(-355, 325, "", 20);
+		songName.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.fromRGB(dad.healthColorArray[0], dad.healthColorArray[1], dad.healthColorArray[2]), LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		songName.text = "\n" + curSong;
+		uiGroup.add(songName);
+
+		noteCount = new FlxText(-355, 350, "", 20);
+		noteCount.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		noteCount.text = "\nNotes: " + FlxStringUtil.formatMoney(totalNotes, false);
+		uiGroup.add(noteCount);
 
 		disc = new FlxSprite(-185, 265);
 		disc.loadGraphic(Paths.image("engineStuff/main/icons/disc"));
@@ -1145,6 +1159,30 @@ class PlayState extends MusicBeatState
 			},  startDelay: 3});
 		}});
 
+		FlxTween.tween(nowPlaying, {x: 0}, 1.2, {ease: FlxEase.sineInOut, onComplete: function(tween:FlxTween)
+		{
+			FlxTween.tween(nowPlaying, {x: -500}, 1.2, {ease: FlxEase.sineInOut, onComplete: function(tween:FlxTween)
+			{
+				nowPlaying.destroy();
+			},  startDelay: 3});
+		}});
+
+		FlxTween.tween(songName, {x: 0}, 1.2, {ease: FlxEase.sineInOut, onComplete: function(tween:FlxTween)
+		{
+			FlxTween.tween(songName, {x: -500}, 1.2, {ease: FlxEase.sineInOut, onComplete: function(tween:FlxTween)
+			{
+				songName.destroy();
+			},  startDelay: 3});
+		}});
+
+		FlxTween.tween(noteCount, {x: 0}, 1.2, {ease: FlxEase.sineInOut, onComplete: function(tween:FlxTween)
+		{
+			FlxTween.tween(noteCount, {x: -500}, 1.2, {ease: FlxEase.sineInOut, onComplete: function(tween:FlxTween)
+			{
+				noteCount.destroy();
+			},  startDelay: 3});
+		}});
+
 		FlxTween.tween(disc, {x: 350}, 1.2, {ease: FlxEase.sineInOut, onComplete: function(tween:FlxTween)
 		{
 			FlxTween.tween(disc, {x: -250}, 1.3, {ease: FlxEase.sineInOut, onComplete: function(tween:FlxTween)
@@ -1152,6 +1190,7 @@ class PlayState extends MusicBeatState
 				disc.destroy();
 			},  startDelay: 3});
 		}});
+
 	}
 
 	public function addBehindGF(obj:FlxBasic)
@@ -1340,8 +1379,8 @@ class PlayState extends MusicBeatState
 
 		// Song duration in a float, useful for the time left feature
 		songLength = FlxG.sound.music.length;
-		FlxTween.tween(timeBar, {alpha: 1}, 0.5, {ease: FlxEase.circOut});
-		FlxTween.tween(timeTxt, {alpha: 1}, 0.5, {ease: FlxEase.circOut});
+		FlxTween.tween(timeBar, {alpha: 1}, 1.5, {ease: FlxEase.sineInOut});
+		FlxTween.tween(timeTxt, {alpha: 1}, 1.5, {ease: FlxEase.sineInOut});
 
 		#if DISCORD_ALLOWED
 		// Updating Discord Rich Presence (with Time Left)
@@ -1419,9 +1458,12 @@ class PlayState extends MusicBeatState
 		var oldNote:Note = null;
 		var sectionsData:Array<SwagSection> = PlayState.SONG.notes;
 		var ghostNotesCaught: Int = 0;
+		var daBpm:Float = Conductor.bpm;
 	
 		for (section in sectionsData)
 		{
+			if (section.changeBPM != null && section.changeBPM && section.bpm != null && daBpm != section.bpm) daBpm = section.bpm;
+
 			for (i in 0...section.sectionNotes.length)
 			{
 				final songNotes: Array<Dynamic> = section.sectionNotes[i];
@@ -1447,6 +1489,10 @@ class PlayState extends MusicBeatState
 					}
 				}
 
+				if ((gottaHitNote) && songNotes[3] != 'Hurt Note') {
+					totalNotes += 1;
+				}
+
 				var swagNote:Note = new Note(spawnTime, noteColumn, oldNote);
 				var isAlt: Bool = section.altAnim && !gottaHitNote;
 				swagNote.gfNote = (section.gfSection && gottaHitNote == section.mustHitSection);
@@ -1458,10 +1504,12 @@ class PlayState extends MusicBeatState
 				swagNote.scrollFactor.set();
 				unspawnNotes.push(swagNote);
 
-				final roundSus:Int = Math.round(swagNote.sustainLength / Conductor.stepCrochet);
+				var curStepCrochet:Float = 60 / daBpm * 1000 / 4.0;
+				final roundSus:Int = Math.round(swagNote.sustainLength / curStepCrochet);
+
 				if(roundSus > 0)
 				{
-					for (susNote in 0...roundSus + 1)
+					for (susNote in 0...roundSus)
 					{
 						oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
 
@@ -1613,7 +1661,12 @@ class PlayState extends MusicBeatState
 
 			var babyArrow:StrumNote = new StrumNote(strumLineX, strumLineY, i, player);
 			babyArrow.downScroll = ClientPrefs.data.downScroll;
-			if (!isStoryMode && !skipArrowStartTween)
+			if (ClientPrefs.data.introType == 'Doido Engine')
+			{
+				babyArrow.y -= 100;
+				babyArrow.alpha = 0;
+				FlxTween.tween(babyArrow, {y: babyArrow.y + 110, alpha: targetAlpha}, 1, {ease: FlxEase.cubeOut, startDelay: 0.5 + (0.2 * i)});
+			} else if (!isStoryMode && !skipArrowStartTween)
 			{
 				//babyArrow.y -= 10;
 				babyArrow.alpha = 0;
@@ -2636,6 +2689,7 @@ class PlayState extends MusicBeatState
 
 	public var totalPlayed:Int = 0;
 	public var totalNotesHit:Float = 0.0;
+	public var totalNotes:Float = 0;
 
 	public var showCombo:Bool = ClientPrefs.data.comboPopup;
 	public var showComboNum:Bool = ClientPrefs.data.comboNumberPopup;
@@ -3212,6 +3266,7 @@ class PlayState extends MusicBeatState
 			if (!note.isSustainNote && !cpuControlled)
 			{
 				if(combo >= maxCombo) maxCombo += 1;
+				totalNotes += 1;
 				combo += 1;
 				combo++;
 				if(combo > 9999) combo = 9999;
