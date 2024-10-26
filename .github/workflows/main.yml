@@ -337,10 +337,7 @@ jobs:
 
       - name: Building
         run:
-           haxelib run lime build android -ONLY_ARMV7 -D officialBuild
-        env:
-          cert_pass: nullfunni
-          cert_alias_pass: nullfunni
+           haxelib run lime build android -ONLY_ARMV7
 
       - name: Clear Previous Cache
         uses: actions/github-script@main
