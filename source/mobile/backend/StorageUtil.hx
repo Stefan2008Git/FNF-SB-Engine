@@ -29,34 +29,38 @@ class StorageUtil
 		daPath = Path.addTrailingSlash(daPath);
 		#elseif ios
 		daPath = LimeSystem.documentsDirectory;
+		#else
+		daPath = Sys.getCwd();
 		#end
 
 		return daPath;
 	}
 
-	public static function saveContent(fileName:String = 'file', fileData:String = 'You forgor to add somethin\' in yo code :3', ?alert:Bool = true):Void
+	public static function saveContent(fileName:String, fileData:String, ?alert:Bool = true):Void
 	{
 		try
 		{
 			if (!FileSystem.exists('saves'))
 				FileSystem.createDirectory('saves');
 
-			File.saveContent('saves/' + fileName, fileData);
-			if (alert) CoolUtil.showPopUp('$fileName has been saved.', "Success!");
-			#if android AndroidToast.makeText("Done! File has been saved successfully.", 1, -1, 0, 0); #end
-
+			File.saveContent('saves/$fileName', fileData);
+			if (alert)
+				CoolUtil.showPopUp('$fileName has been saved.', "Success!");
 		}
 		catch (e:Exception)
-			if (alert) CoolUtil.showPopUp('$fileName couldn\'t be saved.\n(${e.message})', "Error!") else trace('$fileName couldn\'t be saved. (${e.message})');
+			if (alert)
+				CoolUtil.showPopUp('$fileName couldn\'t be saved.\n(${e.message})', "Error!")
+			else
+				trace('$fileName couldn\'t be saved. (${e.message})');
 	}
 
 	#if android
 	public static function requestPermissions():Void
 	{
 		if (AndroidVersion.SDK_INT >= AndroidVersionCode.TIRAMISU)
-			AndroidPermissions.requestPermission(['READ_MEDIA_IMAGES', 'READ_MEDIA_VIDEO', 'READ_MEDIA_AUDIO']);
+			AndroidPermissions.requestPermissions(['READ_MEDIA_IMAGES', 'READ_MEDIA_VIDEO', 'READ_MEDIA_AUDIO']);
 		else
-			AndroidPermissions.requestPermission(['READ_EXTERNAL_STORAGE', 'WRITE_EXTERNAL_STORAGE']);
+			AndroidPermissions.requestPermissions(['READ_EXTERNAL_STORAGE', 'WRITE_EXTERNAL_STORAGE']);
 
 		if (!AndroidEnvironment.isExternalStorageManager())
 		{
