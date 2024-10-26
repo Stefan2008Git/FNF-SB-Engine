@@ -38,7 +38,7 @@ class InitGoodbye extends FlxState
             trace("Wait until bg and logo disappears...");
         });
 
-        background = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BROWN);
+        background = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.GREEN);
         new FlxTimer().start(4.5, function(tmr:FlxTimer) {
 		    FlxTween.tween(background, {alpha: 0}, 1, {ease: FlxEase.sineInOut});
         });

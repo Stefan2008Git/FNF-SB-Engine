@@ -3,7 +3,7 @@
 # REMINDER THAT YOU NEED HAXE INSTALLED PRIOR TO USING THIS
 # https://haxe.org/download/
 cd ..
-echo Welcome $USER to "FNF': SB Engine" lib setup by using this script for Linux/MacOS targets. Please relax and sit when this shell script will do everything for you without doing everything everything..
+echo Welcome $USER to "FNF': SB Engine" lib setup by using this script for Linux/MacOS targets. Please relax and sit when this shell script will do everything for you without doing everything manually..
 sleep 5
 
 echo Making the main and setuping haxelib folder in same time..

@@ -153,7 +153,7 @@ class VisualsSettingsSubState extends BaseOptionsMenu
 		addOption(option);
 
 		var option:Option = new Option('Platform target info',
-			'If checked, shows your OS on FPS Counter.', 'osInfo', BOOL);
+			'If checked, shows your OS name and architecture number on FPS Counter.', 'osInfo', BOOL);
 		addOption(option);
 
 		#if sys
@@ -166,7 +166,7 @@ class VisualsSettingsSubState extends BaseOptionsMenu
 		#end
 
 		var option:Option = new Option('FPS Counter framerate color',
-			'If unchecked, disables colors on FPS counter framerate\nYellow = 50 FPS / Orange = 30 FPS / RED = 20 FPS.',
+			'If unchecked, disables colors on FPS counter framerate\nYellow = 50 FPS / Orange = 30 FPS / RED = 20 FPS.',  // Just note for Jordan since he thinks this options is useless as fuck: "I don't give a fucking shit if you don't have any colors when you are getting fow framerate! Understand it right now?"
 			'framerateColor',
 			BOOL);
 		addOption(option);
@@ -250,6 +250,14 @@ class VisualsSettingsSubState extends BaseOptionsMenu
 			STRING,
 			introType);
 		addOption(option);
+
+		#if desktop
+		var option:Option = new Option('Screenshot',
+			"If unchecked, disables screenshot support",
+			'screenshot',
+			BOOL);
+		addOption(option);
+		#end
 
 		super();
 		add(notes);
