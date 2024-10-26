@@ -34,43 +34,6 @@ class StorageUtil
 		return daPath;
 	}
 
-	public static function createDirectories(directory:String):Void
-	{
-		try {
-			if (FileSystem.exists(directory) && FileSystem.isDirectory(directory))
-				return;
-		} catch (e:haxe.Exception) {
-			trace('Something went wrong while looking at directory. (${e.message})');
-		}
-
-		var total:String = '';
-		if (directory.substr(0, 1) == '/')
-			total = '/';
-
-		var parts:Array<String> = directory.split('/');
-		if (parts.length > 0 && parts[0].indexOf(':') > -1)
-			parts.shift();
-
-		for (part in parts)
-		{
-			if (part != '.' && part != '')
-			{
-				if (total != '' && total != '/')
-					total += '/';
-
-				total += part;
-
-				try
-				{
-					if (!FileSystem.exists(total))
-						FileSystem.createDirectory(total);
-				}
-				catch (e:Exception)
-					trace('Error while creating directory. (${e.message}');
-			}
-		}
-	}
-
 	public static function saveContent(fileName:String = 'file', fileData:String = 'You forgor to add somethin\' in yo code :3', ?alert:Bool = true):Void
 	{
 		try
@@ -90,44 +53,54 @@ class StorageUtil
 	#if android
 	public static function requestPermissions():Void
 	{
-		if (!AndroidPermissions.getGrantedPermissions().contains('android.permission.READ_EXTERNAL_STORAGE')
-			&& !AndroidPermissions.getGrantedPermissions().contains('android.permission.WRITE_EXTERNAL_STORAGE'))
-		{
-			AndroidPermissions.requestPermission('READ_EXTERNAL_STORAGE');
-			AndroidPermissions.requestPermission('WRITE_EXTERNAL_STORAGE');
-			CoolUtil.showPopUp('If you accepted the permissions you are all good!' + '\nIf you didn\'t then expect a crash' + '\nPress Ok to see what happens',
-				'Notice!');
-			if (!AndroidEnvironment.isExternalStorageManager())
-				AndroidSettings.requestSetting('MANAGE_APP_ALL_FILES_ACCESS_PERMISSION');
-		}
+		if (AndroidVersion.SDK_INT >= AndroidVersionCode.TIRAMISU)
+			AndroidPermissions.requestPermissions(['READ_MEDIA_IMAGES', 'READ_MEDIA_VIDEO', 'READ_MEDIA_AUDIO']);
 		else
+			AndroidPermissions.requestPermissions(['READ_EXTERNAL_STORAGE', 'WRITE_EXTERNAL_STORAGE']);
+
+		if (!AndroidEnvironment.isExternalStorageManager())
 		{
-			try
-			{
-				if (!FileSystem.exists(StorageUtil.getStorageDirectory()))
-					FileSystem.createDirectory(StorageUtil.getStorageDirectory());
-			}
-			catch (e:Dynamic)
-			{
-				CoolUtil.showPopUp('Please create directory to\n' + StorageUtil.getStorageDirectory(true) + '\nPress OK to close the game', 'Error!');
-				LimeSystem.exit(1);
-			}
+			if (AndroidVersion.SDK_INT >= AndroidVersionCode.S)
+				AndroidSettings.requestSetting('REQUEST_MANAGE_MEDIA');
+			AndroidSettings.requestSetting('MANAGE_APP_ALL_FILES_ACCESS_PERMISSION');
+		}
+
+		if ((AndroidVersion.SDK_INT >= AndroidVersionCode.TIRAMISU
+			&& !AndroidPermissions.getGrantedPermissions().contains('android.permission.READ_MEDIA_IMAGES'))
+			|| (AndroidVersion.SDK_INT < AndroidVersionCode.TIRAMISU
+				&& !AndroidPermissions.getGrantedPermissions().contains('android.permission.READ_EXTERNAL_STORAGE')))
+			CoolUtil.showPopUp('If you accepted the permissions you are all good!' + '\nIf you didn\'t then expect a crash' + '\nPress OK to see what happens',
+				'Notice!');
+
+		try
+		{
+			if (!FileSystem.exists(StorageUtil.getStorageDirectory()))
+				FileSystem.createDirectory(StorageUtil.getStorageDirectory());
+		}
+		catch (e:Dynamic)
+		{
+			CoolUtil.showPopUp('Please create directory to\n' + StorageUtil.getStorageDirectory(true) + '\nPress OK to close the game', 'Error!');
+			LimeSystem.exit(1);
 		}
 	}
 
-	public static function checkExternalPaths(?splitStorage = false):Array<String> {
+	public static function checkExternalPaths(?splitStorage = false):Array<String>
+	{
 		var process = new Process('grep -o "/storage/....-...." /proc/mounts | paste -sd \',\'');
 		var paths:String = process.stdout.readAll().toString();
-		if (splitStorage) paths = paths.replace('/storage/', '');
+		if (splitStorage)
+			paths = paths.replace('/storage/', '');
 		return paths.split(',');
 	}
 
-	public static function getExternalDirectory(external:String):String {
+	public static function getExternalDirectory(externalDir:String):String
+	{
 		var daPath:String = '';
 		for (path in checkExternalPaths())
-			if (path.contains(external)) daPath = path;
+			if (path.contains(externalDir))
+				daPath = path;
 
-		daPath = haxe.io.Path.addTrailingSlash(daPath.endsWith("\n") ? daPath.substr(0, daPath.length - 1) : daPath);
+		daPath = Path.addTrailingSlash(daPath.endsWith("\n") ? daPath.substr(0, daPath.length - 1) : daPath);
 		return daPath;
 	}
 	#end

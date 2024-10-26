@@ -57,10 +57,10 @@ class CopyState extends MusicBeatState
 		loadingImage = new FlxSprite(0, 0, Paths.image('menuDesat'));
 		loadingImage.updateHitbox();
 		loadingImage.screenCenter();
-		loadingImage.color = FlxColor.BROWN;
+		loadingImage.color = FlxColor.GREEN;
 		add(loadingImage);
 
-		bottomBG = new FlxSprite(0, FlxG.height - 26).makeGraphic(FlxG.width, 26, 0xFF000000);
+		bottomBG = new FlxSprite(0, FlxG.height - 26).makeGraphic(FlxG.width, 26, FlxColor.BLACK);
 		bottomBG.alpha = 0.6;
 		add(bottomBG);
 
@@ -75,7 +75,7 @@ class CopyState extends MusicBeatState
 		bg.screenCenter(X);
 		add(bg);
 
-		bar = new FlxSprite(bg.x + 5, bg.y + 5).makeGraphic(1, 1, FlxColor.BROWN);
+		bar = new FlxSprite(bg.x + 5, bg.y + 5).makeGraphic(1, 1, FlxColor.GREEN);
 		bar.scale.set(0, 15);
 		bar.updateHitbox();
 		add(bar);
@@ -131,11 +131,11 @@ class CopyState extends MusicBeatState
 				};
 			}
 
-			if (maxLoopTimes == 0)
+			if (loopTimes == maxLoopTimes)
 				loadedText.text = "Completed!";
 			else
-				loadedText.text = '$loopTimes/$maxLoopTimes';
-				bar.scale.x = barWidth * loopTimes * maxLoopTimes;
+				loadedText.text = 'Assets needed: $loopTimes/$maxLoopTimes';
+				bar.scale.x = barWidth * loopTimes / maxLoopTimes * 100;
 				bar.updateHitbox();
 		}
 		super.update(elapsed);
@@ -149,7 +149,7 @@ class CopyState extends MusicBeatState
 		{
 			var directory = Path.directory(file);
 			if (!FileSystem.exists(directory))
-				StorageUtil.createDirectories(directory);
+				FileSystem.createDirectory(directory);
 			try
 			{
 				if (OpenFLAssets.exists(getFile(file)))
@@ -183,7 +183,7 @@ class CopyState extends MusicBeatState
 			if (fileData == null)
 				fileData = '';
 			if (!FileSystem.exists(directory))
-				StorageUtil.createDirectories(directory);
+				FileSystem.createDirectory(directory);
 			File.saveContent(Path.join([directory, fileName]), fileData);
 		}
 		catch (e:haxe.Exception)

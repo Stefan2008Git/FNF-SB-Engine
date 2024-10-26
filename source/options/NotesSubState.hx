@@ -5,6 +5,7 @@ import flixel.addons.display.FlxGridOverlay;
 import flixel.addons.display.shapes.FlxShapeCircle;
 import flixel.input.keyboard.FlxKey;
 import flixel.input.gamepad.FlxGamepadInputID;
+import flixel.util.FlxSpriteUtil;
 import lime.system.Clipboard;
 import flixel.util.FlxGradient;
 import objects.StrumNote;
@@ -55,23 +56,23 @@ class NotesSubState extends MusicBeatSubstate
 		#end
 		
 		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
-		bg.color = 0xFFEA71FD;
+		bg.color = FlxColor.GREEN;
 		bg.screenCenter();
 		bg.antialiasing = ClientPrefs.data.antialiasing;
 		add(bg);
 
 		var grid:FlxBackdrop = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0x33FFFFFF, 0x0));
-		grid.velocity.set(40, 40);
+		grid.velocity.set(FlxG.random.bool(50) ? 90 : -90, FlxG.random.bool(50) ? 90 : -90);
 		grid.alpha = 0;
-		FlxTween.tween(grid, {alpha: 1}, 0.5, {ease: FlxEase.quadOut});
+		FlxTween.tween(grid, {alpha: 1}, 0.5, {ease: FlxEase.sineInOut});
 		add(grid);
 
-		modeBG = new FlxSprite(215, 85).makeGraphic(315, 115, FlxColor.BLACK);
+		modeBG = FlxSpriteUtil.drawRoundRect(new FlxSprite(215, 85).makeGraphic(315, 115, FlxColor.TRANSPARENT), 0, 0, 315, 115, 65, 65, FlxColor.BLACK);
 		modeBG.visible = false;
 		modeBG.alpha = 0.4;
 		add(modeBG);
 
-		notesBG = new FlxSprite(140, 190).makeGraphic(480, 125, FlxColor.BLACK);
+		notesBG = FlxSpriteUtil.drawRoundRect(new FlxSprite(120, 192).makeGraphic(510, 125, FlxColor.TRANSPARENT), 0, 0, 510, 125, 65, 65, FlxColor.BLACK);
 		notesBG.visible = false;
 		notesBG.alpha = 0.4;
 		add(notesBG);
@@ -85,7 +86,7 @@ class NotesSubState extends MusicBeatSubstate
 		var bg:FlxSprite = new FlxSprite(720).makeGraphic(FlxG.width - 720, FlxG.height, FlxColor.BLACK);
 		bg.alpha = 0.25;
 		add(bg);
-		var bg:FlxSprite = new FlxSprite(750, 160).makeGraphic(FlxG.width - 780, 540, FlxColor.BLACK);
+		var bg:FlxSprite = FlxSpriteUtil.drawRoundRect(new FlxSprite(720, 160).makeGraphic(FlxG.width - 780, 540, FlxColor.TRANSPARENT), 0, 0, 780, 540, 65, 65, FlxColor.BLACK);
 		bg.alpha = 0.25;
 		add(bg);
 		
@@ -93,11 +94,11 @@ class NotesSubState extends MusicBeatSubstate
 		var sighPosX:Int;
 
 		if (controls.mobileC) {
-			sigh = "PRESS";
-			sighPosX = 44;
+			sigh = "TAP IT";
+			sighPosX = 40;
 		} else {
-			sigh = "CTRL";
-			sighPosX = 50;
+			sigh = "CTRL/CLICK";
+			sighPosX = 35;
 		}
 
 		var text:Alphabet = new Alphabet(sighPosX, 86, sigh, false);

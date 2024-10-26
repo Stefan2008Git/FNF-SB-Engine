@@ -17,6 +17,10 @@ import lime.system.System as LimeSystem;
 import mobile.states.CopyState;
 #end
 
+#if desktop
+import backend.ALSoftConfig; // Just to make sure DCE doesn't remove this, since it's not directly referenced anywhere else.
+#end
+
 #if linux
 import lime.graphics.Image;
 
