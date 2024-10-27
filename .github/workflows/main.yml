@@ -301,7 +301,7 @@ jobs:
           haxelib install flixel-addons --quiet
           haxelib install flixel-tools --quiet
           haxelib install hscript-iris 1.1.0
-          haxelib install tjson 1.1.0 --quiet
+          haxelib install tjson 1.4.0 --quiet
           haxelib git flxanimate https://github.com/Dot-Stuff/flxanimate 768740a56b26aa0c072720e0d1236b94afe68e3e --quiet
           haxelib git linc_luajit https://github.com/mcagabe19-stuff/linc_luajit-rewriten --quiet
           haxelib install hxvlc 1.9.2 --quiet --skip-dependencies
@@ -319,9 +319,8 @@ jobs:
           haxelib run lime config JAVA_HOME $JAVA_HOME_17_arm64
           haxelib run lime config ANDROID_SETUP true
           haxelib set hscript-Iris 1.1.0
+          haxelib set tjson 1.4.0
           haxelib list
-        env:
-          ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
 
       - name: Building
         run:
@@ -393,7 +392,7 @@ jobs:
             haxelib install flixel-addons --quiet
             haxelib install flixel-tools --quiet
             haxelib install hscript-iris 1.1.0
-            haxelib install tjson 1.1.0 --quiet
+            haxelib install tjson 1.4.0 --quiet
             haxelib git flxanimate https://github.com/Dot-Stuff/flxanimate 768740a56b26aa0c072720e0d1236b94afe68e3e --quiet
             haxelib git linc_luajit https://github.com/superpowers04/linc_luajit 1906c4a96f6bb6df66562b3f24c62f4c5bba14a7 --quiet
             haxelib git hxvlc https://github.com/MAJigsaw77/hxvlc 70e7f5f3e76d526ac6fb8f0e6665efe7dfda589d --quiet --skip-dependencies
@@ -407,6 +406,7 @@ jobs:
          - name: Configure iOS
            run: |
             haxelib set hscript-Iris 1.1.0
+            haxelib set tjson 1.4.0
             haxelib list
 
          - name: Building iOS
