@@ -193,11 +193,6 @@
 		<undefine name="openfl-disable-handle-error" if="debug" unless="${openfl &ge; 9.4.0}" />
 	</section>
 
-	<section if="android">
-		<config:android gradle-version="7.5.1" />
-		<config:android gradle-plugin="7.3.1" />
-	</section>
-
 	<!-- Do whatever you want I'm tired uninstall and install everytime -->
 	<certificate path="key.keystore" password="psychengine" alias="psychport" alias-password="psychengine" if="android" unless="debug" />
 
