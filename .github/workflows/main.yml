@@ -285,8 +285,8 @@ jobs:
       - name: Setup Java JDK
         uses: actions/setup-java@main
         with:
-          distribution: 'temurin'
-          java-version: '18'
+          distribution: 'zulu'
+          java-version: '11'
 
       - name: Setup Haxe
         uses: krdlab/setup-haxe@master
