@@ -276,6 +276,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@main
 
+      - name: Setup Android NDK
+        uses: nttld/setup-ndk@main
+        id: setup-ndk
+        with:
+          ndk-version: r21e
+
+      - name: Setup Java JDK
+        uses: actions/setup-java@main
+        with:
+          distribution: 'temurin'
+          java-version: '18'
+
       - name: Setup Haxe
         uses: krdlab/setup-haxe@master
         with:
@@ -294,7 +306,7 @@ jobs:
 
       - name: Install Haxelib
         run: |
-          haxelib git hxcpp https://github.com/mcagabe19-stuff/hxcpp --quiet
+          haxelib install lime 8.0.2
           haxelib git lime https://github.com/mcagabe19-stuff/lime --quiet
           haxelib install openfl --quiet
           haxelib install flixel --quiet
@@ -318,9 +330,12 @@ jobs:
           haxelib run lime config ANDROID_NDK_ROOT $ANDROID_NDK_LATEST_HOME
           haxelib run lime config JAVA_HOME $JAVA_HOME_17_arm64
           haxelib run lime config ANDROID_SETUP true
+          haxelib set lime 8.0.2
           haxelib set hscript-Iris 1.1.0
           haxelib set tjson 1.4.0
           haxelib list
+        env:
+          ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
 
       - name: Building
         run:
