@@ -276,12 +276,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@main
 
-      - name: Setup Android NDK
-        uses: nttld/setup-ndk@main
-        id: setup-ndk
-        with:
-          ndk-version: r21e
-
       - name: Setup Haxe
         uses: krdlab/setup-haxe@master
         with:
