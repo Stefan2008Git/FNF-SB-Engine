@@ -4,7 +4,7 @@ package states;
 import lime.ui.Haptic;
 #end
 
-import states.FlashingState;
+import states.TitleState;
 
 class SBinatorState extends MusicBeatState
 {
@@ -18,7 +18,6 @@ class SBinatorState extends MusicBeatState
 
     override function create()
     {
-		Main.tweenFPS();
         super.create();
 
 		mainBackground = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
@@ -69,6 +68,7 @@ class SBinatorState extends MusicBeatState
 		});
 
         new FlxTimer().start(10.5, function(tmr:FlxTimer) {
+			Main.tweenFPS();
 			mainBackground.visible = false;
             mainIcon.visible = false;
             mainEngineText.visible = false;
@@ -119,7 +119,7 @@ class SBinatorState extends MusicBeatState
 
 	function switchToTitleMenu()
     {
-        FlxG.switchState(() -> new FlashingState());
+        FlxG.switchState(() -> new TitleState());
     }
 }
         
