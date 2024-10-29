@@ -4,7 +4,8 @@ import flixel.FlxSubState;
 import flixel.addons.display.FlxBackdrop;
 import flixel.addons.display.FlxGridOverlay;
 import flixel.effects.FlxFlicker;
-import objects.Alphabet;
+import flixel.text.FlxText.FlxTextFormat;
+import flixel.text.FlxText.FlxTextFormatMarkerPair;
 
 class FlashingState extends MusicBeatState
 {
@@ -12,69 +13,119 @@ class FlashingState extends MusicBeatState
 
 	var bg:FlxSprite;
 	var checkeboard:FlxBackdrop;
-	var titleText:Alphabet;
+	var warnTitle:FlxText;
 	var warnText:FlxText;
+	var youCanText:FlxText;
+	var acceptAllow:Bool = false;
 	override function create()
 	{
 		super.create();
 
+		if (!ClientPrefs.data.flashing)
+		{
+			MusicBeatState.switchState(new TitleState());
+			leftState = true;
+			return;
+		}
+
+		FlxG.sound.playMusic(Paths.music('engineStuff/freakyMenu-scary'));
+
 		bg= new FlxSprite().loadGraphic(Paths.image('menuDesat'));
 		bg.screenCenter();
-		bg.color = 0xFF353535;
+		bg.color = FlxColor.GREEN;
 		add(bg);
 
-		checkeboard = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, 0x70000000, 0x0));
-		checkeboard.velocity.set(FlxG.random.bool(50) ? 90 : -90, FlxG.random.bool(50) ? 90 : -90);
+		checkeboard = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true, FlxColor.BLACK, 0x0));
+		checkeboard.velocity.set(40, 40);
 		checkeboard.screenCenter();
+		checkeboard.alpha = 0.6;
 		add(checkeboard);
 
 		final silly:String = controls.mobileC ? 'A' : 'ENTER';
 		final baka:String = controls.mobileC ? 'B' : 'ESCAPE';
-		var warning:String = 'FNF: SB Engine contains bugs, issues and flashing lights.\n\nFNF: SB Engine is a modified Psych Engine with some changes and additions made by Stefan2008 and it wasnt meant to be an attack on ShadowMario\nor any other mod makers out there. Im am not aiming for replacing what Friday Night Funkin: Psych Engine was, is and will be.\nIts made for fun and from the love for the game itself. All of the comparisons between this and other mods are purely coincidental, unless stated otherwise.\n\nNow with that out of the way, I hope you will enjoy to this modified Psych Engine fork.\nFunk all the way.\nPress $silly to proced.\nPress $baka to ignore this message.\nCurrent running SB Engine version is ${MainMenuState.sbEngineVersion}';
 
-		titleText = new Alphabet(200, 45, "WARNING:", true);
-		titleText.setScale(0.6);
-		titleText.alpha = 0.4;
-		titleText.color = FlxColor.RED;
-		titleText.screenCenter(X);
-		add(titleText);
+		warnTitle = new FlxText(200, , "WARNING", 15);
+		warnTitle.setFormat("VCR OSD Mono", 100, FlxColor.RED, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		warnTitle.screenCenter(X);
+		FlxTween.tween(warnTitle, {y: 47}, 1, {ease: FlxEase.sineInOut});
+		add(warnTitle);
 
-		controls.isInSubstate = false; // qhar I hate it
-		warnText = new FlxText(0, 0, FlxG.width, warning, 32);
-		warnText.setFormat("VCR OSD Mono", 32, FlxColor.WHITE, CENTER);
+		var red = new FlxTextFormatMarkerPair(new FlxTextFormat(0xFFFF0000), "*");
+		var green = new FlxTextFormatMarkerPair(new FlxTextFormat(0xFF148f00), "<");
+		var littlePurple = new FlxTextFormatMarkerPair(new FlxTextFormat(0xFFd97eff), ">");
+		var yellow = new FlxTextFormatMarkerPair(new FlxTextFormat(0xFFf3ca00), "#");
+		if (controls.mobileC) controls.isInSubstate = false; // qhar I hate it
+		warnText = new FlxText(0, 0, FlxG.width, 15);
+		warnText.applyMarkup('FNF SB Engine is officially \n*discontinued/cancelled* and \nyou are not gonna get any new updates #anymore#..\nI am so sorry everyone for what i did something *bad* to people. \nIt was my *fault* after all time for what i did\nYou can use a different PE fork \nsuch as >NovaFlare Engine > and <JS Engine <.\nBoth forks deserved to be popular and played.\nFunk all the way and *leave me alone PLEASE*!!!\nCurrent running SB Engine version is ${MainMenuState.sbEngineVersion}', [red, green, littlePurple, yellow]);
+		warnText.setFormat("VCR OSD Mono", 30, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		warnText.screenCenter(Y);
+		FlxTween.tween(warnText, {y: 220}, 1, {ease: FlxEase.sineInOut});
 		add(warnText);
 
-		addTouchPad('NONE', 'A_B');
+		youCanText = new FlxText(400, 630, 'You can now press $silly to proced or press $baka to ignore this message!');
+		youCanText.alpha = 0;
+		youCanText.setFormat("VCR OSD Mono", 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		new FlxTimer().start(12, function(tmr:FlxTimer) {
+			FlxTween.tween(youCanText, {alpha: 1}, 1.5, {
+				ease: FlxEase.sineInOut,
+				onComplete: function(completition:FlxTween) {
+					acceptAllow = true;
+				}
+			});
+		});
+		youCanText.screenCenter(X);
+		add(youCanText);
+
+		if (controls.mobileC) addTouchPad('NONE', 'A_B');
 	}
 
 	override function update(elapsed:Float)
 	{
-		if(!leftState) {
+		super.update(elapsed);
+
+		if (!leftState) {
 			var back:Bool = controls.BACK;
-			if (controls.ACCEPT || back) {
+			if (controls.ACCEPT || back && acceptAllow)
+			{
 				leftState = true;
+				acceptAllow = false;
 				FlxTransitionableState.skipNextTransIn = true;
 				FlxTransitionableState.skipNextTransOut = true;
-				if(!back) {
+				if (!back)
+				{
 					ClientPrefs.data.flashing = false;
 					ClientPrefs.saveSettings();
-					FlxG.sound.play(Paths.sound('confirmMenu'));
-					FlxFlicker.flicker(warnText, 1, 0.1, false, true, function(flk:FlxFlicker) {
-						new FlxTimer().start(0.5, function (tmr:FlxTimer) {
-							MusicBeatState.switchState(new TitleState());
-						});
+					FlxG.sound.play(Paths.sound('engineStuff/confirmMenu-scary'));
+					youCanText.destroy();
+					FlxTween.tween(FlxG.sound.music, {pitch: 0, volume: 0}, 2, {ease: FlxEase.sineInOut});
+					FlxTween.tween(warnText, {y: 1200}, 2, {ease: FlxEase.sineInOut});
+					FlxTween.tween(warnTitle, {y: -750}, 2, {ease: FlxEase.sineInOut});
+					FlxTween.tween(bg, {alpha: 0}, 2, {ease: FlxEase.sineInOut});
+					FlxTween.tween(checkeboard, {alpha: 0}, 2, {ease: FlxEase.sineInOut});
+					FlxG.camera.flash(FlxColor.WHITE, 2.5, function()
+					{
+						FlxG.camera.fade(FlxColor.BLACK, 3, false, goToTitle);
 					});
-				} else {
+				} else
+				{
+					acceptAllow = false;
 					FlxG.sound.play(Paths.sound('cancelMenu'));
-					FlxTween.tween(warnText, {alpha: 0}, 1, {
-						onComplete: function (twn:FlxTween) {
-							MusicBeatState.switchState(new TitleState());
-						}
+					youCanText.destroy();
+					FlxTween.tween(warnText, {y: -750}, 2, {ease: FlxEase.sineInOut});
+					FlxTween.tween(warnTitle, {y: 1200}, 2, {ease: FlxEase.sineInOut});
+					FlxTween.tween(bg, {alpha: 0}, 2, {ease: FlxEase.sineInOut});
+					FlxTween.tween(checkeboard, {alpha: 0}, 2, {ease: FlxEase.sineInOut});
+					FlxG.camera.flash(FlxColor.WHITE, 2.5, function()
+					{
+						FlxG.camera.fade(FlxColor.BLACK, 3, false, goToTitle);
 					});
 				}
 			}
 		}
-		super.update(elapsed);
+	}
+
+	function goToTitle()
+	{
+		MusicBeatState.switchState(new TitleState());
 	}
 }

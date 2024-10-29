@@ -259,6 +259,12 @@ class VisualsSettingsSubState extends BaseOptionsMenu
 		addOption(option);
 		#end
 
+		var option:Option = new Option('Opponent color',
+			"If checked, shows color from opponent health on some text and elements. Uncheck if you prefer the default color from text",
+			'opponentColor',
+			BOOL);
+		addOption(option);
+
 		super();
 		add(notes);
 	}

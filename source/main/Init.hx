@@ -5,7 +5,6 @@ import backend.Highscore;
 import flixel.FlxState;
 import debug.FPSCounter;
 import debug.Screenshot;
-import openfl.Assets;
 import openfl.Lib;
 import openfl.display.Bitmap;
 import openfl.display.Sprite;

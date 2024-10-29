@@ -9,6 +9,8 @@ import backend.Rating;
 import flixel.FlxBasic;
 import flixel.FlxObject;
 import flixel.FlxSubState;
+import flixel.text.FlxText.FlxTextFormat;
+import flixel.text.FlxText.FlxTextFormatMarkerPair;
 import flixel.util.FlxSort;
 import flixel.util.FlxStringUtil;
 import flixel.util.FlxSave;
@@ -206,6 +208,7 @@ class PlayState extends MusicBeatState
 	public var scoreTextSine:Float = 0;
 	var scoreTxtTween:FlxTween;
 	public static var judgementCounterTxt:FlxText;
+	public var watermark:FlxText;
 	var timeTxt:FlxText;
 
 	public static var campaignScore:Int = 0;
@@ -480,7 +483,7 @@ class PlayState extends MusicBeatState
 		timeBar.screenCenter(X);
 		timeBar.alpha = 0;
 		timeBar.visible = showTime;
-		timeBar.leftBar.color = 0xFF009E00;
+		timeBar.leftBar.color = (ClientPrefs.data.opponentColor) ? FlxColor.fromRGB(dad.healthColorArray[0], dad.healthColorArray[1], dad.healthColorArray[2]) : 0xFF009E0;
 		timeBar.rightBar.color = 0xFF1A1A1A;
 		uiGroup.add(timeBar);
 		uiGroup.add(timeTxt);
@@ -573,10 +576,14 @@ class PlayState extends MusicBeatState
 		if(ClientPrefs.data.downScroll)
 			botplayTxt.y = healthBar.y + 70;
 
-		var watermark:FlxText = new FlxText(8, FlxG.height - 22, curSong + " (" + Difficulty.getString() + ") | SB " + MainMenuState.sbEngineVersion + " (Psych Engine " + MainMenuState.psychEngineVersion + ") ", 12);
+		var asterik = new FlxTextFormatMarkerPair(new FlxTextFormat(0xFFFF0000), "*");
+		var comma = new FlxTextFormatMarkerPair(new FlxTextFormat(0xFFFFFFFF), ",");
+		watermark = new FlxText(8, FlxG.height - 22, "", 12);
 		watermark.scrollFactor.set();
-		watermark.setFormat(Paths.font("vcr.ttf"), 15, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		watermark.setFormat(Paths.font("vcr.ttf"), 15, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		watermark.visible = !ClientPrefs.data.hideHud && ClientPrefs.data.watermark;
+		watermark.color = (ClientPrefs.data.opponentColor) ? FlxColor.fromRGB(dad.healthColorArray[0], dad.healthColorArray[1], dad.healthColorArray[2]) : FlxColor.WHITE;
+		watermark.applyMarkup('$curSong (${Difficulty.getString()}), | SB ${MainMenuState.sbEngineVersion} (Psych Engine ${MainMenuState.psychEngineVersion}),* - Discontinued/Cancelled *',    [asterik, comma]);
 		if (!ClientPrefs.data.downScroll) watermark.cameras = [camOther];
 		if (ClientPrefs.data.downScroll) watermark.y = 140;
 		(ClientPrefs.data.downScroll) ? uiGroup.add(watermark) : add(watermark);
@@ -1127,7 +1134,7 @@ class PlayState extends MusicBeatState
 		uiGroup.add(nowPlaying);
 
 		songName = new FlxText(-355, 325, "", 20);
-		songName.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.fromRGB(dad.healthColorArray[0], dad.healthColorArray[1], dad.healthColorArray[2]), LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		songName.setFormat(Paths.font("vcr.ttf"), 20, (ClientPrefs.data.opponentColor) ? FlxColor.fromRGB(dad.healthColorArray[0], dad.healthColorArray[1], dad.healthColorArray[2]) : FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		songName.text = "\n" + curSong;
 		uiGroup.add(songName);
 
@@ -1862,12 +1869,13 @@ class PlayState extends MusicBeatState
 
 		if (ClientPrefs.data.textSine && !practiceMode && cpuControlled)
 		{
-			if (botplayTxt != null && botplayTxt.visible || scoreTxt != null && scoreTxt.visible) 
+			if (botplayTxt != null && botplayTxt.visible || scoreTxt != null && scoreTxt.visible)
 			{
 				botplaySine += 50 * elapsed;
-				botplayTxt.alpha = 1 - Math.sin((Math.PI * botplaySine) / 120);
+				botplayTxt.alpha = 1 - Math.sin((Math.PI * botplaySine) / 150 * playbackRate);
+
 				scoreTextSine += 50 * elapsed;
-				scoreTxt.alpha = 1 - Math.sin((Math.PI * scoreTextSine) / 120);
+				scoreTxt.alpha = 1 - Math.sin((Math.PI * scoreTextSine) / 150 * playbackRate);
 			}
 		}
 
@@ -2401,6 +2409,11 @@ class PlayState extends MusicBeatState
 							}
 							dad.alpha = lastAlpha;
 							iconP2.changeIcon(dad.healthIcon);
+							if (ClientPrefs.data.opponentColor)
+							{
+								if (watermark != null && watermark.visible) watermark.color = FlxColor.fromRGB(dad.healthColorArray[0], dad.healthColorArray[1], dad.healthColorArray[2]);
+								timeBar.leftBar.color = FlxColor.fromRGB(dad.healthColorArray[0], dad.healthColorArray[1], dad.healthColorArray[2]);
+							}
 						}
 						setOnScripts('dadName', dad.curCharacter);
 

@@ -111,6 +111,7 @@ import states.TitleState;
 	public var screenshot:Bool = true;
 	public var introType:String = 'Default';
 	public var framerateColor:Bool = true;
+	public var opponentColor:Bool = false;
 }
 
 class ClientPrefs {

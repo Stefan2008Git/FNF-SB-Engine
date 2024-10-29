@@ -4,7 +4,7 @@ package states;
 import lime.ui.Haptic;
 #end
 
-import states.TitleState;
+import states.FlashingState;
 
 class SBinatorState extends MusicBeatState
 {
@@ -119,7 +119,7 @@ class SBinatorState extends MusicBeatState
 
 	function switchToTitleMenu()
     {
-        FlxG.switchState(() -> new TitleState());
+        FlxG.switchState(() -> new FlashingState());
     }
 }
         
