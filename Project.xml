@@ -127,6 +127,7 @@
 
 	<!-- Android Specific-->
 	<haxelib name="extension-androidtools" if="android" />
+	<android target-sdk-version="35" min-sdk-version="35" if="android" />
 
 	<!-- Disable Discord IO Thread -->
 	<haxedef name="DISCORD_DISABLE_IO_THREAD" if="hxdiscord_rpc" />
