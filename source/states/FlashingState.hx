@@ -44,7 +44,7 @@ class FlashingState extends MusicBeatState
 		final silly:String = controls.mobileC ? 'A' : 'ENTER';
 		final baka:String = controls.mobileC ? 'B' : 'ESCAPE';
 
-		warnTitle = new FlxText(200, , "WARNING", 15);
+		warnTitle = new FlxText(200, 0, "WARNING", 15);
 		warnTitle.setFormat("VCR OSD Mono", 100, FlxColor.RED, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		warnTitle.screenCenter(X);
 		FlxTween.tween(warnTitle, {y: 47}, 1, {ease: FlxEase.sineInOut});
