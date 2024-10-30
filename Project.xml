@@ -126,8 +126,12 @@
 	<haxelib name="grig.audio" />
 
 	<!-- Android Specific-->
-	<haxelib name="extension-androidtools" if="android" />
-	<android target-sdk-version="35" min-sdk-version="35" if="android" />
+	<section if="android">
+	<haxelib name="extension-androidtools" />
+	<config:android gradle-version="7.5.1" />
+  <config:android gradle-plugin="7.3.1" />
+	<android target-sdk-version="35" min-sdk-version="35" />
+	</section>
 
 	<!-- Disable Discord IO Thread -->
 	<haxedef name="DISCORD_DISABLE_IO_THREAD" if="hxdiscord_rpc" />
