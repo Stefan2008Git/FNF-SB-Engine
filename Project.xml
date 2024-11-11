@@ -128,7 +128,7 @@
 	<!-- Android Specific-->
 	<section if="android">
 	<haxelib name="extension-androidtools" />
-	<android target-sdk-version="35" min-sdk-version="19" />
+	<android target-sdk-version="34" min-sdk-version="19" />
 	</section>
 
 	<!-- Disable Discord IO Thread -->
